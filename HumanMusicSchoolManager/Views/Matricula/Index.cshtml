@@ -1,0 +1,55 @@
+﻿@model Matricula
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>@Model.Aluno.Nome</h2>
+<hr />
+<div class="panel panel-default h4">
+    <div class="panel-heading">@Model.Curso.Nome</div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-3">
+                <h3>Professor:</h3>
+                <p>@Model.Professor.Nome</p>
+            </div>
+            <div class="col-md-3">
+                <h3>Data da Matrícula:</h3>
+                <p>@Model.DataMatricula.ToString("dd/MM/yyyy")</p>
+            </div>
+            <div class="col-md-2">
+                <h3>Dia</h3>
+                    @{
+                        switch (Model.Dia)
+                        {
+                            case 2: <p>Segunda-feira</p>; break;
+                            case 3: <p>Terça-feira</p>; break;
+                            case 4: <p>Quarta-feira</p>; break;
+                            case 5: <p>Quinta-feira</p>; break;
+                            case 6: <p>Sexta-feira</p>; break;
+                            case 7: <p>Sábado</p>; break;
+                        }
+                    }
+            </div>
+            <div class="col-md-2">
+                <h3>Hora</h3>
+                <p>@(Model.Hora+":00")</p>
+            </div>
+            <div class="col-md-2">
+                <label></label>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label asp-for="Ativo">
+                            <input asp-for="Ativo" onclick="return false" />
+                            @Html.DisplayNameFor(p => p.Ativo)
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<a asp-controller="Aluno" asp-action="Index" class="btn btn-default">Voltar</a>
+<a asp-action="Form" asp-route-matriculaId="@Model.Id" class="btn btn-success">Alterar</a>
+

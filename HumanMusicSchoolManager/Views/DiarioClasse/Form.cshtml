@@ -1,0 +1,63 @@
+﻿@model DiarioClasse
+@{
+    ViewData["Title"] = "Form";
+}
+
+<h2>@Model.Matricula.Aluno.Nome</h2>
+
+<div class="panel panel-default">
+    <div class="panel-heading">@Model.Matricula.Curso.Nome</div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-6">
+                <form role="form" method="post" asp-action="cadastrar">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <input asp-for="Id" hidden="hidden" />
+                    <input asp-for="MatriculaId" hidden="hidden" />
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label asp-for="Data">Data</label>
+                                <input asp-for="Data" type="date" class="form-control">
+                                <span asp-validation-for="Data" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Presença</label>
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label asp-for="Presenca">
+                                        <input asp-for="Presenca"  />
+                                        @Html.DisplayNameFor(d => d.Presenca)
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label asp-for="DescAtividades">Descrição das atividades</label>
+                            <textarea rows="7" asp-for="DescAtividades" class="form-control"></textarea>
+                            <span asp-validation-for="DescAtividades" class="text-danger"></span>
+                        </div>
+                    </div><br />                  
+                    <hr />
+                    <button type="submit" class="btn btn-success">@(Model.Id == null ? "Cadastrar" : "Alterar")</button>
+                    <a asp-action="index" asp-route-professorId="@Model.Matricula.Professor.Id" class="btn btn-default">Voltar</a>
+                </form>
+            </div>
+            <div class="col-md-6">
+                @foreach (var item in ViewBag.Historico)
+                {
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><a asp-action="form" asp-route-diarioId="@item.Id">@item.Data.ToString("dd/MM/yyyy") - @(item.Presenca == true ? "Presente" : "Faltou")</a></div>
+                        <div class="panel-body">
+                            <p>@item.DescAtividades</p>
+                        </div>
+                    </div>
+                }
+                <div class="text-right"><a asp-action="historico" asp-route-matriculaId="@Model.Matricula.Id">Histórico Completo</a></div>
+            </div>
+        </div>
+    </div>
+</div>

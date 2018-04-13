@@ -1,0 +1,51 @@
+﻿@model MatriculaViewModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>@ViewBag.Professor.Nome</h2>
+
+<hr>
+@{ 
+    string[] semana = { "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"};
+}
+
+@for (int i = 2; i <= 7 ; i++)
+{
+
+    if(Model.Matriculas.Where(m => m.Dia == i).FirstOrDefault() != null)
+    {
+        <div class="panel panel-default">
+            <div class="panel-heading">@semana[i-2]</div>
+            <div class="panel-body">
+                <table id="tabela" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Aluno</th>
+                            <th>Hora</th>
+                            <th>RM</th>
+                            <th>Curso</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var matricula in Model.Matriculas)
+                        {
+                            if (matricula.Dia == i)
+                            {
+                                <tr>
+                                    <td>
+                                        <a asp-action="form" asp-route-matriculaId="@matricula.Id">@matricula.Aluno.Nome</a> 
+                                    </td>
+                                    <td>@(matricula.Hora):00</td>
+                                    <td>@matricula.Aluno.RM</td>
+                                    <td>@matricula.Curso.Nome</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+}
+

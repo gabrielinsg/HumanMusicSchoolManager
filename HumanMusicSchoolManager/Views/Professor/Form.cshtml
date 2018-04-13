@@ -1,0 +1,53 @@
+﻿@model Professor
+@{
+    ViewData["Title"] = "Form";
+}
+
+<h2>Professor</h2>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Cadastrar Professor</div>
+    <div class="panel-body">
+
+        <form role="form" method="post" asp-action="cadastrar">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Nome">Nome</label>
+                        <input asp-for="Nome" class="form-control">
+                        <span asp-validation-for="Nome" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Email">E-mail</label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Salario">Salario</label>
+                        <input asp-for="Salario" class="form-control">
+                        <span asp-validation-for="Salario" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label asp-for="Ativo">
+                                <input asp-for="Ativo" checked="checked" />
+                                @Html.DisplayNameFor(p => p.Ativo)
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success">Cadastrar</button>
+            <a asp-action="Index" class="btn btn-default">Voltar</a>
+        </form>
+    </div>
+</div>
+
+

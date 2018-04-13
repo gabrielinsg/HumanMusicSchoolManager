@@ -1,0 +1,104 @@
+﻿@model AlunoViewModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Alunos</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-10">
+        <div class="form-group input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+            <input name="consulta" id="txt_consulta" placeholder="Consultar" type="text" class="form-control">
+        </div>
+    </div>
+    <div class="col-md-2">
+        <a asp-action="Form" class="btn btn-primary">Novo</a>
+    </div>
+</div>
+
+<table id="tabela" class="table table-hover">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th class="text-center">RM</th>
+            <th class="text-center">Matriculas</th>
+            <th class="text-center">Ativo</th>
+            <th class="text-center">Alterar</th>
+            <th class="text-center">Excluir</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var aluno in Model.Alunos)
+        {
+            <tr>
+                <td>
+                    <a asp-action="Aluno" asp-route-alunoId="@(aluno.Id)" class="text-success">@aluno.Nome</a>
+                </td>
+                <td class="text-center">@aluno.RM</td>
+                <td class="text-center">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Cursos
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <table id="tabela" class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <a asp-controller="matricula" asp-action="form" asp-route-alunoId="@aluno.Id" class="btn btn-primary">Nova Matrícula</a>
+                                        </th>
+                                        <th>Ativo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var matricula in aluno.Matriculas)
+                                    {
+                                        <tr>
+                                            <td><a asp-controller="matricula" asp-action="form" asp-route-matriculaId="@matricula.Id">@matricula.Curso.Nome</a></td>
+                                            <td>
+                                                <input type="checkbox" disabled @(matricula.Ativo == true ? "checked" : "")/>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <input asp-for="@aluno.Ativo" onclick="return false" />
+                </td>
+                <td class="text-center">
+                    <a asp-action="Aluno" asp-route-AlunoId="@(aluno.Id)">
+                        <i class="material-icons text-success">update</i>
+                    </a>
+                </td>
+                <td class="text-center">
+                    <a asp-action="Excluir" id="excluir" asp-route-AlunoId="@(aluno.Id)">
+                        <i class="material-icons text-danger">delete</i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts
+    {
+    <script>
+        $('input#txt_consulta').quicksearch('table#tabela tbody tr');
+    </script>
+    <script>
+        $("a#excluir").click(function () {
+            var cf = confirm("Tem certeza que deseja excluir o aluno?");
+            if (cf == true) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        });
+    </script>
+}

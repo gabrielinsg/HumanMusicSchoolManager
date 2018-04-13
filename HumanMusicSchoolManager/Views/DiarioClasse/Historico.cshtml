@@ -1,0 +1,43 @@
+﻿@model DiarioClasseViewModel
+@{
+    ViewData["Title"] = "Historico";
+}
+
+<h2>@ViewBag.Matricula.Aluno.Nome - @ViewBag.Matricula.Curso.Nome</h2>
+<a asp-action="form" asp-route-matriculaId="@ViewBag.Matricula.Id" class="btn btn-default">Voltar</a>
+<hr />
+@foreach (var item in Model.DiariosClasse)
+{
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-11 col-sm-11">
+                    <a asp-action="form" asp-route-diarioId="@item.Id">@item.Data.ToString("dd/MM/yyyy") - @(item.Presenca == true ? "Presente" : "Faltou")</a>
+                </div>
+                <div class="col-md-1 col-sm-1">
+                    <a asp-action="Excluir" id="excluir" asp-route-diarioId="@(item.Id)">
+                        <i class="material-icons text-danger">delete</i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <p>@item.DescAtividades</p>
+        </div>
+    </div>
+}
+
+@section Scripts
+{
+    <script>
+        $("a#excluir").click(function () {
+            var cf = confirm("Tem certeza que deseja excluir o diário?");
+            if (cf == true) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        });
+    </script>
+}

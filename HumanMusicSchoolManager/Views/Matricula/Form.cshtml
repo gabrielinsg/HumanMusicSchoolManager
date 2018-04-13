@@ -1,0 +1,116 @@
+﻿@model Matricula
+@{
+    ViewData["Title"] = "Form";
+}
+
+<h2>@Model.Aluno.Nome</h2>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Matrica</div>
+    <div class="panel-body">
+        <form role="form" method="post" asp-action="cadastrar">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <input asp-for="AlunoId" value="@Model.Aluno.Id" hidden="hidden" />
+            <input asp-for="Id" value="@Model.Id" hidden="hidden" />
+            <div class="row">
+                <div id="conteudo">
+                    <div class="col-md-6">
+                        <div class="form-group" id="curso">
+                            @{
+                                if (Model.Id == null)
+                                {
+                                    <label asp-for="CursoId" class="control-label">Selecione o Curso:</label>
+                                    <select asp-for="CursoId" class="form-control" id="cmbCurso">
+                                        <option value="false">Carregar Curso</option>
+                                    </select>
+                                }
+                                else
+                                {
+                                    <label asp-for="CursoId" class="control-label">Curso:</label>
+                                    <input asp-for="CursoId" hidden />
+                                    <h4>@Model.Curso.Nome</h4>
+                                }
+                            }
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group" id="professor">
+                            @{
+                                if (Model.Id == null)
+                                {
+                                    <label asp-for="ProfessorId" class="control-label">Selecione o Professor:</label>
+                                    <select asp-for="ProfessorId" class="form-control" id="cmbProfessor">
+                                        <option id="option">Carregar Professor</option>
+                                    </select>
+                                }
+                                else
+                                {
+                                    <label asp-for="ProfessorId" class="control-label">Selecione o Professor:</label>
+                                    <input asp-for="ProfessorId" hidden />
+                                    <h4>@Model.Professor.Nome</h4>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <label asp-for="DataMatricula">Data da Matrícula</label>
+                    @{
+                        if (Model.Id == null)
+                        {
+                            <input asp-for="DataMatricula" class="form-control" type="date" />
+                        }
+                        else
+                        {
+                            <input asp-for="DataMatricula" class="form-control" type="date" />
+                        }
+                    }
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="Dia">Dia</label>
+                    <select asp-for="Dia" class="form-control">
+                        <option value="2">Segunda-Feira</option>
+                        <option value="3">Terça-Feira</option>
+                        <option value="4">Quarta-Feira</option>
+                        <option value="5">Quinta-Feira</option>
+                        <option value="6">Sexta-Feira</option>
+                        <option value="7">Sábado</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="Hora">Hora</label>
+                    <input asp-for="Hora" type="number" class="form-control" />
+                </div>
+                <div class="col-md-3">
+                    <label></label>
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label asp-for="Ativo">
+                                <input asp-for="Ativo" />
+                                @Html.DisplayNameFor(p => p.Ativo)
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-success">
+                        @(Model.Id == null ? "Cadastrar" : "Alterar")
+                    </button>
+                    <a asp-controller="Aluno" asp-action="Index" class="btn btn-default">Voltar</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts
+    {
+    <script type="text/javascript" src="~/js/Matricula.js"></script>
+}

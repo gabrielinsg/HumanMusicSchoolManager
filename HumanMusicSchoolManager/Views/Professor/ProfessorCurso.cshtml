@@ -1,0 +1,68 @@
+﻿@model ProfessorCursoViewModel
+@{
+    ViewData["Title"] = "ProfessorCurso";
+}
+
+<h2>@Model.Professor.Nome</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">Cursos Disponíveis</div>
+            <div class="panel-body">
+                <table id="tabela" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Curso</th>
+                            <th class="text-center">Adicionar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var curso in Model.Cursos)
+                        {
+                            <tr>
+                                <td>@curso.Nome</td>
+                                <td class="text-center">
+                                    <a asp-action="AdicionarCurso" asp-route-cursoId="@curso.Id" asp-route-professorId="@Model.Professor.Id">
+                                        <i class="material-icons text-success">add_circle</i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">Cursos Ministrados</div>
+            <div class="panel-body">
+                <table id="tabela" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Curso</th>
+                            <th class="text-center">Remover</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var curso in Model.Professor.Cursos)
+                        {
+                            <tr>
+                                <td>@curso.Curso.Nome</td>
+                                <td class="text-center">
+                                    <a asp-action="RemoverCurso" asp-route-cursoId="@curso.Curso.Id" asp-route-professorId="@Model.Professor.Id">
+                                        <i class="material-icons text-danger">remove_circle</i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<a asp-action="Index" class="btn btn-default">Voltar</a>
+
