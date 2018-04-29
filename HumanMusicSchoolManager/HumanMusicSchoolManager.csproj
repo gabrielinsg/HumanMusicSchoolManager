@@ -5,6 +5,15 @@
     <UserSecretsId>aspnet-HumanMusicSchoolManager-8A41C4A3-96D5-4A9F-BFB7-C44C46378621</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\20180417192531_ApplicationUserPessoa.cs" />
+    <Compile Remove="Data\Migrations\20180417192531_ApplicationUserPessoa.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\lib\bootstrap\dist\css\bootstrap.css" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />

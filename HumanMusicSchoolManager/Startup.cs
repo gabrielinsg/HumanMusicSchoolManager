@@ -47,7 +47,7 @@ namespace HumanMusicSchoolManager
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider service)
         {
             if (env.IsDevelopment())
             {
@@ -70,6 +70,34 @@ namespace HumanMusicSchoolManager
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            CreateUserRoles(service).Wait();
+        }
+
+        private async Task CreateUserRoles(IServiceProvider serviceProvider)
+        {
+            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+            IdentityResult roleResult;
+            //Adding Admin Role
+
+            string[] roles = new string[] { "Admin", "Professor", "Aluno", "Cordenacao" };
+            //create the roles and seed them to the database
+
+            foreach (var role in roles)
+            {
+                if (!await RoleManager.RoleExistsAsync(role))
+                {
+                    roleResult = await RoleManager.CreateAsync(new IdentityRole(role));
+                }
+            }
+
+            ////Assign Admin role to the main User here we have given our newly registered 
+            ////login id for Admin management
+            //ApplicationUser user = await UserManager.FindByEmailAsync("syedshanumcain@gmail.com");
+            //var User = new ApplicationUser();
+            //await UserManager.AddToRoleAsync(user, "Admin");
         }
     }
 }
