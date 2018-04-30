@@ -35,6 +35,6 @@ namespace HumanMusicSchoolManager.Models.AccountViewModels
 
         [Required]
         [Display(Name = "Permissão")]
-        public int RoleId { get; set; }
+        public string Permissao  { get; set; }
     }
 }

@@ -16,5 +16,10 @@ namespace HumanMusicSchoolManager.Models.Models
         [Required]
         [Display(Name = "Ativo")]
         public bool Ativo { get; set; }
+
+        [Display(Name = "E-mail")]
+        [EmailAddress]
+        public string Email { get; set; }
+        public List<CursoProfessor> Cursos { get; set; }
     }
 }

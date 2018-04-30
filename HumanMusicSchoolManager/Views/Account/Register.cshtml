@@ -8,14 +8,10 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
-            <h4>Create a new account.</h4>
+            <h4>Criar uma nova conta para @(Model.Pessoa.Nome).</h4>
             <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="PessoaId"></label>
-                <input asp-for="PessoaId" class="form-control" />
-                <span asp-validation-for="PessoaId" class="text-danger"></span>
-            </div>
+            <input asp-for="PessoaId" value="@Model.Pessoa.Id" hidden="hidden"/>
             <div class="form-group">
                 <label asp-for="UserName"></label>
                 <input asp-for="UserName" class="form-control" />
@@ -37,9 +33,13 @@
                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="RoleId" ></label>
-                <input asp-for="RoleId" class="form-control" />
-                <span asp-validation-for="RoleId" class="text-danger"></span>
+                <label asp-for="Permissao"></label>
+                <select asp-for="Permissao" class="form-control">
+                    @foreach (var role in ViewBag.Roles)
+                    {
+                        <option value="@role.Name">@role.Name</option>
+                    }
+                </select>
             </div>
             <button type="submit" class="btn btn-default">Register</button>
         </form>

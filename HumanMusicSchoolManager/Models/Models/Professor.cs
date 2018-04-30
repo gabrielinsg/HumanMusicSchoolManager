@@ -10,10 +10,7 @@ namespace HumanMusicSchoolManager.Models.Models
     {
         [Display(Name = "Salário / hora")]
         public decimal Salario { get; set; }
-        [Display(Name = "E-mail")]
-        [EmailAddress]
-        public string Email { get; set; }
-        public List<CursoProfessor> Cursos { get; set; }
+
 
         public Professor()
         {

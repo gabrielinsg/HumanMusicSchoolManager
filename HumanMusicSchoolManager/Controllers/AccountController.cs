@@ -20,21 +20,27 @@ namespace HumanMusicSchoolManager.Controllers
     [Route("[controller]/[action]")]
     public class AccountController : Controller
     {
+        private readonly IPessoaService _pessoaService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
-            ILogger<AccountController> logger)
+            ILogger<AccountController> logger,
+            RoleManager<IdentityRole> roleManager,
+            IPessoaService pessoaService)
         {
+            _pessoaService = pessoaService;
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
+            _roleManager = roleManager;
         }
 
         [TempData]
@@ -206,10 +212,19 @@ namespace HumanMusicSchoolManager.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Register(string returnUrl = null)
+        public IActionResult Register(int pessoaId, string returnUrl = null)
         {
+            var pessoa = _pessoaService.BuscarPorId(pessoaId);
+
+            var register = new RegisterViewModel()
+            {
+                Pessoa = pessoa,
+                Email = pessoa.Email
+            };
+
+            ViewBag.Roles = _roleManager.Roles.ToList();
             ViewData["ReturnUrl"] = returnUrl;
-            return View();
+            return View(register);
         }
 
         [HttpPost]
@@ -220,10 +235,11 @@ namespace HumanMusicSchoolManager.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Pessoa = model.Pessoa };
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, PessoaId = model.PessoaId };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(user, model.Permissao);
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
