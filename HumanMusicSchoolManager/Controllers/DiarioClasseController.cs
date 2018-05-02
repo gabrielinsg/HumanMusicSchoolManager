@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HumanMusicSchoolManager.Models;
 using HumanMusicSchoolManager.Models.Models;
 using HumanMusicSchoolManager.Models.ViewModels;
 using HumanMusicSchoolManager.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HumanMusicSchoolManager.Controllers
@@ -14,29 +16,31 @@ namespace HumanMusicSchoolManager.Controllers
         private readonly IDiarioClasseService _diarioClasseService;
         private readonly IMatriculaService _matriculaService;
         private readonly IProfessorService _professorService;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public DiarioClasseController(IDiarioClasseService diarioClasseService
-            , IMatriculaService matriculaService
-            , IProfessorService professorService)
+        public DiarioClasseController(IDiarioClasseService diarioClasseService,
+            IMatriculaService matriculaService,
+            IProfessorService professorService,
+            UserManager<ApplicationUser> userManager)
         {
-            this._diarioClasseService = diarioClasseService;
-            this._matriculaService = matriculaService;
-            this._professorService = professorService;
+            _diarioClasseService = diarioClasseService;
+            _matriculaService = matriculaService;
+            _professorService = professorService;
+            _userManager = userManager;
         }
 
 
         public IActionResult Index(int? professorId)
         {
+
             if (professorId == null)
             {
-                return RedirectToAction(controllerName: "home", actionName: "index");
+                professorId = _userManager.Users.Where(u => u.UserName == _userManager.GetUserName(User)).FirstOrDefault().PessoaId;
             }
-            else
-            {
-                var professor = _professorService.BuscarPorId(professorId.Value);
-                ViewBag.Professor = professor;
-                return View(new MatriculaViewModel(_matriculaService.BuscarPorProfessor(professorId.Value).Where(m => m.Ativo == true).ToList()));
-            }
+
+            var professor = _professorService.BuscarPorId(professorId.Value);
+            ViewBag.Professor = professor;
+            return View(new MatriculaViewModel(_matriculaService.BuscarPorProfessor(professorId.Value).Where(m => m.Ativo == true).ToList()));
         }
 
         public IActionResult Form(int? matriculaId, int? diarioId)
@@ -93,7 +97,7 @@ namespace HumanMusicSchoolManager.Controllers
                 {
                     _diarioClasseService.Alterar(diario);
                     return RedirectToAction("index", routeValues: new { professorId = _matriculaService.BuscarPorId(diario.MatriculaId).ProfessorId });
-                } 
+                }
                 else
                 {
                     diario.Matricula = _matriculaService.BuscarPorId(diario.MatriculaId);
@@ -101,7 +105,7 @@ namespace HumanMusicSchoolManager.Controllers
                     return View("form", diario);
                 }
             }
-            
+
         }
 
         public IActionResult Historico(int? matriculaId)

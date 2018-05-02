@@ -1,0 +1,53 @@
+﻿@model PessoaViewModel
+@{
+    ViewData["Title"] = "Pessoa";
+}
+
+<h2>Pessoas</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+            <input name="consulta" id="txt_consulta" placeholder="Consultar" type="text" class="form-control">
+        </div>
+    </div>
+</div>
+
+<table id="tabela" class="table table-hover">
+    <thead>
+        <tr>
+            <th>Nome</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var pessoa in Model.Pessoas)
+        {
+            <tr>
+                <td>
+                    <a asp-controller="account" asp-action="register" asp-route-pessoaId="@pessoa.Id">@pessoa.Nome</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@section Scripts
+    {
+    <script>
+        $('input#txt_consulta').quicksearch('table#tabela tbody tr');
+    </script>
+    <script>
+        $("a#excluir").click(function () {
+            var cf = confirm("Tem certeza que deseja excluir o professor?");
+            if (cf == true) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        });
+    </script>
+}
