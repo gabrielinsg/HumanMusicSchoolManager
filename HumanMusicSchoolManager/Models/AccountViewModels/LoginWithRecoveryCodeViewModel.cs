@@ -10,7 +10,7 @@ namespace HumanMusicSchoolManager.Models.AccountViewModels
     {
             [Required]
             [DataType(DataType.Text)]
-            [Display(Name = "Recovery Code")]
+            [Display(Name = "Código de recuperação")]
             public string RecoveryCode { get; set; }
     }
 }

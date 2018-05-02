@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using HumanMusicSchoolManager.Models;
 using HumanMusicSchoolManager.Models.ViewModels;
 using HumanMusicSchoolManager.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HumanMusicSchoolManager.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class UserController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;

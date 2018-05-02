@@ -1,0 +1,33 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using HumanMusicSchoolManager.Models
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    if (User.IsInRole("Professor"))
+    {
+        <li><a asp-area="" asp-controller="diarioClasse" asp-action="Index">Diário de Classe</a></li>
+    }
+    if (User.IsInRole("Admin") || User.IsInRole("Coordenacao"))
+    {
+        <li><a asp-area="" asp-controller="professor" asp-action="Index">Professores</a></li>
+    }
+    if (User.IsInRole("Admin") || User.IsInRole("Coordenacao") || User.IsInRole("Professor"))
+    {
+        <li><a asp-area="" asp-controller="aluno" asp-action="Index">Alunos</a></li>
+    }
+    if (User.IsInRole("Admin") || User.IsInRole("Coordenacao"))
+    {
+        <li><a asp-area="" asp-controller="curso" asp-action="Index">Cursos</a></li>
+    }
+    if (User.IsInRole("Admin"))
+    {
+        <li><a asp-area="" asp-controller="user" asp-action="Index">Usuários</a></li>
+    }
+}
+else
+{
+
+}

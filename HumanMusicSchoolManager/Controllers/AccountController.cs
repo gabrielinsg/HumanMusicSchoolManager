@@ -70,7 +70,7 @@ namespace HumanMusicSchoolManager.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User logged in.");
+                    _logger.LogInformation("Usuário logado.");
                     return RedirectToLocal(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
@@ -79,12 +79,12 @@ namespace HumanMusicSchoolManager.Controllers
                 }
                 if (result.IsLockedOut)
                 {
-                    _logger.LogWarning("User account locked out.");
+                    _logger.LogWarning("Conta de usuário bloqueada.");
                     return RedirectToAction(nameof(Lockout));
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Tentativa de login inválida.");
                     return View(model);
                 }
             }
@@ -102,7 +102,7 @@ namespace HumanMusicSchoolManager.Controllers
 
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load two-factor authentication user.");
+                throw new ApplicationException($"Não é possível carregar o usuário de autenticação de dois fatores.");
             }
 
             var model = new LoginWith2faViewModel { RememberMe = rememberMe };
@@ -124,7 +124,7 @@ namespace HumanMusicSchoolManager.Controllers
             var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                throw new ApplicationException($"Não é possível carregar o usuário com o ID '{_userManager.GetUserId(User)}'.");
             }
 
             var authenticatorCode = model.TwoFactorCode.Replace(" ", string.Empty).Replace("-", string.Empty);
@@ -133,18 +133,18 @@ namespace HumanMusicSchoolManager.Controllers
 
             if (result.Succeeded)
             {
-                _logger.LogInformation("User with ID {UserId} logged in with 2fa.", user.Id);
+                _logger.LogInformation("Usuário com ID {UserId} logado com 2fa.", user.Id);
                 return RedirectToLocal(returnUrl);
             }
             else if (result.IsLockedOut)
             {
-                _logger.LogWarning("User with ID {UserId} account locked out.", user.Id);
+                _logger.LogWarning("Usuário com ID {UserId} conta bloqueada.", user.Id);
                 return RedirectToAction(nameof(Lockout));
             }
             else
             {
-                _logger.LogWarning("Invalid authenticator code entered for user with ID {UserId}.", user.Id);
-                ModelState.AddModelError(string.Empty, "Invalid authenticator code.");
+                _logger.LogWarning("Código do autenticador inválido digitado para o usuário com o ID {UserId}.", user.Id);
+                ModelState.AddModelError(string.Empty, "Código do autenticador inválido.");
                 return View();
             }
         }
@@ -157,7 +157,7 @@ namespace HumanMusicSchoolManager.Controllers
             var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load two-factor authentication user.");
+                throw new ApplicationException($"Não é possível carregar o usuário de autenticação de dois fatores.");
             }
 
             ViewData["ReturnUrl"] = returnUrl;
@@ -178,7 +178,7 @@ namespace HumanMusicSchoolManager.Controllers
             var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load two-factor authentication user.");
+                throw new ApplicationException($"Não é possível carregar o usuário de autenticação de dois fatores.");
             }
 
             var recoveryCode = model.RecoveryCode.Replace(" ", string.Empty);
@@ -187,18 +187,18 @@ namespace HumanMusicSchoolManager.Controllers
 
             if (result.Succeeded)
             {
-                _logger.LogInformation("User with ID {UserId} logged in with a recovery code.", user.Id);
+                _logger.LogInformation("Usuário com ID {UserId} efetuou login com um código de recuperação.", user.Id);
                 return RedirectToLocal(returnUrl);
             }
             if (result.IsLockedOut)
             {
-                _logger.LogWarning("User with ID {UserId} account locked out.", user.Id);
+                _logger.LogWarning("Usuário com ID {UserId} conta bloqueada.", user.Id);
                 return RedirectToAction(nameof(Lockout));
             }
             else
             {
-                _logger.LogWarning("Invalid recovery code entered for user with ID {UserId}", user.Id);
-                ModelState.AddModelError(string.Empty, "Invalid recovery code entered.");
+                _logger.LogWarning("Código de recuperação inválido digitado para o usuário com o ID {UserId}", user.Id);
+                ModelState.AddModelError(string.Empty, "Código de recuperação inválido inserido.");
                 return View();
             }
         }
@@ -211,7 +211,7 @@ namespace HumanMusicSchoolManager.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         public IActionResult Register(int pessoaId, string returnUrl = null)
         {
             var pessoa = _pessoaService.BuscarPorId(pessoaId);
@@ -228,8 +228,8 @@ namespace HumanMusicSchoolManager.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
@@ -240,14 +240,14 @@ namespace HumanMusicSchoolManager.Controllers
                 if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(user, model.Permissao);
-                    _logger.LogInformation("User created a new account with password.");
+                    _logger.LogInformation("O usuário criou uma nova conta com senha.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
                     await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
 
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    _logger.LogInformation("User created a new account with password.");
+                    //await _signInManager.SignInAsync(user, isPersistent: false);
+                    _logger.LogInformation("O usuário criou uma nova conta com senha.");
                     return RedirectToLocal(returnUrl);
                 }
                 AddErrors(result);
@@ -262,7 +262,7 @@ namespace HumanMusicSchoolManager.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            _logger.LogInformation("User logged out.");
+            _logger.LogInformation("Usuário desconectado.");
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
@@ -283,7 +283,7 @@ namespace HumanMusicSchoolManager.Controllers
         {
             if (remoteError != null)
             {
-                ErrorMessage = $"Error from external provider: {remoteError}";
+                ErrorMessage = $"Erro do provedor externo: {remoteError}";
                 return RedirectToAction(nameof(Login));
             }
             var info = await _signInManager.GetExternalLoginInfoAsync();
@@ -296,7 +296,7 @@ namespace HumanMusicSchoolManager.Controllers
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
             if (result.Succeeded)
             {
-                _logger.LogInformation("User logged in with {Name} provider.", info.LoginProvider);
+                _logger.LogInformation("Usuário logado com o provedor {Name}.", info.LoginProvider);
                 return RedirectToLocal(returnUrl);
             }
             if (result.IsLockedOut)
@@ -324,7 +324,7 @@ namespace HumanMusicSchoolManager.Controllers
                 var info = await _signInManager.GetExternalLoginInfoAsync();
                 if (info == null)
                 {
-                    throw new ApplicationException("Error loading external login information during confirmation.");
+                    throw new ApplicationException("Erro ao carregar informações de login externas durante a confirmação.");
                 }
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await _userManager.CreateAsync(user);
@@ -334,7 +334,7 @@ namespace HumanMusicSchoolManager.Controllers
                     if (result.Succeeded)
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
-                        _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
+                        _logger.LogInformation("O usuário criou uma conta usando o provedor {Name}.", info.LoginProvider);
                         return RedirectToLocal(returnUrl);
                     }
                 }
@@ -356,7 +356,7 @@ namespace HumanMusicSchoolManager.Controllers
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                throw new ApplicationException($"Unable to load user with ID '{userId}'.");
+                throw new ApplicationException($"Não é possível carregar o usuário com o ID '{userId}'.");
             }
             var result = await _userManager.ConfirmEmailAsync(user, code);
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
@@ -409,7 +409,7 @@ namespace HumanMusicSchoolManager.Controllers
         {
             if (code == null)
             {
-                throw new ApplicationException("A code must be supplied for password reset.");
+                throw new ApplicationException("Um código deve ser fornecido para redefinição de senha.");
             }
             var model = new ResetPasswordViewModel { Code = code };
             return View(model);

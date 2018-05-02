@@ -31,9 +31,21 @@ namespace HumanMusicSchoolManager
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>(
+                options =>
+                {
+                    // Password settings
+                    options.Password.RequireDigit = false;
+                    options.Password.RequiredLength = 4;
+                    options.Password.RequiredUniqueChars = 2;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+                })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
@@ -83,7 +95,7 @@ namespace HumanMusicSchoolManager
             IdentityResult roleResult;
             //Adding Admin Role
 
-            string[] roles = new string[] { "Admin", "Professor", "Aluno", "Cordenacao" };
+            string[] roles = new string[] { "Admin", "Professor", "Aluno", "Coordenacao" };
             //create the roles and seed them to the database
 
             foreach (var role in roles)

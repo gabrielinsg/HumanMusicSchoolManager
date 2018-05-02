@@ -27,6 +27,7 @@
             <th>E-mail</th>
             <th class="text-center">Salário</th>
             <th class="text-center">Cursos</th>
+            <th class="text-center">Diário de Classe</th>
             <th class="text-center">Ativo</th>
             <th class="text-center">Alterar</th>
             <th class="text-center">Excluir</th>
@@ -67,6 +68,11 @@
                             </table>
                         </div>
                     </div>
+                </td>
+                <td class="text-center">
+                    <a asp-controller="diarioClasse" asp-action="Index" asp-route-professorId="@professor.Id">
+                        <i class="material-icons text-success">list</i>
+                    </a>                    
                 </td>
                 <td class="text-center">
                     <input asp-for="@professor.Ativo" onclick="return false" />

@@ -9,13 +9,15 @@ namespace HumanMusicSchoolManager.Models.AccountViewModels
     public class LoginViewModel
     {
         [Required]
+        [Display(Name = "Login")]
         public string UserName { get; set; }
 
         [Required]
+        [Display(Name = "Senha")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+        [Display(Name = "Me lembre?")]
         public bool RememberMe { get; set; }
     }
 }

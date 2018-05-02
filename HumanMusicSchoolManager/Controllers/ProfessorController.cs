@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 using HumanMusicSchoolManager.Models.Models;
 using HumanMusicSchoolManager.Models.ViewModels;
 using HumanMusicSchoolManager.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HumanMusicSchoolManager.Controllers
 {
+    [Authorize(Roles = "Admin, Coordenacao")]
     public class ProfessorController : Controller
     {
         private readonly IProfessorService _professorService;
