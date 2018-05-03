@@ -27,7 +27,7 @@
                                 else
                                 {
                                     <label asp-for="CursoId" class="control-label">Curso:</label>
-                                    <input asp-for="CursoId" hidden />
+                                    <input asp-for="CursoId" id="cmbCurso" type="hidden" />
                                     <h4>@Model.Curso.Nome</h4>
                                 }
                             }
@@ -47,8 +47,10 @@
                                 else
                                 {
                                     <label asp-for="ProfessorId" class="control-label">Selecione o Professor:</label>
-                                    <input asp-for="ProfessorId" hidden />
-                                    <h4>@Model.Professor.Nome</h4>
+                                    <select asp-for="ProfessorId" class="form-control" id="cmbProfessor">
+                                        <option id="@Model.Professor.Id">@Model.Professor.Nome</option>
+                                    </select>
+                                    <input type="button" class="btn btn-default" id="btnProfessor" value="Carregar Professores"/>
                                 }
                             }
                         </div>
