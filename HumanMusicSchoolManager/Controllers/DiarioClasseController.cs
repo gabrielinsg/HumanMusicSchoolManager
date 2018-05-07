@@ -51,7 +51,7 @@ namespace HumanMusicSchoolManager.Controllers
             if (diarioId != null)
             {
                 var diario = _diarioClasseService.BuscarPorId(diarioId.Value);
-                ViewBag.Historico = _diarioClasseService.BuscarAlguns(diario.MatriculaId);
+                ViewBag.Historico = _diarioClasseService.BuscarAlguns(diario.Matricula);
                 return View(diario);
             }
 
@@ -63,7 +63,7 @@ namespace HumanMusicSchoolManager.Controllers
                     Data = DateTime.Now,
                     Presenca = true
                 };
-                ViewBag.Historico = _diarioClasseService.BuscarAlguns(matriculaId.Value);
+                ViewBag.Historico = _diarioClasseService.BuscarAlguns(diario.Matricula);
                 return View(diario);
             }
             else
@@ -89,7 +89,7 @@ namespace HumanMusicSchoolManager.Controllers
                         Data = DateTime.Now,
                         Presenca = true
                     };
-                    ViewBag.Historico = _diarioClasseService.BuscarAlguns(diario.Matricula.Id.Value);
+                    ViewBag.Historico = _diarioClasseService.BuscarAlguns(diario.Matricula);
                     return View("form", diario);
                 }
             }
@@ -103,7 +103,7 @@ namespace HumanMusicSchoolManager.Controllers
                 else
                 {
                     diario.Matricula = _matriculaService.BuscarPorId(diario.MatriculaId);
-                    ViewBag.Historico = _diarioClasseService.BuscarAlguns(diario.MatriculaId);
+                    ViewBag.Historico = _diarioClasseService.BuscarAlguns(diario.Matricula);
                     return View("form", diario);
                 }
             }
@@ -114,8 +114,9 @@ namespace HumanMusicSchoolManager.Controllers
         {
             if (matriculaId != null)
             {
-                ViewBag.Matricula = _matriculaService.BuscarPorId(matriculaId.Value);
-                return View(new DiarioClasseViewModel(_diarioClasseService.BuscarPorMatricula(matriculaId.Value)));
+                var matricula = _matriculaService.BuscarPorId(matriculaId.Value);
+                ViewBag.Matricula = matricula;
+                return View(new DiarioClasseViewModel(_diarioClasseService.BuscarPorAluno(matricula)));
             }
             else
             {
@@ -127,9 +128,9 @@ namespace HumanMusicSchoolManager.Controllers
         {
             if (diarioId != null)
             {
-                var professorId = _diarioClasseService.BuscarPorId(diarioId.Value).Matricula.Professor.Id;
+                var matriculaId = _diarioClasseService.BuscarMatricula(diarioId.Value).Id;
                 _diarioClasseService.Excluir(diarioId.Value);
-                return RedirectToAction("index", new { professorId = professorId });
+                return RedirectToAction("historico", new { matriculaId = matriculaId });
             }
             else
             {

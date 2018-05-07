@@ -23,9 +23,9 @@ namespace HumanMusicSchoolManager.Services
             _context.SaveChanges();
         }
 
-        public List<DiarioClasse> BuscarPorAluno(int alunoId)
+        public List<DiarioClasse> BuscarPorAluno(Matricula matricula)
         {
-            return _context.DiariosClasse.Where(d => d.Matricula.AlunoId == alunoId).ToList();
+            return _context.DiariosClasse.Where(d => d.Matricula.AlunoId == matricula.AlunoId && d.Matricula.CursoId == matricula.CursoId).ToList();
         }
 
         public DiarioClasse BuscarPorId(int diarioId)
@@ -52,10 +52,10 @@ namespace HumanMusicSchoolManager.Services
             _context.SaveChanges();
         }
 
-        public List<DiarioClasse> BuscarAlguns(int matriculaId)
+        public List<DiarioClasse> BuscarAlguns(Matricula matricula)
         {
             var hitorico = _context.DiariosClasse
-                .Where(d => d.Matricula.Id == matriculaId)
+                .Where(d => d.Matricula.AlunoId == matricula.AlunoId && d.Matricula.CursoId == matricula.CursoId)
                 .OrderByDescending(d => d.Data)
                 .Take(3)
                 .ToList();
@@ -81,6 +81,12 @@ namespace HumanMusicSchoolManager.Services
                 _context.Remove(diario);
                 _context.SaveChanges();
             }
+        }
+
+        public Matricula BuscarMatricula(int diarioId)
+        {
+            var diario = _context.DiariosClasse.Where(d => d.Id == diarioId).FirstOrDefault();
+            return _context.Matriculas.Where(m => m.Id == diario.MatriculaId).FirstOrDefault();
         }
     }
 }

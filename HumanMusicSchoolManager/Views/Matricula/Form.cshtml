@@ -48,7 +48,7 @@
                                 {
                                     <label asp-for="ProfessorId" class="control-label">Selecione o Professor:</label>
                                     <select asp-for="ProfessorId" class="form-control" id="cmbProfessor">
-                                        <option id="@Model.Professor.Id">@Model.Professor.Nome</option>
+                                        <option id="@Model.Professor.Id" value="@Model.ProfessorId">@Model.Professor.Nome</option>
                                     </select>
                                     <input type="button" class="btn btn-default" id="btnProfessor" value="Carregar Professores"/>
                                 }

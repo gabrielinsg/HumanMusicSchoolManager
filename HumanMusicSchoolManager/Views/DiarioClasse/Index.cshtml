@@ -20,11 +20,11 @@
             <div class="panel-body">
                 <table id="tabela" class="table table-hover">
                     <thead>
-                        <tr>
-                            <th>Aluno</th>
-                            <th>Hora</th>
-                            <th>RM</th>
-                            <th>Curso</th>
+                        <tr class="row">
+                            <th class="col-md-6">Aluno</th>
+                            <th class="col-md-2">Hora</th>
+                            <th class="col-md-2">RM</th>
+                            <th class="col-md-2">Curso</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -32,13 +32,13 @@
                         {
                             if (matricula.Dia == i)
                             {
-                                <tr>
-                                    <td>
+                                <tr class="row">
+                                    <td class="col-md-6">
                                         <a asp-action="form" asp-route-matriculaId="@matricula.Id">@matricula.Aluno.Nome</a> 
                                     </td>
-                                    <td>@(matricula.Hora):00</td>
-                                    <td>@matricula.Aluno.RM</td>
-                                    <td>@matricula.Curso.Nome</td>
+                                    <td class="col-md-2">@(matricula.Hora):00</td>
+                                    <td class="col-md-2">@matricula.Aluno.RM</td>
+                                    <td class="col-md-2">@matricula.Curso.Nome</td>
                                 </tr>
                             }
                         }

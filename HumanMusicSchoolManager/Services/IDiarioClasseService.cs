@@ -13,8 +13,9 @@ namespace HumanMusicSchoolManager.Services
         void Excluir(int diarioId);
         List<DiarioClasse> BuscarTodos();
         DiarioClasse BuscarPorId(int diarioId);
-        List<DiarioClasse> BuscarPorAluno(int alunoId);
-        List<DiarioClasse> BuscarAlguns(int matriculaId);
+        List<DiarioClasse> BuscarPorAluno(Matricula matricula);
+        List<DiarioClasse> BuscarAlguns(Matricula matricula);
         List<DiarioClasse> BuscarPorMatricula(int matriculaId);
+        Matricula BuscarMatricula(int diarioId);
     }
 }
