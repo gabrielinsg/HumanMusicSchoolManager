@@ -10,5 +10,6 @@ namespace HumanMusicSchoolManager.Services
     {
         List<Pessoa> BuscarTodos();
         Pessoa BuscarPorId(int pessoaId);
+        Pessoa Cadastrar(Pessoa pessoa);
     }
 }

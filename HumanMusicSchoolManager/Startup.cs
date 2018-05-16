@@ -13,6 +13,7 @@ using HumanMusicSchoolManager.Models;
 using HumanMusicSchoolManager.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Rewrite;
+using HumanMusicSchoolManager.Models.Models;
 
 namespace HumanMusicSchoolManager
 {
@@ -91,6 +92,7 @@ namespace HumanMusicSchoolManager
         {
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            var pessoaService = serviceProvider.GetRequiredService<IPessoaService>();
 
             IdentityResult roleResult;
             //Adding Admin Role
@@ -106,6 +108,26 @@ namespace HumanMusicSchoolManager
                 }
             }
 
+            ApplicationUser UserResult = await UserManager.FindByEmailAsync("admin@admin");
+
+            if (UserResult == null)
+            {
+                Pessoa pessoa = new Pessoa()
+                {
+                    Nome = "Administrador",
+                    Ativo = true,
+                    Email = "admin@admin"
+                };
+
+                var pessoaSalva = pessoaService.Cadastrar(pessoa);
+
+                var user = new ApplicationUser { UserName = "admin.admin", Email = "admin@admin", PessoaId = pessoaSalva.Id };
+                var result = await UserManager.CreateAsync(user, "Admin@admin456");
+                if (result.Succeeded)
+                {
+                    await UserManager.AddToRoleAsync(user, "Admin");
+                }
+            }
             ////Assign Admin role to the main User here we have given our newly registered 
             ////login id for Admin management
             //ApplicationUser user = await UserManager.FindByEmailAsync("syedshanumcain@gmail.com");

@@ -25,5 +25,12 @@ namespace HumanMusicSchoolManager.Services
         {
             return _context.Pessoas.ToList();
         }
+
+        public Pessoa Cadastrar(Pessoa pessoa)
+        {
+            _context.Pessoas.Add(pessoa);
+            _context.SaveChanges();
+            return _context.Pessoas.Where(p => p.Email == pessoa.Email).SingleOrDefault();
+        }
     }
 }
