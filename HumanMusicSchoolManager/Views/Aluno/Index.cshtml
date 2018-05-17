@@ -43,27 +43,36 @@
                             Cursos
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <table id="tabela" class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            <a asp-controller="matricula" asp-action="form" asp-route-alunoId="@aluno.Id" class="btn btn-primary">Nova Matrícula</a>
-                                        </th>
-                                        <th>Ativo</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var matricula in aluno.Matriculas)
-                                    {
-                                        <tr>
-                                            <td><a asp-controller="matricula" asp-action="form" asp-route-matriculaId="@matricula.Id">@matricula.Curso.Nome</a></td>
-                                            <td>
-                                                <input type="checkbox" disabled @(matricula.Ativo == true ? "checked" : "")/>
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
+                            <div class="list-group">
+                                <a asp-controller="matricula" asp-action="form" class="list-group-item active" asp-route-alunoId="@aluno.Id">Nova Matrícula</a>
+                                @foreach (var matricula in aluno.Matriculas)
+                                {
+                                    <a asp-controller="matricula" class="list-group-item" asp-action="form" asp-route-matriculaId="@matricula.Id">
+                                        @matricula.Curso.Nome  <input type="checkbox" disabled @(matricula.Ativo == true ? "checked" : "") />
+                                    </a>      
+                                }
+                            </div>
+                            @*<table id="tabela" class="table table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        <a asp-controller="matricula" asp-action="form" asp-route-alunoId="@aluno.Id" class="btn btn-primary">Nova Matrícula</a>
+                    </th>
+                    <th>Ativo</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var matricula in aluno.Matriculas)
+                {
+                    <tr>
+                        <td><a asp-controller="matricula" asp-action="form" asp-route-matriculaId="@matricula.Id">@matricula.Curso.Nome</a></td>
+                        <td>
+                            <input type="checkbox" disabled @(matricula.Ativo == true ? "checked" : "")/>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>*@
                         </div>
                     </div>
                 </td>
