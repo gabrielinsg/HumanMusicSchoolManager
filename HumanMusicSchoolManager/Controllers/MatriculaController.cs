@@ -63,7 +63,7 @@ namespace HumanMusicSchoolManager.Controllers
                 {
                     Aluno = _alunoService.BuscarPorId(alunoId.Value),
                     Ativo = true,
-                    DataMatricula = DateTime.Now
+                    DataMatricula = DateTime.Now,
                 };
                 return View(matricula);
             }
@@ -71,19 +71,33 @@ namespace HumanMusicSchoolManager.Controllers
 
         public IActionResult Cadastrar(Matricula matricula)
         {
-            if (matricula != null)
+            if (ModelState.IsValid)
             {
-                if (matricula.Id == null)
+                if (matricula != null)
                 {
-                    _matriculaService.Cadastrar(matricula);
+                    if (matricula.Id == null)
+                    {                    
+                        _matriculaService.Cadastrar(matricula);
+                    }
+                    else
+                    {
+                        _matriculaService.Alterar(matricula);
+                    }
+                }
+                return RedirectToAction(controllerName: "Aluno", actionName: "Index");
+            }
+            else
+            {
+                if (matricula.Id != null)
+                {
+                    return RedirectToAction("Form", new { matriculaId = matricula.Id });
                 }
                 else
                 {
-                    _matriculaService.Alterar(matricula);
+                    return RedirectToAction("Form", new { alunoId = matricula.AlunoId});
                 }
             }
 
-            return RedirectToAction(controllerName: "Aluno", actionName: "Index");
         }
 
         public IActionResult Alterar(Matricula matricula)
