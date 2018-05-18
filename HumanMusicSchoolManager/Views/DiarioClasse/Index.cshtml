@@ -21,10 +21,11 @@
                 <table id="tabela" class="table table-hover">
                     <thead>
                         <tr class="row">
-                            <th class="col-md-6">Aluno</th>
+                            <th class="col-md-4">Aluno</th>
                             <th class="col-md-2">Hora</th>
                             <th class="col-md-2">RM</th>
                             <th class="col-md-2">Curso</th>
+                            <th class="col-md-4">Ultimo rigistro</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -32,14 +33,15 @@
                         {
                             if (matricula.Dia == i)
                             {
-                                <tr class="row">
-                                    <td class="col-md-6">
-                                        <a asp-action="form" asp-route-matriculaId="@matricula.Id">@matricula.Aluno.Nome</a> 
-                                    </td>
-                                    <td class="col-md-2">@(matricula.Hora):00</td>
-                                    <td class="col-md-2">@matricula.Aluno.RM</td>
-                                    <td class="col-md-2">@matricula.Curso.Nome</td>
-                                </tr>
+                        <tr class="row">
+                            <td class="col-md-4">
+                                <a asp-action="form" asp-route-matriculaId="@matricula.Id">@matricula.Aluno.Nome</a>
+                            </td>
+                            <td class="col-md-2">@(matricula.Hora):00</td>
+                            <td class="col-md-2">@matricula.Aluno.RM</td>
+                            <td class="col-md-2">@matricula.Curso.Nome</td>
+                            <td class="col-md-4">@matricula.UltimaAula?.ToString("dd/MM/yyyy")</td>
+                        </tr>
                             }
                         }
                     </tbody>

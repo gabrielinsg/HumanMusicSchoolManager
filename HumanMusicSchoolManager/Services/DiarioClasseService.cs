@@ -88,5 +88,18 @@ namespace HumanMusicSchoolManager.Services
             var diario = _context.DiariosClasse.Where(d => d.Id == diarioId).FirstOrDefault();
             return _context.Matriculas.Where(m => m.Id == diario.MatriculaId).FirstOrDefault();
         }
+
+        public DateTime? UltimoRegistro(int matriculaId)
+        {
+            var matricula = _context.DiariosClasse.Where(d => d.MatriculaId == matriculaId).OrderByDescending(d => d.Data).FirstOrDefault();
+            if (matricula == null)
+            {
+                return null;
+            }
+            else
+            {
+                return matricula.Data;
+            }
+        }
     }
 }

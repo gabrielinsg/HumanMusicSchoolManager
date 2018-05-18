@@ -42,7 +42,7 @@ namespace HumanMusicSchoolManager.Controllers
 
             var professor = _professorService.BuscarPorId(professorId.Value);
             ViewBag.Professor = professor;
-            return View(new MatriculaViewModel(_matriculaService.BuscarPorProfessor(professorId.Value).Where(m => m.Ativo == true).ToList()));
+            return View(new MatriculaViewModel(_matriculaService.BuscarPorProfessor(professorId.Value).Where(m => m.Ativo == true).ToList(), _diarioClasseService));
         }
 
         public IActionResult Form(int? matriculaId, int? diarioId)

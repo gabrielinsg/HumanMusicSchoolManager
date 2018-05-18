@@ -17,5 +17,6 @@ namespace HumanMusicSchoolManager.Services
         List<DiarioClasse> BuscarAlguns(Matricula matricula);
         List<DiarioClasse> BuscarPorMatricula(int matriculaId);
         Matricula BuscarMatricula(int diarioId);
+        DateTime? UltimoRegistro(int matriculaId);
     }
 }
