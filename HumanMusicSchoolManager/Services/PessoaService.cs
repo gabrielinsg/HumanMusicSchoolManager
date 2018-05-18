@@ -23,7 +23,7 @@ namespace HumanMusicSchoolManager.Services
 
         public List<Pessoa> BuscarTodos()
         {
-            return _context.Pessoas.ToList();
+            return _context.Pessoas.Where(p => p.Ativo == true).ToList();
         }
 
         public Pessoa Cadastrar(Pessoa pessoa)

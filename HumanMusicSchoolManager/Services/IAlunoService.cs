@@ -13,5 +13,6 @@ namespace HumanMusicSchoolManager.Services
         List<Aluno> BuscarTodos();
         Aluno BuscarPorId(int alunoId);
         void Excluir(int alunoId);
+        bool VerificarRm(int rm);
     }
 }

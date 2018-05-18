@@ -30,7 +30,7 @@ namespace HumanMusicSchoolManager.Services
 
         public List<Professor> BuscarTodos()
         {
-            return _context.Professores.Include(c => c.Cursos).ToList();
+            return _context.Professores.Include(c => c.Cursos).OrderBy(p => p.Nome).ToList();
         }
 
         public void Cadastrar(Professor professor)

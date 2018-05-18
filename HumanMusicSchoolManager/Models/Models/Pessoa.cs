@@ -10,7 +10,7 @@ namespace HumanMusicSchoolManager.Models.Models
     {
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "O Campo nome é obrigatório")]
         [Display(Name = "Nome")]
         public string Nome { get; set; }
         [Required]

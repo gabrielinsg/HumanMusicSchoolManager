@@ -18,6 +18,7 @@ namespace HumanMusicSchoolManager.Data
         public DbSet<Matricula> Matriculas { get; set; }
         public DbSet<Curso> Cursos { get; set; }
         public DbSet<DiarioClasse> DiariosClasse { get; set; }
+        public DbSet<Funcionario> Funcionarios { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

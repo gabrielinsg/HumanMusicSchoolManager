@@ -30,7 +30,7 @@ namespace HumanMusicSchoolManager.Services
 
         public List<Aluno> BuscarTodos()
         {
-            return _context.Alunos.Include(a => a.Matriculas).ToList();
+            return _context.Alunos.Include(a => a.Matriculas).OrderBy(a => a.Nome).ToList();
         }
 
         public void Cadastrar(Aluno aluno)
@@ -46,6 +46,18 @@ namespace HumanMusicSchoolManager.Services
             {
                 _context.Alunos.Remove(aluno);
                 _context.SaveChanges();
+            }
+        }
+
+        public bool VerificarRm(int rm)
+        {
+            if(_context.Alunos.Where(a => a.RM == rm).FirstOrDefault() == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
     }

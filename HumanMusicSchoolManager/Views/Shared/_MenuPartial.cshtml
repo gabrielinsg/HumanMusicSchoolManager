@@ -24,6 +24,10 @@
     }
     if (User.IsInRole("Admin"))
     {
+        <li><a asp-area="" asp-controller="funcionario" asp-action="Index">Funcionário</a></li>
+    }
+    if (User.IsInRole("Admin"))
+    {
         <li><a asp-area="" asp-controller="user" asp-action="Index">Usuários</a></li>
     }
 }

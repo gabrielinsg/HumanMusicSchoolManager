@@ -1,0 +1,66 @@
+﻿@model Funcionario
+@{
+    ViewData["Title"] = "Professor";
+}
+
+<h2>Professor</h2>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Cadastrar Professor</div>
+    <div class="panel-body">
+        <form role="form" method="post" asp-action="alterar">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-1">
+                    <div class="form-group">
+                        <label asp-for="Id">Id</label>
+                        <input asp-for="Id" readonly="readonly" class="form-control">
+                        <span asp-validation-for="Id" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="Nome">Nome</label>
+                        <input asp-for="Nome" class="form-control">
+                        <span asp-validation-for="Nome" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Email">E-mail</label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label asp-for="Ativo">
+                                <input asp-for="Ativo" />
+                                @Html.DisplayNameFor(p => p.Ativo)
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success">Alterar</button>
+            <a asp-action="Excluir" asp-route-funcionarioId="@Model.Id" class="btn btn-danger" id="excluir">Excluir</a>
+            <a asp-action="Index" class="btn btn-default">Voltar</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts
+    {
+    <script>
+        $("a#excluir").click(function () {
+            var cf = confirm("Tem certeza que deseja excluir o funcionário?");
+            if (cf == true) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        });
+    </script>
+}

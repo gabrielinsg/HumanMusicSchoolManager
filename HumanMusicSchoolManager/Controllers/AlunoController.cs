@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using HumanMusicSchoolManager.Models.Models;
@@ -38,12 +39,25 @@ namespace HumanMusicSchoolManager.Controllers
         {
             if (aluno != null)
             {
-                _alunoService.Cadastrar(aluno);
+                if (ModelState.IsValid)
+                {
+                    if (_alunoService.VerificarRm(aluno.RM))
+                    {
+                        ModelState.AddModelError("","Aluno já cadastrado");
+                        return View("form", aluno);
+                    }
+                    _alunoService.Cadastrar(aluno);
+                }
+                else
+                {
+                    return View("form", aluno);
+                }
             }
 
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Excluir(int? alunoId)
         {
             if (alunoId != null)
