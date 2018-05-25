@@ -37,6 +37,7 @@ namespace HumanMusicSchoolManager.Controllers
         [HttpPost]
         public IActionResult Cadastrar(Aluno aluno)
         {
+            Aluno alunoSalvo = null;
             if (aluno != null)
             {
                 if (ModelState.IsValid)
@@ -46,7 +47,7 @@ namespace HumanMusicSchoolManager.Controllers
                         ModelState.AddModelError("","Aluno já cadastrado");
                         return View("form", aluno);
                     }
-                    _alunoService.Cadastrar(aluno);
+                    alunoSalvo =_alunoService.Cadastrar(aluno);
                 }
                 else
                 {
@@ -54,7 +55,7 @@ namespace HumanMusicSchoolManager.Controllers
                 }
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction(controllerName: "Matricula", actionName: "Form", routeValues: new {alunoId =  alunoSalvo.Id});
         }
 
         [Authorize(Roles = "Admin")]

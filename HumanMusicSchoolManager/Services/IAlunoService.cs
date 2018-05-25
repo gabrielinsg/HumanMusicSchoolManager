@@ -8,7 +8,7 @@ namespace HumanMusicSchoolManager.Services
 {
     public interface IAlunoService
     {
-        void Cadastrar(Aluno aluno);
+        Aluno Cadastrar(Aluno aluno);
         void Alterar(Aluno aluno);
         List<Aluno> BuscarTodos();
         Aluno BuscarPorId(int alunoId);

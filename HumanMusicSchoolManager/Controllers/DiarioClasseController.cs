@@ -99,7 +99,7 @@ namespace HumanMusicSchoolManager.Controllers
                 if (ModelState.IsValid)
                 {
                     _diarioClasseService.Alterar(diario);
-                    return RedirectToAction("index", routeValues: new { professorId = _matriculaService.BuscarPorId(diario.MatriculaId).ProfessorId });
+                    return RedirectToAction("form", new { matriculaId = diario.MatriculaId });
                 }
                 else
                 {

@@ -33,10 +33,11 @@ namespace HumanMusicSchoolManager.Services
             return _context.Alunos.Include(a => a.Matriculas).OrderBy(a => a.Nome).ToList();
         }
 
-        public void Cadastrar(Aluno aluno)
+        public Aluno Cadastrar(Aluno aluno)
         {
             _context.Alunos.Add(aluno);
             _context.SaveChanges();
+            return aluno;
         }
 
         public void Excluir(int alunoId)
