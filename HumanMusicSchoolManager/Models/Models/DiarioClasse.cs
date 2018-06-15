@@ -20,7 +20,7 @@ namespace HumanMusicSchoolManager.Models.Models
 
         [Required(ErrorMessage = "A {0} não pode ser vazia.")]
         [Display(Name = "Descrição de atividades")]
-        [StringLength(250, ErrorMessage = "A {0} deve ter pelo menos {2} e no máximo {1} caracteres.", MinimumLength = 6)]
+        [StringLength(500, ErrorMessage = "A {0} deve ter pelo menos {2} e no máximo {1} caracteres.", MinimumLength = 6)]
         public string DescAtividades { get; set; }
 
         public int MatriculaId { get; set; }
