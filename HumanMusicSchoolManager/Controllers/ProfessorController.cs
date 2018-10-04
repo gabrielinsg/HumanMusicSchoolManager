@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HumanMusicSchoolManager.Controllers
 {
-    [Authorize(Roles = "Admin, Coordenacao")]
+    [Authorize(Roles = "Admin, Secretaria")]
     public class ProfessorController : Controller
     {
         private readonly IProfessorService _professorService;
@@ -22,6 +22,7 @@ namespace HumanMusicSchoolManager.Controllers
             this._cursoService = cursoService;
         }
 
+        [Authorize(Roles = "Coordenacao, Atendimento, Diretoria, Secretaria, Admin")]
         public IActionResult Index()
         {
             ProfessorViewModel professores = new ProfessorViewModel(_professorService.BuscarTodos(), _cursoService.BuscarTodos());
@@ -58,7 +59,7 @@ namespace HumanMusicSchoolManager.Controllers
             return RedirectToAction("Index");
         }
 
-
+        [Authorize(Roles = "Coordenacao, Atendimento, Diretoria, Secretaria, Admin")]
         public IActionResult Professor(int? professorId)
         {
             if (professorId != null)
