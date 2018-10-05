@@ -122,7 +122,7 @@ namespace HumanMusicSchoolManager
 
                 var pessoaSalva = pessoaService.Cadastrar(pessoa);
 
-                var user = new ApplicationUser { UserName = "admin.admin", Email = "admin@admin", PessoaId = pessoaSalva.Id };
+                var user = new ApplicationUser { UserName = "admin.admin", Email = "admin@admin", PessoaId = pessoaSalva.Id.Value };
                 var result = await UserManager.CreateAsync(user, "Admin@admin456");
                 if (result.Succeeded)
                 {

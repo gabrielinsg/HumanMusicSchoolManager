@@ -35,17 +35,24 @@ namespace HumanMusicSchoolManager.Controllers
         }
 
         [HttpPost]
-        public IActionResult Cadastrar(Professor professor)
+        public IActionResult Form(Professor professor)
         {
-            if (professor == null)
+            if (professor.Id == null)
             {
-                return RedirectToAction("Form");
+                if (ModelState.IsValid)
+                {
+                    _professorService.Cadastrar(professor);
+                    return View();
+                }
+                else
+                {
+                    return View(professor);
+                }
             }
             else
             {
-                professor.Ativo = true;
-                _professorService.Cadastrar(professor);
-                return RedirectToAction("Index");
+                //alterar
+                return null;
             }
         }
 

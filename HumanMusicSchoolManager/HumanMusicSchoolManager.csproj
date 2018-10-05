@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\js\JavaScript.js" />
     <Content Remove="wwwroot\lib\bootstrap\dist\css\bootstrap.css" />
   </ItemGroup>
 

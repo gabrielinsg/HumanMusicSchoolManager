@@ -8,6 +8,7 @@ namespace HumanMusicSchoolManager.Models.Models
 {
     public class Professor : Pessoa
     {
+        [Required(ErrorMessage = "Campo Salário Obrigatório")]
         [Display(Name = "Salário / hora")]
         public decimal Salario { get; set; }
 
