@@ -39,13 +39,14 @@ namespace HumanMusicSchoolManager.Controllers
             else
             {
                 var professor = _professorService.BuscarPorId(professorId.Value);
-                if (professor == null)
+                if (professor != null)
                 {
-                    return View();
+                    return View(professor);
+
                 }
                 else
                 {
-                    return View(professor);
+                    return View();
                 }
             }
         }
@@ -68,7 +69,7 @@ namespace HumanMusicSchoolManager.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError("CPF", "CPF já cadastrado para um Professor");
+                        ModelState.AddModelError("CPF", "CPF já cadastrado para outro professor");
                         return View(professor);
                     }
                     
@@ -120,13 +121,6 @@ namespace HumanMusicSchoolManager.Controllers
             }
         }
 
-        [HttpPost]
-        public IActionResult Alterar(Professor professor)
-        {
-            _professorService.Alterar(professor);
-            return RedirectToAction("Index");
-        }
-
         public IActionResult ProfessorCurso(int? professorId)
         {
             if (professorId != null)
@@ -162,6 +156,13 @@ namespace HumanMusicSchoolManager.Controllers
 
             return RedirectToAction(actionName: "ProfessorCurso", routeValues: new { professorId = professorId });
 
+        }
+
+        [HttpPost]
+        public JsonResult BuscarPorNome(string nome)
+        {
+            var professor = _professorService.BuscarPorNome(nome);
+            return Json(professor);
         }
     }
 }

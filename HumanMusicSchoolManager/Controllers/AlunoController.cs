@@ -29,33 +29,65 @@ namespace HumanMusicSchoolManager.Controllers
             return View(alunos);
         }
 
-        public IActionResult Form()
+        [HttpGet]
+        public IActionResult Form(int? alunoId)
         {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult Cadastrar(Aluno aluno)
-        {
-            Aluno alunoSalvo = null;
-            if (aluno != null)
+            if (alunoId == null)
             {
-                if (ModelState.IsValid)
+                return View();
+            }
+            else
+            {
+                var aluno = _alunoService.BuscarPorId(alunoId.Value);
+                if (aluno != null)
                 {
-                    if (_alunoService.VerificarRm(aluno.RM))
-                    {
-                        ModelState.AddModelError("","Aluno já cadastrado");
-                        return View("form", aluno);
-                    }
-                    alunoSalvo =_alunoService.Cadastrar(aluno);
+                    return View(aluno);
                 }
                 else
                 {
-                    return View("form", aluno);
+                    return View();
                 }
             }
+        }
 
-            return RedirectToAction(controllerName: "Matricula", actionName: "Form", routeValues: new {alunoId =  alunoSalvo.Id});
+        [HttpPost]
+        public IActionResult Form(Aluno aluno)
+        {
+            if (aluno.Id == null)
+            {
+                if (ModelState.IsValid)
+                {
+                    var cpfUnico = _alunoService.BuscarPorCPF(aluno.CPF);
+                    if (cpfUnico == null)
+                    {
+                        _alunoService.Cadastrar(aluno);
+                        TempData["Success"] = "Aluno cadastrado com sucesso!";
+                        return RedirectToAction("Form");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("CPF", "CPF já cadastrado para outro aluno");
+                        return View(aluno);
+                    }
+                }
+                else
+                {
+                    return View(aluno);
+                }
+            }
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    _alunoService.Alterar(aluno);
+                    TempData["Success"] = "Aluno alterado com sucesso!";
+                    return RedirectToAction("Form");
+                }
+                else
+                {
+                    return View(aluno);
+                }
+            }
         }
 
         [Authorize(Roles = "Admin")]
@@ -81,17 +113,11 @@ namespace HumanMusicSchoolManager.Controllers
             }
         }
 
-        public IActionResult Alterar(Aluno aluno)
+        [HttpPost]
+        public JsonResult BuscarPorNome(string nome)
         {
-            if (aluno != null)
-            {
-                _alunoService.Alterar(aluno);
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                return RedirectToAction(actionName: "Aluno", routeValues: new { alunoId = aluno.Id });
-            }
+            var aluno = _alunoService.BuscarPorNome(nome);
+            return Json(aluno);
         }
     }
 }

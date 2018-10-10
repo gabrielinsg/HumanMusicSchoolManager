@@ -8,9 +8,9 @@
 
 <div class="row">
     <div class="col-md-6">
-        <div class="panel panel-default">
-            <div class="panel-heading">Cursos Disponíveis</div>
-            <div class="panel-body">
+        <ul class="list-group">
+            <li class="list-group-item active">Cursos Disponíveis</li>
+            <li class="list-group-item">
                 <table id="tabela" class="table table-hover">
                     <thead>
                         <tr>
@@ -25,20 +25,21 @@
                                 <td>@curso.Nome</td>
                                 <td class="text-center">
                                     <a asp-action="AdicionarCurso" asp-route-cursoId="@curso.Id" asp-route-professorId="@Model.Professor.Id">
-                                        <i class="material-icons text-success">add_circle</i>
+                                        <i class="fas fa-plus-circle text-success"></i>
                                     </a>
                                 </td>
                             </tr>
                         }
                     </tbody>
                 </table>
-            </div>
-        </div>
+            </li>
+        </ul>
+
     </div>
     <div class="col-md-6">
-        <div class="panel panel-default">
-            <div class="panel-heading">Cursos Ministrados</div>
-            <div class="panel-body">
+        <ul class="list-group">
+            <li class="list-group-item active">Cursos Ministrados</li>
+            <li class="list-group-item">
                 <table id="tabela" class="table table-hover">
                     <thead>
                         <tr>
@@ -53,16 +54,17 @@
                                 <td>@curso.Curso.Nome</td>
                                 <td class="text-center">
                                     <a asp-action="RemoverCurso" asp-route-cursoId="@curso.Curso.Id" asp-route-professorId="@Model.Professor.Id">
-                                        <i class="material-icons text-danger">remove_circle</i>
+                                        <i class="fas fa-minus-circle text-danger"></i>
                                     </a>
                                 </td>
                             </tr>
                         }
                     </tbody>
                 </table>
-            </div>
-        </div>
+            </li>
+        </ul>        
     </div>
 </div>
-<a asp-action="Index" class="btn btn-default">Voltar</a>
+<br />
+<a asp-action="Index" class="btn btn-primary">Voltar</a>
 

@@ -10,6 +10,7 @@ namespace HumanMusicSchoolManager.Models.Models
     {
         [Required(ErrorMessage = "Campo Salário Obrigatório")]
         [Display(Name = "Salário / hora")]
+        [Range(0, double.MaxValue, ErrorMessage = "Valor inválido")]
         public decimal Salario { get; set; }
         public List<CursoProfessor> Cursos { get; set; }
 

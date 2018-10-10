@@ -3,7 +3,6 @@
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
-
 <!-- Sidebar -->
 <ul class="sidebar navbar-nav">
     <li class="nav-item">
@@ -43,6 +42,19 @@
                     {
                         <a class="dropdown-item" asp-controller="Curso" asp-action="Form">Cadastrar</a>
                     }
+                </div>
+            </li>
+        }
+        @if (!(User.IsInRole("Professor") || User.IsInRole("Aluno") || User.IsInRole("Financeiro")))
+        {
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-user-graduate"></i>
+                    <span>Aluno</span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                    <a class="dropdown-item" asp-controller="Aluno" asp-action="Index">Lista</a>
+                    <a class="dropdown-item" asp-controller="Aluno" asp-action="Form">Cadastrar</a>
                 </div>
             </li>
         }

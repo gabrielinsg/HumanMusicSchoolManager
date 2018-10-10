@@ -11,6 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\css\jquery-ui.min.css" />
+    <Content Remove="wwwroot\css\jquery-ui.structure.min.css" />
+    <Content Remove="wwwroot\css\jquery-ui.theme.min.css" />
     <Content Remove="wwwroot\js\JavaScript.js" />
     <Content Remove="wwwroot\lib\bootstrap\dist\css\bootstrap.css" />
   </ItemGroup>

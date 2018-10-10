@@ -23,9 +23,21 @@ namespace HumanMusicSchoolManager.Services
             _context.SaveChanges();
         }
 
+        public Aluno BuscarPorCPF(string CPF)
+        {
+            return _context.Alunos.SingleOrDefault(a => a.CPF == CPF);
+        }
+
         public Aluno BuscarPorId(int alunoId)
         {
-            return _context.Alunos.Include(a => a.Matriculas).FirstOrDefault(a => a.Id == alunoId);
+            return _context.Alunos.Include(a => a.Matriculas)
+                .Include(a => a.Endereco)
+                .FirstOrDefault(a => a.Id == alunoId);
+        }
+
+        public List<Aluno> BuscarPorNome(string nome)
+        {
+            return _context.Alunos.Where(a => a.Nome.Contains(nome)).ToList();
         }
 
         public List<Aluno> BuscarTodos()

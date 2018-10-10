@@ -13,5 +13,6 @@ namespace HumanMusicSchoolManager.Services
         Curso BuscarPorId(int id);
         void Alterar(Curso curso);
         void Excluir(Curso curso);
+        List<Curso> BuscarPorNome(string nome);
     }
 }

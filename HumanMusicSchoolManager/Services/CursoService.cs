@@ -28,6 +28,11 @@ namespace HumanMusicSchoolManager.Services
             return _context.Cursos.Where(c => c.Id == id).Single();
         }
 
+        public List<Curso> BuscarPorNome(string nome)
+        {
+            return _context.Cursos.Where(p => p.Nome.Contains(nome)).ToList();
+        }
+
         public List<Curso> BuscarTodos()
         {
             var cursos = _context.Cursos.ToList();

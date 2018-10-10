@@ -21,6 +21,7 @@ namespace HumanMusicSchoolManager.Data
         public DbSet<Funcionario> Funcionarios { get; set; }
         public DbSet<Endereco> Enderecos { get; set; }
         public DbSet<Sala> Salas { get; set; }
+        public DbSet<RespFinanceiro> RespsFinanceiro { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
