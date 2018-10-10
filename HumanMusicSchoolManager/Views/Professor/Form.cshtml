@@ -3,12 +3,18 @@
     ViewData["Title"] = "Form";
 }
 
-<h2>Professor</h2>
 
+<h2 class="col-md-10">Professor</h2>
+
+@await Html.PartialAsync("_Message")
+
+<hr />
 <form role="form" method="post" asp-action="form">
+    
+    <input type="hidden" asp-for="Id" />
 
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="Nome"></label>
                 <input asp-for="Nome" class="form-control" />
@@ -18,14 +24,14 @@
         <div class="col-md-2">
             <div class="form-group">
                 <label asp-for="DataNascimento"></label>
-                <input asp-for="DataNascimento" class="form-control" type="date"/>
+                <input asp-for="DataNascimento" class="form-control" type="date" />
                 <span asp-validation-for="DataNascimento" class="text-danger"></span>
             </div>
         </div>
         <div class="col-md-2">
             <div class="form-group">
                 <label asp-for="RG"></label>
-                <input asp-for="RG" class="form-control mask-rg"/>
+                <input asp-for="RG" class="form-control mask-rg" />
                 <span asp-validation-for="RG" class="text-danger"></span>
             </div>
         </div>
@@ -36,11 +42,71 @@
                 <span asp-validation-for="CPF" class="text-danger"></span>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="Endereco.Logradouro"></label>
                 <input asp-for="Endereco.Logradouro" class="form-control" />
                 <span asp-validation-for="Endereco.Logradouro" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label asp-for="Endereco.Numero"></label>
+                <input asp-for="Endereco.Numero" class="form-control" />
+                <span asp-validation-for="Endereco.Numero" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="Endereco.Bairro"></label>
+                <input asp-for="Endereco.Bairro" class="form-control" />
+                <span asp-validation-for="Endereco.Bairro" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="Endereco.Complemento"></label>
+                <input asp-for="Endereco.Complemento" class="form-control" />
+                <span asp-validation-for="Endereco.Complemento" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="Endereco.Cidade"></label>
+                <input asp-for="Endereco.Cidade" class="form-control" />
+                <span asp-validation-for="Endereco.Cidade" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label asp-for="Endereco.UF" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <select asp-for="Endereco.UF" class="form-control" asp-items="Html.GetEnumSelectList<UF>()">
+                        <option selected="selected" value=""></option>
+                    </select>
+                    <span asp-validation-for="Endereco.UF" class="text-danger" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label asp-for="Endereco.CEP"></label>
+                <input asp-for="Endereco.CEP" class="form-control mask-cep" />
+                <span asp-validation-for="Endereco.CEP" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="Tel"></label>
+                <input asp-for="Tel" class="form-control mask-tel" />
+                <span asp-validation-for="Tel" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="Cel"></label>
+                <input asp-for="Cel" class="form-control mask-tel" />
+                <span asp-validation-for="Cel" class="text-danger"></span>
             </div>
         </div>
         <div class="col-md-4">
@@ -50,7 +116,7 @@
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-2">
             <div class="form-group">
                 <label asp-for="Salario">Salario</label>
                 <input asp-for="Salario" class="form-control">
@@ -61,7 +127,7 @@
             <div class="form-group">
                 <div class="checkbox">
                     <label asp-for="Ativo">
-                        <input asp-for="Ativo" checked="checked" />
+                        <input asp-for="Ativo" />
                         @Html.DisplayNameFor(p => p.Ativo)
                     </label>
                 </div>
@@ -69,8 +135,7 @@
         </div>
     </div>
     <button type="submit" class="btn btn-success">Cadastrar</button>
-    <a asp-action="Index" class="btn btn-default">Voltar</a>
+    <a asp-action="Index" class="btn btn-primary">Voltar</a>
 </form>
-
 
 

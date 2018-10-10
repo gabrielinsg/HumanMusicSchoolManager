@@ -13,9 +13,10 @@ using System;
 namespace HumanMusicSchoolManager.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181005203600_PessoaPessoaTelefoneNull")]
+    partial class PessoaPessoaTelefoneNull
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,8 +88,6 @@ namespace HumanMusicSchoolManager.Data.Migrations
                     b.Property<string>("Nome")
                         .IsRequired();
 
-                    b.Property<int>("QtdModulo");
-
                     b.HasKey("Id");
 
                     b.ToTable("Cursos");
@@ -100,24 +99,19 @@ namespace HumanMusicSchoolManager.Data.Migrations
 
                     b.Property<int>("CursoId");
 
+                    b.Property<int?>("AlunoId");
+
+                    b.Property<int?>("FuncionarioId");
+
                     b.HasKey("ProfessorId", "CursoId");
 
+                    b.HasIndex("AlunoId");
+
                     b.HasIndex("CursoId");
+
+                    b.HasIndex("FuncionarioId");
 
                     b.ToTable("CursoProfessor");
-                });
-
-            modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.CursoSala", b =>
-                {
-                    b.Property<int>("SalaId");
-
-                    b.Property<int>("CursoId");
-
-                    b.HasKey("SalaId", "CursoId");
-
-                    b.HasIndex("CursoId");
-
-                    b.ToTable("CursoSala");
                 });
 
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.DiarioClasse", b =>
@@ -159,6 +153,9 @@ namespace HumanMusicSchoolManager.Data.Migrations
                     b.Property<string>("Complemento");
 
                     b.Property<string>("Logradouro")
+                        .IsRequired();
+
+                    b.Property<string>("NickName")
                         .IsRequired();
 
                     b.Property<int>("Numero");
@@ -231,31 +228,11 @@ namespace HumanMusicSchoolManager.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CPF")
-                        .IsUnique();
-
                     b.HasIndex("EnderecoId");
 
                     b.ToTable("Pessoas");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("Pessoa");
-                });
-
-            modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Sala", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("Ativo");
-
-                    b.Property<int>("Capacidade");
-
-                    b.Property<string>("Nome")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Salas");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -408,27 +385,22 @@ namespace HumanMusicSchoolManager.Data.Migrations
 
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.CursoProfessor", b =>
                 {
+                    b.HasOne("HumanMusicSchoolManager.Models.Models.Aluno")
+                        .WithMany("Cursos")
+                        .HasForeignKey("AlunoId");
+
                     b.HasOne("HumanMusicSchoolManager.Models.Models.Curso", "Curso")
                         .WithMany("Professores")
                         .HasForeignKey("CursoId")
                         .OnDelete(DeleteBehavior.Cascade);
 
+                    b.HasOne("HumanMusicSchoolManager.Models.Models.Funcionario")
+                        .WithMany("Cursos")
+                        .HasForeignKey("FuncionarioId");
+
                     b.HasOne("HumanMusicSchoolManager.Models.Models.Professor", "Professor")
                         .WithMany("Cursos")
                         .HasForeignKey("ProfessorId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.CursoSala", b =>
-                {
-                    b.HasOne("HumanMusicSchoolManager.Models.Models.Curso", "Curso")
-                        .WithMany("Salas")
-                        .HasForeignKey("CursoId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("HumanMusicSchoolManager.Models.Models.Sala", "Sala")
-                        .WithMany("Cursos")
-                        .HasForeignKey("SalaId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

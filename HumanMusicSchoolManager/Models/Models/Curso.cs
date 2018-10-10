@@ -14,10 +14,13 @@ namespace HumanMusicSchoolManager.Models.Models
         public string Nome { get; set; }
         public List<CursoProfessor> Professores { get; set; }
         public bool Ativo { get; set; }
+        public int QtdModulo { get; set; }
+        public List<CursoSala> Salas { get; set; }
 
         public Curso()
         {
             this.Professores = new List<CursoProfessor>();
+            this.Salas = new List<CursoSala>();
         }
 
         public void IncluirProfessor(Professor professor)

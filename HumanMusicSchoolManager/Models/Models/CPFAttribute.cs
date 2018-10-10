@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace HumanMusicSchoolManager.Models
+namespace HumanMusicSchoolManager.Models.Models
 {
     public class CPFAttribute : ValidationAttribute
     {

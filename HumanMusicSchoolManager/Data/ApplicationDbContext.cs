@@ -20,6 +20,7 @@ namespace HumanMusicSchoolManager.Data
         public DbSet<DiarioClasse> DiariosClasse { get; set; }
         public DbSet<Funcionario> Funcionarios { get; set; }
         public DbSet<Endereco> Enderecos { get; set; }
+        public DbSet<Sala> Salas { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -31,6 +32,9 @@ namespace HumanMusicSchoolManager.Data
 
             builder.Entity<CursoProfessor>()
                 .HasKey(cp => new { cp.ProfessorId, cp.CursoId });
+
+            builder.Entity<CursoSala>()
+                .HasKey(cs => new { cs.SalaId, cs.CursoId });
 
             builder.Entity<Matricula>()
                 .HasOne(m => m.Professor)

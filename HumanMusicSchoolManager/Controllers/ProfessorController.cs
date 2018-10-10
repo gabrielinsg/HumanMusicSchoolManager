@@ -29,9 +29,25 @@ namespace HumanMusicSchoolManager.Controllers
             return View(professores);
         }
 
-        public IActionResult Form()
+        [HttpGet]
+        public IActionResult Form(int? professorId)
         {
-            return View();
+            if(professorId == null)
+            {
+                return View();
+            }
+            else
+            {
+                var professor = _professorService.BuscarPorId(professorId.Value);
+                if (professor == null)
+                {
+                    return View();
+                }
+                else
+                {
+                    return View(professor);
+                }
+            }
         }
 
         [HttpPost]
@@ -41,8 +57,21 @@ namespace HumanMusicSchoolManager.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _professorService.Cadastrar(professor);
-                    return View();
+                    var cpfUnico = _professorService.BuscarPorCPF(professor.CPF);
+                    if (cpfUnico == null)
+                    {
+                        _professorService.Cadastrar(professor);
+
+                        TempData["Success"] = "Professor Cadastrado com sucesso!";
+
+                        return RedirectToAction("Form");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("CPF", "CPF já cadastrado para um Professor");
+                        return View(professor);
+                    }
+                    
                 }
                 else
                 {
@@ -51,8 +80,19 @@ namespace HumanMusicSchoolManager.Controllers
             }
             else
             {
-                //alterar
-                return null;
+                if (ModelState.IsValid)
+                {
+                    _professorService.Alterar(professor);
+
+                    TempData["Success"] = "Professor Alterado com sucesso!";
+
+                    return RedirectToAction("Form");
+
+                }
+                else
+                {
+                    return View(professor);
+                }
             }
         }
 

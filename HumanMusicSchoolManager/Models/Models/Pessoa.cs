@@ -17,22 +17,27 @@ namespace HumanMusicSchoolManager.Models.Models
         [Display(Name = "Ativo")]
         public bool Ativo { get; set; }
 
+        [Required(ErrorMessage = "O Campo CPF é obrigatório")]
+        [CPF(ErrorMessage = "CPF inválido")]
+        public String CPF { get; set; }
+
         [Display(Name = "E-mail")]
         [EmailAddress(ErrorMessage = "E-mail inválido")]
         public string Email { get; set; }
-        public List<CursoProfessor> Cursos { get; set; }
 
         [Required(ErrorMessage = "O Campo Dada de Nasimento é obrigatório")]
         [Display(Name = "Data de Nascimento")]
         [DataType(DataType.Date, ErrorMessage = "Formato de Data incorreta")]
         public DateTime DataNascimento { get; set; }
 
-        [Required(ErrorMessage = "O Campo CPF é obrigatório")]
-        [CPF(ErrorMessage = "CPF inválido")]
-        public String CPF { get; set; }
-
         [Required(ErrorMessage = "O Campo RG é obrigatório")]
         public String RG { get; set; }
+
+        [Display(Name = "Telefone")]
+        public string Tel { get; set; }
+
+        [Display(Name = "Celular")]
+        public string Cel { get; set; }
 
         public Endereco Endereco { get; set; }
     }

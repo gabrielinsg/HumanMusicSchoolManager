@@ -57,6 +57,7 @@ namespace HumanMusicSchoolManager
             services.AddTransient<IDiarioClasseService, DiarioClasseService>();
             services.AddTransient<IPessoaService, PessoaService>();
             services.AddTransient<IFuncionarioService, FuncionarioService>();
+            services.AddTransient<ISalaService, SalaService>();
 
             services.AddMvc();
         }
@@ -117,7 +118,9 @@ namespace HumanMusicSchoolManager
                 {
                     Nome = "Administrador",
                     Ativo = true,
-                    Email = "admin@admin"
+                    Email = "admin@admin",
+                    CPF = "",
+                    RG  = ""
                 };
 
                 var pessoaSalva = pessoaService.Cadastrar(pessoa);

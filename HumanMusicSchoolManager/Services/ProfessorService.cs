@@ -25,7 +25,10 @@ namespace HumanMusicSchoolManager.Services
 
         public Professor BuscarPorId(int id)
         {
-            return _context.Professores.Include(c => c.Cursos).FirstOrDefault(p => p.Id == id);
+            return _context.Professores
+                .Include(c => c.Cursos)
+                .Include(c => c.Endereco)
+                .FirstOrDefault(p => p.Id == id);
         }
 
         public List<Professor> BuscarTodos()
@@ -74,6 +77,16 @@ namespace HumanMusicSchoolManager.Services
             var professores = _context.Professores.Where(p => p.Cursos.Any(c => c.CursoId == cursoId)).ToList();
 
             return professores;
+        }
+
+        public Professor BuscarPorCPF(string cpf)
+        {
+            return _context.Professores.SingleOrDefault(p => p.CPF == cpf);
+        }
+
+        public List<Professor> BuscarPorNome(string nome)
+        {
+            return _context.Professores.Where(p => p.Nome.Contains(nome)).ToList();
         }
     }
 }
