@@ -57,5 +57,34 @@ namespace HumanMusicSchoolManager.Services
                 .OrderBy(s => s.Nome)
                 .ToList();
         }
+
+        public List<Sala> BuscarPorNome(string nome)
+        {
+            return _context.Salas.Where(s => s.Nome.Contains(nome)).ToList();
+        }
+
+        public void AdicionarCurso(int salaId, int cursoId)
+        {
+            var sala = _context.Salas.Where(p => p.Id == salaId).Single();
+            var curso = _context.Cursos.Where(c => c.Id == cursoId).Single();
+
+            if (sala != null && curso != null)
+            {
+                sala.IncluirCurso(curso);
+            }
+            _context.SaveChanges();
+        }
+
+        public void RemoverCurso(int salaId, int cursoId)
+        {
+            var sala = _context.Salas.Include(c => c.Cursos).FirstOrDefault(p => p.Id == salaId);
+            var curso = _context.Cursos.Where(c => c.Id == cursoId).FirstOrDefault();
+
+            if (sala != null && curso != null)
+            {
+                sala.RemoverCurso(curso);
+            }
+            _context.SaveChanges();
+        }
     }
 }

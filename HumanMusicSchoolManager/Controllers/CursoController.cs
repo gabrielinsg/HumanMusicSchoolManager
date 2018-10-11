@@ -22,8 +22,7 @@ namespace HumanMusicSchoolManager.Controllers
 
         public IActionResult Index()
         {
-            CursoViewModel cursos = new CursoViewModel(_cursoService.BuscarTodos());
-            return View(cursos);
+            return View(_cursoService.BuscarTodos());
         }
 
         public IActionResult Curso(int? cursoId)

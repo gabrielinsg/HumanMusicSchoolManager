@@ -1,4 +1,4 @@
-﻿@model Curso
+﻿@model Sala
 @{
     ViewData["Title"] = "Form";
 }
@@ -40,9 +40,9 @@
                 </div>
                 <div class="col-md-2">
                     <div class="form-group">
-                        <label asp-for="QtdModulo"></label>
-                        <input asp-for="QtdModulo" class="form-control" required />
-                        <span asp-validation-for="QtdModulo" class="text-danger"></span>
+                        <label asp-for="Capacidade"></label>
+                        <input asp-for="Capacidade" class="form-control" required />
+                        <span asp-validation-for="Capacidade" class="text-danger"></span>
                     </div>
                 </div>
             </div>
@@ -75,7 +75,6 @@
     </div>
 </div>
 @section Scripts{
-    <script src="~/js/Buscas/CursoPorNome.js"></script>
+    <script src="~/js/Buscas/SalaPorNome.js"></script>
 }
-
 

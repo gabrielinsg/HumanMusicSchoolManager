@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using HumanMusicSchoolManager.Data;
 using HumanMusicSchoolManager.Models.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace HumanMusicSchoolManager.Services
 {
@@ -22,9 +23,21 @@ namespace HumanMusicSchoolManager.Services
             _context.SaveChanges();
         }
 
+        public Funcionario BuscarPorCPF(string CPF)
+        {
+            return _context.Funcionarios.FirstOrDefault(f => f.CPF == CPF);
+        }
+
         public Funcionario BuscarPorId(int funcionarioId)
         {
-            return _context.Funcionarios.Where(f => f.Id == funcionarioId).FirstOrDefault();
+            return _context.Funcionarios
+                .Include(f => f.Endereco)
+                .Where(f => f.Id == funcionarioId).FirstOrDefault();
+        }
+
+        public List<Funcionario> BuscarPorNome(string nome)
+        {
+            return _context.Funcionarios.Where(f => f.Nome.Contains(nome)).ToList();
         }
 
         public List<Funcionario> BuscarTodos()

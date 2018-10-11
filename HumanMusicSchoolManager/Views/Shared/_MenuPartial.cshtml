@@ -58,6 +58,32 @@
                 </div>
             </li>
         }
+        @if (!(User.IsInRole("Professor") || User.IsInRole("Aluno") || User.IsInRole("Financeiro")))
+        {
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-chalkboard"></i>
+                    <span>Sala</span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                    <a class="dropdown-item" asp-controller="Sala" asp-action="Index">Lista</a>
+                    <a class="dropdown-item" asp-controller="Sala" asp-action="Form">Cadastrar</a>
+                </div>
+            </li>
+        }
+        @if (!(User.IsInRole("Professor") || User.IsInRole("Aluno") || User.IsInRole("Financeiro") || User.IsInRole("Atendimento")))
+        {
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="far fa-address-card"></i>
+                    <span>Funcionário</span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                    <a class="dropdown-item" asp-controller="Funcionario" asp-action="Index">Lista</a>
+                    <a class="dropdown-item" asp-controller="Funcionario" asp-action="Form">Cadastrar</a>
+                </div>
+            </li>
+        }
         <li class="nav-item">
             <a class="nav-link" href="charts.html">
                 <i class="fas fa-fw fa-chart-area"></i>

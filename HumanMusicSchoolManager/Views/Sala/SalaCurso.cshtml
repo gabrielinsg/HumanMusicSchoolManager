@@ -1,0 +1,71 @@
+﻿@model SalaCursoViewModel
+@{
+    ViewData["Title"] = "SalaCurso";
+}
+
+<h2>@Model.Sala.Nome</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <ul class="list-group">
+            <li class="list-group-item active">Cursos Disponíveis</li>
+            <li class="list-group-item">
+                <table id="tabela" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Curso</th>
+                            <th class="text-center">Adicionar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var curso in Model.Cursos)
+                        {
+                            <tr>
+                                <td>@curso.Nome</td>
+                                <td class="text-center">
+                                    <a asp-action="AdicionarCurso" asp-route-cursoId="@curso.Id" asp-route-salaId="@Model.Sala.Id">
+                                        <i class="fas fa-plus-circle text-success"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </li>
+        </ul>
+
+    </div>
+    <div class="col-md-6">
+        <ul class="list-group">
+            <li class="list-group-item active">Cursos Ministrados</li>
+            <li class="list-group-item">
+                <table id="tabela" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Curso</th>
+                            <th class="text-center">Remover</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var curso in Model.Sala.Cursos)
+                        {
+                            <tr>
+                                <td>@curso.Curso.Nome</td>
+                                <td class="text-center">
+                                    <a asp-action="RemoverCurso" asp-route-cursoId="@curso.Curso.Id" asp-route-salaId="@Model.Sala.Id">
+                                        <i class="fas fa-minus-circle text-danger"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </li>
+        </ul>
+    </div>
+</div>
+<br />
+<a asp-action="Index" class="btn btn-primary">Voltar</a>
+
+

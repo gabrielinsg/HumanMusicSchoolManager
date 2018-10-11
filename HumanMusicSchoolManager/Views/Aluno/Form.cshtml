@@ -162,7 +162,7 @@
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-success">@(Model == null ? "Cadastrar" : "Alterar")</button>
+            <button type="submit" class="btn btn-success">@(Model == null ? "Cadastrar" : Model.Id == null ? "Cadastrar" : "Alterar")</button>
             <a asp-action="Index" class="btn btn-primary">Voltar</a>
         </form>
     </div>

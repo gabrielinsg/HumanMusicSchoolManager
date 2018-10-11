@@ -8,7 +8,7 @@ namespace HumanMusicSchoolManager.Models.Models
 {
     public class Sala
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [Required(ErrorMessage = "O Campo Nome é obrigatório")]
         public string Nome { get; set; }
@@ -20,7 +20,7 @@ namespace HumanMusicSchoolManager.Models.Models
 
         public List<CursoSala> Cursos { get; set; }
 
-        Sala()
+        public Sala()
         {
             this.Cursos = new List<CursoSala>();
         }
@@ -30,7 +30,7 @@ namespace HumanMusicSchoolManager.Models.Models
             this.Cursos.Add(new CursoSala() { Curso = curso });
         }
 
-        public void ExcluirCurso(Curso curso)
+        public void RemoverCurso(Curso curso)
         {
             var cSala = this.Cursos.Where(c => c.Curso == curso).Single();
             this.Cursos.Remove(cSala);

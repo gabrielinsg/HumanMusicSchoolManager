@@ -25,23 +25,70 @@ namespace HumanMusicSchoolManager.Controllers
             return View(new FuncionarioViewModel(_funcionarioService.BuscarTodos()));
         }
 
-        public IActionResult Form()
+        [HttpGet]
+        public IActionResult Form(int? funcionarioId)
         {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult Cadastrar(Funcionario funcionario)
-        {
-            if (!ModelState.IsValid)
+            if (funcionarioId == null)
             {
-                return View("Form", funcionario);
+                return View();
             }
             else
             {
-                funcionario.Ativo = true;
-                _funcionarioService.Cadastrar(funcionario);
-                return RedirectToAction("Index");
+                var funcionario = _funcionarioService.BuscarPorId(funcionarioId.Value);
+                if (funcionario != null)
+                {
+                    return View(funcionario);
+                }
+                else
+                {
+                    return View();
+                }
+            }
+        }
+
+        [HttpPost]
+        public IActionResult Form(Funcionario funcionario)
+        {
+            if (funcionario.Id == null)
+            {
+                if (ModelState.IsValid)
+                {
+                    var cpfUnico = _funcionarioService.BuscarPorCPF(funcionario.CPF);
+                    if (cpfUnico == null)
+                    {
+                        _funcionarioService.Cadastrar(funcionario);
+
+                        TempData["Success"] = "Funcionário Cadastrado com sucesso!";
+
+                        return RedirectToAction("Form");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("CPF", "CPF já cadastrado para outro funcionário");
+                        return View(funcionario);
+                    }
+
+                }
+                else
+                {
+                    return View(funcionario);
+                }
+            }
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    _funcionarioService.Alterar(funcionario);
+
+                    TempData["Success"] = "Funcionário Alterado com sucesso!";
+
+                    return RedirectToAction("Form");
+
+                }
+                else
+                {
+                    return View(funcionario);
+                }
             }
         }
 
@@ -68,10 +115,10 @@ namespace HumanMusicSchoolManager.Controllers
         }
 
         [HttpPost]
-        public IActionResult Alterar(Funcionario funcionario)
+        public JsonResult BuscarPorNome(string nome)
         {
-            _funcionarioService.Alterar(funcionario);
-            return RedirectToAction("Index");
+            var funcionario = _funcionarioService.BuscarPorNome(nome);
+            return Json(funcionario);
         }
     }
 }

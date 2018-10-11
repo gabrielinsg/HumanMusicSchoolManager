@@ -1,4 +1,4 @@
-﻿@model CursoViewModel
+﻿@model List<Curso>
 @{
     ViewData["Title"] = "Index";
 }
@@ -38,7 +38,7 @@
                     </tr>
                 </tfoot>
                 <tbody>
-                    @foreach (var curso in Model.Cursos)
+                    @foreach (var curso in Model)
                     {
                         <tr>
                             <td class="text-center">@curso.Id</td>

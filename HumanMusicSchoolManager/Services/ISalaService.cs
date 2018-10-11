@@ -13,5 +13,8 @@ namespace HumanMusicSchoolManager.Services
         List<Sala> BuscarTodos();
         Sala BuscarPorId(int salaId);
         void Excluir(int salaId);
+        List<Sala> BuscarPorNome(string nome);
+        void AdicionarCurso(int salaId, int cursoId);
+        void RemoverCurso(int salaId, int cursoId);
     }
 }
