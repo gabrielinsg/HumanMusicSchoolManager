@@ -13,9 +13,10 @@ using System;
 namespace HumanMusicSchoolManager.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181011174016_RespFinanceiroPessoa")]
+    partial class RespFinanceiroPessoa
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -223,7 +224,7 @@ namespace HumanMusicSchoolManager.Data.Migrations
 
                     b.Property<string>("Email");
 
-                    b.Property<int>("EnderecoId");
+                    b.Property<int?>("EnderecoId");
 
                     b.Property<string>("Nome")
                         .IsRequired();
@@ -481,8 +482,7 @@ namespace HumanMusicSchoolManager.Data.Migrations
                 {
                     b.HasOne("HumanMusicSchoolManager.Models.Models.Endereco", "Endereco")
                         .WithMany()
-                        .HasForeignKey("EnderecoId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("EnderecoId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -27,13 +27,17 @@ namespace HumanMusicSchoolManager.Services
         {
             return _context.Professores
                 .Include(c => c.Cursos)
+                .ThenInclude(c => c.Curso)
                 .Include(c => c.Endereco)
                 .FirstOrDefault(p => p.Id == id);
         }
 
         public List<Professor> BuscarTodos()
         {
-            return _context.Professores.Include(c => c.Cursos).OrderBy(p => p.Nome).ToList();
+            return _context.Professores
+                .Include(c => c.Cursos)
+                .ThenInclude(c => c.Curso)
+                .OrderBy(p => p.Nome).ToList();
         }
 
         public void Cadastrar(Professor professor)
@@ -44,6 +48,11 @@ namespace HumanMusicSchoolManager.Services
 
         public void Excluir(Professor professor)
         {
+            if (_context.Enderecos.FirstOrDefault(e => e.Id == professor.Endereco.Id) != null)
+            {
+                _context.Enderecos.Remove(_context.Enderecos.FirstOrDefault(e => e.Id == professor.Endereco.Id));
+
+            }
             _context.Professores.Remove(professor);
             _context.SaveChanges();
         }

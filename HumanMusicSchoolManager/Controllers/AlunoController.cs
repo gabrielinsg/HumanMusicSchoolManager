@@ -25,8 +25,7 @@ namespace HumanMusicSchoolManager.Controllers
 
         public IActionResult Index()
         {
-            var alunos = new AlunoViewModel(_alunoService.BuscarTodos(), _cursoService.BuscarTodos());
-            return View(alunos);
+            return View(_alunoService.BuscarTodos());
         }
 
         [HttpGet]

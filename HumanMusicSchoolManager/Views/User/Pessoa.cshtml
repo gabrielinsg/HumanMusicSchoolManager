@@ -1,4 +1,4 @@
-﻿@model PessoaViewModel
+﻿@model List<Pessoa>
 @{
     ViewData["Title"] = "Pessoa";
 }
@@ -22,7 +22,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var pessoa in Model.Pessoas)
+        @foreach (var pessoa in Model)
         {
             <tr>
                 <td>

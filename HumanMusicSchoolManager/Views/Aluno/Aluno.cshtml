@@ -3,64 +3,36 @@
     ViewData["Title"] = "Aluno";
 }
 
-<h2>Aluno</h2>
+<h2>@Model.Nome</h2>
 
-<div class="panel panel-default">
-    <div class="panel-heading">Cadastrar Professor</div>
-    <div class="panel-body">
-        <form role="form" method="post" asp-action="alterar">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="row">
-                <div class="col-md-1">
-                    <div class="form-group">
-                        <label asp-for="Id">Id</label>
-                        <input asp-for="Id" readonly="readonly" class="form-control">
-                        <span asp-validation-for="Id" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label asp-for="Nome">Nome</label>
-                        <input asp-for="Nome" class="form-control">
-                        <span asp-validation-for="Nome" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label asp-for="RM">RM</label>
-                        <input asp-for="RM" class="form-control">
-                        <span asp-validation-for="RM" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <div class="checkbox">
-                            <label asp-for="Ativo">
-                                <input asp-for="Ativo" />
-                                @Html.DisplayNameFor(p => p.Ativo)
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <button type="submit" class="btn btn-success">Alterar</button>
-            <a asp-action="Excluir" asp-route-professorId="@Model.Id" class="btn btn-danger" id="excluir">Excluir</a>
-            <a asp-action="Index" class="btn btn-default">Voltar</a>
-        </form>
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="dados-tab" data-toggle="tab" href="#dados" role="tab" aria-controls="dados" aria-selected="true">Dados</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#curso" role="tab" aria-controls="curso" aria-selected="false">Curso</a>
+    </li>
+    <li class="nav-item">
+        <a asp-action="Form" class="nav-link" asp-controller="Matricula" asp-route-alunoId="@(Model.Id)">+</a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="dados" role="tabpanel" aria-labelledby="dados-tab">...</div>
+    <div class="tab-pane fade" id="curso" role="tabpanel" aria-labelledby="profile-tab">
+        <br />
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="respFinanceiro" aria-selected="true">Responsável Financeiro</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="pacotes" aria-selected="false">Pacotes</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="respFinanceiro" role="tabpanel" aria-labelledby="home-tab">...</div>
+            <div class="tab-pane fade" id="pacotes" role="tabpanel" aria-labelledby="profile-tab">...</div>
+        </div>
     </div>
 </div>
 
-@section Scripts
-    {
-    <script>
-        $("a#excluir").click(function () {
-            var cf = confirm("Tem certeza que deseja excluir o aluno?");
-            if (cf == true) {
-                return true;
-            }
-            else {
-                return false;
-            }
-        });
-    </script>
-}
+

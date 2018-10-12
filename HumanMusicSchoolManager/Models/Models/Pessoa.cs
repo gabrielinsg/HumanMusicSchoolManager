@@ -39,6 +39,7 @@ namespace HumanMusicSchoolManager.Models.Models
         [Display(Name = "Celular")]
         public string Cel { get; set; }
 
+        public int EnderecoId { get; set; }
         public Endereco Endereco { get; set; }
     }
 }

@@ -3,6 +3,7 @@
     ViewData["Title"] = "Form";
 }
 
+<input id="rota" type="hidden" value="Curso" />
 <div class="row">
     <div class="col-md-11">
         <h2 class="col-md-10">Curso</h2>
@@ -29,7 +30,6 @@
         <form role="form" method="post" asp-action="form">
 
             <input asp-for="Id" type="hidden" />
-
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
@@ -75,7 +75,7 @@
     </div>
 </div>
 @section Scripts{
-    <script src="~/js/Buscas/CursoPorNome.js"></script>
+    <script src="~/js/Buscas/BuscarPorNome.js"></script>
 }
 
 

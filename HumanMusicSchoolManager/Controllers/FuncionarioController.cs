@@ -22,7 +22,7 @@ namespace HumanMusicSchoolManager.Controllers
 
         public IActionResult Index()
         {
-            return View(new FuncionarioViewModel(_funcionarioService.BuscarTodos()));
+            return View(_funcionarioService.BuscarTodos());
         }
 
         [HttpGet]

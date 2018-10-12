@@ -117,7 +117,7 @@ namespace HumanMusicSchoolManager.Controllers
             {
                 var matricula = _matriculaService.BuscarPorId(matriculaId.Value);
                 ViewBag.Matricula = matricula;
-                return View(new DiarioClasseViewModel(_diarioClasseService.BuscarPorAluno(matricula)));
+                return View(_diarioClasseService.BuscarPorAluno(matricula));
             }
             else
             {

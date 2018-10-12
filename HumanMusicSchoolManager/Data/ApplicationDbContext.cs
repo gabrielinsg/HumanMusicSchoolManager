@@ -42,6 +42,7 @@ namespace HumanMusicSchoolManager.Data
                 .WithMany()
                 .HasForeignKey("ProfessorId")
                 .OnDelete(DeleteBehavior.Restrict);
+               
 
             base.OnModelCreating(builder);
             // Customize the ASP.NET Identity model and override the defaults if needed.

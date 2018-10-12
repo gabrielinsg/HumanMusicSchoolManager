@@ -13,74 +13,44 @@
     </li>
     @if (SignInManager.IsSignedIn(User))
     {
-        @if (!(User.IsInRole("Professor") || User.IsInRole("Aluno")))
+
+        @if (User.IsInRole("Coordenacao") || User.IsInRole("Admin"))
         {
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-chalkboard-teacher"></i>
-                    <span>Professor</span>
+                <a class="nav-link dropdown-toggle folders" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-folder"></i>
+                    <span>Coordenação</span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                    <a class="dropdown-item" asp-controller="Professor" asp-action="Index">Lista</a>
-                    @if (User.IsInRole("Secretaria") || User.IsInRole("Admin"))
-                    {
-                        <a class="dropdown-item" asp-controller="Professor" asp-action="Form">Cadastrar</a>
-                    }
+                    <a class="dropdown-item" asp-controller="Professor" asp-action="Index"><i class="fas fa-chalkboard-teacher"></i> Professores</a>
+                    <a class="dropdown-item" asp-controller="Curso" asp-action="Index"><i class="fas fa-music"></i> Cursos</a>
+                    <a class="dropdown-item" asp-controller="Sala" asp-action="Index"><i class="fas fa-chalkboard"></i> Salas</a>
                 </div>
             </li>
         }
-        @if (!(User.IsInRole("Professor") || User.IsInRole("Aluno")))
+
+        @if (User.IsInRole("Secretaria") || User.IsInRole("Admin"))
         {
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-music"></i>
-                    <span>Curso</span>
+                <a class="nav-link dropdown-toggle folders" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-folder"></i>
+                    <span>Secretaria</span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                    <a class="dropdown-item" asp-controller="Curso" asp-action="Index">Lista</a>
-                    @if (User.IsInRole("Secretaria") || User.IsInRole("Admin"))
-                    {
-                        <a class="dropdown-item" asp-controller="Curso" asp-action="Form">Cadastrar</a>
-                    }
+                    <a class="dropdown-item" asp-controller="Funcionario" asp-action="Index"><i class="far fa-address-card"></i> Funcionários</a>
                 </div>
             </li>
         }
-        @if (!(User.IsInRole("Professor") || User.IsInRole("Aluno") || User.IsInRole("Financeiro")))
+
+        @if (User.IsInRole("Atendimento") || User.IsInRole("Admin"))
         {
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-user-graduate"></i>
-                    <span>Aluno</span>
+                <a class="nav-link dropdown-toggle folders" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-folder"></i>
+                    <span>Atendimento</span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                    <a class="dropdown-item" asp-controller="Aluno" asp-action="Index">Lista</a>
-                    <a class="dropdown-item" asp-controller="Aluno" asp-action="Form">Cadastrar</a>
-                </div>
-            </li>
-        }
-        @if (!(User.IsInRole("Professor") || User.IsInRole("Aluno") || User.IsInRole("Financeiro")))
-        {
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-chalkboard"></i>
-                    <span>Sala</span>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                    <a class="dropdown-item" asp-controller="Sala" asp-action="Index">Lista</a>
-                    <a class="dropdown-item" asp-controller="Sala" asp-action="Form">Cadastrar</a>
-                </div>
-            </li>
-        }
-        @if (!(User.IsInRole("Professor") || User.IsInRole("Aluno") || User.IsInRole("Financeiro") || User.IsInRole("Atendimento")))
-        {
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="far fa-address-card"></i>
-                    <span>Funcionário</span>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                    <a class="dropdown-item" asp-controller="Funcionario" asp-action="Index">Lista</a>
-                    <a class="dropdown-item" asp-controller="Funcionario" asp-action="Form">Cadastrar</a>
+                    <a class="dropdown-item" asp-controller="Aluno" asp-action="Index"><i class="fas fa-user-graduate"></i> Alunos</a>
                 </div>
             </li>
         }
@@ -98,7 +68,6 @@
         </li>
     }
 </ul>
-
 
 @*@if (SignInManager.IsSignedIn(User))
     {

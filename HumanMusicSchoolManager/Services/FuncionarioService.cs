@@ -53,7 +53,13 @@ namespace HumanMusicSchoolManager.Services
 
         public void Excluir(int funcionarioId)
         {
-            var funcionario = _context.Funcionarios.Where(f => f.Id == funcionarioId).FirstOrDefault();
+            var funcionario = _context.Funcionarios.Where(f => f.Id == funcionarioId).Include(f => f.Endereco).FirstOrDefault();
+
+            if (_context.Enderecos.FirstOrDefault(e => e.Id == funcionario.Endereco.Id) != null)
+            {
+                _context.Enderecos.Remove(_context.Enderecos.FirstOrDefault(e => e.Id == funcionario.Endereco.Id));
+
+            }
 
             if (funcionario != null)
             {

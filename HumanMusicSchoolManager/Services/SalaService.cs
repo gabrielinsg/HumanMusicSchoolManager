@@ -30,7 +30,10 @@ namespace HumanMusicSchoolManager.Services
 
         public List<Sala> BuscarTodos()
         {
-            return _context.Salas.Include(s => s.Cursos).OrderBy(s => s.Nome).ToList();
+            return _context.Salas
+                .Include(s => s.Cursos)
+                .ThenInclude(s => s.Curso)
+                .OrderBy(s => s.Nome).ToList();
         }
 
         public Sala Cadastrar(Sala sala)

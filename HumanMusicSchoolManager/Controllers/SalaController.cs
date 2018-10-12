@@ -21,9 +21,8 @@ namespace HumanMusicSchoolManager.Controllers
         }
 
         public IActionResult Index()
-        {
-            var salas = new SalaViewModel(_salaService.BuscarTodos(), _cursoService.BuscarTodos());
-            return View(salas);
+        {            
+            return View(_salaService.BuscarTodos());
         }
 
         [HttpGet]

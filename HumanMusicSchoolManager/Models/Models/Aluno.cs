@@ -11,5 +11,6 @@ namespace HumanMusicSchoolManager.Models.Models
         [Required(ErrorMessage = "Campo RM é obrigatório")]
         public int RM { get; set; }
         public List<Matricula> Matriculas { get; set; }
+        public RespFinanceiro RespFinanceiro { get; set; }
     }
 }

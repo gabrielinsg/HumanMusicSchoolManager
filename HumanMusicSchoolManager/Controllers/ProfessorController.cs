@@ -24,9 +24,8 @@ namespace HumanMusicSchoolManager.Controllers
 
         [Authorize(Roles = "Coordenacao, Atendimento, Diretoria, Secretaria, Admin")]
         public IActionResult Index()
-        {
-            ProfessorViewModel professores = new ProfessorViewModel(_professorService.BuscarTodos(), _cursoService.BuscarTodos());
-            return View(professores);
+        {            
+            return View(_professorService.BuscarTodos());
         }
 
         [HttpGet]

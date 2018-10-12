@@ -114,13 +114,23 @@ namespace HumanMusicSchoolManager
 
             if (UserResult == null)
             {
+
                 Pessoa pessoa = new Pessoa()
                 {
                     Nome = "Administrador",
                     Ativo = true,
                     Email = "admin@admin",
                     CPF = "",
-                    RG  = ""
+                    RG  = "",
+                    Endereco = new Endereco()
+                    {
+                        Bairro = "Bairro",
+                        CEP = "11111-111",
+                        Cidade = "Cidade",
+                        Logradouro = "Logradouro",
+                        Numero = 1234,
+                        UF = UF.SP
+                    }
                 };
 
                 var pessoaSalva = pessoaService.Cadastrar(pessoa);

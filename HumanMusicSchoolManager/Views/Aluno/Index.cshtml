@@ -1,4 +1,4 @@
-﻿@model AlunoViewModel
+﻿@model List<Aluno>
 @{
     ViewData["Title"] = "Index";
 }
@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-md-11">
                 <i class="fas fa-table"></i>
-                Professores
+                Alunos
             </div>
             <div class="col-md-1">
                 <a asp-action="Form" class="btn btn-primary">Novo</a>
@@ -24,8 +24,8 @@
                         <th>Nome</th>
                         <th class="text-center">CPF</th>
                         <th class="text-center">Data de Nascimento</th>
-                        <th class="text-center">Matriculas</th>
                         <th class="text-center">Ativo</th>
+                        <th class="text-center">Matriculas</th>
                         <th class="text-center">Alterar</th>
                     </tr>
                 </thead>
@@ -35,13 +35,13 @@
                         <th>Nome</th>
                         <th class="text-center">CPF</th>
                         <th class="text-center">Data de Nascimento</th>
-                        <th class="text-center">Matriculas</th>
                         <th class="text-center">Ativo</th>
+                        <th class="text-center">Matriculas</th>
                         <th class="text-center">Alterar</th>
                     </tr>
                 </tfoot>
                 <tbody>
-                    @foreach (var aluno in Model.Alunos)
+                    @foreach (var aluno in Model)
                     {
                         <tr>
                             <td class="text-center">@aluno.RM</td>
@@ -49,25 +49,10 @@
                             <td class="text-center">@aluno.CPF</td>
                             <td class="text-center">@aluno.DataNascimento.ToString("dd/MM/yyyy")</td>
                             <td class="text-center">
-                                <div class="dropdown">
-                                    <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Cursos
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <div class="list-group" style="width: 200px; height: 150px; overflow-y: scroll;">
-                                            <a asp-action="form" asp-controller="Matricula" asp-route-alunoId="@(aluno.Id)" class="list-group-item list-group-item-action active">
-                                                Alterar
-                                            </a>
-                                            @foreach (var matricula in aluno.Matriculas)
-                                            {
-                                                <a href="#" class="list-group-item list-group-item-action">@matricula.Curso.Nome</a>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
+                                <input asp-for="@aluno.Ativo" onclick="return false" />
                             </td>
                             <td class="text-center">
-                                <input asp-for="@aluno.Ativo" onclick="return false" />
+                                <a asp-action="Aluno" asp-route-alunoId="@(aluno.Id)"><i class="fas fa-book-reader"></i></a>
                             </td>
                             <td class="text-center">
                                 <a asp-action="Form" asp-route-alunoId="@(aluno.Id)"><i class="fas fa-pencil-alt text-primary"></i></a>

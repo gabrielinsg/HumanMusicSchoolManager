@@ -1,4 +1,4 @@
-﻿@model ProfessorViewModel
+﻿@model List<Professor>
 
 @{
     ViewData["Title"] = "Index";
@@ -42,7 +42,7 @@
                     </tr>
                 </tfoot>
                 <tbody>
-                    @foreach (var professor in Model.Professores)
+                    @foreach (var professor in Model)
                     {
                     <tr>
                         <td class="text-center">@professor.Id</td>

@@ -39,8 +39,7 @@ namespace HumanMusicSchoolManager.Controllers
 
         public IActionResult Pessoa()
         {
-            PessoaViewModel pessoas = new PessoaViewModel(_pessoaService.BuscarTodos());
-            return View(pessoas);
+            return View(_pessoaService.BuscarTodos());
         }
     }
 }

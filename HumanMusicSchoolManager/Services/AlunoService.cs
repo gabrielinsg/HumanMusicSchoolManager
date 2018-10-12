@@ -32,6 +32,7 @@ namespace HumanMusicSchoolManager.Services
         {
             return _context.Alunos.Include(a => a.Matriculas)
                 .Include(a => a.Endereco)
+                .Include(a => a.RespFinanceiro)
                 .FirstOrDefault(a => a.Id == alunoId);
         }
 
@@ -56,7 +57,14 @@ namespace HumanMusicSchoolManager.Services
 
         public void Excluir(int alunoId)
         {
-            var aluno = _context.Alunos.Where(a => a.Id == alunoId).SingleOrDefault();
+            var aluno = _context.Alunos.Where(a => a.Id == alunoId).Include(a => a.Endereco).SingleOrDefault();
+
+            if (_context.Enderecos.FirstOrDefault(e => e.Id == aluno.Endereco.Id) != null)
+            {
+                _context.Enderecos.Remove(_context.Enderecos.FirstOrDefault(e => e.Id == aluno.Endereco.Id));
+
+            }
+
             if (aluno != null)
             {
                 _context.Alunos.Remove(aluno);
