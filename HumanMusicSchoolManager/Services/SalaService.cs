@@ -25,7 +25,14 @@ namespace HumanMusicSchoolManager.Services
 
         public Sala BuscarPorId(int salaId)
         {
-            return _context.Salas.Include(s => s.Cursos).FirstOrDefault(s => s.Id == salaId);
+            return _context.Salas
+                .Include(s => s.Cursos)
+                .ThenInclude(c => c.Curso)
+                .ThenInclude(c => c.Professores)
+                .ThenInclude(c => c.Professor)
+                .Include(s => s.DispSalas)
+                .ThenInclude(ds => ds.Professor)
+                .FirstOrDefault(s => s.Id == salaId);
         }
 
         public List<Sala> BuscarTodos()
@@ -45,7 +52,9 @@ namespace HumanMusicSchoolManager.Services
 
         public void Excluir(int salaId)
         {
-            var sala = _context.Salas.SingleOrDefault(s => s.Id == salaId);
+            var sala = _context.Salas
+                .Include(s => s.DispSalas)
+                .SingleOrDefault(s => s.Id == salaId);
             if (sala != null)
             {
                 _context.Salas.Remove(sala);

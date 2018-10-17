@@ -13,15 +13,17 @@ namespace HumanMusicSchoolManager.Controllers
     {
         private readonly ISalaService _salaService;
         private readonly ICursoService _cursoService;
+        private readonly IProfessorService _professorService;
 
-        public SalaController(ISalaService salaService, ICursoService cursoService)
+        public SalaController(ISalaService salaService, ICursoService cursoService, IProfessorService professorService)
         {
             this._salaService = salaService;
             this._cursoService = cursoService;
+            this._professorService = professorService;
         }
 
         public IActionResult Index()
-        {            
+        {
             return View(_salaService.BuscarTodos());
         }
 
@@ -119,6 +121,53 @@ namespace HumanMusicSchoolManager.Controllers
         {
             var sala = _salaService.BuscarPorNome(nome);
             return Json(sala);
+        }
+
+        [HttpGet]
+        public IActionResult DispSala(int? salaId, int? dispSalaId)
+        {
+            if (salaId != null)
+            {
+                var sala = _salaService.BuscarPorId(salaId.Value);
+
+                var cursos = sala.Cursos.Select(c => c.Curso).ToList();
+
+                var professores = new List<Professor>();
+
+                foreach (var curso in cursos)
+                {
+                    var professors = curso.Professores.Select(p => p.Professor).ToList();
+                    professores.AddRange(professors);
+                }
+                professores = professores.Distinct().ToList();
+
+                if (dispSalaId == null)
+                {
+                    return View(new DispSalaViewModel(sala, professores));
+                }
+                else
+                {
+                    var dispSala = sala.DispSalas.SingleOrDefault(ds => ds.Id == dispSalaId.Value);
+                    return View(new DispSalaViewModel(sala, dispSala, professores));
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        public IActionResult Excluir(int? salaId)
+        {
+            if (salaId != null)
+            {
+                _salaService.Excluir(salaId.Value);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
         }
     }
 }

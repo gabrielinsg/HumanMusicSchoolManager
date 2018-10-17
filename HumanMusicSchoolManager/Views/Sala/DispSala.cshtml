@@ -1,0 +1,85 @@
+﻿@model DispSalaViewModel
+@{
+    ViewData["Title"] = "DispSala";
+}
+
+<h2>Disponibilidade de Sala</h2>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-3">
+        <b>Nome: </b>@Model.Sala.Nome
+    </div>
+    <div class="col-md-3">
+        <b>Capacidade: </b>@Model.Sala.Capacidade
+    </div>
+    <div class="col-md-3">
+        <b>Cursos: </b>
+        @{
+            int cont = 0;
+            foreach (var curso in Model.Sala.Cursos)
+            {
+                if (cont < Model.Sala.Cursos.Count - 1)
+                {
+                    @(curso.Curso.Nome + ", ")
+                    cont++;
+                }
+                else
+                {
+                    @curso.Curso.Nome
+                }
+            }
+        }
+    </div>
+</div>
+<br />
+<div class="list-group">
+    <div class="list-group-item">
+        <form role="form" method="post" asp-action="form">
+
+            <input asp-for="Sala" type="hidden" />
+
+            <input asp-for="DispSala.Id" type="hidden" />
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label asp-for="DispSala.Dia" class="col-md-2 control-label"></label>
+                        <div class="col-md-11">
+                            <select asp-for="DispSala.Dia" class="form-control" asp-items="Html.GetEnumSelectList<Dia>()">
+                                <option selected="selected" value=""></option>
+                            </select>
+                            <span asp-validation-for="DispSala.Dia" class="text-danger" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label asp-for="DispSala.Hora"></label>
+                        <input asp-for="DispSala.Hora" class="form-control" type="number" required="required" />
+                        <span asp-validation-for="DispSala.Hora" class="text-danger" />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="DispSala.Professor" class="col-md-2 control-label"></label>
+                        <div class="col-md-11">
+                            <select asp-for="DispSala.Professor" class="form-control" asp-items="Model.Professores">
+                                <option selected="selected" value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1" style="padding-top:30px">
+                    <button type="submit" class="btn btn-success form-control">@(Model.DispSala == null ? "Incluir" : "Alterar")</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<br />
+
+<ul class="list-group">
+
+    <li class="list-group-item list-group-item-primary">A simple primary list group item</li>
+</ul>

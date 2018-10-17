@@ -20,6 +20,8 @@ namespace HumanMusicSchoolManager.Models.Models
 
         public List<CursoSala> Cursos { get; set; }
 
+        public List<DispSala> DispSalas { get; set; }
+
         public Sala()
         {
             this.Cursos = new List<CursoSala>();

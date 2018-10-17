@@ -17,21 +17,37 @@
     </li>
 </ul>
 <div class="tab-content" id="myTabContent">
-    <div class="tab-pane fade show active" id="dados" role="tabpanel" aria-labelledby="dados-tab">...</div>
-    <div class="tab-pane fade" id="curso" role="tabpanel" aria-labelledby="profile-tab">
+    <div class="tab-pane fade show active" id="dados" role="tabpanel" aria-labelledby="dados-tab">
         <br />
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="respFinanceiro" aria-selected="true">Responsável Financeiro</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="pacotes" aria-selected="false">Pacotes</a>
-            </li>
-        </ul>
-        <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active" id="respFinanceiro" role="tabpanel" aria-labelledby="home-tab">...</div>
-            <div class="tab-pane fade" id="pacotes" role="tabpanel" aria-labelledby="profile-tab">...</div>
+        <div class="row">
+            <div class="col-md-3"><b>Nome: </b>@Model.Nome</div>
+            <div class="col-md-3"><b>Data de Nascimento: </b>@Model.DataNascimento.ToString("dd/MM/yyyy")</div>
+            <div class="col-md-3"><b>CPF: </b>@Model.CPF</div>
+            <div class="col-md-3"><b>RG: </b>@Model.RG</div>
         </div>
+        <div class="row">
+            <div class="col-md-3"><b>Logradouro: </b>@Model.Endereco.Logradouro</div>
+            <div class="col-md-3"><b>Número: </b>@Model.Endereco.Numero</div>
+            <div class="col-md-3"><b>Bairro: </b>@Model.Endereco.Bairro</div>
+            <div class="col-md-3"><b>Complemento: </b>@Model.Endereco.Complemento</div>
+        </div>
+        <div class="row">
+            <div class="col-md-3"><b>Cidade: </b>@Model.Endereco.Cidade</div>
+            <div class="col-md-3"><b>UF: </b>@Model.Endereco.UF</div>
+            <div class="col-md-3"><b>CEP: </b>@Model.Endereco.CEP</div>
+            <div class="col-md-3"><b>E-Mail: </b>@Model.Email</div>
+        </div>
+        <div class="row">
+            <div class="col-md-3"><b>Telefone: </b>@Model.Tel</div>
+            <div class="col-md-3"><b>Celular: </b>@Model.Cel</div>
+            <div class="col-md-3"><b>RM: </b>@Model.RM</div>
+            <div class="col-md-3"><b>Ativo: </b><input asp-for="@Model.Ativo" onclick="return false" /></div>
+        </div>
+        <br />
+        <a asp-action="Form" asp-route-alunoId="@Model.Id" class="btn btn-primary">Alterar</a>
+    </div>
+    <div class="tab-pane fade" id="curso" role="tabpanel" aria-labelledby="profile-tab">
+        oi
     </div>
 </div>
 

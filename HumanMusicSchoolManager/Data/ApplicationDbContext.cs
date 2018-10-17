@@ -22,6 +22,7 @@ namespace HumanMusicSchoolManager.Data
         public DbSet<Endereco> Enderecos { get; set; }
         public DbSet<Sala> Salas { get; set; }
         public DbSet<RespFinanceiro> RespsFinanceiro { get; set; }
+        public DbSet<DispSala> DispSalas { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -42,7 +43,12 @@ namespace HumanMusicSchoolManager.Data
                 .WithMany()
                 .HasForeignKey("ProfessorId")
                 .OnDelete(DeleteBehavior.Restrict);
-               
+
+            builder.Entity<Sala>()
+                .HasMany(s => s.DispSalas)
+                .WithOne(ds => ds.Sala)
+                .OnDelete(DeleteBehavior.Cascade);
+
 
             base.OnModelCreating(builder);
             // Customize the ASP.NET Identity model and override the defaults if needed.
