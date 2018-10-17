@@ -157,6 +157,62 @@ namespace HumanMusicSchoolManager.Controllers
             }
         }
 
+        [HttpPost]
+        public IActionResult DispSala(DispSala dispSala, Sala sala)
+        {
+            sala = _salaService.BuscarPorId(sala.Id.Value);
+            if (dispSala.Id == null)
+            {
+                if (dispSala.Professor.Id != null)
+                {
+                    dispSala.Professor = _professorService.BuscarPorId(dispSala.Professor.Id.Value);
+                }
+
+                sala.DispSalas.Add(dispSala);
+                _salaService.Alterar(sala);
+                TempData["Success"] = "Horário incluído com sucesso!";
+                return RedirectToAction("DispSala", new { salaId = sala.Id });
+
+            }
+            else
+            {
+                if (dispSala.Professor.Id != null)
+                {
+                    dispSala.Professor = _professorService.BuscarPorId(dispSala.Professor.Id.Value);
+                }
+
+                var index = sala.DispSalas.FindIndex(d => d.Id == dispSala.Id);
+                sala.DispSalas[index].Dia = dispSala.Dia;
+                sala.DispSalas[index].Hora = dispSala.Hora;
+                sala.DispSalas[index].Professor = dispSala.Professor;
+                _salaService.Alterar(sala);
+                TempData["Success"] = "Horário alterado com sucesso!";
+                return RedirectToAction("DispSala", new { salaId = sala.Id });
+
+            }
+        }
+
+        public IActionResult ExcluirDispSala(int? dispSalaId, int? salaId)
+        {
+            if (dispSalaId != null && salaId != null)
+            {
+                var sala = _salaService.BuscarPorId(salaId.Value);
+                var dispSala = sala.DispSalas.SingleOrDefault(ds => ds.Id == dispSalaId);
+                sala.DispSalas.Remove(dispSala);
+                _salaService.Alterar(sala);
+                TempData["Success"] = "Horário removido com sucesso!";
+                return RedirectToAction("DispSala", new { salaId = salaId });
+            }
+            else if (salaId != null)
+            {
+                return RedirectToAction("DispSala", new { salaId = salaId });
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
         public IActionResult Excluir(int? salaId)
         {
             if (salaId != null)

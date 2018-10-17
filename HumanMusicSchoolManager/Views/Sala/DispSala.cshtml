@@ -34,19 +34,20 @@
     </div>
 </div>
 <br />
+@await Html.PartialAsync("_Message")
 <div class="list-group">
     <div class="list-group-item">
-        <form role="form" method="post" asp-action="form">
-
-            <input asp-for="Sala" type="hidden" />
-
+        <div asp-validation-summary="All"></div>
+        <form role="form" method="post" asp-action="dispSala">
+            <input asp-for="Sala.Id" type="hidden" />
+            <input asp-for="DispSala.Sala.Id" type="hidden" />
             <input asp-for="DispSala.Id" type="hidden" />
             <div class="row">
                 <div class="col-md-2">
                     <div class="form-group">
                         <label asp-for="DispSala.Dia" class="col-md-2 control-label"></label>
                         <div class="col-md-11">
-                            <select asp-for="DispSala.Dia" class="form-control" asp-items="Html.GetEnumSelectList<Dia>()">
+                            <select asp-for="DispSala.Dia" required class="form-control" asp-items="Html.GetEnumSelectList<Dia>()">
                                 <option selected="selected" value=""></option>
                             </select>
                             <span asp-validation-for="DispSala.Dia" class="text-danger" />
@@ -62,9 +63,9 @@
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label asp-for="DispSala.Professor" class="col-md-2 control-label"></label>
+                        <label asp-for="DispSala.Professor.Id" class="col-md-2 control-label"></label>
                         <div class="col-md-11">
-                            <select asp-for="DispSala.Professor" class="form-control" asp-items="Model.Professores">
+                            <select asp-for="DispSala.Professor.Id" class="form-control" asp-items="Model.Professores">
                                 <option selected="selected" value=""></option>
                             </select>
                         </div>
@@ -79,7 +80,146 @@
 </div>
 <br />
 
-<ul class="list-group">
+<div class="row" style="padding-left: 15px;">
+    <ul class="list-group col-md-2">
+        <li class="list-group-item list-group-item-primary">Segunda-feira</li>
+        @foreach (var dispSala in Model.Sala.DispSalas.OrderBy(s => s.Hora))
+        {
+            if (dispSala.Dia == Dia.SEGUNDA)
+            {
+                <li class="list-group-item">
+                    @dispSala.Hora.ToString("00:'00'h")<br />
+                    @dispSala.Professor.Nome<br />
+                    <div class="row">
+                        <div class="col-md-6 text-center">
+                            <a asp-action="DispSala" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-pencil-alt"></i></a>
 
-    <li class="list-group-item list-group-item-primary">A simple primary list group item</li>
-</ul>
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <a asp-action="ExcluirDispSala" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-trash-alt text-danger"></i></a>
+                        </div>
+                    </div>
+
+                </li>
+            }
+        }
+    </ul>
+    <ul class="list-group col-md-2">
+        <li class="list-group-item list-group-item-primary">Terça-feira</li>
+        @foreach (var dispSala in Model.Sala.DispSalas.OrderBy(s => s.Hora))
+        {
+            if (dispSala.Dia == Dia.TERCA)
+            {
+                <li class="list-group-item">
+                    @dispSala.Hora.ToString("00:'00'h")<br />
+                    @dispSala.Professor.Nome<br />
+                    <div class="row">
+                        <div class="col-md-6 text-center">
+                            <a asp-action="DispSala" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-pencil-alt"></i></a>
+
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <a asp-action="ExcluirDispSala" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-trash-alt text-danger"></i></a>
+                        </div>
+                    </div>
+
+                </li>
+            }
+        }
+    </ul>
+    <ul class="list-group col-md-2">
+        <li class="list-group-item list-group-item-primary">Quarta-feira</li>
+        @foreach (var dispSala in Model.Sala.DispSalas.OrderBy(s => s.Hora))
+        {
+            if (dispSala.Dia == Dia.QUARTA)
+            {
+                <li class="list-group-item">
+                    @dispSala.Hora.ToString("00:'00'h")<br />
+                    @dispSala.Professor.Nome<br />
+                    <div class="row">
+                        <div class="col-md-6 text-center">
+                            <a asp-action="DispSala" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-pencil-alt"></i></a>
+
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <a asp-action="ExcluirDispSala" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-trash-alt text-danger"></i></a>
+                        </div>
+                    </div>
+
+                </li>
+            }
+        }
+    </ul>
+    <ul class="list-group col-md-2">
+        <li class="list-group-item list-group-item-primary">Quinta-feira</li>
+        @foreach (var dispSala in Model.Sala.DispSalas.OrderBy(s => s.Hora))
+        {
+            if (dispSala.Dia == Dia.QUINTA)
+            {
+                <li class="list-group-item">
+                    @dispSala.Hora.ToString("00:'00'h")<br />
+                    @dispSala.Professor.Nome<br />
+                    <div class="row">
+                        <div class="col-md-6 text-center">
+                            <a asp-action="DispSala" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-pencil-alt"></i></a>
+
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <a asp-action="ExcluirDispSala" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-trash-alt text-danger"></i></a>
+                        </div>
+                    </div>
+
+                </li>
+            }
+        }
+    </ul>
+    <ul class="list-group col-md-2">
+        <li class="list-group-item list-group-item-primary">Sexta-feira</li>
+        @foreach (var dispSala in Model.Sala.DispSalas.OrderBy(s => s.Hora))
+        {
+            if (dispSala.Dia == Dia.SEXTA)
+            {
+                <li class="list-group-item">
+                    @dispSala.Hora.ToString("00:'00'h")<br />
+                    @dispSala.Professor.Nome<br />
+                    <div class="row">
+                        <div class="col-md-6 text-center">
+                            <a asp-action="DispSala" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-pencil-alt"></i></a>
+
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <a asp-action="ExcluirDispSala" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-trash-alt text-danger"></i></a>
+                        </div>
+                    </div>
+
+                </li>
+            }
+        }
+    </ul>
+    <ul class="list-group col-md-2">
+        <li class="list-group-item list-group-item-warning">Sábado</li>
+        @foreach (var dispSala in Model.Sala.DispSalas.OrderBy(s => s.Hora))
+        {
+            if (dispSala.Dia == Dia.SABADO)
+            {
+                <li class="list-group-item">
+                    @dispSala.Hora.ToString("00:'00'h")<br />
+                    @dispSala.Professor.Nome<br />
+                    <div class="row">
+                        <div class="col-md-6 text-center">
+                            <a asp-action="DispSala" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-pencil-alt"></i></a>
+
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <a asp-action="ExcluirDispSala" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-trash-alt text-danger"></i></a>
+                        </div>
+                    </div>
+
+                </li>
+            }
+        }
+    </ul>
+
+</div>
+<br />
+

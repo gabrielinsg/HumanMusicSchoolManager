@@ -13,6 +13,11 @@ namespace HumanMusicSchoolManager.Models.ViewModels
         public DispSala DispSala { get; set; }
         public List<SelectListItem> Professores { get; set; }
 
+        public DispSalaViewModel()
+        {
+
+        }
+
         public DispSalaViewModel(Sala sala, List<Professor> professores)
         {
             this.Sala = sala;
@@ -32,6 +37,7 @@ namespace HumanMusicSchoolManager.Models.ViewModels
         {
             this.Sala = sala;
             this.DispSala = dispSala;
+            this.Professores = new List<SelectListItem>();
             foreach (var professor in professores)
             {
                 var selectListItem = new SelectListItem
@@ -42,7 +48,5 @@ namespace HumanMusicSchoolManager.Models.ViewModels
                 this.Professores.Add(selectListItem);
             }
         }
-
-
     }
 }
