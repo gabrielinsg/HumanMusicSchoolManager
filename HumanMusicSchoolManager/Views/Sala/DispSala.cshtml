@@ -63,7 +63,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label asp-for="DispSala.Professor.Id" class="col-md-2 control-label"></label>
+                        <label asp-for="DispSala.Professor.Id" class="col-md-2 control-label">Professor</label>
                         <div class="col-md-11">
                             <select asp-for="DispSala.Professor.Id" class="form-control" asp-items="Model.Professores">
                                 <option selected="selected" value=""></option>
@@ -82,21 +82,21 @@
 
 <div class="row" style="padding-left: 15px;">
     <ul class="list-group col-md-2">
-        <li class="list-group-item list-group-item-primary">Segunda-feira</li>
+        <li class="list-group-item list-group-item-primary"><b>Segunda-feira</b></li>
         @foreach (var dispSala in Model.Sala.DispSalas.OrderBy(s => s.Hora))
         {
             if (dispSala.Dia == Dia.SEGUNDA)
             {
-                <li class="list-group-item">
+                <li class="list-group-item list-group-item-action">
                     @dispSala.Hora.ToString("00:'00'h")<br />
                     @dispSala.Professor.Nome<br />
-                    <div class="row">
-                        <div class="col-md-6 text-center">
+                    <br />
+                    <div class="row ">
+                        <div class="col-3">
                             <a asp-action="DispSala" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-pencil-alt"></i></a>
-
                         </div>
-                        <div class="col-md-6 text-center">
-                            <a asp-action="ExcluirDispSala" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-trash-alt text-danger"></i></a>
+                        <div class="col-3">
+                            <a asp-action="ExcluirDispSala" id="excluir" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-trash-alt text-danger"></i></a>
                         </div>
                     </div>
 
@@ -105,21 +105,22 @@
         }
     </ul>
     <ul class="list-group col-md-2">
-        <li class="list-group-item list-group-item-primary">Terça-feira</li>
+        <li class="list-group-item list-group-item-primary"><b>Terça-feira</b></li>
         @foreach (var dispSala in Model.Sala.DispSalas.OrderBy(s => s.Hora))
         {
             if (dispSala.Dia == Dia.TERCA)
             {
-                <li class="list-group-item">
+                <li class="list-group-item list-group-item-action">
                     @dispSala.Hora.ToString("00:'00'h")<br />
                     @dispSala.Professor.Nome<br />
+                    <br />
                     <div class="row">
-                        <div class="col-md-6 text-center">
+                        <div class="col-3 text-center">
                             <a asp-action="DispSala" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-pencil-alt"></i></a>
 
                         </div>
-                        <div class="col-md-6 text-center">
-                            <a asp-action="ExcluirDispSala" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-trash-alt text-danger"></i></a>
+                        <div class="col-3 text-center">
+                            <a asp-action="ExcluirDispSala" id="excluir" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-trash-alt text-danger"></i></a>
                         </div>
                     </div>
 
@@ -128,21 +129,22 @@
         }
     </ul>
     <ul class="list-group col-md-2">
-        <li class="list-group-item list-group-item-primary">Quarta-feira</li>
+        <li class="list-group-item list-group-item-primary"><b>Quarta-feira</b></li>
         @foreach (var dispSala in Model.Sala.DispSalas.OrderBy(s => s.Hora))
         {
             if (dispSala.Dia == Dia.QUARTA)
             {
-                <li class="list-group-item">
+                <li class="list-group-item list-group-item-action">
                     @dispSala.Hora.ToString("00:'00'h")<br />
                     @dispSala.Professor.Nome<br />
+                    <br />
                     <div class="row">
-                        <div class="col-md-6 text-center">
+                        <div class="col-3 text-center">
                             <a asp-action="DispSala" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-pencil-alt"></i></a>
 
                         </div>
-                        <div class="col-md-6 text-center">
-                            <a asp-action="ExcluirDispSala" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-trash-alt text-danger"></i></a>
+                        <div class="col-3 text-center">
+                            <a asp-action="ExcluirDispSala" id="excluir" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-trash-alt text-danger"></i></a>
                         </div>
                     </div>
 
@@ -151,21 +153,22 @@
         }
     </ul>
     <ul class="list-group col-md-2">
-        <li class="list-group-item list-group-item-primary">Quinta-feira</li>
+        <li class="list-group-item list-group-item-primary"><b>Quinta-feira</b></li>
         @foreach (var dispSala in Model.Sala.DispSalas.OrderBy(s => s.Hora))
         {
             if (dispSala.Dia == Dia.QUINTA)
             {
-                <li class="list-group-item">
+                <li class="list-group-item list-group-item-action">
                     @dispSala.Hora.ToString("00:'00'h")<br />
                     @dispSala.Professor.Nome<br />
+                    <br />
                     <div class="row">
-                        <div class="col-md-6 text-center">
+                        <div class="col-3 text-center">
                             <a asp-action="DispSala" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-pencil-alt"></i></a>
 
                         </div>
-                        <div class="col-md-6 text-center">
-                            <a asp-action="ExcluirDispSala" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-trash-alt text-danger"></i></a>
+                        <div class="col-3 text-center">
+                            <a asp-action="ExcluirDispSala" id="excluir" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-trash-alt text-danger"></i></a>
                         </div>
                     </div>
 
@@ -174,21 +177,22 @@
         }
     </ul>
     <ul class="list-group col-md-2">
-        <li class="list-group-item list-group-item-primary">Sexta-feira</li>
+        <li class="list-group-item list-group-item-primary"><b>Sexta-feira</b></li>
         @foreach (var dispSala in Model.Sala.DispSalas.OrderBy(s => s.Hora))
         {
             if (dispSala.Dia == Dia.SEXTA)
             {
-                <li class="list-group-item">
+                <li class="list-group-item list-group-item-action">
                     @dispSala.Hora.ToString("00:'00'h")<br />
                     @dispSala.Professor.Nome<br />
+                    <br />
                     <div class="row">
-                        <div class="col-md-6 text-center">
+                        <div class="col-3 text-center">
                             <a asp-action="DispSala" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-pencil-alt"></i></a>
 
                         </div>
-                        <div class="col-md-6 text-center">
-                            <a asp-action="ExcluirDispSala" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-trash-alt text-danger"></i></a>
+                        <div class="col-3 text-center">
+                            <a asp-action="ExcluirDispSala" id="excluir" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-trash-alt text-danger"></i></a>
                         </div>
                     </div>
 
@@ -197,21 +201,22 @@
         }
     </ul>
     <ul class="list-group col-md-2">
-        <li class="list-group-item list-group-item-warning">Sábado</li>
+        <li class="list-group-item list-group-item-warning"><b>Sábado</b></li>
         @foreach (var dispSala in Model.Sala.DispSalas.OrderBy(s => s.Hora))
         {
             if (dispSala.Dia == Dia.SABADO)
             {
-                <li class="list-group-item">
+                <li class="list-group-item list-group-item-action">
                     @dispSala.Hora.ToString("00:'00'h")<br />
                     @dispSala.Professor.Nome<br />
+                    <br />
                     <div class="row">
-                        <div class="col-md-6 text-center">
+                        <div class="col-3 text-center">
                             <a asp-action="DispSala" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-pencil-alt"></i></a>
 
                         </div>
-                        <div class="col-md-6 text-center">
-                            <a asp-action="ExcluirDispSala" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-trash-alt text-danger"></i></a>
+                        <div class="col-3 text-center">
+                            <a asp-action="ExcluirDispSala" id="excluir" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-trash-alt text-danger"></i></a>
                         </div>
                     </div>
 
@@ -223,3 +228,17 @@
 </div>
 <br />
 
+@section Scripts
+    {
+    <script>
+        $("a#excluir").click(function () {
+            var cf = confirm("Tem certeza que deseja excluir o horário?");
+            if (cf == true) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        });
+    </script>
+}
