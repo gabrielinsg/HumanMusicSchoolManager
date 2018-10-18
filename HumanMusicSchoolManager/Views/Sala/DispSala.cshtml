@@ -47,7 +47,7 @@
                     <div class="form-group">
                         <label asp-for="DispSala.Dia" class="col-md-2 control-label"></label>
                         <div class="col-md-11">
-                            <select asp-for="DispSala.Dia" required class="form-control" asp-items="Html.GetEnumSelectList<Dia>()">
+                            <select asp-for="DispSala.Dia" autofocus="autofocus" required class="form-control" asp-items="Html.GetEnumSelectList<Dia>()">
                                 <option selected="selected" value=""></option>
                             </select>
                             <span asp-validation-for="DispSala.Dia" class="text-danger" />

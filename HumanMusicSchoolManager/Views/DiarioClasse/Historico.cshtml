@@ -1,4 +1,4 @@
-﻿@model DiarioClasseViewModel
+﻿@model List<DiarioClasse>
 @{
     ViewData["Title"] = "Historico";
 }
@@ -6,7 +6,7 @@
 <h2>@ViewBag.Matricula.Aluno.Nome - @ViewBag.Matricula.Curso.Nome</h2>
 <a asp-action="form" asp-route-matriculaId="@ViewBag.Matricula.Id" class="btn btn-default">Voltar</a>
 <hr />
-@foreach (var item in Model.DiariosClasse)
+@foreach (var item in Model)
 {
     <div class="panel panel-default">
         <div class="panel-heading">

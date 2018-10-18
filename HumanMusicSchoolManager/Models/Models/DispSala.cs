@@ -18,12 +18,19 @@ namespace HumanMusicSchoolManager.Models.Models
 }
 
 public enum Dia {
+    [Display(Name = "Domingo")]
     DOMINGO = 1,
+    [Display(Name = "Segunda-feira")]
     SEGUNDA = 2,
+    [Display(Name = "Terça-feira")]
     TERCA = 3,
+    [Display(Name = "Quarta-feira")]
     QUARTA = 4,
+    [Display(Name = "Quinta-feira")]
     QUINTA = 5,
+    [Display(Name = "Sexta-feira")]
     SEXTA = 6,
+    [Display(Name = "Sábado")]
     SABADO = 7
 }
 

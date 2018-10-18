@@ -23,6 +23,7 @@ namespace HumanMusicSchoolManager.Data
         public DbSet<Sala> Salas { get; set; }
         public DbSet<RespFinanceiro> RespsFinanceiro { get; set; }
         public DbSet<DispSala> DispSalas { get; set; }
+        public DbSet<PacoteAula> PacotesAula { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

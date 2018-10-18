@@ -58,6 +58,7 @@ namespace HumanMusicSchoolManager
             services.AddTransient<IPessoaService, PessoaService>();
             services.AddTransient<IFuncionarioService, FuncionarioService>();
             services.AddTransient<ISalaService, SalaService>();
+            services.AddTransient<IPacoteAulaService, PacoteAulaService>();
 
             services.AddMvc();
         }
