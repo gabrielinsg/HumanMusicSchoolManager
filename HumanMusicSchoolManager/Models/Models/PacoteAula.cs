@@ -10,18 +10,18 @@ namespace HumanMusicSchoolManager.Models.Models
     {
         public int? Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "O Campo Nome é obrigatório")]
         public string Nome { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "O campo Quantidade de aulas é obrigatório")]
         [Display(Name = "Qunatidade de aulas")]
         public int QtdAula { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "O campo Valor é obrigatório")]
         [Range(0, double.MaxValue, ErrorMessage = "Valor inválido")]
         public decimal Valor { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "O campo Parcela é obrigatório")]
         [Display(Name = "Número de parcelas")]
         public int Parcela { get; set; }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HumanMusicSchoolManager.Models.Models;
 using HumanMusicSchoolManager.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,6 +34,44 @@ namespace HumanMusicSchoolManager.Controllers
                 var pacoteAula = _pacoteAulaService.BuscarPorId(pacoteAulaId.Value);
                 return View(pacoteAula);
             }
+        }
+
+        [HttpPost]
+        public IActionResult Form(PacoteAula pacoteAula)
+        {
+            if (pacoteAula.Id == null)
+            {
+                if (ModelState.IsValid)
+                {
+                    _pacoteAulaService.Cadastrar(pacoteAula);
+                    TempData["Success"] = "Pacote de Aula cadastrado com sucesso!";
+                    return RedirectToAction("Form");
+                }
+                else
+                {
+                    return View(pacoteAula);
+                }
+            }
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    _pacoteAulaService.Alterar(pacoteAula);
+                    TempData["Success"] = "Pacote de Aula alterado com sucesso!";
+                    return RedirectToAction("Form");
+                }
+                else
+                {
+                    return View(pacoteAula);
+                }
+            }
+        }
+
+        [HttpPost]
+        public JsonResult BuscarPorNome(string nome)
+        {
+            var pacoteAula = _pacoteAulaService.BuscarPorNome(nome);
+            return Json(pacoteAula);
         }
     }
 }

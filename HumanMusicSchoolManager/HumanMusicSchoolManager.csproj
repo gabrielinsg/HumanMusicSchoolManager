@@ -8,6 +8,12 @@
   <ItemGroup>
     <Compile Remove="Data\Migrations\20180417192531_ApplicationUserPessoa.cs" />
     <Compile Remove="Data\Migrations\20180417192531_ApplicationUserPessoa.Designer.cs" />
+    <Compile Remove="Data\Migrations\20181018195127_PacoteAula.cs" />
+    <Compile Remove="Data\Migrations\20181018195127_PacoteAula.Designer.cs" />
+    <Compile Remove="Data\Migrations\20181018200644_PacoteAula.cs" />
+    <Compile Remove="Data\Migrations\20181018200644_PacoteAula.Designer.cs" />
+    <Compile Remove="Data\Migrations\20181018201020_teste.cs" />
+    <Compile Remove="Data\Migrations\20181018201020_teste.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
