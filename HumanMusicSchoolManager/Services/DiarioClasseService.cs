@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using HumanMusicSchoolManager.Data;
 using HumanMusicSchoolManager.Models.Models;
+using HumanMusicSchoolManager.ServicesInterface;
 using Microsoft.EntityFrameworkCore;
 
 namespace HumanMusicSchoolManager.Services
@@ -34,7 +35,6 @@ namespace HumanMusicSchoolManager.Services
                 .Include(d => d.Matricula)
                 .Include(d => d.Matricula.Aluno)
                 .Include(d => d.Matricula.Curso)
-                .Include(d => d.Matricula.Professor)
                 .Where(d => d.Id == diarioId)
                 .OrderByDescending(d => d.Data)
                 .FirstOrDefault();

@@ -1,5 +1,6 @@
 ﻿using HumanMusicSchoolManager.Data;
 using HumanMusicSchoolManager.Models.Models;
+using HumanMusicSchoolManager.ServicesInterface;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -38,7 +39,7 @@ namespace HumanMusicSchoolManager.Services
 
         public List<Aluno> BuscarPorNome(string nome)
         {
-            return _context.Alunos.Where(a => a.Nome.Contains(nome)).ToList();
+            return _context.Alunos.Where(a => a.Nome.Contains(nome)).OrderBy(a => a.Nome).ToList();
         }
 
         public List<Aluno> BuscarTodos()

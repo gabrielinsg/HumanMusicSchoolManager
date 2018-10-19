@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using HumanMusicSchoolManager.Data;
 using HumanMusicSchoolManager.Models.Models;
+using HumanMusicSchoolManager.ServicesInterface;
 using Microsoft.EntityFrameworkCore;
 
 namespace HumanMusicSchoolManager.Services
@@ -28,7 +29,6 @@ namespace HumanMusicSchoolManager.Services
             return _context.Matriculas
                 .Include(m => m.Aluno)
                 .Include(m => m.Curso)
-                .Include(m => m.Professor)
                 .Where(m => m.Id == matriculaId)
                 .FirstOrDefault();
         }
@@ -37,10 +37,7 @@ namespace HumanMusicSchoolManager.Services
         {
             return _context.Matriculas
                 .Include(m => m.Aluno)
-                .Include(m => m.Professor)
-                .Include(m => m.Curso)
-                .Where(m => m.ProfessorId == professorId)
-                .OrderBy(m => m.Hora).ToList();
+                .Include(m => m.Curso).ToList();
         }
 
         public List<Matricula> BuscarTodos()

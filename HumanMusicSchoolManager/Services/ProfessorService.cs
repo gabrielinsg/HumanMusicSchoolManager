@@ -1,5 +1,6 @@
 ﻿using HumanMusicSchoolManager.Data;
 using HumanMusicSchoolManager.Models.Models;
+using HumanMusicSchoolManager.ServicesInterface;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -83,7 +84,7 @@ namespace HumanMusicSchoolManager.Services
 
         public List<Professor> BuscarProfessorPorCurso(int cursoId)
         {
-            var professores = _context.Professores.Where(p => p.Cursos.Any(c => c.CursoId == cursoId)).ToList();
+            var professores = _context.Professores.Where(p => p.Cursos.Any(c => c.CursoId == cursoId)).OrderBy(p => p.Nome).ToList();
 
             return professores;
         }
@@ -95,7 +96,7 @@ namespace HumanMusicSchoolManager.Services
 
         public List<Professor> BuscarPorNome(string nome)
         {
-            return _context.Professores.Where(p => p.Nome.Contains(nome)).ToList();
+            return _context.Professores.Where(p => p.Nome.Contains(nome)).OrderBy(P => P.Nome).ToList();
         }
     }
 }

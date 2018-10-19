@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace HumanMusicSchoolManager.Services
+namespace HumanMusicSchoolManager.ServicesInterface
 {
     public interface IAlunoService
     {

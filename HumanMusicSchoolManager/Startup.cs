@@ -14,6 +14,7 @@ using HumanMusicSchoolManager.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Rewrite;
 using HumanMusicSchoolManager.Models.Models;
+using HumanMusicSchoolManager.ServicesInterface;
 
 namespace HumanMusicSchoolManager
 {
@@ -59,6 +60,7 @@ namespace HumanMusicSchoolManager
             services.AddTransient<IFuncionarioService, FuncionarioService>();
             services.AddTransient<ISalaService, SalaService>();
             services.AddTransient<IPacoteAulaService, PacoteAulaService>();
+            services.AddTransient<IRespFinanceiroService, RespFinanceiroService>();
 
             services.AddMvc();
         }

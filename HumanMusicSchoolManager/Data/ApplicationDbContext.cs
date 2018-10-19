@@ -24,6 +24,7 @@ namespace HumanMusicSchoolManager.Data
         public DbSet<RespFinanceiro> RespsFinanceiro { get; set; }
         public DbSet<DispSala> DispSalas { get; set; }
         public DbSet<PacoteAula> PacotesAula { get; set; }
+        public DbSet<PacoteCompra> PacoteCompras { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -40,9 +41,9 @@ namespace HumanMusicSchoolManager.Data
                 .HasKey(cs => new { cs.SalaId, cs.CursoId });
 
             builder.Entity<Matricula>()
-                .HasOne(m => m.Professor)
+                .HasOne(m => m.RespFinanceiro)
                 .WithMany()
-                .HasForeignKey("ProfessorId")
+                .HasForeignKey("RespFinanceiroId")
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Sala>()
@@ -50,6 +51,10 @@ namespace HumanMusicSchoolManager.Data
                 .WithOne(ds => ds.Sala)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            builder.Entity<Matricula>()
+                .HasMany(m => m.PacoteCompras)
+                .WithOne(pc => pc.Matricula)
+                .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(builder);
             // Customize the ASP.NET Identity model and override the defaults if needed.

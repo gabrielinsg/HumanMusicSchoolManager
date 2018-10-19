@@ -6,6 +6,7 @@ using HumanMusicSchoolManager.Models;
 using HumanMusicSchoolManager.Models.Models;
 using HumanMusicSchoolManager.Models.ViewModels;
 using HumanMusicSchoolManager.Services;
+using HumanMusicSchoolManager.ServicesInterface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -42,7 +43,7 @@ namespace HumanMusicSchoolManager.Controllers
 
             var professor = _professorService.BuscarPorId(professorId.Value);
             ViewBag.Professor = professor;
-            return View(new MatriculaViewModel(_matriculaService.BuscarPorProfessor(professorId.Value).Where(m => m.Ativo == true).ToList(), _diarioClasseService));
+            return View();
         }
 
         public IActionResult Form(int? matriculaId, int? diarioId)

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using HumanMusicSchoolManager.Data;
 using HumanMusicSchoolManager.Models.Models;
+using HumanMusicSchoolManager.ServicesInterface;
 using Microsoft.EntityFrameworkCore;
 
 namespace HumanMusicSchoolManager.Services
@@ -37,7 +38,7 @@ namespace HumanMusicSchoolManager.Services
 
         public List<Funcionario> BuscarPorNome(string nome)
         {
-            return _context.Funcionarios.Where(f => f.Nome.Contains(nome)).ToList();
+            return _context.Funcionarios.Where(f => f.Nome.Contains(nome)).OrderBy(f => f.Nome).ToList();
         }
 
         public List<Funcionario> BuscarTodos()

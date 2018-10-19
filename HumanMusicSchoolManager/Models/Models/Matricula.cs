@@ -17,18 +17,18 @@ namespace HumanMusicSchoolManager.Models.Models
         public Curso Curso { get; set; }
 
         [Required]
-        public int Dia { get; set; }
+        public DispSala DispSala { get; set; }
 
         [Required]
-        public int Hora { get; set; }
-
-        public int ProfessorId { get; set; }
-        public Professor Professor { get; set; }
+        public RespFinanceiro RespFinanceiro { get; set; }
 
         [Required]
         public bool Ativo { get; set; }
 
         [Required]
         public DateTime DataMatricula { get; set; }
+
+        [Required]
+        public List<PacoteCompra> PacoteCompras { get; set; }
     }
 }

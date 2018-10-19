@@ -23,14 +23,14 @@ namespace HumanMusicSchoolManager.Services
             _context.SaveChanges();
         }
 
-        public Curso BuscarPorId(int id)
+        public Curso BuscarPorId(int cursoId)
         {
-            return _context.Cursos.Where(c => c.Id == id).Single();
+            return _context.Cursos.SingleOrDefault(c => c.Id == cursoId);
         }
 
         public List<Curso> BuscarPorNome(string nome)
         {
-            return _context.Cursos.Where(p => p.Nome.Contains(nome)).ToList();
+            return _context.Cursos.Where(p => p.Nome.Contains(nome)).OrderBy(p => p.Nome).ToList();
         }
 
         public List<Curso> BuscarTodos()

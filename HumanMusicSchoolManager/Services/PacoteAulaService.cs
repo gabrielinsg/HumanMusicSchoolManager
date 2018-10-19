@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using HumanMusicSchoolManager.Data;
 using HumanMusicSchoolManager.Models.Models;
+using HumanMusicSchoolManager.ServicesInterface;
 
 namespace HumanMusicSchoolManager.Services
 {
@@ -29,7 +30,7 @@ namespace HumanMusicSchoolManager.Services
 
         public List<PacoteAula> BuscarPorNome(string nome)
         {
-            return _context.PacotesAula.Where(pa => pa.Nome.Contains(nome)).ToList();
+            return _context.PacotesAula.Where(pa => pa.Nome.Contains(nome)).OrderBy(pa => pa.Nome).ToList();
         }
 
         public List<PacoteAula> BuscarTodos()
