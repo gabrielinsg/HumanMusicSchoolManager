@@ -18,8 +18,6 @@ namespace HumanMusicSchoolManager.Models.Models
 }
 
 public enum Dia {
-    [Display(Name = "Domingo")]
-    DOMINGO = 1,
     [Display(Name = "Segunda-feira")]
     SEGUNDA = 2,
     [Display(Name = "Terça-feira")]

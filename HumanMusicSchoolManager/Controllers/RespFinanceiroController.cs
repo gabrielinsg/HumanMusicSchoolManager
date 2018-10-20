@@ -80,5 +80,12 @@ namespace HumanMusicSchoolManager.Controllers
                 }
             }
         }
+
+        [HttpPost]
+        public JsonResult BuscarPorNome(string nome)
+        {
+            var respFinanceiro = _respFinanceiroService.BuscarPorNome(nome);
+            return Json(respFinanceiro);
+        }
     }
 }

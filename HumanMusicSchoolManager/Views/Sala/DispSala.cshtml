@@ -2,7 +2,6 @@
 @{
     ViewData["Title"] = "DispSala";
 }
-
 <h2>Disponibilidade de Sala</h2>
 
 <hr />
@@ -71,7 +70,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-1" style="padding-top:30px">
+                <div class="col-md-2" style="padding-top:30px">
                     <button type="submit" class="btn btn-success form-control">@(Model.DispSala == null ? "Incluir" : "Alterar")</button>
                 </div>
             </div>
@@ -80,6 +79,12 @@
 </div>
 <br />
 
+    <a tabindex="0" class="btn" data-placement="right"
+       data-toggle="popover" data-trigger="focus"
+       data-content="Para alterar as informações do horário, clique na hora desejada e escolha uma das opções.">
+        <i class="fas fa-question-circle"></i>
+    </a>
+
 <div class="row" style="padding-left: 15px;">
     <ul class="list-group col-md-2">
         <li class="list-group-item list-group-item-primary"><b>Segunda-feira</b></li>
@@ -87,19 +92,55 @@
         {
             if (dispSala.Dia == Dia.SEGUNDA)
             {
-                <li class="list-group-item list-group-item-action">
-                    @dispSala.Hora.ToString("00:'00'h")<br />
-                    @dispSala.Professor.Nome<br />
-                    <br />
-                    <div class="row ">
-                        <div class="col-3">
-                            <a asp-action="DispSala" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-pencil-alt"></i></a>
-                        </div>
-                        <div class="col-3">
-                            <a asp-action="ExcluirDispSala" id="excluir" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-trash-alt text-danger"></i></a>
+                <li class="list-group-item list-group-item-action btn" style="padding: 0px;">
+                    <div class="" style="padding: 10px;" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        @{
+                            var nomeProfessor = dispSala.Professor.Nome;
+                            var ultimaLetra = ' ';
+                            for (int i = nomeProfessor.Length - 1; i > 0; i--)
+                            {
+                                if (nomeProfessor[i] == ' ')
+                                {
+                                    ultimaLetra = nomeProfessor[i + 1];
+                                    break;
+                                }
+                            }
+                            nomeProfessor = nomeProfessor.Substring(0, 1) + ultimaLetra;
+                        }
+                        <b>@dispSala.Hora.ToString("00:'00'h")</b> - @nomeProfessor
+                    </div>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                        <div class="container">
+                            <div class="row">
+                                <span class="col-6">@dispSala.Hora.ToString("00:'00'h")</span>
+                                <div class="col-3 text-center">
+                                    <a asp-action="DispSala" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-pencil-alt"></i></a>
+
+                                </div>
+                                <div class="col-3 text-center">
+                                    <a asp-action="ExcluirDispSala" id="excluir" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-trash-alt text-danger"></i></a>
+                                </div>
+                            </div>
+                            <hr />
+                            @dispSala.Professor.Nome<br />
+                            @{
+                                int cont1 = 0;
+                                foreach (var curso in Model.Sala.Cursos)
+                                {
+                                    if (cont1 < Model.Sala.Cursos.Count - 1)
+                                    {
+                                        @(curso.Curso.Nome + ", ")
+                                        cont1++;
+                                    }
+                                    else
+                                    {
+                                        @curso.Curso.Nome
+                                    }
+                                }
+                            }
+                            <br />
                         </div>
                     </div>
-
                 </li>
             }
         }
@@ -110,20 +151,55 @@
         {
             if (dispSala.Dia == Dia.TERCA)
             {
-                <li class="list-group-item list-group-item-action">
-                    @dispSala.Hora.ToString("00:'00'h")<br />
-                    @dispSala.Professor.Nome<br />
-                    <br />
-                    <div class="row">
-                        <div class="col-3 text-center">
-                            <a asp-action="DispSala" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-pencil-alt"></i></a>
+                <li class="list-group-item list-group-item-action btn" style="padding: 0px;">
+                    <div class="" style="padding: 10px;" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        @{
+                            var nomeProfessor = dispSala.Professor.Nome;
+                            var ultimaLetra = ' ';
+                            for (int i = nomeProfessor.Length - 1; i > 0; i--)
+                            {
+                                if (nomeProfessor[i] == ' ')
+                                {
+                                    ultimaLetra = nomeProfessor[i + 1];
+                                    break;
+                                }
+                            }
+                            nomeProfessor = nomeProfessor.Substring(0, 1) + ultimaLetra;
+                        }
+                        <b>@dispSala.Hora.ToString("00:'00'h")</b> - @nomeProfessor
+                    </div>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                        <div class="container">
+                            <div class="row">
+                                <span class="col-6">@dispSala.Hora.ToString("00:'00'h")</span>
+                                <div class="col-3 text-center">
+                                    <a asp-action="DispSala" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-pencil-alt"></i></a>
 
-                        </div>
-                        <div class="col-3 text-center">
-                            <a asp-action="ExcluirDispSala" id="excluir" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-trash-alt text-danger"></i></a>
+                                </div>
+                                <div class="col-3 text-center">
+                                    <a asp-action="ExcluirDispSala" id="excluir" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-trash-alt text-danger"></i></a>
+                                </div>
+                            </div>
+                            <hr />
+                            @dispSala.Professor.Nome<br />
+                            @{
+                                int cont1 = 0;
+                                foreach (var curso in Model.Sala.Cursos)
+                                {
+                                    if (cont1 < Model.Sala.Cursos.Count - 1)
+                                    {
+                                        @(curso.Curso.Nome + ", ")
+                                        cont1++;
+                                    }
+                                    else
+                                    {
+                                        @curso.Curso.Nome
+                                    }
+                                }
+                            }
+                            <br />
                         </div>
                     </div>
-
                 </li>
             }
         }
@@ -134,20 +210,55 @@
         {
             if (dispSala.Dia == Dia.QUARTA)
             {
-                <li class="list-group-item list-group-item-action">
-                    @dispSala.Hora.ToString("00:'00'h")<br />
-                    @dispSala.Professor.Nome<br />
-                    <br />
-                    <div class="row">
-                        <div class="col-3 text-center">
-                            <a asp-action="DispSala" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-pencil-alt"></i></a>
+                <li class="list-group-item list-group-item-action btn" style="padding: 0px;">
+                    <div class="" style="padding: 10px;" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        @{
+                            var nomeProfessor = dispSala.Professor.Nome;
+                            var ultimaLetra = ' ';
+                            for (int i = nomeProfessor.Length - 1; i > 0; i--)
+                            {
+                                if (nomeProfessor[i] == ' ')
+                                {
+                                    ultimaLetra = nomeProfessor[i + 1];
+                                    break;
+                                }
+                            }
+                            nomeProfessor = nomeProfessor.Substring(0, 1) + ultimaLetra;
+                        }
+                        <b>@dispSala.Hora.ToString("00:'00'h")</b> - @nomeProfessor
+                    </div>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                        <div class="container">
+                            <div class="row">
+                                <span class="col-6">@dispSala.Hora.ToString("00:'00'h")</span>
+                                <div class="col-3 text-center">
+                                    <a asp-action="DispSala" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-pencil-alt"></i></a>
 
-                        </div>
-                        <div class="col-3 text-center">
-                            <a asp-action="ExcluirDispSala" id="excluir" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-trash-alt text-danger"></i></a>
+                                </div>
+                                <div class="col-3 text-center">
+                                    <a asp-action="ExcluirDispSala" id="excluir" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-trash-alt text-danger"></i></a>
+                                </div>
+                            </div>
+                            <hr />
+                            @dispSala.Professor.Nome<br />
+                            @{
+                                int cont1 = 0;
+                                foreach (var curso in Model.Sala.Cursos)
+                                {
+                                    if (cont1 < Model.Sala.Cursos.Count - 1)
+                                    {
+                                        @(curso.Curso.Nome + ", ")
+                                        cont1++;
+                                    }
+                                    else
+                                    {
+                                        @curso.Curso.Nome
+                                    }
+                                }
+                            }
+                            <br />
                         </div>
                     </div>
-
                 </li>
             }
         }
@@ -158,20 +269,55 @@
         {
             if (dispSala.Dia == Dia.QUINTA)
             {
-                <li class="list-group-item list-group-item-action">
-                    @dispSala.Hora.ToString("00:'00'h")<br />
-                    @dispSala.Professor.Nome<br />
-                    <br />
-                    <div class="row">
-                        <div class="col-3 text-center">
-                            <a asp-action="DispSala" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-pencil-alt"></i></a>
+                <li class="list-group-item list-group-item-action btn" style="padding: 0px;">
+                    <div class="" style="padding: 10px;" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        @{
+                            var nomeProfessor = dispSala.Professor.Nome;
+                            var ultimaLetra = ' ';
+                            for (int i = nomeProfessor.Length - 1; i > 0; i--)
+                            {
+                                if (nomeProfessor[i] == ' ')
+                                {
+                                    ultimaLetra = nomeProfessor[i + 1];
+                                    break;
+                                }
+                            }
+                            nomeProfessor = nomeProfessor.Substring(0, 1) + ultimaLetra;
+                        }
+                        <b>@dispSala.Hora.ToString("00:'00'h")</b> - @nomeProfessor
+                    </div>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                        <div class="container">
+                            <div class="row">
+                                <span class="col-6">@dispSala.Hora.ToString("00:'00'h")</span>
+                                <div class="col-3 text-center">
+                                    <a asp-action="DispSala" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-pencil-alt"></i></a>
 
-                        </div>
-                        <div class="col-3 text-center">
-                            <a asp-action="ExcluirDispSala" id="excluir" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-trash-alt text-danger"></i></a>
+                                </div>
+                                <div class="col-3 text-center">
+                                    <a asp-action="ExcluirDispSala" id="excluir" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-trash-alt text-danger"></i></a>
+                                </div>
+                            </div>
+                            <hr />
+                            @dispSala.Professor.Nome<br />
+                            @{
+                                int cont1 = 0;
+                                foreach (var curso in Model.Sala.Cursos)
+                                {
+                                    if (cont1 < Model.Sala.Cursos.Count - 1)
+                                    {
+                                        @(curso.Curso.Nome + ", ")
+                                        cont1++;
+                                    }
+                                    else
+                                    {
+                                        @curso.Curso.Nome
+                                    }
+                                }
+                            }
+                            <br />
                         </div>
                     </div>
-
                 </li>
             }
         }
@@ -182,20 +328,55 @@
         {
             if (dispSala.Dia == Dia.SEXTA)
             {
-                <li class="list-group-item list-group-item-action">
-                    @dispSala.Hora.ToString("00:'00'h")<br />
-                    @dispSala.Professor.Nome<br />
-                    <br />
-                    <div class="row">
-                        <div class="col-3 text-center">
-                            <a asp-action="DispSala" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-pencil-alt"></i></a>
+                <li class="list-group-item list-group-item-action btn" style="padding: 0px;">
+                    <div class="" style="padding: 10px;" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        @{
+                            var nomeProfessor = dispSala.Professor.Nome;
+                            var ultimaLetra = ' ';
+                            for (int i = nomeProfessor.Length - 1; i > 0; i--)
+                            {
+                                if (nomeProfessor[i] == ' ')
+                                {
+                                    ultimaLetra = nomeProfessor[i + 1];
+                                    break;
+                                }
+                            }
+                            nomeProfessor = nomeProfessor.Substring(0, 1) + ultimaLetra;
+                        }
+                        <b>@dispSala.Hora.ToString("00:'00'h")</b> - @nomeProfessor
+                    </div>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                        <div class="container">
+                            <div class="row">
+                                <span class="col-6">@dispSala.Hora.ToString("00:'00'h")</span>
+                                <div class="col-3 text-center">
+                                    <a asp-action="DispSala" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-pencil-alt"></i></a>
 
-                        </div>
-                        <div class="col-3 text-center">
-                            <a asp-action="ExcluirDispSala" id="excluir" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-trash-alt text-danger"></i></a>
+                                </div>
+                                <div class="col-3 text-center">
+                                    <a asp-action="ExcluirDispSala" id="excluir" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-trash-alt text-danger"></i></a>
+                                </div>
+                            </div>
+                            <hr />
+                            @dispSala.Professor.Nome<br />
+                            @{
+                                int cont1 = 0;
+                                foreach (var curso in Model.Sala.Cursos)
+                                {
+                                    if (cont1 < Model.Sala.Cursos.Count - 1)
+                                    {
+                                        @(curso.Curso.Nome + ", ")
+                                        cont1++;
+                                    }
+                                    else
+                                    {
+                                        @curso.Curso.Nome
+                                    }
+                                }
+                            }
+                            <br />
                         </div>
                     </div>
-
                 </li>
             }
         }
@@ -206,20 +387,55 @@
         {
             if (dispSala.Dia == Dia.SABADO)
             {
-                <li class="list-group-item list-group-item-action">
-                    @dispSala.Hora.ToString("00:'00'h")<br />
-                    @dispSala.Professor.Nome<br />
-                    <br />
-                    <div class="row">
-                        <div class="col-3 text-center">
-                            <a asp-action="DispSala" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-pencil-alt"></i></a>
+                <li class="list-group-item list-group-item-action btn" style="padding: 0px;">
+                    <div class="" style="padding: 10px;" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        @{
+                            var nomeProfessor = dispSala.Professor.Nome;
+                            var ultimaLetra = ' ';
+                            for (int i = nomeProfessor.Length - 1; i > 0; i--)
+                            {
+                                if (nomeProfessor[i] == ' ')
+                                {
+                                    ultimaLetra = nomeProfessor[i + 1];
+                                    break;
+                                }
+                            }
+                            nomeProfessor = nomeProfessor.Substring(0, 1) + ultimaLetra;
+                        }
+                        <b>@dispSala.Hora.ToString("00:'00'h")</b> - @nomeProfessor
+                    </div>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                        <div class="container">
+                            <div class="row">
+                                <span class="col-6">@dispSala.Hora.ToString("00:'00'h")</span>
+                                <div class="col-3 text-center">
+                                    <a asp-action="DispSala" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-pencil-alt"></i></a>
 
-                        </div>
-                        <div class="col-3 text-center">
-                            <a asp-action="ExcluirDispSala" id="excluir" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-trash-alt text-danger"></i></a>
+                                </div>
+                                <div class="col-3 text-center">
+                                    <a asp-action="ExcluirDispSala" id="excluir" asp-route-salaId="@Model.Sala.Id" asp-route-dispSalaId="@dispSala.Id"><i class="fas fa-trash-alt text-danger"></i></a>
+                                </div>
+                            </div>
+                            <hr />
+                            @dispSala.Professor.Nome<br />
+                            @{
+                                int cont1 = 0;
+                                foreach (var curso in Model.Sala.Cursos)
+                                {
+                                    if (cont1 < Model.Sala.Cursos.Count - 1)
+                                    {
+                                        @(curso.Curso.Nome + ", ")
+                                        cont1++;
+                                    }
+                                    else
+                                    {
+                                        @curso.Curso.Nome
+                                    }
+                                }
+                            }
+                            <br />
                         </div>
                     </div>
-
                 </li>
             }
         }
@@ -240,5 +456,11 @@
                 return false;
             }
         });
+
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+
+        });
+
     </script>
 }
