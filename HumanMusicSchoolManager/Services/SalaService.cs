@@ -41,6 +41,8 @@ namespace HumanMusicSchoolManager.Services
             return _context.Salas
                 .Include(s => s.Cursos)
                 .ThenInclude(s => s.Curso)
+                .Include(s => s.DispSalas)
+                .ThenInclude(ds => ds.Professor)
                 .OrderBy(s => s.Nome).ToList();
         }
 
@@ -96,8 +98,8 @@ namespace HumanMusicSchoolManager.Services
             if (sala != null && curso != null)
             {
                 sala.RemoverCurso(curso);
+                _context.SaveChanges();
             }
-            _context.SaveChanges();
         }
     }
 }

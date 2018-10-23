@@ -14,6 +14,11 @@ namespace HumanMusicSchoolManager.Models.Models
         public Sala Sala { get; set; }
 
         public Professor Professor { get; set; }
+
+        public DispSala()
+        {
+            this.Professor = new Professor();
+        }
     }
 }
 

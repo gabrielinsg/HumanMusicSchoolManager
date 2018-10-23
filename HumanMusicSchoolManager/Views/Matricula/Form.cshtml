@@ -1,5 +1,120 @@
-﻿@model Matricula
+﻿@model MatriculaViewModel
 @{
     ViewData["Title"] = "Form";
 }
 
+<div class="row">
+    <div class="col-md-12">
+        <h2>Matricula</h2>
+        <div class="jumbotron">
+            <h1 class="display-4">@Model.Aluno.Nome</h1>
+            <br />
+            <div class="row">
+                <div class="col-md-2">
+                    <b>Curo: </b><span>@Model.Curso.Nome</span>
+                </div>
+                <div class="col-md-2">
+                    <b>Dia: </b><span>
+                        @if (Model.DispSala.Id != null)
+                        {
+                            @Html.DisplayFor(d => d.DispSala.Dia)
+                        }
+                    </span>
+                </div>
+                <div class="col-md-2">
+                    <b>Hora: </b><span>@(Model.DispSala.Id == null ? " " : Model.DispSala.Hora.ToString("00:'00'h"))</span>
+                </div>
+                <div class="col-md-6">
+                    <b>Professor: </b><span>@Model.DispSala.Professor.Nome</span>
+                </div>
+            </div>
+            <br />
+            <p>
+                <a class="btn btn-success" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                    Horarios disponíveis
+                </a>
+            </p>
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>Curso</th>
+                                        <th class="text-center">Dia</th>
+                                        <th class="text-center">Hora</th>
+                                        <th>Período</th>
+                                        <th>Sala</th>
+                                        <th>Professor</th>
+                                        <th>Selecionar</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th>Curso</th>
+                                        <th class="text-center">Dia</th>
+                                        <th class="text-center">Hora</th>
+                                        <th>Período</th>
+                                        <th>Sala</th>
+                                        <th>Professor</th>
+                                        <th>Selecionar</th>
+                                    </tr>
+                                </tfoot>
+                                <tbody>
+                                    @foreach (var dispSala in Model.DispSalas)
+                                    {
+                                        @foreach (var curso in dispSala.Professor.Cursos)
+                                        {
+                                            <tr>
+                                                <td c>@curso.Curso.Nome</td>
+                                                <td class="text-center">@Html.DisplayFor(d => dispSala.Dia)</td>
+                                                <td class="text-center">@dispSala.Hora.ToString("00:'00'h")</td>
+                                                <td>
+                                                    @if (dispSala.Hora < 12)
+                                                    {
+                                                        <span>Manhã</span>
+                                                    }
+                                                    else if (dispSala.Hora < 19)
+                                                    {
+                                                        <span>Tarde</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>Noite</span>
+                                                    }
+                                                </td>
+                                                <td>@dispSala.Sala.Nome</td>
+                                                <td>@dispSala.Professor.Nome</td>
+                                                <td>
+                                                    <a asp-action="Form" class="btn btn-success" asp-route-cursoId="@(curso.CursoId)" 
+                                                        asp-route-alunoId="@(Model.Aluno.Id)"
+                                                        asp-route-dispSalaId="@(dispSala.Id)">Selecionar</a>
+
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4">
+            <p>Após escolher o horário clicando no botão <b>Horários Disponíveis</b> finalize a matricual clicando em <b>Matricular</b>.</p>
+            <form role="form" method="post" asp-action="Form">
+                <input asp-for="Aluno.Id" />
+                <input asp-for="Curso.Id" />
+                <input asp-for="DispSala.Id" />
+                <button type="submit" class="btn btn-primary btn-lg">Matricular</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/vendor/datatables/jquery.dataTables.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.js"></script>
+    <script src="~/js/demo/datatables-demo.js"></script>
+}

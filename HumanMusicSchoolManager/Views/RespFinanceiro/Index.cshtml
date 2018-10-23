@@ -1,0 +1,74 @@
+﻿@model List<RespFinanceiro>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<div class="card mb-3">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-11">
+                <i class="fas fa-table"></i>
+                Responsáveis Financeiro
+            </div>
+            <div class="col-md-1">
+                <a asp-action="Form" class="btn btn-primary">Novo</a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th class="text-center">Id</th>
+                        <th>Nome</th>
+                        <th class="text-center">CPF</th>
+                        <th class="text-center">Data de Nascimento</th>
+                        <th class="text-center">Ativo</th>
+                        <th class="text-center">Alterar</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th class="text-center">Id</th>
+                        <th>Nome</th>
+                        <th class="text-center">CPF</th>
+                        <th class="text-center">Data de Nascimento</th>
+                        <th class="text-center">Ativo</th>
+                        <th class="text-center">Alterar</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var professor in Model)
+                    {
+                        <tr>
+                            <td class="text-center">@professor.Id</td>
+                            <td>@professor.Nome</td>
+                            <td class="text-center">@professor.CPF</td>
+                            <td class="text-center">@professor.DataNascimento.ToString("dd/MM/yyyy")</td>
+                            <td class="text-center">
+                                <input asp-for="@professor.Ativo" onclick="return false" />
+                            </td>
+                            <td class="text-center">
+                                <a asp-action="Form" asp-route-respFinanceiroId="@(professor.Id)"><i class="fas fa-pencil-alt text-primary"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/vendor/datatables/jquery.dataTables.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.js"></script>
+    <script src="~/js/demo/datatables-demo.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+}

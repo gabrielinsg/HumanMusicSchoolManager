@@ -53,7 +53,7 @@ namespace HumanMusicSchoolManager.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError("CPF", "CPF já cadastrado para outro professor");
+                        ModelState.AddModelError("CPF", "CPF já cadastrado para outro responsável financeiro");
                         return View(respFinanceiro);
                     }
 

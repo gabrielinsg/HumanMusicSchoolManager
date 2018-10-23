@@ -10,13 +10,20 @@ namespace HumanMusicSchoolManager.Models.Models
     {
         public int? Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Pacote de aula obrigatório")]
+        [Display(Name = "Pacote de Aula")]
         public PacoteAula PacoteAula { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Matricula obrigatório")]
+        [Display(Name = "Matrícula")]
         public Matricula Matricula { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "O campo Data da compra é obrigatório")]
+        [Display(Name = "Data da compra")]
         public DateTime DataCompra { get; set; }
+
+        [Required(ErrorMessage = "O campo número de parcelas é obrigatório")]
+        [Display(Name = "Quantidade de parcelas")]
+        public int QtdParcela { get; set; }
     }
 }

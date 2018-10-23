@@ -11,123 +11,80 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HumanMusicSchoolManager.Controllers
 {
-    [Authorize(Roles = "Admin, Coordenacao, Professor")]
     public class MatriculaController : Controller
     {
-        private readonly IAlunoService _alunoService;
         private readonly IMatriculaService _matriculaService;
-        private readonly IProfessorService _professorService;
+        private readonly IAlunoService _alunoService;
+        private readonly IPacoteAulaService _pacoteAulaService;
+        private readonly ISalaService _salaService;
+        private readonly IDispSalaService _dispSalaService;
         private readonly ICursoService _cursoService;
 
-        public MatriculaController(
+        public MatriculaController(IMatriculaService matriculaService,
             IAlunoService alunoService,
-            IMatriculaService matriculaServices,
-            IProfessorService professorService,
+            IPacoteAulaService pacoteAulaService,
+            ISalaService salaService,
+            IDispSalaService dispSalaService,
             ICursoService cursoService)
         {
+            this._matriculaService = matriculaService;
             this._alunoService = alunoService;
-            this._matriculaService = matriculaServices;
-            this._professorService = professorService;
+            this._pacoteAulaService = pacoteAulaService;
+            this._salaService = salaService;
+            this._dispSalaService = dispSalaService;
             this._cursoService = cursoService;
         }
 
-        public IActionResult Index(int? matriculaId)
+        [HttpGet]
+        public IActionResult Form(int? matriculaId, int? alunoId, int? dispSalaId, int? cursoId)
         {
-
+            ViewBag.Salas = _salaService.ToString();
             if (matriculaId == null)
             {
-                return RedirectToAction(controllerName: "Aluno", actionName: "Index");
-            }
-            else
-            {
-                var matricula = _matriculaService.BuscarPorId(matriculaId.Value);
-
-                return View(matricula);
-            }
-        }
-
-        public IActionResult Form(int? alunoId, int? matriculaId)
-        {
-
-            if (matriculaId != null)
-            {
-                return View(_matriculaService.BuscarPorId(matriculaId.Value));
-            }
-
-            if (alunoId == null)
-            {
-                return RedirectToAction(controllerName: "Aluno", actionName: "Index");
-            }
-            else
-            {
-                var matricula = new Matricula()
+                if (alunoId != null)
                 {
-                    Aluno = _alunoService.BuscarPorId(alunoId.Value),
-                    Ativo = true,
-                    DataMatricula = DateTime.Now,
+                    var aluno = _alunoService.BuscarPorId(alunoId.Value);
+                    var matricula = new MatriculaViewModel() {
+                        Aluno = aluno,
+                        DispSalas = _dispSalaService.BuscarTodos(),
+                        Cursos = _cursoService.BuscarTodos()
+                        
+                    };
+                    if (dispSalaId != null)
+                    {
+                        matricula.DispSala = _dispSalaService.BuscarPorId(dispSalaId.Value);
+                    }
+                    if (cursoId != null)
+                    {
+                        matricula.Curso = _cursoService.BuscarPorId(cursoId.Value);
+                    }
+                    return View(matricula);
+                }
+                else
+                {
+                    return RedirectToAction(controllerName: "Aluno", actionName: "Index");
+                }
+
+            }
+            else
+            {
+                var mat = _matriculaService.BuscarPorId(matriculaId.Value);
+                var matricula = new MatriculaViewModel()
+                {
+                    Matricula = mat,
+                    Aluno = mat.Aluno,
+                    DispSala = mat.DispSala,
+                    DispSalas = _dispSalaService.BuscarTodos(),
+                    Cursos = _cursoService.BuscarTodos()
                 };
                 return View(matricula);
             }
         }
 
-        public IActionResult Cadastrar(Matricula matricula)
+        [HttpPost]
+        public IActionResult Form(MatriculaViewModel matriculaViewModel)
         {
-            if (ModelState.IsValid)
-            {
-                if (matricula != null)
-                {
-                    if (matricula.Id == null)
-                    {                    
-                        _matriculaService.Cadastrar(matricula);
-                    }
-                    else
-                    {
-                        _matriculaService.Alterar(matricula);
-                    }
-                }
-                return RedirectToAction(controllerName: "Aluno", actionName: "Index");
-            }
-            else
-            {
-                if (matricula.Id != null)
-                {
-                    return RedirectToAction("Form", new { matriculaId = matricula.Id });
-                }
-                else
-                {
-                    return RedirectToAction("Form", new { alunoId = matricula.AlunoId});
-                }
-            }
-
-        }
-
-        public IActionResult Alterar(Matricula matricula)
-        {
-            if (matricula != null)
-            {
-                _matriculaService.Alterar(matricula);
-            }
-
-            return RedirectToAction(controllerName: "Aluno", actionName: "Index");
-        }
-
-        public JsonResult BuscarCurso()
-        {
-
-            var cursos = _cursoService.BuscarTodos().Where(c => c.Ativo == true).ToList();
-
-            return Json(cursos); 
-        }
-
-        public IActionResult BuscarProfessor(int? cursoId)
-        {
-            var professores = new List<Professor>();
-            if (cursoId != null)
-            {
-                professores = _professorService.BuscarProfessorPorCurso(cursoId.Value).Where(p => p.Ativo == true).ToList();
-            }
-
-            return Json(professores);
+            return null;
         }
     }
 }
