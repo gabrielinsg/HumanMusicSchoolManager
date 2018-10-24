@@ -1,6 +1,7 @@
 ﻿using HumanMusicSchoolManager.Data;
 using HumanMusicSchoolManager.Models.Models;
 using HumanMusicSchoolManager.ServicesInterface;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,9 @@ namespace HumanMusicSchoolManager.Services
 
         public RespFinanceiro BuscarPorId(int respFinanceiroId)
         {
-            return _context.RespsFinanceiro.FirstOrDefault(rf => rf.Id == respFinanceiroId);
+            return _context.RespsFinanceiro
+                .Include(rf => rf.Endereco)
+                .FirstOrDefault(rf => rf.Id == respFinanceiroId);
         }
 
         public List<RespFinanceiro> BuscarPorNome(string nome)
@@ -36,7 +39,9 @@ namespace HumanMusicSchoolManager.Services
 
         public List<RespFinanceiro> BuscarTodos()
         {
-            return _context.RespsFinanceiro.OrderBy(rf => rf.Nome).ToList();
+            return _context.RespsFinanceiro
+                .Include(rf => rf.Endereco)
+                .OrderBy(rf => rf.Nome).ToList();
         }
 
         public void Cadastrar(RespFinanceiro respFinanceiro)

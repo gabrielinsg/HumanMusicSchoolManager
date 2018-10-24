@@ -134,24 +134,28 @@
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <div class="checkbox">
-                            @if (Model == null)
-                            {
-                                <label asp-for="Ativo">
-                                    <input asp-for="Ativo" checked />
-                                    @Html.DisplayNameFor(p => p.Ativo)
-                                </label>
-                            }
-                            else
-                            {
-                                <label asp-for="Ativo">
-                                    <input asp-for="Ativo" />
-                                    @Html.DisplayNameFor(p => p.Ativo)
-                                </label>
-                            }
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <div class="checkbox">
+                                @if (Model == null)
+                                {
+                                    <label asp-for="Ativo">
+                                        <input asp-for="Ativo" checked />
+                                        @Html.DisplayNameFor(p => p.Ativo)
+                                    </label>
+                                }
+                                else
+                                {
+                                    <label asp-for="Ativo">
+                                        <input asp-for="Ativo" />
+                                        @Html.DisplayNameFor(p => p.Ativo)
+                                    </label>
+                                }
 
+                            </div>
                         </div>
                     </div>
                 </div>

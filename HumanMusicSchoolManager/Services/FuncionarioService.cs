@@ -43,7 +43,9 @@ namespace HumanMusicSchoolManager.Services
 
         public List<Funcionario> BuscarTodos()
         {
-            return _context.Funcionarios.OrderByDescending(f => f.Nome).ToList();
+            return _context.Funcionarios
+                .Include(f => f.Endereco)
+                .OrderByDescending(f => f.Nome).ToList();
         }
 
         public void Cadastrar(Funcionario funcionario)

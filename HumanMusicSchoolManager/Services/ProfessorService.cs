@@ -36,6 +36,7 @@ namespace HumanMusicSchoolManager.Services
         public List<Professor> BuscarTodos()
         {
             return _context.Professores
+                .Include(p => p.Endereco)
                 .Include(c => c.Cursos)
                 .ThenInclude(c => c.Curso)
                 .OrderBy(p => p.Nome).ToList();

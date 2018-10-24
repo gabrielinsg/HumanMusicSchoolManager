@@ -17,13 +17,13 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-bordered table-striped" id="dataTable" cellspacing="0">
                 <thead>
                     <tr>
-                       <th>Nome</th>
+                        <th>Nome</th>
                         <th class="text-center">CPF</th>
-                        <th class="text-center">Data de Nascimento</th>
                         <th class="text-center">Ativo</th>
+                        <th class="text-center">Informações</th>
                         <th class="text-center">Alterar</th>
                     </tr>
                 </thead>
@@ -31,23 +31,64 @@
                     <tr>
                         <th>Nome</th>
                         <th class="text-center">CPF</th>
-                        <th class="text-center">Data de Nascimento</th>
                         <th class="text-center">Ativo</th>
+                        <th class="text-center">Informações</th>
                         <th class="text-center">Alterar</th>
                     </tr>
                 </tfoot>
                 <tbody>
-                    @foreach (var professor in Model)
+                    @foreach (var respFinanceiro in Model)
                     {
                         <tr>
-                            <td>@professor.Nome</td>
-                            <td class="text-center">@professor.CPF</td>
-                            <td class="text-center">@professor.DataNascimento.ToString("dd/MM/yyyy")</td>
+                            <td>@respFinanceiro.Nome</td>
+                            <td class="text-center">@respFinanceiro.CPF</td>
                             <td class="text-center">
-                                <input asp-for="@professor.Ativo" onclick="return false" />
+                                <input asp-for="@respFinanceiro.Ativo" onclick="return false" />
                             </td>
                             <td class="text-center">
-                                <a asp-action="Form" asp-route-respFinanceiroId="@(professor.Id)"><i class="fas fa-pencil-alt text-primary"></i></a>
+
+                                <!-- Button trigger modal -->
+                                <a class="btn text-primary" data-toggle="modal" data-target="#exampleModalLong@(respFinanceiro.Id)">
+                                    <i class="fas fa-info-circle"></i>
+                                </a>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModalLong@(respFinanceiro.Id)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLongTitle">Informações</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body text-left">
+                                                <p><b>Nome: </b>@respFinanceiro.Nome</p>
+                                                <p><b>Data de Nascimento: </b>@respFinanceiro.DataNascimento.ToString("dd/MM/yyyy")</p>
+                                                <p><b>CPF: </b>@respFinanceiro.CPF</p>
+                                                <p><b>RG: </b>@respFinanceiro.RG</p>
+                                                <p><b>Logradouro: </b>@respFinanceiro.Endereco.Logradouro</p>
+                                                <p><b>Número: </b>@respFinanceiro.Endereco.Numero</p>
+                                                <p><b>Bairro: </b>@respFinanceiro.Endereco.Bairro</p>
+                                                <p><b>Complemento: </b>@respFinanceiro.Endereco.Complemento</p>
+                                                <p><b>Cidade: </b>@respFinanceiro.Endereco.Cidade</p>
+                                                <p><b>UF: </b>@respFinanceiro.Endereco.UF</p>
+                                                <p><b>CEP: </b>@respFinanceiro.Endereco.CEP</p>
+                                                <p><b>E-mail: </b>@respFinanceiro.Email</p>
+                                                <p><b>Telefone: </b>@respFinanceiro.Tel</p>
+                                                <p><b>Celular: </b>@respFinanceiro.Cel</p>
+                                                <p><b>Ativo: </b><input asp-for="@respFinanceiro.Ativo" onclick="return false" /></p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                                <a asp-action="Form" asp-route-respFinanceiroId="@(respFinanceiro.Id)" class="btn btn-primary">Alterar Dados</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <a asp-action="Form" asp-route-respFinanceiroId="@(respFinanceiro.Id)"><i class="fas fa-pencil-alt text-primary"></i></a>
                             </td>
                         </tr>
                     }
@@ -56,6 +97,8 @@
         </div>
     </div>
 </div>
+
+
 
 @section Scripts{
     <script src="~/vendor/datatables/jquery.dataTables.js"></script>

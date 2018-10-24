@@ -17,14 +17,13 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-bordered table-striped" id="dataTable" cellspacing="0">
                 <thead>
                     <tr>
                         <th>Nome</th>
                         <th class="text-center">CPF</th>
-                        <th class="text-center">Data de Nascimento</th>
                         <th class="text-center">Ativo</th>
-                        <th class="text-center">Matriculas</th>
+                        <th class="text-center">Informações</th>
                         <th class="text-center">Alterar</th>
                     </tr>
                 </thead>
@@ -32,9 +31,8 @@
                     <tr>
                         <th>Nome</th>
                         <th class="text-center">CPF</th>
-                        <th class="text-center">Data de Nascimento</th>
                         <th class="text-center">Ativo</th>
-                        <th class="text-center">Matriculas</th>
+                        <th class="text-center">Informações</th>
                         <th class="text-center">Alterar</th>
                     </tr>
                 </tfoot>
@@ -44,15 +42,53 @@
                         <tr>
                             <td>@aluno.Nome</td>
                             <td class="text-center">@aluno.CPF</td>
-                            <td class="text-center">@aluno.DataNascimento.ToString("dd/MM/yyyy")</td>
                             <td class="text-center">
                                 <input asp-for="@aluno.Ativo" onclick="return false" />
                             </td>
                             <td class="text-center">
-                                <a asp-action="Aluno" asp-route-alunoId="@(aluno.Id)"><i class="fas fa-book-reader"></i></a>
+
+                                <!-- Button trigger modal -->
+                                <a class="btn text-primary" data-toggle="modal" data-target="#exampleModalLong@(aluno.Id)">
+                                    <i class="fas fa-info-circle"></i>
+                                </a>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModalLong@(aluno.Id)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLongTitle">Informações</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body text-left">
+                                                <p><b>Nome: </b>@aluno.Nome</p>
+                                                <p><b>Data de Nascimento: </b>@aluno.DataNascimento.ToString("dd/MM/yyyy")</p>
+                                                <p><b>CPF: </b>@aluno.CPF</p>
+                                                <p><b>RG: </b>@aluno.RG</p>
+                                                <p><b>Logradouro: </b>@aluno.Endereco.Logradouro</p>
+                                                <p><b>Número: </b>@aluno.Endereco.Numero</p>
+                                                <p><b>Bairro: </b>@aluno.Endereco.Bairro</p>
+                                                <p><b>Complemento: </b>@aluno.Endereco.Complemento</p>
+                                                <p><b>Cidade: </b>@aluno.Endereco.Cidade</p>
+                                                <p><b>UF: </b>@aluno.Endereco.UF</p>
+                                                <p><b>CEP: </b>@aluno.Endereco.CEP</p>
+                                                <p><b>E-mail: </b>@aluno.Email</p>
+                                                <p><b>Telefone: </b>@aluno.Tel</p>
+                                                <p><b>Celular: </b>@aluno.Cel</p>
+                                                <p><b>Ativo: </b><input asp-for="@aluno.Ativo" onclick="return false" /></p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                                <a asp-action="Form" asp-route-respFinanceiroId="@(aluno.Id)" class="btn btn-primary">Alterar Dados</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </td>
                             <td class="text-center">
-                                <a asp-action="Form" asp-route-alunoId="@(aluno.Id)"><i class="fas fa-pencil-alt text-primary"></i></a>
+                                <a asp-action="Form" asp-route-respFinanceiroId="@(aluno.Id)"><i class="fas fa-pencil-alt text-primary"></i></a>
                             </td>
                         </tr>
                     }

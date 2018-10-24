@@ -45,6 +45,7 @@ namespace HumanMusicSchoolManager.Services
         public List<Aluno> BuscarTodos()
         {
             return _context.Alunos
+                .Include(a => a.Endereco)
                 .Include(a => a.Matriculas)
                 .OrderBy(a => a.Nome).ToList();
         }
