@@ -104,9 +104,9 @@
             <hr class="my-4">
             <p>Após escolher o horário clicando no botão <b>Horários Disponíveis</b> finalize a matricual clicando em <b>Matricular</b>.</p>
             <form role="form" method="post" asp-action="Form">
-                <input asp-for="Aluno.Id" />
-                <input asp-for="Curso.Id" />
-                <input asp-for="DispSala.Id" />
+                <input asp-for="Aluno.Id" hidden="hidden"/>
+                <input asp-for="Curso.Id" hidden="hidden"/>
+                <input asp-for="DispSala.Id" hidden="hidden" />
                 <button type="submit" class="btn btn-primary btn-lg">Matricular</button>
             </form>
         </div>

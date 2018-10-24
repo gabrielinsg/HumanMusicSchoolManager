@@ -25,8 +25,20 @@ namespace HumanMusicSchoolManager.Models.Models
         [Display(Name = "Número de parcelas")]
         public int Parcela { get; set; }
 
+        [Required(ErrorMessage = "O campo Tipo de aula é obrigatório")]
+        [Display(Name = "Tipo de aula")]
+        public TipoAula TipoAula { get; set; }
+
         [Required]
         [Display(Name = "Ativo")]
         public bool Ativo { get; set; }
     }
+}
+
+public enum TipoAula
+{
+    [Display(Name = "Grupo")]
+    GRUPO,
+    [Display(Name = "Individual")]
+    INDIVIDUAL
 }

@@ -13,7 +13,6 @@ namespace HumanMusicSchoolManager.ServicesInterface
         List<Aluno> BuscarTodos();
         Aluno BuscarPorId(int alunoId);
         void Excluir(int alunoId);
-        bool VerificarRm(int rm);
         Aluno BuscarPorCPF(string CPF);
         List<Aluno> BuscarPorNome(string nome);
     }

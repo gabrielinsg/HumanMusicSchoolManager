@@ -18,23 +18,23 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th class="text-center">Id</th>
                         <th>Nome</th>
                         <th class="text-center">Qtd Aulas</th>
                         <th class="text-center">Valor</th>
+                        <th>Tipo de aula</th>
                         <th class="text-center">Ativo</th>
                         <th class="text-center">Alterar</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
-                        <th class="text-center">Id</th>
                         <th>Nome</th>
                         <th class="text-center">Qtd Aulas</th>
                         <th class="text-center">Valor</th>
+                        <th class="text-center">Tipo de aula</th>
                         <th class="text-center">Ativo</th>
                         <th class="text-center">Alterar</th>
                     </tr>
@@ -42,18 +42,18 @@
                 <tbody>
                     @foreach (var pacoteAula in Model)
                     {
-                    <tr>
-                        <td class="text-center">@pacoteAula.Id</td>
-                        <td>@pacoteAula.Nome</td>
-                        <td class="text-center">@pacoteAula.QtdAula</td>
-                        <td class="text-center">@pacoteAula.Valor.ToString("R$ #,###.00")</td>
-                        <td class="text-center">
-                            <input asp-for="@pacoteAula.Ativo" onclick="return false" />
-                        </td>
-                        <td class="text-center">
-                            <a asp-action="Form" asp-route-pacoteAulaId="@(pacoteAula.Id)"><i class="fas fa-pencil-alt"></i></a>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td>@pacoteAula.Nome</td>
+                            <td class="text-center">@pacoteAula.QtdAula</td>
+                            <td class="text-center">@pacoteAula.Valor.ToString("R$ #,###.00")</td>
+                            <td class="text-center">@Html.DisplayFor(pc => pacoteAula.TipoAula)</td>
+                            <td class="text-center">
+                                <input asp-for="@pacoteAula.Ativo" onclick="return false" />
+                            </td>
+                            <td class="text-center">
+                                <a asp-action="Form" asp-route-pacoteAulaId="@(pacoteAula.Id)"><i class="fas fa-pencil-alt"></i></a>
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>

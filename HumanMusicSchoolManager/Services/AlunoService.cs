@@ -72,17 +72,5 @@ namespace HumanMusicSchoolManager.Services
                 _context.SaveChanges();
             }
         }
-
-        public bool VerificarRm(int rm)
-        {
-            if(_context.Alunos.Where(a => a.RM == rm).FirstOrDefault() == null)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
     }
 }

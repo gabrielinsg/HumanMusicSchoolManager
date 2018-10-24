@@ -13,9 +13,10 @@ using System;
 namespace HumanMusicSchoolManager.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181024145041_PacoteAulaTipoAula")]
+    partial class PacoteAulaTipoAula
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -437,6 +438,8 @@ namespace HumanMusicSchoolManager.Data.Migrations
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Aluno", b =>
                 {
                     b.HasBaseType("HumanMusicSchoolManager.Models.Models.Pessoa");
+
+                    b.Property<int>("RM");
 
                     b.Property<int?>("RespFinanceiroId");
 

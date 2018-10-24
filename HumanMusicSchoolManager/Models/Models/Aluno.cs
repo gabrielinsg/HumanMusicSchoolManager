@@ -8,8 +8,6 @@ namespace HumanMusicSchoolManager.Models.Models
 {
     public class Aluno : Pessoa
     {
-        [Required(ErrorMessage = "Campo RM é obrigatório")]
-        public int RM { get; set; }
         public List<Matricula> Matriculas { get; set; }
         public RespFinanceiro RespFinanceiro { get; set; }
     }
