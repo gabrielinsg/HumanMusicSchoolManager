@@ -19,13 +19,15 @@ namespace HumanMusicSchoolManager.Controllers
         private readonly ISalaService _salaService;
         private readonly IDispSalaService _dispSalaService;
         private readonly ICursoService _cursoService;
+        private readonly IRespFinanceiroService _respFinanceiroService;
 
         public MatriculaController(IMatriculaService matriculaService,
             IAlunoService alunoService,
             IPacoteAulaService pacoteAulaService,
             ISalaService salaService,
             IDispSalaService dispSalaService,
-            ICursoService cursoService)
+            ICursoService cursoService,
+            IRespFinanceiroService respFinanceiroService)
         {
             this._matriculaService = matriculaService;
             this._alunoService = alunoService;
@@ -33,22 +35,24 @@ namespace HumanMusicSchoolManager.Controllers
             this._salaService = salaService;
             this._dispSalaService = dispSalaService;
             this._cursoService = cursoService;
+            this._respFinanceiroService = respFinanceiroService;
         }
 
         [HttpGet]
-        public IActionResult Form(int? matriculaId, int? alunoId, int? dispSalaId, int? cursoId)
+        public IActionResult Form(int? matriculaId, int? alunoId, int? dispSalaId, int? cursoId, int? respFinanceiroId, string collapse)
         {
-            ViewBag.Salas = _salaService.ToString();
+            ViewBag.Collapse = collapse;
             if (matriculaId == null)
             {
                 if (alunoId != null)
                 {
                     var aluno = _alunoService.BuscarPorId(alunoId.Value);
-                    var matricula = new MatriculaViewModel() {
+                    var matricula = new MatriculaViewModel()
+                    {
                         Aluno = aluno,
                         DispSalas = _dispSalaService.BuscarTodos(),
-                        Cursos = _cursoService.BuscarTodos()
-                        
+                        Cursos = _cursoService.BuscarTodos(),
+                        PacotesAula = _pacoteAulaService.BuscarTodos()
                     };
                     if (dispSalaId != null)
                     {
@@ -57,6 +61,10 @@ namespace HumanMusicSchoolManager.Controllers
                     if (cursoId != null)
                     {
                         matricula.Curso = _cursoService.BuscarPorId(cursoId.Value);
+                    }
+                    if (respFinanceiroId != null)
+                    {
+                        matricula.RespFinanceiro = _respFinanceiroService.BuscarPorId(respFinanceiroId.Value);
                     }
                     return View(matricula);
                 }
@@ -85,6 +93,108 @@ namespace HumanMusicSchoolManager.Controllers
         public IActionResult Form(MatriculaViewModel matriculaViewModel)
         {
             return null;
+        }
+
+        [HttpPost]
+        public JsonResult BuscarPorNome(string nome)
+        {
+            var respFinanceiro = _respFinanceiroService.BuscarPorNome(nome);
+            return Json(respFinanceiro);
+        }
+
+        [HttpPost]
+        public IActionResult CadastraRespFinanceiro(MatriculaViewModel matriculaViewModel)
+        {
+            ViewBag.Collapse = "";
+            if (matriculaViewModel.RespFinanceiro.Id == null)
+            {
+                foreach (var model in ModelState.Where(m => !m.Key.StartsWith("RespFinanceiro")).ToList())
+                {
+                    ModelState.Remove(model.Key);
+                }
+                if (ModelState.IsValid)
+                {
+                    matriculaViewModel.Aluno = _alunoService.BuscarPorId(matriculaViewModel.Aluno.Id.Value);
+                    matriculaViewModel.DispSalas = _dispSalaService.BuscarTodos();
+                    matriculaViewModel.Cursos = _cursoService.BuscarTodos();
+                    matriculaViewModel.PacotesAula = _pacoteAulaService.BuscarTodos();
+                    if (matriculaViewModel.DispSala.Id != null)
+                    {
+                        matriculaViewModel.DispSala = _dispSalaService.BuscarPorId(matriculaViewModel.DispSala.Id.Value);
+                    }
+                    if (matriculaViewModel.Curso.Id != null)
+                    {
+                        matriculaViewModel.Curso = _cursoService.BuscarPorId(matriculaViewModel.Curso.Id.Value);
+                    }
+                    var respFinanceiro = _respFinanceiroService.Cadastrar(matriculaViewModel.RespFinanceiro);
+                    return View("Form", matriculaViewModel);
+                }
+                else
+                {
+                    ViewBag.Collapse = "respFinanceiro";
+                    matriculaViewModel.Aluno = _alunoService.BuscarPorId(matriculaViewModel.Aluno.Id.Value);
+                    matriculaViewModel.DispSalas = _dispSalaService.BuscarTodos();
+                    matriculaViewModel.Cursos = _cursoService.BuscarTodos();
+                    matriculaViewModel.PacotesAula = _pacoteAulaService.BuscarTodos();
+                    if (matriculaViewModel.DispSala.Id != null)
+                    {
+                        matriculaViewModel.DispSala = _dispSalaService.BuscarPorId(matriculaViewModel.DispSala.Id.Value);
+                    }
+                    if (matriculaViewModel.Curso.Id != null)
+                    {
+                        matriculaViewModel.Curso = _cursoService.BuscarPorId(matriculaViewModel.Curso.Id.Value);
+                    }
+                    return View("Form", matriculaViewModel);
+                }
+            }
+            else
+            {
+                foreach (var model in ModelState.Where(m => !m.Key.StartsWith("RespFinanceiro")).ToList())
+                {
+                    ModelState.Remove(model.Key);
+                }
+                if (ModelState.IsValid)
+                {
+                    matriculaViewModel.Aluno = _alunoService.BuscarPorId(matriculaViewModel.Aluno.Id.Value);
+                    matriculaViewModel.DispSalas = _dispSalaService.BuscarTodos();
+                    matriculaViewModel.Cursos = _cursoService.BuscarTodos();
+                    matriculaViewModel.PacotesAula = _pacoteAulaService.BuscarTodos();
+                    if (matriculaViewModel.DispSala.Id != null)
+                    {
+                        matriculaViewModel.DispSala = _dispSalaService.BuscarPorId(matriculaViewModel.DispSala.Id.Value);
+                    }
+                    if (matriculaViewModel.Curso.Id != null)
+                    {
+                        matriculaViewModel.Curso = _cursoService.BuscarPorId(matriculaViewModel.Curso.Id.Value);
+                    }
+                    var respFinanceiro = _respFinanceiroService.Alterar(matriculaViewModel.RespFinanceiro);
+                    return View("Form", matriculaViewModel);
+                }
+                else
+                {
+                    ViewBag.Collapse = "respFinanceiro";
+                    matriculaViewModel.Aluno = _alunoService.BuscarPorId(matriculaViewModel.Aluno.Id.Value);
+                    matriculaViewModel.DispSalas = _dispSalaService.BuscarTodos();
+                    matriculaViewModel.Cursos = _cursoService.BuscarTodos();
+                    matriculaViewModel.PacotesAula = _pacoteAulaService.BuscarTodos();
+                    if (matriculaViewModel.DispSala.Id != null)
+                    {
+                        matriculaViewModel.DispSala = _dispSalaService.BuscarPorId(matriculaViewModel.DispSala.Id.Value);
+                    }
+                    if (matriculaViewModel.Curso.Id != null)
+                    {
+                        matriculaViewModel.Curso = _cursoService.BuscarPorId(matriculaViewModel.Curso.Id.Value);
+                    }
+                    return View("Form", matriculaViewModel);
+                }
+            }
+        }
+
+        [HttpPost]
+        public JsonResult BuscarAlunoPorId(int alunoId)
+        {
+            var aluno = _alunoService.BuscarPorId(alunoId);
+            return Json(alunoId);
         }
     }
 }

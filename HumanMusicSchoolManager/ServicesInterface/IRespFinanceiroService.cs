@@ -8,8 +8,8 @@ namespace HumanMusicSchoolManager.ServicesInterface
 {
     public interface IRespFinanceiroService
     {
-        void Cadastrar(RespFinanceiro respFinanceiro);
-        void Alterar(RespFinanceiro respFinanceiro);
+        RespFinanceiro Cadastrar(RespFinanceiro respFinanceiro);
+        RespFinanceiro Alterar(RespFinanceiro respFinanceiro);
         List<RespFinanceiro> BuscarTodos();
         RespFinanceiro BuscarPorId(int respFinanceiroId);
         List<RespFinanceiro> BuscarPorNome(string nome);

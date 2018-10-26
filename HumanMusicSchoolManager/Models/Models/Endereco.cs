@@ -23,7 +23,7 @@ namespace HumanMusicSchoolManager.Models.Models
         [Required(ErrorMessage = "O Campo CEP é obrigatório")]
         public string CEP { get; set; }
 
-        [Required(ErrorMessage = "O Campo Baiiro é obrigatório")]
+        [Required(ErrorMessage = "O Campo Bairo é obrigatório")]
         public string Bairro { get; set; }
 
         [Required(ErrorMessage = "O Campo Cidade é obrigatório")]

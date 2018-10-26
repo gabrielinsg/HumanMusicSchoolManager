@@ -19,10 +19,11 @@ namespace HumanMusicSchoolManager.Services
             this._context = context;
         }
         
-        public void Alterar(RespFinanceiro respFinanceiro)
+        public RespFinanceiro Alterar(RespFinanceiro respFinanceiro)
         {
             _context.RespsFinanceiro.Update(respFinanceiro);
             _context.SaveChanges();
+            return respFinanceiro;
         }
 
         public RespFinanceiro BuscarPorId(int respFinanceiroId)
@@ -44,10 +45,11 @@ namespace HumanMusicSchoolManager.Services
                 .OrderBy(rf => rf.Nome).ToList();
         }
 
-        public void Cadastrar(RespFinanceiro respFinanceiro)
+        public RespFinanceiro Cadastrar(RespFinanceiro respFinanceiro)
         {
             _context.Add(respFinanceiro);
             _context.SaveChanges();
+            return respFinanceiro;
         }
 
         public void Excluir(int respFinanceiroId)

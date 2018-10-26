@@ -21,8 +21,9 @@
                 <thead>
                     <tr>
                         <th>Nome</th>
-                        <th class="text-center">CPF</th>
+                        <th class="text-center ">CPF</th>
                         <th class="text-center">Ativo</th>
+                        <th class="text-center">Matriculas</th>
                         <th class="text-center">Informações</th>
                         <th class="text-center">Alterar</th>
                     </tr>
@@ -32,6 +33,7 @@
                         <th>Nome</th>
                         <th class="text-center">CPF</th>
                         <th class="text-center">Ativo</th>
+                        <th class="text-center">Matriculas</th>
                         <th class="text-center">Informações</th>
                         <th class="text-center">Alterar</th>
                     </tr>
@@ -45,6 +47,7 @@
                             <td class="text-center">
                                 <input asp-for="@aluno.Ativo" onclick="return false" />
                             </td>
+                            <td class="text-center"><a asp-action="Aluno" asp-route-alunoId="@aluno.Id"><i class="fas fa-calendar-alt"></i></a></td>
                             <td class="text-center">
 
                                 <!-- Button trigger modal -->
