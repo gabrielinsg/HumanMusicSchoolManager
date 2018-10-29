@@ -52,7 +52,6 @@ namespace HumanMusicSchoolManager.Controllers
                         Aluno = aluno,
                         DispSalas = _dispSalaService.BuscarTodos(),
                         Cursos = _cursoService.BuscarTodos(),
-                        PacotesAula = _pacoteAulaService.BuscarTodos()
                     };
                     if (dispSalaId != null)
                     {
@@ -117,7 +116,6 @@ namespace HumanMusicSchoolManager.Controllers
                     matriculaViewModel.Aluno = _alunoService.BuscarPorId(matriculaViewModel.Aluno.Id.Value);
                     matriculaViewModel.DispSalas = _dispSalaService.BuscarTodos();
                     matriculaViewModel.Cursos = _cursoService.BuscarTodos();
-                    matriculaViewModel.PacotesAula = _pacoteAulaService.BuscarTodos();
                     if (matriculaViewModel.DispSala.Id != null)
                     {
                         matriculaViewModel.DispSala = _dispSalaService.BuscarPorId(matriculaViewModel.DispSala.Id.Value);
@@ -135,7 +133,6 @@ namespace HumanMusicSchoolManager.Controllers
                     matriculaViewModel.Aluno = _alunoService.BuscarPorId(matriculaViewModel.Aluno.Id.Value);
                     matriculaViewModel.DispSalas = _dispSalaService.BuscarTodos();
                     matriculaViewModel.Cursos = _cursoService.BuscarTodos();
-                    matriculaViewModel.PacotesAula = _pacoteAulaService.BuscarTodos();
                     if (matriculaViewModel.DispSala.Id != null)
                     {
                         matriculaViewModel.DispSala = _dispSalaService.BuscarPorId(matriculaViewModel.DispSala.Id.Value);
@@ -158,7 +155,6 @@ namespace HumanMusicSchoolManager.Controllers
                     matriculaViewModel.Aluno = _alunoService.BuscarPorId(matriculaViewModel.Aluno.Id.Value);
                     matriculaViewModel.DispSalas = _dispSalaService.BuscarTodos();
                     matriculaViewModel.Cursos = _cursoService.BuscarTodos();
-                    matriculaViewModel.PacotesAula = _pacoteAulaService.BuscarTodos();
                     if (matriculaViewModel.DispSala.Id != null)
                     {
                         matriculaViewModel.DispSala = _dispSalaService.BuscarPorId(matriculaViewModel.DispSala.Id.Value);
@@ -176,7 +172,6 @@ namespace HumanMusicSchoolManager.Controllers
                     matriculaViewModel.Aluno = _alunoService.BuscarPorId(matriculaViewModel.Aluno.Id.Value);
                     matriculaViewModel.DispSalas = _dispSalaService.BuscarTodos();
                     matriculaViewModel.Cursos = _cursoService.BuscarTodos();
-                    matriculaViewModel.PacotesAula = _pacoteAulaService.BuscarTodos();
                     if (matriculaViewModel.DispSala.Id != null)
                     {
                         matriculaViewModel.DispSala = _dispSalaService.BuscarPorId(matriculaViewModel.DispSala.Id.Value);
@@ -195,6 +190,22 @@ namespace HumanMusicSchoolManager.Controllers
         {
             var aluno = _alunoService.BuscarPorId(alunoId);
             return Json(alunoId);
+        }
+
+        [HttpPost]
+        public JsonResult BuscarAlunoRespFinanceiro(int alunoId)
+        {
+            var aluno = _alunoService.BuscarPorId(alunoId);
+            var respFinanceiro = _respFinanceiroService.BuscarPorCPF(aluno.CPF);
+            if (respFinanceiro != null)
+            {
+                return Json(respFinanceiro);
+            }
+            else
+            {
+                aluno.Id = null;
+                return Json(aluno);
+            }
         }
     }
 }

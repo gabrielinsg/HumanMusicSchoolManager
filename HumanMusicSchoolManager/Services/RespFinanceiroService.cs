@@ -63,7 +63,9 @@ namespace HumanMusicSchoolManager.Services
 
         public RespFinanceiro BuscarPorCPF(string cpf)
         {
-            return _context.RespsFinanceiro.SingleOrDefault(rf => rf.CPF == cpf);
+            return _context.RespsFinanceiro
+                .Include(rf => rf.Endereco)
+                .SingleOrDefault(rf => rf.CPF == cpf);
         }
     }
 }
