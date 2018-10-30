@@ -23,6 +23,7 @@
                     <tr>
                         <th>Nome</th>
                         <th class="text-center">CPF</th>
+                        <th class="text-center">Cursos</th>
                         <th class="text-center">Ativo</th>
                         <th class="text-center">Informações</th>
                         <th class="text-center">Alterar</th>
@@ -32,6 +33,7 @@
                     <tr>
                         <th>Nome</th>
                         <th class="text-center">CPF</th>
+                        <th class="text-center">Cursos</th>
                         <th class="text-center">Ativo</th>
                         <th class="text-center">Informações</th>
                         <th class="text-center">Alterar</th>
@@ -43,6 +45,24 @@
                         <tr>
                             <td>@professor.Nome</td>
                             <td class="text-center">@professor.CPF</td>
+                            <td class="text-center">
+                                <div class="dropdown">
+                                    <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Cursos
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <div class="list-group" style="width: 200px; height: 150px; overflow-y: scroll;">
+                                            <a asp-action="ProfessorCurso" asp-route-professorId="@(professor.Id)" class="list-group-item list-group-item-action active">
+                                                Alterar
+                                            </a>
+                                            @foreach (var curso in professor.Cursos)
+                                            {
+                                                <a href="#" class="list-group-item list-group-item-action">@curso.Curso.Nome</a>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
                             <td class="text-center">
                                 <input asp-for="@professor.Ativo" onclick="return false" />
                             </td>

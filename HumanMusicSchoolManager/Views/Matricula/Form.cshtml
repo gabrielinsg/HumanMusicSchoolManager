@@ -28,12 +28,6 @@
                 </div>
             </div>
             <br />
-            <div class="row">
-                <div class="col-md-12">
-                    <b>Pacote de aula: </b>Grupo 44 aulas com 44 aulas por R$ 2.280,00 em 12x de R$ 190,00
-                </div>
-            </div>
-            <br />
 
             <br />
             <div class="row">
@@ -108,7 +102,7 @@
                                                 <td>
                                                     <a asp-action="Form" class="btn btn-success" asp-route-cursoId="@(curso.CursoId)"
                                                        asp-route-alunoId="@(Model.Aluno.Id)"
-                                                       asp-route-respFinanceiroId="@(Model.RespFinanceiro.Id)" 
+                                                       asp-route-respFinanceiroId="@(Model.RespFinanceiro.Id)"
                                                        asp-route-dispSalaId="@(dispSala.Id)">Selecionar</a>
 
                                                 </td>
@@ -134,12 +128,12 @@
                                     <button type="button" class="btn btn-outline-primary" id="carregarAluno">Carregar dados do aluno</button>
                                 </div>
                                 <div class="col-md-2">
-                                    <a asp-action="Form" 
-                                        asp-route-alunoId="@Model.Aluno.Id" 
-                                        asp-route-cursoId="@Model.Curso.Id"
-                                        asp-route-dispSalaId="@Model.DispSala.Id"
-                                        asp-route-collapse="respFinanceiro"
-                                        class="btn btn-primary">Novo</a>
+                                    <a asp-action="Form"
+                                       asp-route-alunoId="@Model.Aluno.Id"
+                                       asp-route-cursoId="@Model.Curso.Id"
+                                       asp-route-dispSalaId="@Model.DispSala.Id"
+                                       asp-route-collapse="respFinanceiro"
+                                       class="btn btn-primary">Novo</a>
                                 </div>
                             </div>
                             <br />
@@ -160,9 +154,8 @@
 
                                         <input asp-for="RespFinanceiro.Id" type="hidden" />
                                         <input asp-for="Aluno.Id" type="hidden" />
-                                        <input asp-for="Curso.Id" type="hidden"  />
-                                        <input asp-for="DispSala.Id" type="hidden"  />
-                                        <input asp-for="PacoteAula.Id" type="hidden" />
+                                        <input asp-for="Curso.Id" type="hidden" />
+                                        <input asp-for="DispSala.Id" type="hidden" />
 
                                         <div class="row">
                                             <div class="col-md-5">
@@ -302,14 +295,44 @@
             </div>
 
             <hr class="my-4">
-            <p>Após escolher o <b>Curso</b>, <b>Responsável financeiro</b> e <b>Pacote de aula</b> finalize a matricual clicando em <b>Matricular</b>.</p>
-            <form role="form" method="post" asp-action="Form">
-                <input asp-for="Aluno.Id" hidden="hidden" />
-                <input asp-for="Curso.Id" hidden="hidden" />
-                <input asp-for="DispSala.Id" hidden="hidden" />
-                <input asp-for="RespFinanceiro.Id" hidden="hidden" />
-                <button type="submit" class="btn btn-primary btn-lg">Matricular</button>
-            </form>
+            <p>Após escolher o <b>Curso</b> e <b>Responsável financeiro</b> finalize a matricual clicando em <b>Matricular</b>.</p>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                Matricular
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <form role="form" method="post" asp-action="Form">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                @for(int i = 0; i < Model.TaxasMatricula.Count; i++)
+                                {
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label asp-for="Financeiros[i].Nome"></label>
+                                                <input class="form-control" readonly asp-for="Financeiros[i].Nome" value="@Model.TaxasMatricula[i].Nome" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                }
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                <button type="submit" class="btn btn-primary">Realizar Matricula</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

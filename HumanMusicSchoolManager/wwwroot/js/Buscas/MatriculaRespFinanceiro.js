@@ -20,11 +20,9 @@
             var rota = "/Matricula/Form?respFinanceiroId=" + ui.item.id;
             var alunoId = $("#Aluno_Id").val();
             var cursoId = $("#Curso_Id").val();
-            var pacoteAulaId = $("#PacoteAula_Id").val();
             var dispSalaId = $("#DispSala_Id").val();
             if (alunoId !== "") { rota += "&alunoId=" + alunoId; }
             if (cursoId !== "") { rota += "&cursoId=" + cursoId; }
-            if (pacoteAulaId !== "") { rota += "&pacoteAulaId=" + pacoteAulaId; }
             if (dispSalaId !== "") { rota += "&dispSalaId=" + dispSalaId; }
             window.location.href = rota;
         },

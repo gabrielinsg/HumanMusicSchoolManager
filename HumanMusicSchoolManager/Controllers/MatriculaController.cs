@@ -15,27 +15,27 @@ namespace HumanMusicSchoolManager.Controllers
     {
         private readonly IMatriculaService _matriculaService;
         private readonly IAlunoService _alunoService;
-        private readonly IPacoteAulaService _pacoteAulaService;
         private readonly ISalaService _salaService;
         private readonly IDispSalaService _dispSalaService;
         private readonly ICursoService _cursoService;
         private readonly IRespFinanceiroService _respFinanceiroService;
+        private readonly ITaxaMatriculaService _taxaMatriculaService;
 
         public MatriculaController(IMatriculaService matriculaService,
             IAlunoService alunoService,
-            IPacoteAulaService pacoteAulaService,
             ISalaService salaService,
             IDispSalaService dispSalaService,
             ICursoService cursoService,
-            IRespFinanceiroService respFinanceiroService)
+            IRespFinanceiroService respFinanceiroService,
+            ITaxaMatriculaService taxaMatriculaService)
         {
             this._matriculaService = matriculaService;
             this._alunoService = alunoService;
-            this._pacoteAulaService = pacoteAulaService;
             this._salaService = salaService;
             this._dispSalaService = dispSalaService;
             this._cursoService = cursoService;
             this._respFinanceiroService = respFinanceiroService;
+            this._taxaMatriculaService = taxaMatriculaService;
         }
 
         [HttpGet]
@@ -52,6 +52,7 @@ namespace HumanMusicSchoolManager.Controllers
                         Aluno = aluno,
                         DispSalas = _dispSalaService.BuscarTodos(),
                         Cursos = _cursoService.BuscarTodos(),
+                        TaxasMatricula = _taxaMatriculaService.BuscarTodos()
                     };
                     if (dispSalaId != null)
                     {
@@ -116,6 +117,7 @@ namespace HumanMusicSchoolManager.Controllers
                     matriculaViewModel.Aluno = _alunoService.BuscarPorId(matriculaViewModel.Aluno.Id.Value);
                     matriculaViewModel.DispSalas = _dispSalaService.BuscarTodos();
                     matriculaViewModel.Cursos = _cursoService.BuscarTodos();
+                    matriculaViewModel.TaxasMatricula = _taxaMatriculaService.BuscarTodos();
                     if (matriculaViewModel.DispSala.Id != null)
                     {
                         matriculaViewModel.DispSala = _dispSalaService.BuscarPorId(matriculaViewModel.DispSala.Id.Value);
@@ -133,6 +135,7 @@ namespace HumanMusicSchoolManager.Controllers
                     matriculaViewModel.Aluno = _alunoService.BuscarPorId(matriculaViewModel.Aluno.Id.Value);
                     matriculaViewModel.DispSalas = _dispSalaService.BuscarTodos();
                     matriculaViewModel.Cursos = _cursoService.BuscarTodos();
+                    matriculaViewModel.TaxasMatricula = _taxaMatriculaService.BuscarTodos();
                     if (matriculaViewModel.DispSala.Id != null)
                     {
                         matriculaViewModel.DispSala = _dispSalaService.BuscarPorId(matriculaViewModel.DispSala.Id.Value);
@@ -155,6 +158,7 @@ namespace HumanMusicSchoolManager.Controllers
                     matriculaViewModel.Aluno = _alunoService.BuscarPorId(matriculaViewModel.Aluno.Id.Value);
                     matriculaViewModel.DispSalas = _dispSalaService.BuscarTodos();
                     matriculaViewModel.Cursos = _cursoService.BuscarTodos();
+                    matriculaViewModel.TaxasMatricula = _taxaMatriculaService.BuscarTodos();
                     if (matriculaViewModel.DispSala.Id != null)
                     {
                         matriculaViewModel.DispSala = _dispSalaService.BuscarPorId(matriculaViewModel.DispSala.Id.Value);
@@ -172,6 +176,7 @@ namespace HumanMusicSchoolManager.Controllers
                     matriculaViewModel.Aluno = _alunoService.BuscarPorId(matriculaViewModel.Aluno.Id.Value);
                     matriculaViewModel.DispSalas = _dispSalaService.BuscarTodos();
                     matriculaViewModel.Cursos = _cursoService.BuscarTodos();
+                    matriculaViewModel.TaxasMatricula = _taxaMatriculaService.BuscarTodos();
                     if (matriculaViewModel.DispSala.Id != null)
                     {
                         matriculaViewModel.DispSala = _dispSalaService.BuscarPorId(matriculaViewModel.DispSala.Id.Value);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,6 +20,7 @@ namespace HumanMusicSchoolManager.Models.Models
 
         [Required(ErrorMessage = "O campo Valor é obrigatório")]
         [Range(0, double.MaxValue, ErrorMessage = "Valor inválido")]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Valor { get; set; }
 
         [Required(ErrorMessage = "O campo Parcela é obrigatório")]

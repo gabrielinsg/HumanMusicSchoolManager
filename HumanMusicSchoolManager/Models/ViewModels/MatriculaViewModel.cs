@@ -15,6 +15,8 @@ namespace HumanMusicSchoolManager.Models.ViewModels
         public RespFinanceiro RespFinanceiro { get; set; }
         public List<DispSala> DispSalas { get; set; }
         public List<Curso> Cursos { get; set; }
+        public List<TaxaMatricula> TaxasMatricula { get; set; }
+        public List<Financeiro> Financeiros { get; set; }
 
         public MatriculaViewModel()
         {

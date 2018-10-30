@@ -1,0 +1,70 @@
+﻿@model List<TaxaMatricula>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="card mb-3">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-11">
+                <i class="fas fa-table"></i>
+                Taxas de Matrícula
+            </div>
+            <div class="col-md-1">
+                <a asp-action="Form" class="btn btn-primary">Novo</a>
+            </div>
+        </div>
+
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th class="text-center">Valor</th>
+                        <th class="text-center">Alterar</th>
+                        <th class="text-center">Excluir</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Nome</th>
+                        <th class="text-center">Valor</th>
+                        <th class="text-center">Alterar</th>
+                        <th class="text-center">Excluir</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var taxaMatricula in Model)
+                    {
+                        <tr>
+                            <td>@taxaMatricula.Nome</td>
+                            <td class="text-center">@taxaMatricula.Valor</td>
+                            <td class="text-center"><a asp-action="Form" asp-route-taxaMatriculaId="@(taxaMatricula.Id)"><i class="fas fa-pencil-alt"></i></a></td>
+                            <td class="text-center"><a asp-action="Excluir" asp-route-taxaMatriculaId="@taxaMatricula.Id" id="excluir"><i class="fas fa-trash-alt text-danger"></i></a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/vendor/datatables/jquery.dataTables.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.js"></script>
+    <script src="~/js/demo/datatables-demo.js"></script>
+    <script>
+        $("a#excluir").click(function () {
+            var cf = confirm("Tem certeza que deseja excluir o horário?");
+            if (cf == true) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        });
+    </script>
+}
+

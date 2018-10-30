@@ -1,12 +1,12 @@
-﻿    @model Sala
+﻿@model TaxaMatricula
 @{
     ViewData["Title"] = "Form";
 }
 
-<input id="rota" type="hidden" value="Sala" />
+<input id="rota" type="hidden" value="TaxaMatricula" />
 <div class="row">
     <div class="col-md-11">
-        <h2 class="col-md-10">Sala</h2>
+        <h2 class="col-md-10">Curso</h2>
     </div>
     <div class="col-md-1">
         <a asp-action="Form" class="btn btn-primary">Novo</a>
@@ -30,7 +30,6 @@
         <form role="form" method="post" asp-action="form">
 
             <input asp-for="Id" type="hidden" />
-
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
@@ -41,32 +40,9 @@
                 </div>
                 <div class="col-md-2">
                     <div class="form-group">
-                        <label asp-for="Capacidade"></label>
-                        <input asp-for="Capacidade" class="form-control" required />
-                        <span asp-validation-for="Capacidade" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <div class="checkbox">
-                            @if (Model == null)
-                            {
-                                <label asp-for="Ativo">
-                                    <input asp-for="Ativo" checked="checked" />
-                                    @Html.DisplayNameFor(p => p.Ativo)
-                                </label>
-                            }
-                            else
-                            {
-                                <label asp-for="Ativo">
-                                    <input asp-for="Ativo" />
-                                    @Html.DisplayNameFor(p => p.Ativo)
-                                </label>
-                            }
-
-                        </div>
+                        <label asp-for="Valor"></label>
+                        <input asp-for="Valor" class="form-control" required />
+                        <span asp-validation-for="Valor" class="text-danger"></span>
                     </div>
                 </div>
             </div>

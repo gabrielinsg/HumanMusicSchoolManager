@@ -25,6 +25,8 @@ namespace HumanMusicSchoolManager.Data
         public DbSet<DispSala> DispSalas { get; set; }
         public DbSet<PacoteAula> PacotesAula { get; set; }
         public DbSet<PacoteCompra> PacoteCompras { get; set; }
+        public DbSet<TaxaMatricula> TaxaMatriculas { get; set; }
+        public DbSet<Financeiro> Financeiros { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -44,6 +46,11 @@ namespace HumanMusicSchoolManager.Data
                 .HasOne(m => m.RespFinanceiro)
                 .WithMany()
                 .HasForeignKey("RespFinanceiroId")
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Financeiro>()
+                .HasOne(f => f.Funcionario)
+                .WithMany()
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Sala>()
