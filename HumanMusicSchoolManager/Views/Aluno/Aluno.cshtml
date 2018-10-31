@@ -9,9 +9,12 @@
     <li class="nav-item">
         <a class="nav-link active" id="dados-tab" data-toggle="tab" href="#dados" role="tab" aria-controls="dados" aria-selected="true">Dados</a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#curso" role="tab" aria-controls="curso" aria-selected="false">Curso</a>
-    </li>
+    @foreach (var matricula in Model.Matriculas)
+    {
+        <li class="nav-item">
+            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#@matricula.Curso.Nome@matricula.Id" role="tab" aria-controls="@matricula.Curso.Nome@matricula.Id" aria-selected="false">@matricula.Curso.Nome</a>
+        </li>
+    }
     <li class="nav-item">
         <a asp-action="Form" class="nav-link" asp-controller="Matricula" asp-route-alunoId="@(Model.Id)">+</a>
     </li>
@@ -45,9 +48,12 @@
         <br />
         <a asp-action="Form" asp-route-alunoId="@Model.Id" class="btn btn-primary">Alterar</a>
     </div>
-    <div class="tab-pane fade" id="curso" role="tabpanel" aria-labelledby="profile-tab">
-        oi
-    </div>
+    @foreach (var matricula in Model.Matriculas)
+    {
+        <div class="tab-pane fade" id="@matricula.Curso.Nome@matricula.Id" role="tabpanel" aria-labelledby="profile-tab">
+            <p>@matricula.Curso.Nome</p>
+        </div>
+    }
 </div>
 
 

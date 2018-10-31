@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HumanMusicSchoolManager.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181029203949_AddFinanceiro")]
-    partial class AddFinanceiro
+    [Migration("20181031045025_AlunoFinanceiros")]
+    partial class AlunoFinanceiros
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -201,33 +201,39 @@ namespace HumanMusicSchoolManager.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("AlunoId")
+                        .IsRequired();
+
                     b.Property<DateTime>("DataGerada");
 
-                    b.Property<DateTime>("DateVencimento");
+                    b.Property<DateTime>("DataVencimento");
 
-                    b.Property<decimal>("Desconto")
+                    b.Property<decimal?>("Desconto")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("FormaPagamento");
 
-                    b.Property<int?>("FuncionarioId")
-                        .IsRequired();
-
-                    b.Property<decimal>("Multa")
+                    b.Property<decimal?>("Multa")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Nome")
                         .IsRequired();
 
-                    b.Property<decimal>("Valor")
+                    b.Property<int?>("PessoaId")
+                        .IsRequired();
+
+                    b.Property<decimal?>("Valor")
+                        .IsRequired()
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal>("ValorPago")
+                    b.Property<decimal?>("ValorPago")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FuncionarioId");
+                    b.HasIndex("AlunoId");
+
+                    b.HasIndex("PessoaId");
 
                     b.ToTable("Financeiros");
                 });
@@ -503,9 +509,6 @@ namespace HumanMusicSchoolManager.Data.Migrations
                 {
                     b.HasBaseType("HumanMusicSchoolManager.Models.Models.Pessoa");
 
-                    b.Property<int?>("RespFinanceiroId");
-
-                    b.HasIndex("RespFinanceiroId");
 
                     b.ToTable("Aluno");
 
@@ -598,9 +601,14 @@ namespace HumanMusicSchoolManager.Data.Migrations
 
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Financeiro", b =>
                 {
-                    b.HasOne("HumanMusicSchoolManager.Models.Models.Funcionario", "Funcionario")
+                    b.HasOne("HumanMusicSchoolManager.Models.Models.Aluno", "Aluno")
+                        .WithMany("Financeiros")
+                        .HasForeignKey("AlunoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("HumanMusicSchoolManager.Models.Models.Pessoa", "Pessoa")
                         .WithMany()
-                        .HasForeignKey("FuncionarioId")
+                        .HasForeignKey("PessoaId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
@@ -691,13 +699,6 @@ namespace HumanMusicSchoolManager.Data.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Aluno", b =>
-                {
-                    b.HasOne("HumanMusicSchoolManager.Models.Models.RespFinanceiro", "RespFinanceiro")
-                        .WithMany()
-                        .HasForeignKey("RespFinanceiroId");
                 });
 #pragma warning restore 612, 618
         }

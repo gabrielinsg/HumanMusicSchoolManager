@@ -4,14 +4,16 @@ using HumanMusicSchoolManager.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HumanMusicSchoolManager.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181031043219_FinanceiroTaxaMatricula")]
+    partial class FinanceiroTaxaMatricula
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -507,6 +509,9 @@ namespace HumanMusicSchoolManager.Data.Migrations
                 {
                     b.HasBaseType("HumanMusicSchoolManager.Models.Models.Pessoa");
 
+                    b.Property<int?>("RespFinanceiroId");
+
+                    b.HasIndex("RespFinanceiroId");
 
                     b.ToTable("Aluno");
 
@@ -600,7 +605,7 @@ namespace HumanMusicSchoolManager.Data.Migrations
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Financeiro", b =>
                 {
                     b.HasOne("HumanMusicSchoolManager.Models.Models.Aluno", "Aluno")
-                        .WithMany("Financeiros")
+                        .WithMany()
                         .HasForeignKey("AlunoId")
                         .OnDelete(DeleteBehavior.Cascade);
 
@@ -697,6 +702,13 @@ namespace HumanMusicSchoolManager.Data.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Aluno", b =>
+                {
+                    b.HasOne("HumanMusicSchoolManager.Models.Models.RespFinanceiro", "RespFinanceiro")
+                        .WithMany()
+                        .HasForeignKey("RespFinanceiroId");
                 });
 #pragma warning restore 612, 618
         }

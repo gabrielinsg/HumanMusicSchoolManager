@@ -16,32 +16,34 @@ namespace HumanMusicSchoolManager.Models.Models
 
         [Required]
         [Column(TypeName = "decimal(18,2)")]
-        public decimal Valor { get; set; }
+        public decimal? Valor { get; set; }
 
         [Column(TypeName = "decimal(18,2)")]
-        public decimal Desconto { get; set; }
+        public decimal? Desconto { get; set; }
 
         [Column(TypeName = "decimal(18,2)")]
-        public decimal Multa { get; set; }
+        public decimal? Multa { get; set; }
 
         [Display(Name = "Valor Pago")]
         [Column(TypeName = "decimal(18,2)")]
-        public decimal ValorPago { get; set; }
-
-        [Required]
+        public decimal? ValorPago { get; set; }
+        
         [Display(Name = "Forma de pagamento")]
         public FormaPagamento FormaPagamento { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "O campo Data gerada é obrigatório")]
         [Display(Name = "Data gerada")]
         public DateTime DataGerada { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "O campo Data de vencimento é obrigatório")]
         [Display(Name = "Data de vencimento")]
-        public DateTime DateVencimento { get; set; }
+        public DateTime DataVencimento { get; set; }
 
-        [Required]
-        public Funcionario Funcionario { get; set; }
+        [Required(ErrorMessage = "O Funcionário não foi selecionado")]
+        public Pessoa Pessoa { get; set; }
+
+        [Required(ErrorMessage = "O Aluno não foi selecionado")]
+        public Aluno Aluno { get; set; }
     }
 
     public enum FormaPagamento

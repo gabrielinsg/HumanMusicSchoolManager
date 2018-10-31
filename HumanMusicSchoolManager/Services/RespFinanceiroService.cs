@@ -21,9 +21,29 @@ namespace HumanMusicSchoolManager.Services
         
         public RespFinanceiro Alterar(RespFinanceiro respFinanceiro)
         {
-            _context.RespsFinanceiro.Update(respFinanceiro);
-            _context.SaveChanges();
-            return respFinanceiro;
+            var entry = _context.Entry<RespFinanceiro>(respFinanceiro);
+            if (entry.State == EntityState.Detached)
+            {
+                var newRespFinanceiro = _context.RespsFinanceiro.FirstOrDefault(rf => rf.Id == respFinanceiro.Id);
+                newRespFinanceiro.Nome = respFinanceiro.Nome;
+                newRespFinanceiro.Endereco = respFinanceiro.Endereco;
+                newRespFinanceiro.CPF = respFinanceiro.CPF;
+                newRespFinanceiro.DataNascimento = respFinanceiro.DataNascimento;
+                newRespFinanceiro.RG = respFinanceiro.RG;
+                newRespFinanceiro.Tel = respFinanceiro.Tel;
+                newRespFinanceiro.Cel = respFinanceiro.Cel;
+                newRespFinanceiro.Ativo = respFinanceiro.Ativo;
+                newRespFinanceiro.Email = respFinanceiro.Email;
+                _context.RespsFinanceiro.Update(newRespFinanceiro);
+                _context.SaveChanges();
+                return newRespFinanceiro;
+            }
+            else
+            {
+                _context.SaveChanges();
+                return respFinanceiro;
+            }
+
         }
 
         public RespFinanceiro BuscarPorId(int respFinanceiroId)

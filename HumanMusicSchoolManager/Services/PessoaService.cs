@@ -33,5 +33,17 @@ namespace HumanMusicSchoolManager.Services
             _context.SaveChanges();
             return _context.Pessoas.Where(p => p.Email == pessoa.Email).SingleOrDefault();
         }
+
+        public Pessoa GetUser(string userName)
+        {
+
+            var user = _context.Users.FirstOrDefault(u => u.UserName == userName);
+            Pessoa pessoa = null;
+            if (user != null)
+            {
+                pessoa = _context.Pessoas.FirstOrDefault(p => p.Id == user.PessoaId);
+            }
+            return pessoa;
+        }
     }
 }

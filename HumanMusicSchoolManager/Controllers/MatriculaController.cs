@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HumanMusicSchoolManager.Models;
 using HumanMusicSchoolManager.Models.Models;
 using HumanMusicSchoolManager.Models.ViewModels;
 using HumanMusicSchoolManager.Services;
 using HumanMusicSchoolManager.ServicesInterface;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HumanMusicSchoolManager.Controllers
@@ -20,6 +22,9 @@ namespace HumanMusicSchoolManager.Controllers
         private readonly ICursoService _cursoService;
         private readonly IRespFinanceiroService _respFinanceiroService;
         private readonly ITaxaMatriculaService _taxaMatriculaService;
+        private readonly IPessoaService _pessaServeice;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IFinanceiroService _financeiroService;
 
         public MatriculaController(IMatriculaService matriculaService,
             IAlunoService alunoService,
@@ -27,7 +32,10 @@ namespace HumanMusicSchoolManager.Controllers
             IDispSalaService dispSalaService,
             ICursoService cursoService,
             IRespFinanceiroService respFinanceiroService,
-            ITaxaMatriculaService taxaMatriculaService)
+            ITaxaMatriculaService taxaMatriculaService,
+            IPessoaService pessoaService,
+            IFinanceiroService financeiroService,
+            UserManager<ApplicationUser> userManager)
         {
             this._matriculaService = matriculaService;
             this._alunoService = alunoService;
@@ -36,6 +44,9 @@ namespace HumanMusicSchoolManager.Controllers
             this._cursoService = cursoService;
             this._respFinanceiroService = respFinanceiroService;
             this._taxaMatriculaService = taxaMatriculaService;
+            this._pessaServeice = pessoaService;
+            this._userManager = userManager;
+            this._financeiroService = financeiroService;
         }
 
         [HttpGet]
@@ -92,7 +103,92 @@ namespace HumanMusicSchoolManager.Controllers
         [HttpPost]
         public IActionResult Form(MatriculaViewModel matriculaViewModel)
         {
-            return null;
+            foreach (var model in ModelState.Where(m => !m.Key.StartsWith("Financeiro") || m.Key.EndsWith("Pessoa") || m.Key.EndsWith("Aluno")).ToList())
+            {
+                ModelState.Remove(model.Key);
+            }
+
+            var pessoa = _pessaServeice.GetUser(User.Identity.Name);
+
+            if(pessoa == null)
+            {
+                ModelState.AddModelError("Pessoa", "Não existe pessoa para a matricula");
+            }
+            else
+            {
+                foreach (var financeiro in matriculaViewModel.Financeiros)
+                {
+                    financeiro.Pessoa = pessoa;
+                }
+            }
+
+            foreach (var financeiro in matriculaViewModel.Financeiros)
+            {
+                financeiro.DataGerada = DateTime.Now;
+            }
+
+            if (matriculaViewModel.Aluno.Id == null)
+            {
+                ModelState.AddModelError("Aluno", "Aluno não selecionado!");
+            }
+            else
+            {
+                matriculaViewModel.Aluno = _alunoService.BuscarPorId(matriculaViewModel.Aluno.Id.Value);
+                matriculaViewModel.Matricula.Aluno = _alunoService.BuscarPorId(matriculaViewModel.Aluno.Id.Value);
+                foreach (var financeiro in matriculaViewModel.Financeiros)
+                {
+                    financeiro.Aluno = _alunoService.BuscarPorId(matriculaViewModel.Aluno.Id.Value);
+                }
+            }
+
+            if (matriculaViewModel.Curso.Id == null)
+            {
+                ModelState.AddModelError("Curso", "Curso deve ser selecionado!");
+            }
+            else
+            {
+                matriculaViewModel.Curso = _cursoService.BuscarPorId(matriculaViewModel.Curso.Id.Value);
+                matriculaViewModel.Matricula.Curso = _cursoService.BuscarPorId(matriculaViewModel.Curso.Id.Value);
+            }
+
+            if (matriculaViewModel.DispSala.Id == null)
+            {
+                ModelState.AddModelError("Horário", "Um horário deve ser selecionado!");
+            }
+            else
+            {
+                matriculaViewModel.DispSala = _dispSalaService.BuscarPorId(matriculaViewModel.DispSala.Id.Value);
+                matriculaViewModel.Matricula.DispSala = _dispSalaService.BuscarPorId(matriculaViewModel.DispSala.Id.Value);
+            }
+
+            if (matriculaViewModel.RespFinanceiro.Id == null)
+            {
+                ModelState.AddModelError("RespFinanceiro", "Um Responsável financeiro deve ser selecionado!");
+            }
+            else
+            {
+                matriculaViewModel.RespFinanceiro = _respFinanceiroService.BuscarPorId(matriculaViewModel.RespFinanceiro.Id.Value);
+                matriculaViewModel.Matricula.RespFinanceiro = _respFinanceiroService.BuscarPorId(matriculaViewModel.RespFinanceiro.Id.Value);
+            }
+
+            matriculaViewModel.TaxasMatricula = _taxaMatriculaService.BuscarTodos();
+            matriculaViewModel.DispSalas = _dispSalaService.BuscarTodos();
+            matriculaViewModel.Cursos = _cursoService.BuscarTodos();
+
+            if (ModelState.IsValid)
+            {
+                matriculaViewModel.Matricula.Ativo = true;
+                _matriculaService.Cadastrar(matriculaViewModel.Matricula);
+                foreach (var financeiro in matriculaViewModel.Financeiros)
+                {
+                    _financeiroService.Cadastrar(financeiro);
+                }
+                return RedirectToAction("Aluno", "Aluno", new { alunoId = matriculaViewModel.Aluno.Id });
+            }
+            else
+            {
+                return View(matriculaViewModel);
+            }
         }
 
         [HttpPost]

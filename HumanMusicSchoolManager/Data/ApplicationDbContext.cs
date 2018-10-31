@@ -49,7 +49,7 @@ namespace HumanMusicSchoolManager.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Financeiro>()
-                .HasOne(f => f.Funcionario)
+                .HasOne(f => f.Pessoa)
                 .WithMany()
                 .OnDelete(DeleteBehavior.Restrict);
 
@@ -62,6 +62,7 @@ namespace HumanMusicSchoolManager.Data
                 .HasMany(m => m.PacoteCompras)
                 .WithOne(pc => pc.Matricula)
                 .OnDelete(DeleteBehavior.Restrict);
+
 
             base.OnModelCreating(builder);
             // Customize the ASP.NET Identity model and override the defaults if needed.

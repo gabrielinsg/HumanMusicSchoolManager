@@ -9,6 +9,6 @@ namespace HumanMusicSchoolManager.Models.Models
     public class Aluno : Pessoa
     {
         public List<Matricula> Matriculas { get; set; }
-        public RespFinanceiro RespFinanceiro { get; set; }
+        public List<Financeiro> Financeiros { get; set; }
     }
 }

@@ -33,7 +33,16 @@ namespace HumanMusicSchoolManager.Services
         {
             return _context.Alunos.Include(a => a.Matriculas)
                 .Include(a => a.Endereco)
-                .Include(a => a.RespFinanceiro)
+                .Include(a => a.Financeiros)
+                .ThenInclude(f => f.Pessoa)
+                .Include(a => a.Matriculas)
+                .ThenInclude(m => m.Curso)
+                .Include(m => m.Matriculas)
+                .ThenInclude(m => m.DispSala)
+                .Include(m => m.Matriculas)
+                .ThenInclude(m => m.RespFinanceiro)
+                .Include(m => m.Matriculas)
+                .ThenInclude(m => m.PacoteCompras)
                 .FirstOrDefault(a => a.Id == alunoId);
         }
 

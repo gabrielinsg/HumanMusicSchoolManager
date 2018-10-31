@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HumanMusicSchoolManager.Data.Migrations
 {
-    public partial class AddFinanceiro : Migration
+    public partial class FinanceiroTaxaMatricula : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -27,20 +27,27 @@ namespace HumanMusicSchoolManager.Data.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Nome = table.Column<string>(nullable: false),
                     Valor = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Desconto = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Multa = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    ValorPago = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Desconto = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    Multa = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    ValorPago = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     FormaPagamento = table.Column<int>(nullable: false),
                     DataGerada = table.Column<DateTime>(nullable: false),
-                    DateVencimento = table.Column<DateTime>(nullable: false),
-                    FuncionarioId = table.Column<int>(nullable: false)
+                    DataVencimento = table.Column<DateTime>(nullable: false),
+                    PessoaId = table.Column<int>(nullable: false),
+                    AlunoId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Financeiros", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Financeiros_Pessoas_FuncionarioId",
-                        column: x => x.FuncionarioId,
+                        name: "FK_Financeiros_Pessoas_AlunoId",
+                        column: x => x.AlunoId,
+                        principalTable: "Pessoas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Financeiros_Pessoas_PessoaId",
+                        column: x => x.PessoaId,
                         principalTable: "Pessoas",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -61,9 +68,14 @@ namespace HumanMusicSchoolManager.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Financeiros_FuncionarioId",
+                name: "IX_Financeiros_AlunoId",
                 table: "Financeiros",
-                column: "FuncionarioId");
+                column: "AlunoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Financeiros_PessoaId",
+                table: "Financeiros",
+                column: "PessoaId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
