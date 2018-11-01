@@ -28,6 +28,8 @@
     <Compile Remove="Data\Migrations\20181031044254_AlunoFinanceiros.Designer.cs" />
     <Compile Remove="Data\Migrations\20181031191833_DispSalaMatriculas.cs" />
     <Compile Remove="Data\Migrations\20181031191833_DispSalaMatriculas.Designer.cs" />
+    <Compile Remove="Data\Migrations\20181101172446_PacoteCompraDesconto.cs" />
+    <Compile Remove="Data\Migrations\20181101172446_PacoteCompraDesconto.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

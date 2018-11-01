@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -25,5 +26,9 @@ namespace HumanMusicSchoolManager.Models.Models
         [Required(ErrorMessage = "O campo número de parcelas é obrigatório")]
         [Display(Name = "Quantidade de parcelas")]
         public int QtdParcela { get; set; }
+
+        [Range(0, double.MaxValue, ErrorMessage = "Valor inválido")]
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal Desconto { get; set; }
     }
 }

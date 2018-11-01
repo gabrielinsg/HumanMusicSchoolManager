@@ -16,7 +16,7 @@
         </li>
     }
     <li class="nav-item">
-        <a asp-action="Form" class="nav-link" asp-controller="Matricula" asp-route-alunoId="@(Model.Id)">+</a>
+        <a asp-action="Form" class="nav-link" asp-controller="Matricula" asp-route-alunoId="@(Model.Id)"><i class="fas fa-plus-square text-success"></i></a>
     </li>
 </ul>
 <div class="tab-content" id="myTabContent">
@@ -51,7 +51,52 @@
     @foreach (var matricula in Model.Matriculas)
     {
         <div class="tab-pane fade" id="@matricula.Curso.Nome@matricula.Id" role="tabpanel" aria-labelledby="profile-tab">
-            <p>@matricula.Curso.Nome</p>
+            <br />
+            <h2>@matricula.Curso.Nome</h2>
+            <b>@Html.DisplayFor(d => matricula.DispSala.Dia)</b> às <b>@matricula.DispSala.Hora.ToString("00:'00'h")</b> com <b>@matricula.DispSala.Professor.Nome</b>
+            <br /><br />
+            <div class="row">
+                <div class="col-md-8">
+                    <ul class="list-group">
+                        <li class="list-group-item active">Pacotes de Aula <a class="btn btn-success"><i class="fas fa-plus-circle"></i></a></li>
+                        <li class="list-group-item">
+                            <table class="table table-sm table-hover">
+                                <tbody>
+                                    <tr class="row">
+                                        <td class="col-md-3">Pacote 44 aulas</td>
+                                        <td class="col-md-4">
+                                            <div class="progress" style="margin-top: .30rem;">
+                                                <div class="progress-bar bg-success" role="progressbar" style="width: 27.27272727%" aria-valuenow="12" aria-valuemin="0" aria-valuemax="100">12 aulas</div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Calendário de aulas">
+                                                <a><i class="far fa-calendar-alt btn text-info"></i></a>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Contrato">
+                                                <a><i class="far fa-file-pdf btn text-danger"></i></a>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Trancar">
+                                                <a><i class="far fa-pause-circle btn text-success"></i></a>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Cancelar">
+                                                <a><i class="far fa-times-circle btn text-danger"></i></a>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
         </div>
     }
 </div>
