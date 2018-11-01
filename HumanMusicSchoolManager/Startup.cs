@@ -94,7 +94,7 @@ namespace HumanMusicSchoolManager
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            //CreateUserRoles(service).Wait();
+            CreateUserRoles(service).Wait();
         }
 
         private async Task CreateUserRoles(IServiceProvider serviceProvider)

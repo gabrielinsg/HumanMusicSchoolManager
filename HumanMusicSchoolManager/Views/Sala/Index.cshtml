@@ -7,24 +7,23 @@
     <div class="card-header">
         <div class="row">
             <div class="col-md-11">
-                <i class="fas fa-table"></i>
+                <i class="fas fa-chalkboard"></i>
                 Salas
             </div>
             <div class="col-md-1">
                 <a asp-action="Form" class="btn btn-primary">Novo</a>
             </div>
         </div>
-
     </div>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable table-striped" width="100%" cellspacing="0">
+            <table class="table table-bordered table-striped" id="dataTable" cellspacing="0">
                 <thead>
                     <tr>
                         <th>Nome</th>
                         <th class="text-center">Capacidade</th>
                         <th class="text-center">Cursos</th>
-                        <th class="text-center">Disp Sala</th>
+                        <th class="text-center">DispSala</th>
                         <th class="text-center">Ativo</th>
                         <th class="text-center">Alterar</th>
                     </tr>
@@ -32,9 +31,9 @@
                 <tfoot>
                     <tr>
                         <th>Nome</th>
-                        <th class="text-center">Capacidade</th>
+                        <th class="text-center">Capacidade  </th>
                         <th class="text-center">Cursos</th>
-                        <th class="text-center">Disp Sala</th>
+                        <th class="text-center">DispSala</th>
                         <th class="text-center">Ativo</th>
                         <th class="text-center">Alterar</th>
                     </tr>
@@ -67,8 +66,9 @@
                             <td class="text-center">
                                 <input asp-for="@sala.Ativo" onclick="return false" />
                             </td>
+                           
                             <td class="text-center">
-                                <a asp-action="Form" asp-route-salaId="@(sala.Id)"><i class="fas fa-pencil-alt"></i></a>
+                                <a asp-action="Form" asp-route-salaId="@(sala.Id)"><i class="fas fa-pencil-alt text-primary"></i></a>
                             </td>
                         </tr>
                     }
@@ -82,5 +82,9 @@
     <script src="~/vendor/datatables/jquery.dataTables.js"></script>
     <script src="~/vendor/datatables/dataTables.bootstrap4.js"></script>
     <script src="~/js/demo/datatables-demo.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
 }
-

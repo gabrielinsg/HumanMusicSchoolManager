@@ -6,14 +6,50 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\Migrations\20180330020916_ModelsInicial.cs" />
+    <Compile Remove="Data\Migrations\20180330020916_ModelsInicial.Designer.cs" />
+    <Compile Remove="Data\Migrations\20180330215155_MatriculaAtivo.cs" />
+    <Compile Remove="Data\Migrations\20180330215155_MatriculaAtivo.Designer.cs" />
+    <Compile Remove="Data\Migrations\20180330235432_MatriculaDataMatricula.cs" />
+    <Compile Remove="Data\Migrations\20180330235432_MatriculaDataMatricula.Designer.cs" />
     <Compile Remove="Data\Migrations\20180417192531_ApplicationUserPessoa.cs" />
     <Compile Remove="Data\Migrations\20180417192531_ApplicationUserPessoa.Designer.cs" />
+    <Compile Remove="Data\Migrations\20180429180711_ModEmailProfessorPessoa.cs" />
+    <Compile Remove="Data\Migrations\20180429180711_ModEmailProfessorPessoa.Designer.cs" />
+    <Compile Remove="Data\Migrations\20180518182355_Funcionario.cs" />
+    <Compile Remove="Data\Migrations\20180518182355_Funcionario.Designer.cs" />
+    <Compile Remove="Data\Migrations\20181004211036_Endereco.cs" />
+    <Compile Remove="Data\Migrations\20181004211036_Endereco.Designer.cs" />
+    <Compile Remove="Data\Migrations\20181005200924_PessoaTelefone.cs" />
+    <Compile Remove="Data\Migrations\20181005200924_PessoaTelefone.Designer.cs" />
+    <Compile Remove="Data\Migrations\20181005203600_PessoaPessoaTelefoneNull.cs" />
+    <Compile Remove="Data\Migrations\20181005203600_PessoaPessoaTelefoneNull.Designer.cs" />
+    <Compile Remove="Data\Migrations\20181009184532_Sala.cs" />
+    <Compile Remove="Data\Migrations\20181009184532_Sala.Designer.cs" />
+    <Compile Remove="Data\Migrations\20181009185654_RemoveNickNameEndereco.cs" />
+    <Compile Remove="Data\Migrations\20181009185654_RemoveNickNameEndereco.Designer.cs" />
+    <Compile Remove="Data\Migrations\20181010031309_RespFinanceiro.cs" />
+    <Compile Remove="Data\Migrations\20181010031309_RespFinanceiro.Designer.cs" />
+    <Compile Remove="Data\Migrations\20181011174016_RespFinanceiroPessoa.cs" />
+    <Compile Remove="Data\Migrations\20181011174016_RespFinanceiroPessoa.Designer.cs" />
+    <Compile Remove="Data\Migrations\20181012212902_EnderecoPessoaCascate.cs" />
+    <Compile Remove="Data\Migrations\20181012212902_EnderecoPessoaCascate.Designer.cs" />
+    <Compile Remove="Data\Migrations\20181016202421_DispSala.cs" />
+    <Compile Remove="Data\Migrations\20181016202421_DispSala.Designer.cs" />
     <Compile Remove="Data\Migrations\20181018195127_PacoteAula.cs" />
     <Compile Remove="Data\Migrations\20181018195127_PacoteAula.Designer.cs" />
     <Compile Remove="Data\Migrations\20181018200644_PacoteAula.cs" />
     <Compile Remove="Data\Migrations\20181018200644_PacoteAula.Designer.cs" />
     <Compile Remove="Data\Migrations\20181018201020_teste.cs" />
     <Compile Remove="Data\Migrations\20181018201020_teste.Designer.cs" />
+    <Compile Remove="Data\Migrations\20181018201418_PacoteAula.cs" />
+    <Compile Remove="Data\Migrations\20181018201418_PacoteAula.Designer.cs" />
+    <Compile Remove="Data\Migrations\20181019155437_MatriculaPacoteCompra.cs" />
+    <Compile Remove="Data\Migrations\20181019155437_MatriculaPacoteCompra.Designer.cs" />
+    <Compile Remove="Data\Migrations\20181024145041_PacoteAulaTipoAula.cs" />
+    <Compile Remove="Data\Migrations\20181024145041_PacoteAulaTipoAula.Designer.cs" />
+    <Compile Remove="Data\Migrations\20181024154447_AlunoRemoveRM.cs" />
+    <Compile Remove="Data\Migrations\20181024154447_AlunoRemoveRM.Designer.cs" />
     <Compile Remove="Data\Migrations\20181029203949_AddFinanceiro.cs" />
     <Compile Remove="Data\Migrations\20181029203949_AddFinanceiro.Designer.cs" />
     <Compile Remove="Data\Migrations\20181030212303_FinanceiroAddAluno.cs" />
@@ -24,12 +60,18 @@
     <Compile Remove="Data\Migrations\20181031020745_FinanceiroTaxaMatricula.Designer.cs" />
     <Compile Remove="Data\Migrations\20181031023246_FinanceiroPessoa.cs" />
     <Compile Remove="Data\Migrations\20181031023246_FinanceiroPessoa.Designer.cs" />
+    <Compile Remove="Data\Migrations\20181031043219_FinanceiroTaxaMatricula.cs" />
+    <Compile Remove="Data\Migrations\20181031043219_FinanceiroTaxaMatricula.Designer.cs" />
     <Compile Remove="Data\Migrations\20181031044254_AlunoFinanceiros.cs" />
     <Compile Remove="Data\Migrations\20181031044254_AlunoFinanceiros.Designer.cs" />
+    <Compile Remove="Data\Migrations\20181031045025_AlunoFinanceiros.cs" />
+    <Compile Remove="Data\Migrations\20181031045025_AlunoFinanceiros.Designer.cs" />
     <Compile Remove="Data\Migrations\20181031191833_DispSalaMatriculas.cs" />
     <Compile Remove="Data\Migrations\20181031191833_DispSalaMatriculas.Designer.cs" />
     <Compile Remove="Data\Migrations\20181101172446_PacoteCompraDesconto.cs" />
     <Compile Remove="Data\Migrations\20181101172446_PacoteCompraDesconto.Designer.cs" />
+    <Compile Remove="Data\Migrations\20181101172627_PacoteCompraDesconto.cs" />
+    <Compile Remove="Data\Migrations\20181101172627_PacoteCompraDesconto.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
