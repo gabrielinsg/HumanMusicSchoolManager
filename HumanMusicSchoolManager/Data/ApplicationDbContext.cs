@@ -63,6 +63,10 @@ namespace HumanMusicSchoolManager.Data
                 .WithOne(pc => pc.Matricula)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            builder.Entity<DispSala>()
+                .HasMany(ds => ds.Matriculas)
+                .WithOne(m => m.DispSala);
+
 
             base.OnModelCreating(builder);
             // Customize the ASP.NET Identity model and override the defaults if needed.

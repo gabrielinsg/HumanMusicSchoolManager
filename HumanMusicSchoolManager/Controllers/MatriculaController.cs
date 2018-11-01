@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using HumanMusicSchoolManager.Models;
@@ -61,7 +62,7 @@ namespace HumanMusicSchoolManager.Controllers
                     var matricula = new MatriculaViewModel()
                     {
                         Aluno = aluno,
-                        DispSalas = _dispSalaService.BuscarTodos(),
+                        DispSalas = _dispSalaService.HorariosDisponiveis(),
                         Cursos = _cursoService.BuscarTodos(),
                         TaxasMatricula = _taxaMatriculaService.BuscarTodos()
                     };
@@ -307,6 +308,12 @@ namespace HumanMusicSchoolManager.Controllers
                 aluno.Id = null;
                 return Json(aluno);
             }
+        }
+
+        [HttpPost]
+        public JsonResult BuscarRespFinanceiro(int respFinanceiroId)
+        {
+            return Json(_respFinanceiroService.BuscarPorId(respFinanceiroId));
         }
     }
 }

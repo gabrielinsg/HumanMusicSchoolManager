@@ -24,6 +24,10 @@ namespace HumanMusicSchoolManager.Services
                 .Include(dp => dp.Professor)
                 .ThenInclude(p => p.Cursos)
                 .Include(dp => dp.Sala)
+                .Include(ds => ds.Matriculas)
+                .ThenInclude(m => m.Aluno)
+                .Include(ds => ds.Matriculas)
+                .ThenInclude(m => m.Curso)
                 .ToList();
 
             return dispSalas;
@@ -32,6 +36,27 @@ namespace HumanMusicSchoolManager.Services
         public DispSala BuscarPorId(int dispSalaId)
         {
             return _context.DispSalas.SingleOrDefault(ds => ds.Id == dispSalaId);
+        }
+
+        public List<DispSala> HorariosDisponiveis()
+        {
+
+            var hr = _context.DispSalas
+                .Where(ds => ds.Sala.Capacidade > ds.Matriculas.Count)
+                .Include(dp => dp.Professor)
+                .ThenInclude(p => p.Cursos)
+                .Include(dp => dp.Sala)
+                .Include(ds => ds.Matriculas)
+                .ThenInclude(m => m.Aluno)
+                .Include(ds => ds.Matriculas)
+                .ThenInclude(m => m.Curso)
+                .ToList();
+
+            return hr
+                .OrderBy(h => h.Professor.Nome)
+                .OrderBy(h => h.Hora)
+                .OrderBy(h => h.Dia)
+                .ToList();
         }
     }
 }

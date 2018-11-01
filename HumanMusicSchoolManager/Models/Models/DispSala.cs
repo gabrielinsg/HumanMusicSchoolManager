@@ -12,6 +12,7 @@ namespace HumanMusicSchoolManager.Models.Models
         public Dia Dia { get; set; }
         public int Hora { get; set; }
         public Sala Sala { get; set; }
+        public List<Matricula> Matriculas { get; set; }
 
         public Professor Professor { get; set; }
 
