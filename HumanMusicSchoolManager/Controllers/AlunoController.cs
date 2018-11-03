@@ -61,7 +61,7 @@ namespace HumanMusicSchoolManager.Controllers
                     if (cpfUnico == null)
                     {
                         _alunoService.Cadastrar(aluno);
-                        TempData["Success"] = "Financeiro cadastrado com sucesso!";
+                        TempData["Success"] = "Aluno cadastrado com sucesso!";
                         return RedirectToAction("Form");
                     }
                     else
@@ -80,7 +80,7 @@ namespace HumanMusicSchoolManager.Controllers
                 if (ModelState.IsValid)
                 {
                     _alunoService.Alterar(aluno);
-                    TempData["Success"] = "Financeiro alterado com sucesso!";
+                    TempData["Success"] = "Aluno alterado com sucesso!";
                     return RedirectToAction("Form");
                 }
                 else

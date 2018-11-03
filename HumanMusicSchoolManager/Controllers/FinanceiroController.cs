@@ -16,7 +16,7 @@ namespace HumanMusicSchoolManager.Controllers
             this._financeiroService = financeiroService;
         }
 
-        public IActionResult Financeiro(int? alunoId)
+        public IActionResult Aluno(int? alunoId)
         {
             if (alunoId != null)
             {
@@ -24,7 +24,7 @@ namespace HumanMusicSchoolManager.Controllers
             }
             else
             {
-                return RedirectToAction("Financeiro", "Index");
+                return RedirectToAction("Aluno", "Index");
             }
         }
     }

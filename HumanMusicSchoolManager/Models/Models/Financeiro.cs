@@ -42,7 +42,7 @@ namespace HumanMusicSchoolManager.Models.Models
         [Required(ErrorMessage = "O Funcionário não foi selecionado")]
         public Pessoa Pessoa { get; set; }
 
-        [Required(ErrorMessage = "O Financeiro não foi selecionado")]
+        [Required(ErrorMessage = "O Aluno não foi selecionado")]
         public Aluno Aluno { get; set; }
 
         public PacoteCompra PacoteCompra { get; set; }

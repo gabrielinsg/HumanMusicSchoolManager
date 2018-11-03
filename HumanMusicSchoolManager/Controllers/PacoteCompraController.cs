@@ -54,7 +54,7 @@ namespace HumanMusicSchoolManager.Controllers
             }
             else
             {
-                return RedirectToAction("Financeiro", "Index");
+                return RedirectToAction("Aluno", "Index");
             }
         }
 
@@ -120,7 +120,7 @@ namespace HumanMusicSchoolManager.Controllers
                     };
                     _financeiroService.Cadastrar(financeiro);
                 }
-                return RedirectToAction("Financeiro", "Financeiro", new { alunoId = pacoteCompraViewModel.Matricula.Aluno.Id.Value });
+                return RedirectToAction("Aluno", "Aluno", new { alunoId = pacoteCompraViewModel.Matricula.Aluno.Id.Value });
             }
             else
             {
