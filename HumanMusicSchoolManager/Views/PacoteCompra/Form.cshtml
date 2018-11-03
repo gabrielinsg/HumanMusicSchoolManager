@@ -3,5 +3,203 @@
     ViewData["Title"] = "Form";
 }
 
-<h2>Comprar pacote de aula</h2>
+<div class="row">
+    <div class="col-md-12">
+        <h2>Matricula</h2>
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="jumbotron">
+            <h1 class="display-4">Comprar pacote</h1>
+            <br />
+            <div class="row">
+                <div class="col-md-12">
+                    <b>Pacote: </b>
+                    <span>
+                        @if (Model.PacoteAula.Id != null)
+                        {
+                            <span>@Model.PacoteAula.Nome com @Model.PacoteAula.QtdAula @Html.DisplayFor(d => d.PacoteAula.TipoAula) por @Model.PacoteAula.Valor.ToString("R$ #,###.00") em até @(Model.PacoteAula.Parcela)x de @((Model.PacoteAula.Valor / Model.PacoteAula.Parcela).ToString("R$ #,###.00"))</span>
+                        }
+                    </span>
+                </div>
+            </div>
+            <br />
+
+            <br />
+            <div class="row">
+                <div class="col-md-3">
+                    <p>
+                        <a class="btn btn-success col-md-12" data-toggle="collapse" href="#pacotesAula" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            <i class="fas fa-box-open"></i> Pacotes de Aula
+                        </a>
+                    </p>
+                </div>
+
+
+                <div class="collapse" id="pacotesAula">
+                    <div class="card card-body">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped" id="dataTable" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Nome</th>
+                                            <th class="text-center">Aulas</th>
+                                            <th class="text-center">Tipo de aula</th>
+                                            <th>Valor</th>
+                                            <th class="text-center">Parcelas</th>
+                                            <th>Valor da parcela</th>
+                                            <th>Selecionar</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Nome</th>
+                                            <th class="text-center">Aulas</th>
+                                            <th class="text-center">Tipo de aula</th>
+                                            <th>Valor</th>
+                                            <th class="text-center">Parcelas</th>
+                                            <th>Valor da parcela</th>
+                                            <th>Selecionar</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        @foreach (var pacoteAula in Model.PacotesAula)
+                                        {
+                                            <tr>
+                                                <td>@pacoteAula.Nome</td>
+                                                <td class="text-center">@pacoteAula.QtdAula</td>
+                                                <td class="text-center">@Html.DisplayFor(d => pacoteAula.TipoAula)</td>
+                                                <td>@pacoteAula.Valor.ToString("R$ #,###.00")</td>
+                                                <td class="text-center">@(pacoteAula.Parcela)x</td>
+                                                <td>@((pacoteAula.Valor / pacoteAula.Parcela).ToString("R$ #,###.   00"))</td>
+                                                <td>
+                                                    <a asp-action="Form" class="btn btn-success" asp-route-matriculaId="@Model.Matricula.Id" asp-route-pacoteAulaId="@pacoteAula.Id">Selecionar</a>
+
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <hr class="my-4">
+            <p>Após escolher o <b>Pacote de aula</b> finalize a compra clicando em <b>Compra</b>.</p>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                Compra
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" style="max-width: 70%!important;" role="document">
+                    <div class="modal-content">
+                        <form role="form" method="post" asp-action="Form">
+                            <input asp-for="Matricula.Id" type="hidden" />
+                            <input asp-for="PacoteAula.Id" type="hidden" />
+                            <input asp-for="PacoteCompra.PacoteAula.Id" type="hidden" />
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">
+                                    @if (Model.PacoteAula.Id != null)
+                                    {
+                                        <span>Comprar pacote de aula</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-danger"><b>Selecione um pacote de aula!</b></span>
+                                    }
+                                </h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-4"><b>Nome: </b>@Model.PacoteAula.Nome</div>
+                                        <div class="col-md-2"><b>Aulas: </b>@Model.PacoteAula.QtdAula</div>
+                                        <div class="col-md-2"><b>Tipo Aula:</b> @Html.DisplayFor(d => d.PacoteAula.TipoAula)</div>
+                                    </div>
+                                    <br />
+                                    <div class="list-group">
+                                        <div class="list-group-item">
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label asp-for="PacoteAula.Valor"></label>
+                                                        <input class="form-control" disabled asp-for="PacoteAula.Valor" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label asp-for="PacoteCompra.Desconto"></label>
+                                                        <input asp-for="PacoteCompra.Desconto" type="number" class="form-control" />
+                                                        <span asp-validation-for="PacoteCompra.Desconto" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label asp-for="PacoteCompra.QtdParcela" class="col-md-2 control-label">Parcelas</label>
+                                                        <div class="col-md-10">
+                                                            <select asp-for="PacoteCompra.QtdParcela" class="form-control">
+                                                                @for (int i = 1; i <= Model.PacoteAula.Parcela; i++)
+                                                                {
+                                                                    <option value="@i">@i</option>
+                                                                }
+                                                            </select>
+                                                            <span asp-validation-for="PacoteCompra.QtdParcela" class="text-danger" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label asp-for="FormaPagamento" class="control-label"></label>
+                                                        <div class="">
+                                                            <select asp-for="FormaPagamento" class="form-control col-12" asp-items="@Html.GetEnumSelectList<FormaPagamento>()"></select>
+                                                            <span asp-validation-for="FormaPagamento" class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label asp-for="Vencimento"></label>
+                                                        <input asp-for="Vencimento" type="date" class="form-control" />
+                                                        <span asp-validation-for="Vencimento" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <div class="form-group">
+                                                        <label>Total</label><br />
+                                                        <b><span id="valorPacote"></span> em <span id="parcelas"></span>x de <span id="valorParcela"></span> no <span id="formaPagamento"></span></b>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                @if (Model.PacoteAula.Id != null)
+                                {
+                                    <button type="submit" class="btn btn-primary">Finalizar compra</button>
+                                }
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="~/vendor/datatables/jquery.dataTables.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.js"></script>
+    <script src="~/js/demo/datatables-demo.js"></script>
+    <script src="~/js/pacoteCompra.js"></script>
+}
 

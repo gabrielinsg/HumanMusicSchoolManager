@@ -29,6 +29,6 @@ namespace HumanMusicSchoolManager.Models.Models
 
         [Range(0, double.MaxValue, ErrorMessage = "Valor inválido")]
         [Column(TypeName = "decimal(18,2)")]
-        public decimal Desconto { get; set; }
+        public decimal? Desconto { get; set; }
     }
 }

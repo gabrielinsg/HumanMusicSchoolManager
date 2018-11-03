@@ -42,21 +42,9 @@ namespace HumanMusicSchoolManager.Models.Models
         [Required(ErrorMessage = "O Funcionário não foi selecionado")]
         public Pessoa Pessoa { get; set; }
 
-        [Required(ErrorMessage = "O Aluno não foi selecionado")]
+        [Required(ErrorMessage = "O Financeiro não foi selecionado")]
         public Aluno Aluno { get; set; }
-    }
 
-    public enum FormaPagamento
-    {
-        [Display(Name = "Cartão de Credito")]
-        CREDITO,
-        [Display(Name = "Cartão de Débito")]
-        DEBITO,
-        [Display(Name = "Dinheiro")]
-        DINHEIRO,
-        [Display(Name = "Cheque")]
-        CHEQUE,
-        [Display(Name = "Boleto")]
-        BOLETO
+        public PacoteCompra PacoteCompra { get; set; }
     }
 }

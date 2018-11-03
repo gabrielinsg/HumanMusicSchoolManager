@@ -1,6 +1,7 @@
 ﻿using HumanMusicSchoolManager.Data;
 using HumanMusicSchoolManager.Models.Models;
 using HumanMusicSchoolManager.ServicesInterface;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,12 @@ namespace HumanMusicSchoolManager.Services
 
         public List<Financeiro> BuscarPorAluno(int alunoId)
         {
-            return _context.Financeiros.Where(f => f.Aluno.Id == alunoId).ToList();
+            return _context.Financeiros
+                .Where(f => f.Aluno.Id == alunoId)
+                .Include(f => f.Aluno)
+                .Include(f => f.PacoteCompra)
+                .Include(f => f.Pessoa)
+                .ToList();
         }
 
         public Financeiro BuscarPorId(int financeiroId)

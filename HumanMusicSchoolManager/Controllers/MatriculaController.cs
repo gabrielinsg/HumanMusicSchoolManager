@@ -23,7 +23,7 @@ namespace HumanMusicSchoolManager.Controllers
         private readonly ICursoService _cursoService;
         private readonly IRespFinanceiroService _respFinanceiroService;
         private readonly ITaxaMatriculaService _taxaMatriculaService;
-        private readonly IPessoaService _pessaServeice;
+        private readonly IPessoaService _pessoaService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IFinanceiroService _financeiroService;
 
@@ -45,7 +45,7 @@ namespace HumanMusicSchoolManager.Controllers
             this._cursoService = cursoService;
             this._respFinanceiroService = respFinanceiroService;
             this._taxaMatriculaService = taxaMatriculaService;
-            this._pessaServeice = pessoaService;
+            this._pessoaService = pessoaService;
             this._userManager = userManager;
             this._financeiroService = financeiroService;
         }
@@ -82,7 +82,7 @@ namespace HumanMusicSchoolManager.Controllers
                 }
                 else
                 {
-                    return RedirectToAction(controllerName: "Aluno", actionName: "Index");
+                    return RedirectToAction(controllerName: "Financeiro", actionName: "Index");
                 }
 
             }
@@ -104,12 +104,12 @@ namespace HumanMusicSchoolManager.Controllers
         [HttpPost]
         public IActionResult Form(MatriculaViewModel matriculaViewModel)
         {
-            foreach (var model in ModelState.Where(m => !m.Key.StartsWith("Financeiro") || m.Key.EndsWith("Pessoa") || m.Key.EndsWith("Aluno")).ToList())
+            foreach (var model in ModelState.Where(m => !m.Key.StartsWith("Financeiro") || m.Key.EndsWith("Pessoa") || m.Key.EndsWith("Financeiro")).ToList())
             {
                 ModelState.Remove(model.Key);
             }
 
-            var pessoa = _pessaServeice.GetUser(User.Identity.Name);
+            var pessoa = _pessoaService.GetUser(User.Identity.Name);
 
             if(pessoa == null)
             {
@@ -130,7 +130,7 @@ namespace HumanMusicSchoolManager.Controllers
 
             if (matriculaViewModel.Aluno.Id == null)
             {
-                ModelState.AddModelError("Aluno", "Aluno não selecionado!");
+                ModelState.AddModelError("Financeiro", "Financeiro não selecionado!");
             }
             else
             {
@@ -184,7 +184,7 @@ namespace HumanMusicSchoolManager.Controllers
                 {
                     _financeiroService.Cadastrar(financeiro);
                 }
-                return RedirectToAction("Aluno", "Aluno", new { alunoId = matriculaViewModel.Aluno.Id });
+                return RedirectToAction("Financeiro", "Financeiro", new { alunoId = matriculaViewModel.Aluno.Id });
             }
             else
             {
@@ -224,6 +224,7 @@ namespace HumanMusicSchoolManager.Controllers
                         matriculaViewModel.Curso = _cursoService.BuscarPorId(matriculaViewModel.Curso.Id.Value);
                     }
                     var respFinanceiro = _respFinanceiroService.Cadastrar(matriculaViewModel.RespFinanceiro);
+                    matriculaViewModel.RespFinanceiro = respFinanceiro;
                     return View("Form", matriculaViewModel);
                 }
                 else

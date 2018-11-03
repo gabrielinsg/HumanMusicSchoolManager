@@ -106,7 +106,7 @@ namespace HumanMusicSchoolManager
             IdentityResult roleResult;
             //Adding Admin Role
 
-            string[] roles = new string[] { "Admin", "Professor", "Aluno", "Coordenacao", "Diretoria", "Financeiro", "Secretaria", "Atendimento" };
+            string[] roles = new string[] { "Admin", "Professor", "Financeiro", "Coordenacao", "Diretoria", "Financeiro", "Secretaria", "Atendimento" };
             //create the roles and seed them to the database
 
             foreach (var role in roles)

@@ -17,10 +17,11 @@ namespace HumanMusicSchoolManager.Services
             this._context = context;
         }
 
-        public void Alterar(PacoteCompra pacoteCompra)
+        public PacoteCompra Alterar(PacoteCompra pacoteCompra)
         {
             _context.PacoteCompras.Update(pacoteCompra);
             _context.SaveChanges();
+            return pacoteCompra;
         }
 
         public PacoteCompra BuscarPorId(int pacoteCompraId)
@@ -33,10 +34,11 @@ namespace HumanMusicSchoolManager.Services
             return _context.PacoteCompras.ToList();
         }
 
-        public void Cadastrar(PacoteCompra pacoteCompra)
+        public PacoteCompra Cadastrar(PacoteCompra pacoteCompra)
         {
             _context.Add(pacoteCompra);
             _context.SaveChanges();
+            return pacoteCompra;
         }
 
         public void Excluir(int pacoteCompraId)

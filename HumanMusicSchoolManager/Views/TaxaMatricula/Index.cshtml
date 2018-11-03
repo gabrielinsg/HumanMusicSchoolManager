@@ -7,7 +7,7 @@
     <div class="card-header">
         <div class="row">
             <div class="col-md-11">
-                <i class="fas fa-table"></i>
+                <i class="fas fa-dollar-sign"></i>
                 Taxas de Matrícula
             </div>
             <div class="col-md-1">
@@ -40,7 +40,7 @@
                     {
                         <tr>
                             <td>@taxaMatricula.Nome</td>
-                            <td class="text-center">@taxaMatricula.Valor</td>
+                            <td class="text-center">@taxaMatricula.Valor.ToString("R$ #,###.00")</td>
                             <td class="text-center"><a asp-action="Form" asp-route-taxaMatriculaId="@(taxaMatricula.Id)"><i class="fas fa-pencil-alt"></i></a></td>
                             <td class="text-center"><a asp-action="Excluir" asp-route-taxaMatriculaId="@taxaMatricula.Id" id="excluir"><i class="fas fa-trash-alt text-danger"></i></a></td>
                         </tr>

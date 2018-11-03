@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HumanMusicSchoolManager.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181101181218_ModelsInicial")]
-    partial class ModelsInicial
+    [Migration("20181103000445_FinanceiroPacoteCompra")]
+    partial class FinanceiroPacoteCompra
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -219,6 +219,8 @@ namespace HumanMusicSchoolManager.Data.Migrations
                     b.Property<string>("Nome")
                         .IsRequired();
 
+                    b.Property<int?>("PacoteCompraId");
+
                     b.Property<int?>("PessoaId")
                         .IsRequired();
 
@@ -232,6 +234,8 @@ namespace HumanMusicSchoolManager.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AlunoId");
+
+                    b.HasIndex("PacoteCompraId");
 
                     b.HasIndex("PessoaId");
 
@@ -304,7 +308,7 @@ namespace HumanMusicSchoolManager.Data.Migrations
 
                     b.Property<DateTime>("DataCompra");
 
-                    b.Property<decimal>("Desconto")
+                    b.Property<decimal?>("Desconto")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int?>("MatriculaId")
@@ -608,6 +612,10 @@ namespace HumanMusicSchoolManager.Data.Migrations
                         .WithMany("Financeiros")
                         .HasForeignKey("AlunoId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("HumanMusicSchoolManager.Models.Models.PacoteCompra", "PacoteCompra")
+                        .WithMany()
+                        .HasForeignKey("PacoteCompraId");
 
                     b.HasOne("HumanMusicSchoolManager.Models.Models.Pessoa", "Pessoa")
                         .WithMany()
