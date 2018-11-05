@@ -328,34 +328,43 @@
                             <div class="modal-body">
                                 @for (int i = 0; i < Model.TaxasMatricula.Count; i++)
                                 {
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label asp-for="Financeiros[i].Nome"></label>
-                                                <input class="form-control" readonly asp-for="Financeiros[i].Nome" value="@Model.TaxasMatricula[i].Nome" />
-                                                <span asp-validation-for="Financeiros[i].Nome" class="text-danger"></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label asp-for="Financeiros[i].Valor"></label>
-                                                <input class="form-control" readonly asp-for="Financeiros[i].Valor" value="@Model.TaxasMatricula[i].Valor" />
-                                                <span asp-validation-for="Financeiros[i].Valor" class="text-danger"></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label asp-for="Financeiros[i].DataVencimento"></label>
-                                                <input class="form-control" type="date" asp-for="Financeiros[i].DataVencimento" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
-                                                <span asp-validation-for="Financeiros[i].DataVencimento" class="text-danger"></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <label asp-for="Financeiros[i].Desconto"></label>
-                                            <input class="form-control" asp-for="Financeiros[i].Desconto" />
-                                            <span asp-validation-for="Financeiros[i].Desconto" class="text-danger"></span>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label asp-for="Financeiros[i].Nome"></label>
+                                            <input class="form-control" readonly asp-for="Financeiros[i].Nome" value="@Model.TaxasMatricula[i].Nome" />
+                                            <span asp-validation-for="Financeiros[i].Nome" class="text-danger"></span>
                                         </div>
                                     </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label asp-for="Financeiros[i].Valor"></label>
+                                            <input class="form-control" readonly asp-for="Financeiros[i].Valor" value="@Model.TaxasMatricula[i].Valor" />
+                                            <span asp-validation-for="Financeiros[i].Valor" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label asp-for="Financeiros[i].DataVencimento"></label>
+                                            <input class="form-control" type="date" asp-for="Financeiros[i].DataVencimento" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                                            <span asp-validation-for="Financeiros[i].DataVencimento" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label asp-for="Financeiros[i].Desconto"></label>
+                                        <input class="form-control" asp-for="Financeiros[i].Desconto" />
+                                        <span asp-validation-for="Financeiros[i].Desconto" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label asp-for="Financeiros[i].FormaPagamento" class="control-label"></label>
+                                            <div class="">
+                                                <select asp-for="Financeiros[i]. FormaPagamento" class="form-control col-12" asp-items="@Html.GetEnumSelectList<FormaPagamento>()"></select>
+                                                <span asp-validation-for="Financeiros[i].FormaPagamento" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                     if (i < Model.TaxasMatricula.Count - 1)
                                     {
                                         <hr />

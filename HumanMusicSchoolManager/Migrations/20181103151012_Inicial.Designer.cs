@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace HumanMusicSchoolManager.Data.Migrations
+namespace HumanMusicSchoolManager.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181101181218_ModelsInicial")]
-    partial class ModelsInicial
+    [Migration("20181103151012_Inicial")]
+    partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -219,6 +219,8 @@ namespace HumanMusicSchoolManager.Data.Migrations
                     b.Property<string>("Nome")
                         .IsRequired();
 
+                    b.Property<int?>("PacoteCompraId");
+
                     b.Property<int?>("PessoaId")
                         .IsRequired();
 
@@ -232,6 +234,8 @@ namespace HumanMusicSchoolManager.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AlunoId");
+
+                    b.HasIndex("PacoteCompraId");
 
                     b.HasIndex("PessoaId");
 
@@ -304,7 +308,7 @@ namespace HumanMusicSchoolManager.Data.Migrations
 
                     b.Property<DateTime>("DataCompra");
 
-                    b.Property<decimal>("Desconto")
+                    b.Property<decimal?>("Desconto")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int?>("MatriculaId")
@@ -508,14 +512,14 @@ namespace HumanMusicSchoolManager.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Financeiro", b =>
+            modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Aluno", b =>
                 {
                     b.HasBaseType("HumanMusicSchoolManager.Models.Models.Pessoa");
 
 
-                    b.ToTable("Financeiro");
+                    b.ToTable("Aluno");
 
-                    b.HasDiscriminator().HasValue("Financeiro");
+                    b.HasDiscriminator().HasValue("Aluno");
                 });
 
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Funcionario", b =>
@@ -604,10 +608,14 @@ namespace HumanMusicSchoolManager.Data.Migrations
 
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Financeiro", b =>
                 {
-                    b.HasOne("HumanMusicSchoolManager.Models.Models.Financeiro", "Financeiro")
+                    b.HasOne("HumanMusicSchoolManager.Models.Models.Aluno", "Aluno")
                         .WithMany("Financeiros")
                         .HasForeignKey("AlunoId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("HumanMusicSchoolManager.Models.Models.PacoteCompra", "PacoteCompra")
+                        .WithMany()
+                        .HasForeignKey("PacoteCompraId");
 
                     b.HasOne("HumanMusicSchoolManager.Models.Models.Pessoa", "Pessoa")
                         .WithMany()
@@ -617,7 +625,7 @@ namespace HumanMusicSchoolManager.Data.Migrations
 
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Matricula", b =>
                 {
-                    b.HasOne("HumanMusicSchoolManager.Models.Models.Financeiro", "Financeiro")
+                    b.HasOne("HumanMusicSchoolManager.Models.Models.Aluno", "Aluno")
                         .WithMany("Matriculas")
                         .HasForeignKey("AlunoId")
                         .OnDelete(DeleteBehavior.Cascade);

@@ -223,8 +223,7 @@ namespace HumanMusicSchoolManager.Controllers
                     {
                         matriculaViewModel.Curso = _cursoService.BuscarPorId(matriculaViewModel.Curso.Id.Value);
                     }
-                    var respFinanceiro = _respFinanceiroService.Cadastrar(matriculaViewModel.RespFinanceiro);
-                    matriculaViewModel.RespFinanceiro = respFinanceiro;
+                    _respFinanceiroService.Cadastrar(matriculaViewModel.RespFinanceiro);
                     return View("Form", matriculaViewModel);
                 }
                 else
@@ -265,7 +264,7 @@ namespace HumanMusicSchoolManager.Controllers
                     {
                         matriculaViewModel.Curso = _cursoService.BuscarPorId(matriculaViewModel.Curso.Id.Value);
                     }
-                    var respFinanceiro = _respFinanceiroService.Alterar(matriculaViewModel.RespFinanceiro);
+                    _respFinanceiroService.Alterar(matriculaViewModel.RespFinanceiro);
                     return View("Form", matriculaViewModel);
                 }
                 else

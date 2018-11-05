@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace HumanMusicSchoolManager.Data.Migrations
+namespace HumanMusicSchoolManager.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -510,14 +510,14 @@ namespace HumanMusicSchoolManager.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Financeiro", b =>
+            modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Aluno", b =>
                 {
                     b.HasBaseType("HumanMusicSchoolManager.Models.Models.Pessoa");
 
 
-                    b.ToTable("Financeiro");
+                    b.ToTable("Aluno");
 
-                    b.HasDiscriminator().HasValue("Financeiro");
+                    b.HasDiscriminator().HasValue("Aluno");
                 });
 
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Funcionario", b =>
@@ -606,7 +606,7 @@ namespace HumanMusicSchoolManager.Data.Migrations
 
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Financeiro", b =>
                 {
-                    b.HasOne("HumanMusicSchoolManager.Models.Models.Financeiro", "Financeiro")
+                    b.HasOne("HumanMusicSchoolManager.Models.Models.Aluno", "Aluno")
                         .WithMany("Financeiros")
                         .HasForeignKey("AlunoId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -623,7 +623,7 @@ namespace HumanMusicSchoolManager.Data.Migrations
 
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Matricula", b =>
                 {
-                    b.HasOne("HumanMusicSchoolManager.Models.Models.Financeiro", "Financeiro")
+                    b.HasOne("HumanMusicSchoolManager.Models.Models.Aluno", "Aluno")
                         .WithMany("Matriculas")
                         .HasForeignKey("AlunoId")
                         .OnDelete(DeleteBehavior.Cascade);
