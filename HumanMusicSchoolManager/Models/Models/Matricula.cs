@@ -20,6 +20,7 @@ namespace HumanMusicSchoolManager.Models.Models
         public DispSala DispSala { get; set; }
 
         [Required]
+        public int? RespFinanceiroId { get; set; }
         public RespFinanceiro RespFinanceiro { get; set; }
 
         [Required]

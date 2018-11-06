@@ -81,6 +81,12 @@ namespace HumanMusicSchoolManager.Controllers
             }
         }
 
+        public IActionResult Excluir(int respFinanceiroId)
+        {
+            _respFinanceiroService.Excluir(respFinanceiroId);
+            return RedirectToAction("Index");
+        }
+
         [HttpPost]
         public JsonResult BuscarPorNome(string nome)
         {

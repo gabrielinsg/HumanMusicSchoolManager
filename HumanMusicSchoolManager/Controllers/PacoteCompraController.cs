@@ -111,7 +111,7 @@ namespace HumanMusicSchoolManager.Controllers
                     {
                         Aluno = pacoteCompraViewModel.Matricula.Aluno,
                         Nome = pacoteCompraViewModel.PacoteAula.Nome + " - " + pacoteCompraViewModel.Matricula.Curso.Nome + " - Parcela " + (i + 1) + " de " + pacoteCompraViewModel.PacoteCompra.QtdParcela,
-                        DataGerada = DateTime.Now,
+                        UltimaAlteracao = DateTime.Now,
                         FormaPagamento = pacoteCompraViewModel.FormaPagamento,
                         Pessoa = _pessoaService.GetUser(User.Identity.Name),
                         Valor = Math.Round(valor.Value, 2),

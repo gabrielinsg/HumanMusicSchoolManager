@@ -1,0 +1,101 @@
+﻿@model Financeiro
+@{
+    ViewData["Title"] = "Form";
+}
+
+<div asp-validation-summary="All"></div>
+
+<div class="row">
+    <div class="col-md-11">
+        <h2 class="col-md-10">@ViewBag.Aluno.Nome - Financeiro</h2>
+    </div>
+    <div class="col-md-1">
+        <a asp-action="Form" asp-route-alunoId="@ViewBag.Aluno.Id" class="btn btn-primary">Novo</a>
+    </div>
+</div>
+<br />
+@await Html.PartialAsync("_Message")
+<div class="list-group">
+    <div class="list-group-item">
+        <form role="form" method="post" asp-action="form">
+
+            <input asp-for="Id" type="hidden" />
+            <input asp-for="AlunoId" value="@ViewBag.Aluno.Id" type="hidden" />
+
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="Nome"></label>
+                        <input asp-for="Nome" class="form-control" />
+                        <span asp-validation-for="Nome" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label asp-for="Valor"></label>
+                        <input asp-for="Valor" class="form-control" />
+                        <span asp-validation-for="Valor"></span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label asp-for="Desconto"></label>
+                        <input asp-for="Desconto" class="form-control" />
+                        <span asp-validation-for="Desconto"></span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label asp-for="Multa"></label>
+                        <input asp-for="Multa" class="form-control" />
+                        <span asp-validation-for="Multa"></span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label asp-for="ValorPago"></label>
+                        <input asp-for="ValorPago" class="form-control" />
+                        <span asp-validation-for="ValorPago"></span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label asp-for="DataVencimento"></label>
+                        <input asp-for="DataVencimento" type="date" class="form-control" />
+                        <span asp-validation-for="DataVencimento"></span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label asp-for="FormaPagamento" class="control-label"></label>
+                        <div class="">
+                            <select asp-for="FormaPagamento" class="form-control col-12" asp-items="@Html.GetEnumSelectList<FormaPagamento>()"></select>
+                            <span asp-validation-for="FormaPagamento" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <b>Total: <span class="" id="total"></span></b>
+                </div>
+            </div>
+            <br />
+            <button type="submit" class="btn btn-success">@(Model == null ? "Cadastrar" : Model.Id == null ? "Cadastrar" : "Alterar")</button>
+            @if (ViewBag.Aluno.Id == null)
+            {
+                <a asp-action="Index" asp-controller="Aluno" asp-fo class="btn btn-primary">Voltar</a>
+            }
+            else
+            {
+                <a asp-controller="Aluno" asp-action="Aluno" asp-route-alunoId="@ViewBag.Aluno.Id" asp-fo class="btn btn-primary">Voltar</a>
+            }
+        </form>
+    </div>
+</div>
+<br />
+
+
+@section Scripts{ 
+    <script src="~/js/financeiro.js"></script>
+}

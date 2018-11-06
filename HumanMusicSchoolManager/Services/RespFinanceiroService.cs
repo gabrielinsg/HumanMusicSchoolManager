@@ -18,31 +18,19 @@ namespace HumanMusicSchoolManager.Services
         {
             this._context = context;
         }
-        
+
         public RespFinanceiro Alterar(RespFinanceiro respFinanceiro)
         {
             var entry = _context.Entry<RespFinanceiro>(respFinanceiro);
             if (entry.State == EntityState.Detached)
             {
-                var newRespFinanceiro = _context.RespsFinanceiro.FirstOrDefault(rf => rf.Id == respFinanceiro.Id);
-                newRespFinanceiro.Nome = respFinanceiro.Nome;
-                newRespFinanceiro.Endereco = respFinanceiro.Endereco;
-                newRespFinanceiro.CPF = respFinanceiro.CPF;
-                newRespFinanceiro.DataNascimento = respFinanceiro.DataNascimento;
-                newRespFinanceiro.RG = respFinanceiro.RG;
-                newRespFinanceiro.Tel = respFinanceiro.Tel;
-                newRespFinanceiro.Cel = respFinanceiro.Cel;
-                newRespFinanceiro.Ativo = respFinanceiro.Ativo;
-                newRespFinanceiro.Email = respFinanceiro.Email;
-                _context.RespsFinanceiro.Update(newRespFinanceiro);
-                _context.SaveChanges();
-                return newRespFinanceiro;
+                var fin = _context.RespsFinanceiro.FirstOrDefault(f => f.Id == respFinanceiro.Id);
+                var ent = _context.Entry<RespFinanceiro>(fin);
+                ent.State = EntityState.Detached;
+                entry.State = EntityState.Modified;
             }
-            else
-            {
-                _context.SaveChanges();
-                return respFinanceiro;
-            }
+            _context.SaveChanges();
+            return respFinanceiro;
 
         }
 
@@ -77,7 +65,9 @@ namespace HumanMusicSchoolManager.Services
             var respFinanceiro = _context.RespsFinanceiro.FirstOrDefault(rf => rf.Id == respFinanceiroId);
             if (respFinanceiro != null)
             {
+                _context.Enderecos.Remove(_context.Enderecos.FirstOrDefault(e => e.Id == respFinanceiro.EnderecoId));
                 _context.RespsFinanceiro.Remove(respFinanceiro);
+                _context.SaveChanges();
             }
         }
 

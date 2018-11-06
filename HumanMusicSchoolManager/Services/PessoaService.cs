@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using HumanMusicSchoolManager.Data;
 using HumanMusicSchoolManager.Models.Models;
 using HumanMusicSchoolManager.ServicesInterface;
+using Microsoft.EntityFrameworkCore;
 
 namespace HumanMusicSchoolManager.Services
 {
@@ -41,7 +42,9 @@ namespace HumanMusicSchoolManager.Services
             Pessoa pessoa = null;
             if (user != null)
             {
-                pessoa = _context.Pessoas.FirstOrDefault(p => p.Id == user.PessoaId);
+                pessoa = _context.Pessoas
+                    .Include(p => p.Endereco)
+                    .FirstOrDefault(p => p.Id == user.PessoaId);
             }
             return pessoa;
         }

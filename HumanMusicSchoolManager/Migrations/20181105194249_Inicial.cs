@@ -450,7 +450,7 @@ namespace HumanMusicSchoolManager.Migrations
                     Multa = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     ValorPago = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     FormaPagamento = table.Column<int>(nullable: false),
-                    DataGerada = table.Column<DateTime>(nullable: false),
+                    UltimaAlteracao = table.Column<DateTime>(nullable: false),
                     DataVencimento = table.Column<DateTime>(nullable: false),
                     PessoaId = table.Column<int>(nullable: false),
                     AlunoId = table.Column<int>(nullable: false),

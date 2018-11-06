@@ -33,16 +33,16 @@ namespace HumanMusicSchoolManager.Models.Models
 
         [Required(ErrorMessage = "O campo Data gerada é obrigatório")]
         [Display(Name = "Data gerada")]
-        public DateTime DataGerada { get; set; }
+        public DateTime UltimaAlteracao { get; set; }
 
         [Required(ErrorMessage = "O campo Data de vencimento é obrigatório")]
         [Display(Name = "Data de vencimento")]
         public DateTime DataVencimento { get; set; }
 
-        [Required(ErrorMessage = "O Funcionário não foi selecionado")]
+        public int? PessoaId { get; set; }
         public Pessoa Pessoa { get; set; }
 
-        [Required(ErrorMessage = "O Aluno não foi selecionado")]
+        public int? AlunoId { get; set; }
         public Aluno Aluno { get; set; }
 
         public PacoteCompra PacoteCompra { get; set; }

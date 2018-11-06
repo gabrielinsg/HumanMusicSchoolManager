@@ -17,7 +17,6 @@ namespace HumanMusicSchoolManager.Data
         public DbSet<Pessoa> Pessoas { get; set; }
         public DbSet<Matricula> Matriculas { get; set; }
         public DbSet<Curso> Cursos { get; set; }
-        public DbSet<DiarioClasse> DiariosClasse { get; set; }
         public DbSet<Funcionario> Funcionarios { get; set; }
         public DbSet<Endereco> Enderecos { get; set; }
         public DbSet<Sala> Salas { get; set; }

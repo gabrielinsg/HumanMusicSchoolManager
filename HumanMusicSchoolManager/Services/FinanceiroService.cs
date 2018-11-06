@@ -20,6 +20,14 @@ namespace HumanMusicSchoolManager.Services
 
         public void Alterar(Financeiro financeiro)
         {
+            var entry = _context.Entry<Financeiro>(financeiro);
+            if (entry.State == EntityState.Detached)
+            {
+                var fin = _context.Financeiros.FirstOrDefault(f => f.Id == financeiro.Id);
+                var ent = _context.Entry<Financeiro>(fin);
+                ent.State = EntityState.Detached;
+                entry.State = EntityState.Modified;
+            }
             _context.Financeiros.Update(financeiro);
             _context.SaveChanges();
         }

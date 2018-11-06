@@ -15,9 +15,12 @@
     @foreach (var matricula in Model.Matriculas)
     {
         <li class="nav-item">
-            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#@matricula.Curso.Nome@matricula.Id" role="tab" aria-controls="@matricula.Curso.Nome@matricula.Id" aria-selected="false">@matricula.Curso.Nome</a>
+            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#@matricula.Curso.Nome@matricula.Id" role="tab" aria-controls="@matricula.Curso.Nome@matricula.Id" aria-selected="false"><i class="fas fa-music text-success"></i> @matricula.Curso.Nome</a>
         </li>
     }
+    <li class="nav-item">
+        <a class="nav-link text-success btn" asp-controller="Matricula" asp-action="Form" asp-route-alunoId="@Model.Id"><i class="fas fa-plus-circle"></i></a>
+    </li>
 </ul>
 <div class="tab-content" id="myTabContent">
     <div class="tab-pane fade show active" id="dados" role="tabpanel" aria-labelledby="dados-tab">
@@ -51,50 +54,7 @@
 
     <div class="tab-pane fade" id="financeiro" role="tabpanel" aria-labelledby="financeiro-tab">
         <br />
-        <ul class="list-group">
-            <li class="list-group-item active">Histórico Financeiro</li>
-            <li class="list-group-item">
-                <table class="table table-sm table-hover small">
-                    <thead>
-                        <tr class="small">
-                            <th scope="col">Nome</th>
-                            <th scope="col">Valor</th>
-                            <th scope="col">Desconto</th>
-                            <th scope="col">Multa</th>
-                            <th scope="col">Total</th>
-                            <th scope="col">Valor Pago</th>
-                            <th scope="col">Forma de Pagamento</th>
-                            <th scope="col">Data de Criação</th>
-                            <th scope="col">Data de Vencimento</th>
-                            <th scope="col">Responsável</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var financeiro in Model.Financeiros)
-                        {
-                            if (financeiro.Valor == null) { financeiro.Valor = 0; }
-                            if (financeiro.Desconto == null) { financeiro.Desconto = 0; }
-                            if (financeiro.Multa == null) { financeiro.Multa = 0; }
-                            var total = financeiro.Valor - financeiro.Desconto + financeiro.Multa;
-                            <tr class="@(financeiro.ValorPago >= total ? "text-success" : "") @(financeiro.DataVencimento < DateTime.Now.AddDays(-1) && (financeiro.ValorPago < total || financeiro.ValorPago == null) ? "text-danger" : "")">
-                                <td>@financeiro.Nome</td>
-                                <td>@financeiro.Valor</td>
-                                <td>@if (financeiro.Desconto != 0)
-                                {@financeiro.Desconto}</td>
-                                <td>@if (financeiro.Multa != 0)
-                                {@financeiro.Multa}</td>
-                                <td>@total</td>
-                                <td>@financeiro.ValorPago</td>
-                                <td>@Html.DisplayFor(d => financeiro.FormaPagamento)</td>
-                                <td>@financeiro.DataGerada.ToString("dd/MM/yyyy")</td>
-                                <td>@financeiro.DataVencimento.ToString("dd/MM/yyyy")</td>
-                                <td>@financeiro.Pessoa.Nome</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </li>
-        </ul>
+        @await Html.PartialAsync("_Financeiro")
     </div>
 
         @foreach (var matricula in Model.Matriculas)

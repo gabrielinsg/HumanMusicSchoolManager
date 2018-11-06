@@ -125,7 +125,7 @@ namespace HumanMusicSchoolManager.Controllers
 
             foreach (var financeiro in matriculaViewModel.Financeiros)
             {
-                financeiro.DataGerada = DateTime.Now;
+                financeiro.UltimaAlteracao = DateTime.Now;
             }
 
             if (matriculaViewModel.Aluno.Id == null)

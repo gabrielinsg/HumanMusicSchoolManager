@@ -55,7 +55,6 @@ namespace HumanMusicSchoolManager
             services.AddTransient<ICursoService, CursoService>();
             services.AddTransient<IAlunoService, AlunoService>();
             services.AddTransient<IMatriculaService, MatriculaService>();
-            services.AddTransient<IDiarioClasseService, DiarioClasseService>();
             services.AddTransient<IPessoaService, PessoaService>();
             services.AddTransient<IFuncionarioService, FuncionarioService>();
             services.AddTransient<ISalaService, SalaService>();
@@ -94,7 +93,7 @@ namespace HumanMusicSchoolManager
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            //CreateUserRoles(service).Wait();
+            CreateUserRoles(service).Wait();
         }
 
         private async Task CreateUserRoles(IServiceProvider serviceProvider)
