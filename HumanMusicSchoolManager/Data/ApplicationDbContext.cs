@@ -26,6 +26,7 @@ namespace HumanMusicSchoolManager.Data
         public DbSet<PacoteCompra> PacoteCompras { get; set; }
         public DbSet<TaxaMatricula> TaxaMatriculas { get; set; }
         public DbSet<Financeiro> Financeiros { get; set; }
+        public DbSet<Feriado> Feriados { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

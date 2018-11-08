@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20181106194826_Feriado.cs" />
+    <Compile Remove="Migrations\20181106194826_Feriado.Designer.cs" />
+    <Compile Remove="Migrations\20181108021133_Feriado.cs" />
+    <Compile Remove="Migrations\20181108021133_Feriado.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="wwwroot\css\jquery-ui.min.css" />
     <Content Remove="wwwroot\css\jquery-ui.structure.min.css" />
     <Content Remove="wwwroot\css\jquery-ui.theme.min.css" />
@@ -32,6 +39,89 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\fullcalendar-3.9.0\demos\js\theme-chooser.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\demos\php\get-events.php" />
+    <None Include="wwwroot\fullcalendar-3.9.0\demos\php\get-timezones.php" />
+    <None Include="wwwroot\fullcalendar-3.9.0\demos\php\utils.php" />
+    <None Include="wwwroot\fullcalendar-3.9.0\fullcalendar.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\fullcalendar.min.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\gcal.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\gcal.min.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\lib\jquery-ui.min.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\lib\jquery.min.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\lib\moment.min.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale-all.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\af.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\ar-dz.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\ar-kw.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\ar-ly.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\ar-ma.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\ar-sa.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\ar-tn.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\ar.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\bg.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\bs.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\ca.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\cs.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\da.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\de-at.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\de-ch.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\de.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\el.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\en-au.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\en-ca.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\en-gb.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\en-ie.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\en-nz.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\es-do.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\es-us.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\es.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\et.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\eu.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\fa.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\fi.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\fr-ca.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\fr-ch.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\fr.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\gl.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\he.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\hi.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\hr.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\hu.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\id.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\is.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\it.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\ja.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\ka.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\kk.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\ko.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\lb.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\lt.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\lv.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\mk.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\ms-my.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\ms.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\nb.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\nl-be.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\nl.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\nn.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\pl.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\pt-br.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\pt.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\ro.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\ru.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\sk.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\sl.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\sq.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\sr-cyrl.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\sr.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\sv.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\th.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\tr.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\uk.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\vi.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\zh-cn.js" />
+    <None Include="wwwroot\fullcalendar-3.9.0\locale\zh-tw.js" />
     <None Include="wwwroot\js\demo\chart-area-demo.js" />
     <None Include="wwwroot\js\demo\chart-bar-demo.js" />
     <None Include="wwwroot\js\demo\chart-pie-demo.js" />
