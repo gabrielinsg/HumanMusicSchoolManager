@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using HumanMusicSchoolManager.Models.Models;
 using HumanMusicSchoolManager.Models.ViewModels;
@@ -17,13 +19,19 @@ namespace HumanMusicSchoolManager.Controllers
         private readonly IAlunoService _alunoService;
         private readonly IPessoaService _pessoaService;
         private readonly IFinanceiroService _financeiroService;
+        private readonly IFeriadoService _feriadoService;
+        private readonly IAulaService _aulaService;
+        private readonly IChamadaService _chamadaService;
 
         public PacoteCompraController(IPacoteCompraService pacoteCompraService,
             IMatriculaService matriculaService,
             IPacoteAulaService pacoteAulaService,
             IAlunoService alunoService,
             IPessoaService pessoaService,
-            IFinanceiroService financeiroService)
+            IFinanceiroService financeiroService,
+            IFeriadoService feriadoService,
+            IAulaService aulaService,
+            IChamadaService chamadaService)
         {
             this._pacoteCompraService = pacoteCompraService;
             this._matriculaService = matriculaService;
@@ -31,6 +39,9 @@ namespace HumanMusicSchoolManager.Controllers
             this._alunoService = alunoService;
             this._pessoaService = pessoaService;
             this._financeiroService = financeiroService;
+            this._feriadoService = feriadoService;
+            this._aulaService = aulaService;
+            this._chamadaService = chamadaService;
         }
 
         [HttpGet]
@@ -42,7 +53,8 @@ namespace HumanMusicSchoolManager.Controllers
                 {
                     Matricula = _matriculaService.BuscarPorId(matriculaId.Value),
                     PacotesAula = _pacoteAulaService.BuscarTodos(),
-                    Vencimento = DateTime.Now
+                    Vencimento = DateTime.Now,
+                    PrimeiraAula = DateTime.Now
                 };
 
                 if (pacoteAulaId != null)
@@ -96,6 +108,25 @@ namespace HumanMusicSchoolManager.Controllers
                 ModelState.AddModelError("Vencimento", "Escolha uma data de vencimento");
             }
 
+            if (pacoteCompraViewModel.PrimeiraAula == null || pacoteCompraViewModel.PrimeiraAula.Date < DateTime.Now.Date)
+            {
+                ModelState.AddModelError("PrimeiraAula", "Primeira aula deve ser selecionado a partir de hoje");
+            }
+
+            if (pacoteCompraViewModel.PrimeiraAula != null)
+            {
+                if ((DayOfWeek)pacoteCompraViewModel.Matricula.DispSala.Dia != pacoteCompraViewModel.PrimeiraAula.DayOfWeek)
+                {
+                    var dia = pacoteCompraViewModel.Matricula.DispSala.Dia.GetType()
+                        .GetMember(pacoteCompraViewModel.Matricula.DispSala.Dia.ToString())
+                        .First()
+                        .GetCustomAttribute<DisplayAttribute>()
+                        .Name;
+                    ModelState.AddModelError("PrimeiraAula", "A primeira aula precisa ser " + dia);
+                }
+            }
+
+
             if (ModelState.IsValid)
             {
                 decimal? desconto = 0;
@@ -105,6 +136,8 @@ namespace HumanMusicSchoolManager.Controllers
                 }
                 var valor = (pacoteCompraViewModel.PacoteCompra.PacoteAula.Valor - desconto) / pacoteCompraViewModel.PacoteCompra.QtdParcela;
                 pacoteCompraViewModel.PacoteCompra = _pacoteCompraService.Cadastrar(pacoteCompraViewModel.PacoteCompra);
+
+                //Gerar Financeiros
                 for (int i = 0; i < pacoteCompraViewModel.PacoteCompra.QtdParcela; i++)
                 {
                     var financeiro = new Financeiro()
@@ -120,6 +153,46 @@ namespace HumanMusicSchoolManager.Controllers
                     };
                     _financeiroService.Cadastrar(financeiro);
                 }
+
+                //Gerar Aulas
+                var diaAula = pacoteCompraViewModel.PrimeiraAula;
+                var qtdAulas = pacoteCompraViewModel.PacoteAula.QtdAula;
+                diaAula = diaAula.AddHours((double)pacoteCompraViewModel.Matricula.DispSala.Hora);
+
+                while (qtdAulas > 0)
+                {
+                    var feriado = _feriadoService.BuscarPorData(diaAula);
+                    if (feriado == null)
+                    {
+                        //criando as aulas
+                        var aula = _aulaService.BuscarPorDiaHora(diaAula);
+                        var chamada = new Chamada()
+                        {
+                            PacoteCompraId = pacoteCompraViewModel.PacoteCompra.Id.Value
+                        };
+                        if (aula == null)
+                        {
+                            
+                            aula = new Aula()
+                            {
+                                CursoId = pacoteCompraViewModel.Matricula.CursoId,
+                                ProfessorId = pacoteCompraViewModel.Matricula.DispSala.Professor.Id.Value,
+                                SalaId = pacoteCompraViewModel.Matricula.DispSala.Sala.Id.Value,
+                                Data = diaAula
+                            };
+                            _aulaService.Cadastrar(aula);
+                        }
+
+                        chamada.Aula = aula;
+                        chamada.Presenca = null;
+                        _chamadaService.Cadastrar(chamada);
+
+                        //incremento
+                        qtdAulas--;
+                    }
+                    diaAula = diaAula.AddDays(7);
+                }
+
                 return RedirectToAction("Aluno", "Aluno", new { alunoId = pacoteCompraViewModel.Matricula.Aluno.Id.Value });
             }
             else

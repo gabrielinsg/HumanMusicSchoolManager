@@ -27,6 +27,9 @@ namespace HumanMusicSchoolManager.Data
         public DbSet<TaxaMatricula> TaxaMatriculas { get; set; }
         public DbSet<Financeiro> Financeiros { get; set; }
         public DbSet<Feriado> Feriados { get; set; }
+        public DbSet<Evento> Eventos { get; set; }
+        public DbSet<Aula> Aulas { get; set; }
+        public DbSet<Chamada> Chamadas { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -66,7 +69,6 @@ namespace HumanMusicSchoolManager.Data
             builder.Entity<DispSala>()
                 .HasMany(ds => ds.Matriculas)
                 .WithOne(m => m.DispSala);
-
 
             base.OnModelCreating(builder);
             // Customize the ASP.NET Identity model and override the defaults if needed.

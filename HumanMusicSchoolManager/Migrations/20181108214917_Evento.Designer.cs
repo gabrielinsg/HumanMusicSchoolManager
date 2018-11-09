@@ -4,14 +4,16 @@ using HumanMusicSchoolManager.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HumanMusicSchoolManager.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181108214917_Evento")]
+    partial class Evento
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -82,6 +84,8 @@ namespace HumanMusicSchoolManager.Migrations
 
                     b.Property<bool>("AulaDada");
 
+                    b.Property<int>("ChamadaId");
+
                     b.Property<int>("CursoId");
 
                     b.Property<DateTime>("Data");
@@ -100,7 +104,7 @@ namespace HumanMusicSchoolManager.Migrations
 
                     b.HasIndex("SalaId");
 
-                    b.ToTable("Aulas");
+                    b.ToTable("Aula");
                 });
 
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Chamada", b =>
@@ -115,15 +119,13 @@ namespace HumanMusicSchoolManager.Migrations
 
                     b.Property<int>("PacoteCompraId");
 
-                    b.Property<bool?>("Presenca");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AulaId");
 
                     b.HasIndex("PacoteCompraId");
 
-                    b.ToTable("Chamadas");
+                    b.ToTable("Chamada");
                 });
 
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Curso", b =>
@@ -642,7 +644,7 @@ namespace HumanMusicSchoolManager.Migrations
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Chamada", b =>
                 {
                     b.HasOne("HumanMusicSchoolManager.Models.Models.Aula", "Aula")
-                        .WithMany("Chamadas")
+                        .WithMany("MyProperty")
                         .HasForeignKey("AulaId")
                         .OnDelete(DeleteBehavior.Cascade);
 

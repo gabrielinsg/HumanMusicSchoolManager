@@ -108,7 +108,7 @@ namespace HumanMusicSchoolManager.Controllers
         }
     }
 
-    class FeriadoJson
+    internal class FeriadoJson
     {
         public string Title { get; set; }
         public string Start { get; set; }

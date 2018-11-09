@@ -104,7 +104,7 @@
                                 <h5 class="modal-title" id="exampleModalLabel">
                                     @if (Model.PacoteAula.Id != null)
                                     {
-                                        <span>Comprar pacote de aula</span>
+                                        <span>Comprar pacote de aula - @Html.DisplayFor(d => Model.Matricula.DispSala.Dia) às @Model.Matricula.DispSala.Hora.ToString("00:'00'h") com @Model.Matricula.DispSala.Professor.Nome</span>
                                     }
                                     else
                                     {
@@ -169,6 +169,19 @@
                                                         <span asp-validation-for="Vencimento" class="text-danger"></span>
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <hr />
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label asp-for="PrimeiraAula"></label>
+                                                        <input asp-for="PrimeiraAula" type="date" class="form-control" />
+                                                        <span asp-validation-for="PrimeiraAula" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr />
+                                            <div class="row">
                                                 <div class="col-md-8">
                                                     <div class="form-group">
                                                         <label>Total</label><br />

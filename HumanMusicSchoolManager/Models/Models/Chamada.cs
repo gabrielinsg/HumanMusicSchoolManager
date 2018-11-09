@@ -16,5 +16,7 @@ namespace HumanMusicSchoolManager.Models.Models
 
         public int AulaId { get; set; }
         public Aula Aula { get; set; }
+
+        public bool? Presenca { get; set; }
     }
 }

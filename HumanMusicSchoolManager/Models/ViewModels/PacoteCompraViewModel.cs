@@ -16,6 +16,8 @@ namespace HumanMusicSchoolManager.Models.ViewModels
         [Display(Name = "Forma de Pagamento")]
         public FormaPagamento FormaPagamento { get; set; }
         public DateTime Vencimento { get; set; }
+        [Display(Name = "Primeira Aula")]
+        public DateTime PrimeiraAula { get; set; }
 
 
         public PacoteCompraViewModel()

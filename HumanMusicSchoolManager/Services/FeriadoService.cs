@@ -30,7 +30,7 @@ namespace HumanMusicSchoolManager.Services
 
         public Feriado BuscarPorData(DateTime data)
         {
-            return _context.Feriados.FirstOrDefault(f => f.DataInicial == data);
+            return _context.Feriados.FirstOrDefault(f => data >= f.DataInicial && data <= f.DataFinal);
         }
 
         public Feriado BuscarPorId(int feriadoId)

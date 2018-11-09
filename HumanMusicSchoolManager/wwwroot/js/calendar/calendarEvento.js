@@ -1,5 +1,4 @@
 ﻿$(document).ready(function () {
-
     var today = new Date();
     var dd = today.getDate();
     var mm = today.getMonth() + 1; //January is 0!
@@ -26,7 +25,7 @@
         navLinks: true, // can click day/week names to navigate views
         editable: false,
         eventLimit: true, // allow "more" link when too many events
-        events: 'Feriado/BuscarTodos'
+        events: 'Evento/BuscarTodos'
 
     });
 });

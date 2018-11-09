@@ -26,7 +26,6 @@ namespace HumanMusicSchoolManager.Models.Models
 
         public string DescAtividades { get; set; }
 
-        public int ChamadaId { get; set; }
-        public List<Chamada> MyProperty { get; set; }
+        public List<Chamada> Chamadas { get; set; }
     }
 }

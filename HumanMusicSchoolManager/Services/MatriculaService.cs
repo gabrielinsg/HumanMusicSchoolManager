@@ -29,6 +29,10 @@ namespace HumanMusicSchoolManager.Services
             return _context.Matriculas
                 .Include(m => m.Aluno)
                 .Include(m => m.Curso)
+                .Include(m => m.DispSala)
+                .ThenInclude(ds => ds.Professor)
+                .Include(m => m.DispSala)
+                .ThenInclude(ds => ds.Sala)
                 .Where(m => m.Id == matriculaId)
                 .FirstOrDefault();
         }

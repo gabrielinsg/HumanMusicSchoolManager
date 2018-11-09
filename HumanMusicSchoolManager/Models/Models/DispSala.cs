@@ -25,16 +25,16 @@ namespace HumanMusicSchoolManager.Models.Models
 
 public enum Dia {
     [Display(Name = "Segunda-feira")]
-    SEGUNDA = 2,
+    SEGUNDA = 1,
     [Display(Name = "Terça-feira")]
-    TERCA = 3,
+    TERCA = 2,
     [Display(Name = "Quarta-feira")]
-    QUARTA = 4,
+    QUARTA = 3,
     [Display(Name = "Quinta-feira")]
-    QUINTA = 5,
+    QUINTA = 4,
     [Display(Name = "Sexta-feira")]
-    SEXTA = 6,
+    SEXTA = 5,
     [Display(Name = "Sábado")]
-    SABADO = 7
+    SABADO = 6
 }
 
