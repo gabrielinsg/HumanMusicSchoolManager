@@ -52,6 +52,8 @@
         $("#RespFinanceiro_DataNascimento").val(data.dataNascimento.substring(0, 10));
         $("#RespFinanceiro_RG").val(data.rg);
         $("#RespFinanceiro_CPF").val(data.cpf);
+        $("#RespFinanceiro_Endereco_Id").val(data.endereco.id);
+        $("#RespFinanceiro_EnderecoId").val(data.endereco.id);
         $("#RespFinanceiro_Endereco_Logradouro").val(data.endereco.logradouro);
         $("#RespFinanceiro_Endereco_Numero").val(data.endereco.numero);
         $("#RespFinanceiro_Endereco_Bairro").val(data.endereco.bairro);

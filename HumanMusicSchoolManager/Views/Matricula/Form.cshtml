@@ -60,6 +60,7 @@
                                         <th>Período</th>
                                         <th>Sala</th>
                                         <th>Professor</th>
+                                        <th class="text-center">Vagas</th>
                                         <th>Selecionar</th>
                                     </tr>
                                 </thead>
@@ -71,6 +72,7 @@
                                         <th>Período</th>
                                         <th>Sala</th>
                                         <th>Professor</th>
+                                        <th class="text-center">Vagas</th>
                                         <th>Selecionar</th>
                                     </tr>
                                 </tfoot>
@@ -108,6 +110,36 @@
                                                     </td>
                                                     <td>@dispSala.Sala.Nome</td>
                                                     <td>@dispSala.Professor.Nome</td>
+                                                    <td class="text-center">
+                                                        @(dispSala.Sala.Capacidade - dispSala.Matriculas.Count)
+                                                        <!-- Button trigger modal -->
+                                                        <a class="btn text-primary" data-toggle="modal" data-target="#exampleModalLong@(dispSala.Id)">
+                                                            <i class="fas fa-users text-info"></i>
+                                                        </a>
+
+                                                        <!-- Modal -->
+                                                        <div class="modal fade" id="exampleModalLong@(dispSala.Id)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="exampleModalLongTitle">Alunos matriculados neste horário</h5>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body text-left">
+                                                                        @foreach (var matricula in dispSala.Matriculas)
+                                                                        {
+                                                                            int now = int.Parse(DateTime.Now.ToString("yyyyMMdd"));
+                                                                            int dob = int.Parse(matricula.Aluno.DataNascimento.ToString("yyyyMMdd"));
+                                                                            int age = (now - dob) / 10000;
+                                                                            <p>@matricula.Aluno.Nome - @age @(age > 1 ? "anos" : "ano")</p>
+                                                                        }
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
                                                     <td>
                                                         <a asp-action="Form" class="btn btn-success" asp-route-cursoId="@(curso.CursoId)"
                                                            asp-route-alunoId="@(Model.Aluno.Id)"
@@ -163,6 +195,8 @@
                                     <form role="form" method="post" asp-action="CadastraRespFinanceiro">
 
                                         <input asp-for="RespFinanceiro.Id" value="@Model.RespFinanceiro.Id" type="hidden" />
+                                        <input asp-for="RespFinanceiro.Endereco.Id" type="hidden" />
+                                        <input asp-for="RespFinanceiro.EnderecoId" type="hidden" />
                                         <input asp-for="Aluno.Id" type="hidden" />
                                         <input asp-for="Curso.Id" type="hidden" />
                                         <input asp-for="DispSala.Id" type="hidden" />

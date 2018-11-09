@@ -42,7 +42,9 @@ namespace HumanMusicSchoolManager.Services
         {
 
             var hr = _context.DispSalas
-                .Where(ds => ds.Sala.Capacidade > ds.Matriculas.Count)
+                .Where(ds => ds.Sala.Capacidade > ds.Matriculas.Count || 
+                ds.Matriculas.Where(m => m.PacoteCompras.Equals(m.PacoteCompras
+                    .Where(p => p.PacoteAula.TipoAula == TipoAula.INDIVIDUAL).ToList())).ToList() == null)
                 .Include(dp => dp.Professor)
                 .ThenInclude(p => p.Cursos)
                 .Include(dp => dp.Sala)
