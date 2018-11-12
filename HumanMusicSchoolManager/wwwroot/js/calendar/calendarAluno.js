@@ -12,7 +12,7 @@
         mm = '0' + mm;
     }
     var date = yyyy + '-' + mm + '-' + dd;
-
+    var pacotecompraId = $("#pacoteCompraId").val();
     $('#calendar').fullCalendar({
         header: {
             left: 'prev,next today',
@@ -26,7 +26,7 @@
         navLinks: true, // can click day/week names to navigate views
         editable: false,
         eventLimit: true, // allow "more" link when too many events
-        events: '/Feriado/BuscarTodos'
+        events: '/PacoteCompra/Calendario?pacoteCompraId='+pacotecompraId
 
     });
 });

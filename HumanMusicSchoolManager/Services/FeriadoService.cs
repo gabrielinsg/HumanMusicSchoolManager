@@ -25,7 +25,11 @@ namespace HumanMusicSchoolManager.Services
 
         public List<Feriado> BuscarEntreDatas(DateTime dataInicial, DateTime dataFinal)
         {
-            return _context.Feriados.Where(f => f.DataInicial >= dataFinal && f.DataFinal <= dataFinal).ToList();
+            //dataInicial = dataInicial.AddHours(-dataInicial.Hour);
+            //dataInicial = dataInicial.AddMinutes(-dataInicial.Minute);
+            //dataFinal = dataFinal.AddHours(-dataFinal.Hour);
+            //dataFinal = dataFinal.AddMinutes(-dataFinal.Minute);
+            return _context.Feriados.Where(f => f.DataInicial >= dataInicial && f.DataFinal <= dataFinal).ToList();
         }
 
         public Feriado BuscarPorData(DateTime data)

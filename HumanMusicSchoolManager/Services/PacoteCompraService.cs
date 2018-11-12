@@ -1,6 +1,7 @@
 ﻿using HumanMusicSchoolManager.Data;
 using HumanMusicSchoolManager.Models.Models;
 using HumanMusicSchoolManager.ServicesInterface;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,20 @@ namespace HumanMusicSchoolManager.Services
 
         public PacoteCompra BuscarPorId(int pacoteCompraId)
         {
-            return _context.PacoteCompras.FirstOrDefault(pc => pc.Id == pacoteCompraId);
+            return _context.PacoteCompras
+                .Include(pc => pc.Matricula)
+                .ThenInclude(m => m.Aluno)
+                .Include(pc => pc.Chamadas)
+                .ThenInclude(c => c.Aula)
+                .Include(pc => pc.Matricula)
+                .ThenInclude(m => m.Curso)
+                .Include(pc => pc.Matricula)
+                .ThenInclude(m => m.DispSala)
+                .ThenInclude(ds => ds.Professor)
+                .Include(pc => pc.Matricula)
+                .ThenInclude(m => m.DispSala)
+                .ThenInclude(ds => ds.Sala)
+                .FirstOrDefault(pc => pc.Id == pacoteCompraId);
         }
 
         public List<PacoteCompra> BuscarTodos()

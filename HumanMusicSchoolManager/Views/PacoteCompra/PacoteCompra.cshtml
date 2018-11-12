@@ -1,0 +1,77 @@
+﻿@model PacoteCompra
+@{
+    ViewData["Title"] = "PacoteCompra";
+}
+
+@section Styles{
+    <link href="~/fullcalendar-3.9.0/fullcalendar.min.css" rel="stylesheet" />
+    <link href="~/fullcalendar-3.9.0/fullcalendar.print.min.css" rel="stylesheet" media="print" />
+    <link href="~/css/FullCalendarSite.css" rel="stylesheet" />
+}
+
+<h2>@Model.Matricula.Aluno.Nome </h2>
+
+<input id="pacoteCompraId" value="@Model.Id" type="hidden" />
+
+<br />
+<div class="row">
+    <div class="col-md-8">
+        <ul class="list-group">
+            <li class="list-group-item">
+                <p>Curso de <b>@Model.Matricula.Curso.Nome</b> com <b>@Model.Matricula.DispSala.Professor.Nome</b> na sala <b>@Model.Matricula.DispSala.Sala.Nome</b> - <b>@Html.DisplayFor(d => Model.Matricula.DispSala.Dia)</b> às <b>@Model.Matricula.DispSala.Hora.ToString("00:'00'h")</b></p>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<br />
+
+<div class="row">
+    <div class="col-md-4">
+        <ul class="list-group">
+            <li class="list-group-item active"><i class="fas fa-chart-pie"></i> Aulas</li>
+            <li class="list-group-item">
+                <canvas id="aulaChart" height="150"></canvas>
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-4">
+        <ul class="list-group">
+            <li class="list-group-item active"><i class="fas fa-chart-pie"></i> Presenças</li>
+            <li class="list-group-item">
+                <canvas id="presencaChart" height="150"></canvas>
+            </li>
+        </ul>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-10">
+        <ul class="list-group">
+            <li class="list-group-item active">
+                <div class="row">
+                    <div class="col-11" style="padding-top: 10px">
+                        <i class="fas fa-circle text-info"></i>A fazer 
+                        <i class="fas fa-circle text-success"></i>Presente 
+                        <i class="fas fa-circle text-danger"></i>Faltou
+                    </div>
+                    <div class="col-1">
+                        <a class="btn"><h5><i class="fas fa-print"></i></h5></a>
+                    </div>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div id='calendar'></div>
+            </li>
+        </ul>
+    </div>
+</div>
+<br />
+@section Scripts{
+    <script src="~/vendor/chart.js/Chart.min.js"></script>
+    <script src="~/js/Gráficos/PacoteCompra.js"></script>
+    <script src="~/fullcalendar-3.9.0/lib/moment.min.js"></script>
+    <script src="~/fullcalendar-3.9.0/fullcalendar.min.js"></script>
+    <script src="~/fullcalendar-3.9.0/locale/pt-br.js"></script>
+    <script src="~/js/calendar/calendarAluno.js"></script>
+}

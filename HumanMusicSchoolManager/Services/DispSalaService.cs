@@ -40,11 +40,9 @@ namespace HumanMusicSchoolManager.Services
 
         public List<DispSala> HorariosDisponiveis()
         {
-
-            var hr = _context.DispSalas
-                .Where(ds => ds.Sala.Capacidade > ds.Matriculas.Count || 
-                ds.Matriculas.Where(m => m.PacoteCompras.Equals(m.PacoteCompras
-                    .Where(p => p.PacoteAula.TipoAula == TipoAula.INDIVIDUAL).ToList())).ToList() == null)
+               var hr = _context.DispSalas
+                .Where(ds => ds.Sala.Capacidade > ds.Matriculas.Count &&
+                    ds.Matriculas.FirstOrDefault(m => m.PacoteCompras.Contains(m.PacoteCompras.FirstOrDefault(pc => pc.Chamadas.Contains(pc.Chamadas.FirstOrDefault(c => c.PacoteCompra.PacoteAula.TipoAula == TipoAula.INDIVIDUAL && c.Presenca == null))))) == null)
                 .Include(dp => dp.Professor)
                 .ThenInclude(p => p.Cursos)
                 .Include(dp => dp.Sala)

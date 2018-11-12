@@ -201,5 +201,120 @@ namespace HumanMusicSchoolManager.Controllers
                 return View(pacoteCompraViewModel);
             }
         }
+
+        public IActionResult PacoteCompra(int? pacoteCompraId)
+        {
+            if (pacoteCompraId != null)
+            {
+                return View(_pacoteCompraService.BuscarPorId(pacoteCompraId.Value));
+            }
+            else
+            {
+                return RedirectToAction("Index", "Aluno");
+            }
+        }
+
+        public JsonResult Aulas(int pacoteCompraId)
+        {
+
+            var pacoteCompra = _pacoteCompraService.BuscarPorId(pacoteCompraId);
+
+            var chart = new Chart()
+            {
+                Labels = new string[] { "Compradas", "Feitas" },
+                Datasets = new double[] {22,12},
+                Color = new string[] { "#007bff", "#28a745" }
+            };
+
+            return Json(chart);
+        }
+
+        public JsonResult Presencas(int pacoteCompraId)
+        {
+
+            var pacoteCompra = _pacoteCompraService.BuscarPorId(pacoteCompraId);
+
+            var chart = new Chart()
+            {
+                Labels = new string[] { "Presenças", "Faltas" },
+                Datasets = new double[] { 10, 2 },
+                Color = new string[] { "#28a745", "#dc3545" }
+            };
+
+            return Json(chart);
+        }
+
+        internal class Chart
+        {
+            public string[] Labels { get; set; }
+            public double[] Datasets { get; set; }
+            public string[] Color  { get; set; }
+        }
+
+        public JsonResult Calendario(int pacoteCompraId)
+        {
+            var pacoteCompra = _pacoteCompraService.BuscarPorId(pacoteCompraId);
+            DateTime dataInicial = pacoteCompra.Chamadas.OrderBy(c => c.Aula.Data).Select(c => c.Aula.Data).FirstOrDefault();
+            DateTime dataFinal = pacoteCompra.Chamadas.OrderByDescending(c => c.Aula.Data).Select(c => c.Aula.Data).FirstOrDefault();
+            var feriados = _feriadoService.BuscarEntreDatas(dataInicial, dataFinal);
+            var calendar = new List<Calendar>();
+            var cont = 1;
+            foreach (var chamada in pacoteCompra.Chamadas)
+            {
+                var start = chamada.Aula.Data;
+                start = start.AddHours((double)pacoteCompra.Matricula.DispSala.Hora);
+                var end = start.AddMinutes(55);
+                var color = "";
+                if (chamada.Presenca == null)
+                {
+                    color = "#007bff";
+                }
+                else if (chamada.Presenca == true)
+                {
+                    color = "#28a745";
+                }
+                else
+                {
+                    color = "#dc3545";
+                }
+                var cal = new Calendar()
+                {
+                    Title = "Aula " + cont,
+                    Start = start.ToString("yyyy-MM-ddTHH:mm:ss"),
+                    End = end.ToString("yyyy-MM-ddTHH:mm:ss"),
+                    Color = color,
+                    Url = "/Aula/Aula?aulaId="+chamada.Aula.Id
+                };
+                calendar.Add(cal);
+                cont++;
+            }
+            foreach (var feriado in feriados)
+            {
+                var cal = new Calendar()
+                {
+                    Title = feriado.Nome,
+                    Start = feriado.DataInicial.ToString("yyyy-MM-dd"),
+                    Url = "Feriado/Form?feriadoId=" + feriado.Id.Value,
+                    Color = "#ffc107"
+                };
+                if (feriado.DataFinal != null)
+                {
+                    cal.End = feriado.DataFinal.Value.ToString("yyyy-MM-dd");
+                }
+                calendar.Add(cal);
+            }
+
+            return Json(calendar);
+
+        }
+
+        internal class Calendar
+        {
+            public string Title { get; set; }
+            public string Start { get; set; }
+            public string End { get; set; }
+            public string Color { get; set; }
+            public string Url { get; set; }
+        }
     }
 }
