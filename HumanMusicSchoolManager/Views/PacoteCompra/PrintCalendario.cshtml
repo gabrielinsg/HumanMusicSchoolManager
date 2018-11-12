@@ -1,0 +1,41 @@
+﻿@model PacoteCompra
+@{
+    ViewData["Title"] = "PrintCalendario";
+    Layout = "_Print";
+}
+<br />
+<div class="container">
+    <h2>Calendário de Aulas</h2>
+    <br />
+    <table class="table table-bordered table-sm table-striped d-table-row">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Data e hora</th>
+                <th scope="col">Aula</th>
+                <th scope="col">Em aberto</th>
+                <th scope="col">Presente</th>
+                <th scope="col">Faltou</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ 
+                var i = 1;
+            }
+            @foreach (var chamda in Model.Chamadas)
+            {
+                <tr>
+                    <th scope="row">@chamda.Aula.Data.ToString("dd/MM/yyyy - HH:mm'h'")</th>
+                    <td>Aula @i</td>
+                    <td class="text-center"><b>@(chamda.Presenca == null ? "X" : "")</b></td>
+                    <td class="text-center"><b>@(chamda.Presenca == true ? "X" : "")</b></td>
+                    <td class="text-center"><b>@(chamda.Presenca == false ? "X" : "")</b></td>
+                </tr>
+                i++;
+            }
+        </tbody>
+    </table>
+</div>
+
+
+
+

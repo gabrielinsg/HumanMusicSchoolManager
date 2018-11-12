@@ -51,12 +51,13 @@
             <li class="list-group-item active">
                 <div class="row">
                     <div class="col-11" style="padding-top: 10px">
-                        <i class="fas fa-circle text-info"></i>A fazer 
-                        <i class="fas fa-circle text-success"></i>Presente 
-                        <i class="fas fa-circle text-danger"></i>Faltou
+                        <i class="fas fa-circle text-info" style="padding-left: 10px"></i>A fazer 
+                        <i class="fas fa-circle text-success" style="padding-left: 10px"></i>Presente 
+                        <i class="fas fa-circle text-danger" style="padding-left: 10px"></i>Faltou 
+                        <i class="fas fa-circle text-warning" style="padding-left: 10px"></i>Férias e feriado
                     </div>
                     <div class="col-1">
-                        <a class="btn"><h5><i class="fas fa-print"></i></h5></a>
+                        <a asp-action="PrintCalendario" asp-route-pacoteCompraId="@Model.Id" class="btn text-white"><h5><i class="fas fa-print"></i></h5></a>
                     </div>
                 </div>
             </li>

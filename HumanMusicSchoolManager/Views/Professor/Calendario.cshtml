@@ -1,6 +1,6 @@
-﻿
+﻿@model Professor
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Calendario";
 }
 
 @section Styles{
@@ -9,17 +9,19 @@
     <link href="~/css/FullCalendarSite.css" rel="stylesheet" />
 }
 
-<br />
+<input id="professorId" value="@Model.Id" type="hidden" />
+
 <div class="row">
     <div class="col-md-10">
         <ul class="list-group">
             <li class="list-group-item active">
                 <div class="row">
-                    <div class="col-md-11 col-10" style="padding-top: 10px">
-                        <i class="fas fa-calendar-alt"></i> Férias e feriados
-                    </div>
-                    <div class="col-md-1 col-2">
-                        <a asp-action="Form" class="btn text-white"><h4><i class="fas fa-plus-circle"></i></h4></a>
+                    <div class="col-11" style="padding-top: 10px">
+                        <i class="fas fa-circle text-info"></i>Agendada
+                        <i class="fas fa-circle text-success" style="padding-left: 10px"></i>Ministrada
+                        <i class="fas fa-circle text-danger" style="padding-left: 10px"></i>Atrasada
+                        <i class="fas fa-circle text-warning" style="padding-left: 10px"></i>Férias e feriado
+                        <i class="fas fa-circle text-secondary" style="padding-left: 10px"></i>Eventos
                     </div>
                 </div>
             </li>
@@ -35,5 +37,5 @@
     <script src="~/fullcalendar-3.9.0/lib/moment.min.js"></script>
     <script src="~/fullcalendar-3.9.0/fullcalendar.min.js"></script>
     <script src="~/fullcalendar-3.9.0/locale/pt-br.js"></script>
-    <script src="~/js/calendar/calendarFeriado.js"></script>
+    <script src="~/js/calendar/calendarProfessor.js"></script>
 }

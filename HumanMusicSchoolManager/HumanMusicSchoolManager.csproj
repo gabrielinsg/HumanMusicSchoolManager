@@ -12,6 +12,8 @@
     <Compile Remove="Migrations\20181108021133_Feriado.Designer.cs" />
     <Compile Remove="Migrations\20181109023626_AulaChamada.cs" />
     <Compile Remove="Migrations\20181109023626_AulaChamada.Designer.cs" />
+    <Compile Remove="Migrations\20181112203600_ProfessorAula.cs" />
+    <Compile Remove="Migrations\20181112203600_ProfessorAula.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

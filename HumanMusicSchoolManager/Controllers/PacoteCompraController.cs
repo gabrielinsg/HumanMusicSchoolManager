@@ -316,5 +316,17 @@ namespace HumanMusicSchoolManager.Controllers
             public string Color { get; set; }
             public string Url { get; set; }
         }
+
+        public IActionResult PrintCalendario(int? pacoteCompraId)
+        {
+            if (pacoteCompraId != null)
+            {
+                return View(_pacoteCompraService.BuscarPorId(pacoteCompraId.Value));
+            }
+            else
+            {
+                return RedirectToAction("Index", "Aluno");
+            }
+        }
     }
 }
