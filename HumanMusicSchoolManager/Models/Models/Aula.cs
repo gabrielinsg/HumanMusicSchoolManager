@@ -24,6 +24,7 @@ namespace HumanMusicSchoolManager.Models.Models
 
         public bool AulaDada { get; set; }
 
+        [Display(Name = "Descrição de Atividades")]
         public string DescAtividades { get; set; }
 
         public List<Chamada> Chamadas { get; set; }

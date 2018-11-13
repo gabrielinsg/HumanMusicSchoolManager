@@ -1,0 +1,59 @@
+﻿@model Aula
+@{
+    ViewData["Title"] = "Aula";
+}
+
+<h2>Aula</h2>
+<br />
+<div class="list-group">
+    <div class="list-group-item">
+        <form role="form" asp-action="Aula" method="post">
+            <input asp-for="Id" type="hidden" />
+            <input asp-for="ProfessorId" type="hidden" />
+            <input asp-for="SalaId" type="hidden" />
+
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label asp-for="Data"></label>
+                        <input asp-for="Data" hidden />
+                        <input value="@Model.Data.ToString("dd/MM/yyyy HH:mm'h'")" disabled class="form-control" />
+                        <span asp-validation-for="Data"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="Professor"></label>
+                    <input asp-for="Professor.Nome" class="form-control" disabled />
+                    <span asp-validation-for="Data" class="text-danger"></span>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="Curso"></label>
+                    <input asp-for="Curso.Nome" class="form-control" disabled />
+                    <span asp-validation-for="Curso" class="text-danger"></span>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="Sala"></label>
+                    <input asp-for="Sala.Nome" class="form-control" disabled />
+                    <span asp-validation-for="Sala" class="text-danger"></span>
+                </div>
+                <div class="col-md-12">
+                    <label asp-for="DescAtividades"></label>
+                    <textarea asp-for="DescAtividades" rows="10" cols="80">
+                        This is my textarea to be replaced with CKEditor.
+                    </textarea>
+                    <span asp-validation-for="DescAtividades" class="text-danger"></span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/mask.js"></script>
+    <script src="~/ckeditor/ckeditor.js"></script>
+    <script>
+        // Replace the <textarea id="editor1"> with a CKEditor
+        // instance, using default configuration.
+        CKEDITOR.replace('DescAtividades');
+    </script>
+}

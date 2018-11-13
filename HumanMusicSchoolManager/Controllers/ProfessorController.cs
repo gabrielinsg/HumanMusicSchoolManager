@@ -219,7 +219,7 @@ namespace HumanMusicSchoolManager.Controllers
                     End = end.ToString("yyyy-MM-ddTHH:mm:ss"),
                     Color = color,
                     Title = "Aula ",
-                    Url = "/Aula/Form?aulaId=" + aula.Id
+                    Url = "/Aula/Aula?aulaId=" + aula.Id
                 };
                 foreach (var chamada in aula.Chamadas)
                 {
@@ -236,7 +236,6 @@ namespace HumanMusicSchoolManager.Controllers
                 {
                     Title = feriado.Nome,
                     Start = feriado.DataInicial.ToString("yyyy-MM-dd"),
-                    Url = "Feriado/Form?feriadoId=" + feriado.Id.Value,
                     Color = "#ffc107"
                 };
                 if (feriado.DataFinal != null)

@@ -1,6 +1,7 @@
 ﻿using HumanMusicSchoolManager.Data;
 using HumanMusicSchoolManager.Models.Models;
 using HumanMusicSchoolManager.ServicesInterface;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,15 @@ namespace HumanMusicSchoolManager.Services
 
         public Aula BuscarPorId(int aulaId)
         {
-            return _context.Aulas.FirstOrDefault(a => a.Id == aulaId);
+            return _context.Aulas
+                .Include(a => a.Professor)
+                .Include(a => a.Chamadas)
+                .ThenInclude(c => c.PacoteCompra)
+                .ThenInclude(pc => pc.Matricula)
+                .ThenInclude(m => m.Aluno)
+                .Include(a => a.Curso)
+                .Include(a => a.Sala)
+                .FirstOrDefault(a => a.Id == aulaId);
         }
 
         public List<Aula> BuscarTodas()

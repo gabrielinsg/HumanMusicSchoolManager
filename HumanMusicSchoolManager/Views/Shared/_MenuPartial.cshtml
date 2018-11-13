@@ -14,6 +14,16 @@
     @if (SignInManager.IsSignedIn(User))
     {
 
+        @if (User.IsInRole("Professor"))
+        {
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Professor" asp-action="Calendario">
+                    <i class="far fa-calendar-alt"></i>
+                    <span>Calendário</span>
+                </a>
+            </li>
+        }
+
         @if (User.IsInRole("Coordenacao") || User.IsInRole("Admin"))
         {
             <li class="nav-item dropdown">
