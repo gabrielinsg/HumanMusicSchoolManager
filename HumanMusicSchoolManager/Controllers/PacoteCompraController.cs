@@ -289,7 +289,7 @@ namespace HumanMusicSchoolManager.Controllers
                     Start = start.ToString("yyyy-MM-ddTHH:mm:ss"),
                     End = end.ToString("yyyy-MM-ddTHH:mm:ss"),
                     Color = color,
-                    Url = "/Aula/Aula?aulaId="+chamada.Aula.Id
+                    Url = "/PacoteCompra/Aula?chamadaId="+chamada.Id
                 };
                 calendar.Add(cal);
                 cont++;
@@ -300,7 +300,6 @@ namespace HumanMusicSchoolManager.Controllers
                 {
                     Title = feriado.Nome,
                     Start = feriado.DataInicial.ToString("yyyy-MM-dd"),
-                    Url = "Feriado/Form?feriadoId=" + feriado.Id.Value,
                     Color = "#ffc107"
                 };
                 if (feriado.DataFinal != null)
@@ -332,6 +331,26 @@ namespace HumanMusicSchoolManager.Controllers
             else
             {
                 return RedirectToAction("Index", "Aluno");
+            }
+        }
+
+        public IActionResult Aula(int? chamadaId)
+        {
+            if (chamadaId != null)
+            {
+                var chamada = _chamadaService.BuscarPorId(chamadaId.Value);
+                if (chamada != null)
+                {
+                    return View(chamada);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
             }
         }
     }

@@ -1,0 +1,51 @@
+﻿@model Chamada
+@{
+    ViewData["Title"] = "Aula";
+}
+
+
+
+
+<h2>Aula de @Model.Aula.Curso.Nome</h2>
+
+<div class="row">
+    @{ 
+        var dia = Dia.SEGUNDA;
+        switch (Model.Aula.Data.DayOfWeek)
+        {
+            case (DayOfWeek)Dia.SEGUNDA: dia = Dia.SEGUNDA; break;
+            case (DayOfWeek)Dia.TERCA: dia = Dia.TERCA; break;
+            case (DayOfWeek)Dia.QUARTA: dia = Dia.QUARTA; break;
+            case (DayOfWeek)Dia.QUINTA: dia = Dia.QUINTA; break;
+            case (DayOfWeek)Dia.SEXTA: dia = Dia.SEXTA; break;
+            case (DayOfWeek)Dia.SABADO: dia = Dia.SABADO; break;
+        }
+        }
+    <div class="col-md-3"><b>Data: </b>@Model.Aula.Data.ToString("dd/MM/yyyy") - @Html.DisplayFor(d => dia) - @Model.Aula.Data.ToString("HH:mm'h'")</div>
+    <div class="col-md-4"><b>Professor: </b>@Model.Aula.Professor.Nome</div>
+    <div class="col-md-4">
+        <b>Aula: </b>
+        @if (Model.Presenca == null)
+        {
+            <span>Essa aula ainda não foi dada</span>
+        }
+        else if (Model.Presenca == true)
+        {
+            <span>Você compareu a essa aula</span>
+        }
+        else
+        {
+            <span>Você não compareceu a essa aula</span>
+        }
+    </div>
+</div>
+<br /><br />
+<div class="row">
+    <div class="col-md-10">
+        <ul class="list-group">
+            <li class="list-group-item active">Conteúdo da aula</li>
+            <li class="list-group-item">@Html.Raw(Model.Aula.DescAtividades)</li>
+            <li class="list-group-item">@Model.Observacao</li>
+        </ul>
+    </div>
+</div>
