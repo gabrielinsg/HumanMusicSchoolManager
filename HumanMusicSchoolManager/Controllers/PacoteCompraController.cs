@@ -178,7 +178,8 @@ namespace HumanMusicSchoolManager.Controllers
                                 CursoId = pacoteCompraViewModel.Matricula.CursoId,
                                 ProfessorId = pacoteCompraViewModel.Matricula.DispSala.Professor.Id.Value,
                                 SalaId = pacoteCompraViewModel.Matricula.DispSala.Sala.Id.Value,
-                                Data = diaAula
+                                Data = diaAula,
+                                DataLimite = diaAula.AddDays(3)
                             };
                             _aulaService.Cadastrar(aula);
                         }
@@ -218,11 +219,13 @@ namespace HumanMusicSchoolManager.Controllers
         {
 
             var pacoteCompra = _pacoteCompraService.BuscarPorId(pacoteCompraId);
+            var compradas = pacoteCompra.PacoteAula.QtdAula;
+            var feitas = pacoteCompra.Chamadas.Where(c => c.Presenca != null).ToList().Count();
 
             var chart = new Chart()
             {
-                Labels = new string[] { "Compradas", "Feitas" },
-                Datasets = new double[] {22,12},
+                Labels = new string[] { "Disponíveis", "Feitas" },
+                Datasets = new double[] {compradas-feitas, feitas},
                 Color = new string[] { "#007bff", "#28a745" }
             };
 
@@ -233,11 +236,14 @@ namespace HumanMusicSchoolManager.Controllers
         {
 
             var pacoteCompra = _pacoteCompraService.BuscarPorId(pacoteCompraId);
+            var presencas = pacoteCompra.Chamadas.Where(c => c.Presenca == true).ToList().Count();
+            var faltas = pacoteCompra.Chamadas.Where(c => c.Presenca == false).ToList().Count();
+
 
             var chart = new Chart()
             {
                 Labels = new string[] { "Presenças", "Faltas" },
-                Datasets = new double[] { 10, 2 },
+                Datasets = new double[] { presencas, faltas },
                 Color = new string[] { "#28a745", "#dc3545" }
             };
 

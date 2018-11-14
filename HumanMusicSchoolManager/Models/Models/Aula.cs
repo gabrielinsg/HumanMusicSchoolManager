@@ -27,6 +27,8 @@ namespace HumanMusicSchoolManager.Models.Models
         [Display(Name = "Descrição de Atividades")]
         public string DescAtividades { get; set; }
 
+        public DateTime DataLimite { get; set; }
+
         public List<Chamada> Chamadas { get; set; }
     }
 }

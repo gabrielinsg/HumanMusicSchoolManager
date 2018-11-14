@@ -36,9 +36,20 @@ namespace HumanMusicSchoolManager.Controllers
             if (aulaId != null)
             {
                 var aula = _aulaService.BuscarPorId(aulaId.Value);
+
                 if (aula != null)
                 {
-                    return View(aula);
+
+                    if (aula.DataLimite == null || aula.DataLimite > DateTime.Now)
+                    {
+                        return View(aula);
+                    }
+                    else
+                    {
+                        TempData["Error"] = "Data limite para lançamento dessa aula expirou. Favor entrar em contato com a coordenação!";
+                        return RedirectToAction("Calendario", "Professor");
+                    }
+
                 }
                 else
                 {

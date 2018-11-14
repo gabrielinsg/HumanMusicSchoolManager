@@ -28,6 +28,7 @@ namespace HumanMusicSchoolManager.Services
         public PacoteCompra BuscarPorId(int pacoteCompraId)
         {
             return _context.PacoteCompras
+                .Include(pc => pc.PacoteAula)
                 .Include(pc => pc.Matricula)
                 .ThenInclude(m => m.Aluno)
                 .Include(pc => pc.Chamadas)
