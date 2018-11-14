@@ -20,7 +20,15 @@ namespace HumanMusicSchoolManager.Services
 
         public void Alterar(Aula aula)
         {
-            _context.Update(aula);
+
+            var entry = _context.Entry<Aula>(aula);
+            if (entry.State == EntityState.Detached)
+            {
+                var aul = _context.Aulas.FirstOrDefault(a => a.Id == aula.Id);
+                var ent = _context.Entry<Aula>(aul);
+                ent.State = EntityState.Detached;
+                entry.State = EntityState.Modified;
+            }
             _context.SaveChanges();
         }
 
@@ -39,6 +47,10 @@ namespace HumanMusicSchoolManager.Services
                 .ThenInclude(m => m.Aluno)
                 .Include(a => a.Curso)
                 .Include(a => a.Sala)
+                .Include(a => a.Chamadas)
+                .ThenInclude(c => c.PacoteCompra)
+                .ThenInclude(pc => pc.Chamadas)
+                .ThenInclude(c => c.Aula)
                 .FirstOrDefault(a => a.Id == aulaId);
         }
 

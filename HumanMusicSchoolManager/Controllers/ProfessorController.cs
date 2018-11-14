@@ -218,13 +218,22 @@ namespace HumanMusicSchoolManager.Controllers
                     Start = start.ToString("yyyy-MM-ddTHH:mm:ss"),
                     End = end.ToString("yyyy-MM-ddTHH:mm:ss"),
                     Color = color,
-                    Title = "Aula ",
+                    Title = "Aula - ",
                     Url = "/Aula/Aula?aulaId=" + aula.Id
                 };
+                int ultimo = 0;
                 foreach (var chamada in aula.Chamadas)
                 {
+                    ultimo++;
                     var nome = chamada.PacoteCompra.Matricula.Aluno.Nome.Split(' ');
-                    cal.Title += nome[0]+" ";
+                    if (ultimo == aula.Chamadas.Count && ultimo != 1)
+                    {
+                        cal.Title += ", " + nome[0];
+                    }
+                    else
+                    {
+                        cal.Title += nome[0];
+                    }
                 }
                 calendar.Add(cal);
             }
