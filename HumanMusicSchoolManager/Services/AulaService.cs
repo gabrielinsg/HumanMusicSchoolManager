@@ -54,6 +54,16 @@ namespace HumanMusicSchoolManager.Services
                 .FirstOrDefault(a => a.Id == aulaId);
         }
 
+        public List<Aula> BuscarPorSala(int salaId)
+        {
+            return _context.Aulas.Where(a => a.Sala.Id == salaId)
+                .Include(a => a.Chamadas)
+                .ThenInclude(c => c.PacoteCompra)
+                .ThenInclude(pc => pc.Matricula)
+                .ThenInclude(m => m.Aluno)
+                .ToList();
+        }
+
         public List<Aula> BuscarTodas()
         {
             return _context.Aulas.ToList();

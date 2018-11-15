@@ -15,12 +15,23 @@ namespace HumanMusicSchoolManager.Controllers
         private readonly ISalaService _salaService;
         private readonly ICursoService _cursoService;
         private readonly IProfessorService _professorService;
+        private readonly IFeriadoService _feriadoService;
+        private readonly IEventoService _eventoService;
+        private readonly IAulaService _aulaService;
 
-        public SalaController(ISalaService salaService, ICursoService cursoService, IProfessorService professorService)
+        public SalaController(ISalaService salaService, 
+            ICursoService cursoService, 
+            IProfessorService professorService,
+            IFeriadoService feriadoService,
+            IEventoService eventoService,
+            IAulaService aulaService)
         {
             this._salaService = salaService;
             this._cursoService = cursoService;
             this._professorService = professorService;
+            this._feriadoService = feriadoService;
+            this._eventoService = eventoService;
+            this._aulaService = aulaService;
         }
 
         public IActionResult Index()
@@ -225,6 +236,118 @@ namespace HumanMusicSchoolManager.Controllers
             {
                 return RedirectToAction("Index");
             }
+        }
+
+        public IActionResult Calendario(int? salaId)
+        {
+
+            var sala = _salaService.BuscarPorId(salaId.Value);
+
+            if (sala != null)
+            {
+                return View(sala);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
+        public JsonResult CalendarioJson(int salaId)
+        {
+
+            var aulas = _aulaService.BuscarPorSala(salaId);
+            var feriados = _feriadoService.BuscarTodos();
+            var eventos = _eventoService.BuscarTodos();
+            var calendar = new List<CalendarJson>();
+
+            //Aulas
+            foreach (var aula in aulas)
+            {
+                var start = aula.Data;
+                var end = start.AddMinutes(55);
+                var color = "";
+                if (aula.AulaDada == true)
+                {
+                    color = "#28a745";
+                }
+                else if (aula.AulaDada == false && aula.Data < DateTime.Now)
+                {
+                    color = "#dc3545";
+                }
+                else
+                {
+                    color = "#007bff";
+                }
+                var cal = new CalendarJson()
+                {
+                    Start = start.ToString("yyyy-MM-ddTHH:mm:ss"),
+                    End = end.ToString("yyyy-MM-ddTHH:mm:ss"),
+                    Color = color,
+                    Title = "Aula - ",
+                    Url = "/Aula/Form?aulaId=" + aula.Id
+                };
+
+                int ultimo = 0;
+                foreach (var chamada in aula.Chamadas)
+                {
+                    ultimo++;
+                    var nome = chamada.PacoteCompra.Matricula.Aluno.Nome.Split(' ');
+                    if (ultimo == aula.Chamadas.Count && ultimo != 1)
+                    {
+                        cal.Title += ", " + nome[0];
+                    }
+                    else
+                    {
+                        cal.Title += nome[0];
+                    }
+                }
+                calendar.Add(cal);
+            }
+
+            //Feriados
+            foreach (var feriado in feriados)
+            {
+                var cal = new CalendarJson()
+                {
+                    Title = feriado.Nome,
+                    Start = feriado.DataInicial.ToString("yyyy-MM-dd"),
+                    Color = "#ffc107"
+                };
+                if (feriado.DataFinal != null)
+                {
+                    cal.End = feriado.DataFinal.Value.ToString("yyyy-MM-dd");
+                }
+                calendar.Add(cal);
+            }
+
+            //Eventos
+            foreach (var evento in eventos)
+            {
+                var calendarJson = new CalendarJson()
+                {
+                    Title = evento.Nome,
+                    Start = evento.DataInicial.ToString("yyyy-MM-dd"),
+                    Color = "#6c757d"
+                };
+                if (evento.DataFinal != null)
+                {
+                    calendarJson.End = evento.DataFinal.Value.ToString("yyyy-MM-dd");
+                }
+                calendar.Add(calendarJson);
+            }
+
+            return Json(calendar);
+        }
+
+        internal class CalendarJson
+        {
+
+            public string Title { get; set; }
+            public string Start { get; set; }
+            public string Url { get; set; }
+            public string Color { get; set; }
+            public string End { get; set; }
         }
     }
 }

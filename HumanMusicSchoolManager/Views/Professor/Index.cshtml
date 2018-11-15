@@ -26,6 +26,7 @@
                         <th class="text-center">Cursos</th>
                         <th class="text-center">Ativo</th>
                         <th class="text-center">Informações</th>
+                        <th class="text-center">Calendário</th>
                         <th class="text-center">Alterar</th>
                     </tr>
                 </thead>
@@ -36,6 +37,7 @@
                         <th class="text-center">Cursos</th>
                         <th class="text-center">Ativo</th>
                         <th class="text-center">Informações</th>
+                        <th class="text-center">Calendário</th>
                         <th class="text-center">Alterar</th>
                     </tr>
                 </tfoot>
@@ -107,6 +109,9 @@
                                         </div>
                                     </div>
                                 </div>
+                            </td>
+                            <td class="text-center">
+                                <a asp-controller="Professor" asp-action="Calendario" asp-route-professorId="@(professor.Id)"><i class="far fa-calendar-alt"></i></a>
                             </td>
                             <td class="text-center">
                                 <a asp-action="Form" asp-route-professorId="@(professor.Id)"><i class="fas fa-pencil-alt text-primary"></i></a>

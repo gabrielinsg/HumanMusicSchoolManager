@@ -6,6 +6,7 @@ using HumanMusicSchoolManager.Models.Models;
 using HumanMusicSchoolManager.Services;
 using HumanMusicSchoolManager.ServicesInterface;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace HumanMusicSchoolManager.Controllers
 {
@@ -31,7 +32,7 @@ namespace HumanMusicSchoolManager.Controllers
         }
 
         [HttpGet]
-        public IActionResult Aula(int? aulaId)
+        public IActionResult Form(int? aulaId)
         {
             if (aulaId != null)
             {
@@ -63,7 +64,7 @@ namespace HumanMusicSchoolManager.Controllers
         }
 
         [HttpPost]
-        public IActionResult Aula(Aula aula)
+        public IActionResult Form(Aula aula)
         {
             if (aula.DescAtividades == null)
             {
@@ -87,6 +88,107 @@ namespace HumanMusicSchoolManager.Controllers
             }
             else
             {
+                return View(aula);
+            }
+        }
+
+        [HttpGet]
+        public IActionResult Aula(int? aulaId)
+        {
+            if (aulaId != null)
+            {
+                var aula = _aulaService.BuscarPorId(aulaId.Value);
+                if (aula != null)
+                {
+                    var professores = _professorService.BuscarProfessorPorCurso(aula.CursoId);
+                    var listProfessores = new List<SelectListItem>();
+                    foreach (var professor in professores)
+                    {
+                        var selectListItem = new SelectListItem
+                        {
+                            Value = professor.Id.ToString(),
+                            Text = professor.Nome
+                        };
+                        listProfessores.Add(selectListItem);
+                    }
+                    ViewBag.professores = listProfessores;
+
+                    var salas = _salaService.BuscarTodos();
+                    var listSalas = new List<SelectListItem>();
+                    foreach (var sala in salas)
+                    {
+                        var selectListItem = new SelectListItem
+                        {
+                            Value = sala.Id.ToString(),
+                            Text = sala.Nome
+                        };
+                        listSalas.Add(selectListItem);
+                    }
+                    ViewBag.salas = listSalas;
+
+                    return View(aula);
+                }
+            }
+
+            return RedirectToAction("Index", "Aluno");
+        }
+
+        [HttpPost]
+        public IActionResult Aula(Aula aula, int? Hora)
+        {
+
+            if (Hora == null)
+            {
+                ModelState.AddModelError("Hora", "Hora deve ser preenchida!");
+            }
+
+            if (ModelState.IsValid)
+            {
+                aula.Data.AddHours(-aula.Data.Hour);
+                aula.Data.AddHours(Hora.Value);
+                aula.DataLimite.AddHours(23);
+
+                foreach (var chamada in aula.Chamadas)
+                {
+                    if (aula.AulaDada == false)
+                    {
+                        chamada.Presenca = null;
+                    }
+                    _chamadaService.Alterar(chamada);
+                }
+
+                _aulaService.Alterar(aula);
+                TempData["Success"] = "Aula alterado com sucesso";
+                return RedirectToAction("Index", "Aula");
+            }
+            else
+            {
+                var professores = _professorService.BuscarProfessorPorCurso(aula.CursoId);
+                var listProfessores = new List<SelectListItem>();
+                foreach (var professor in professores)
+                {
+                    var selectListItem = new SelectListItem
+                    {
+                        Value = professor.Id.ToString(),
+                        Text = professor.Nome
+                    };
+                    listProfessores.Add(selectListItem);
+                }
+
+                var salas = _salaService.BuscarTodos();
+                var listSalas = new List<SelectListItem>();
+                foreach (var sala in salas)
+                {
+                    var selectListItem = new SelectListItem
+                    {
+                        Value = sala.Id.ToString(),
+                        Text = sala.Nome
+                    };
+                    listSalas.Add(selectListItem);
+                }
+                ViewBag.salas = listSalas;
+
+                ViewBag.professores = listProfessores;
                 return View(aula);
             }
         }

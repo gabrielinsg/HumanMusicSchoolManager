@@ -174,9 +174,22 @@ namespace HumanMusicSchoolManager.Controllers
             return Json(professor);
         }
 
-        public IActionResult Calendario()
+        public IActionResult Calendario(int? professorId)
         {
-            var professor = _professorService.BuscarPorId(_pessoaService.GetUser(User.Identity.Name).Id.Value);
+            Professor professor = null;
+
+            if (professorId == null)
+            {
+                professor = _professorService.BuscarPorId(_pessoaService.GetUser(User.Identity.Name).Id.Value);
+                ViewBag.user = false;
+            }
+            else
+            {
+                professor = _professorService.BuscarPorId(professorId.Value);
+                ViewBag.user = true;
+
+            }
+
             if (professor != null)
             {
                 return View(professor);
@@ -187,7 +200,7 @@ namespace HumanMusicSchoolManager.Controllers
             }
         }
 
-        public JsonResult CalendarioJson(int professorId)
+        public JsonResult CalendarioJson(int professorId, bool user)
         {
 
             var professor = _professorService.BuscarPorId(professorId);
@@ -218,9 +231,17 @@ namespace HumanMusicSchoolManager.Controllers
                     Start = start.ToString("yyyy-MM-ddTHH:mm:ss"),
                     End = end.ToString("yyyy-MM-ddTHH:mm:ss"),
                     Color = color,
-                    Title = "Aula - ",
-                    Url = "/Aula/Aula?aulaId=" + aula.Id
+                    Title = "Aula - "                    
                 };
+                if (user == true)
+                {
+                    cal.Url = "/Aula/Form?aulaId=" + aula.Id;
+                }
+                else
+                {
+                    cal.Url = "/Aula/Aula?aulaId=" + aula.Id;
+                }
+
                 int ultimo = 0;
                 foreach (var chamada in aula.Chamadas)
                 {

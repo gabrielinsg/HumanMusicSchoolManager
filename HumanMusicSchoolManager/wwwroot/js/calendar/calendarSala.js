@@ -12,7 +12,7 @@
         mm = '0' + mm;
     }
     var date = yyyy + '-' + mm + '-' + dd;
-    var professorId = $("#professorId").val();
+    var salaId = $("#salaId").val();
     var user = $("#user").val();
     $('#calendar').fullCalendar({
         header: {
@@ -30,7 +30,7 @@
         navLinks: true, // can click day/week names to navigate views
         editable: false,
         eventLimit: true, // allow "more" link when too many events
-        events: '/Professor/CalendarioJson?professorId=' + professorId + '&user=' + user
+        events: '/Sala/CalendarioJson?salaId=' + salaId
 
     });
 });

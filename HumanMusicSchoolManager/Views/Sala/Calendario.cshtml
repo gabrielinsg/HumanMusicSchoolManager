@@ -1,16 +1,15 @@
-﻿@model Professor
+﻿@model Sala
 @{
     ViewData["Title"] = "Calendario";
 }
-<h2>@Model.Nome</h2>
+
 @section Styles{
     <link href="~/fullcalendar-3.9.0/fullcalendar.min.css" rel="stylesheet" />
     <link href="~/fullcalendar-3.9.0/fullcalendar.print.min.css" rel="stylesheet" media="print" />
     <link href="~/css/FullCalendarSite.css" rel="stylesheet" />
 }
-
-<input id="professorId" value="@Model.Id" type="hidden" />
-<input id="user" value="@ViewBag.user" type="hidden" />
+<h2>@Model.Nome</h2>
+<input id="salaId" value="@Model.Id" type="hidden" />
 @await Html.PartialAsync("_Message")
 <div class="row">
     <div class="col-md-10">
@@ -38,5 +37,6 @@
     <script src="~/fullcalendar-3.9.0/lib/moment.min.js"></script>
     <script src="~/fullcalendar-3.9.0/fullcalendar.min.js"></script>
     <script src="~/fullcalendar-3.9.0/locale/pt-br.js"></script>
-    <script src="~/js/calendar/calendarProfessor.js"></script>
+    <script src="~/js/calendar/calendarSala.js"></script>
 }
+
