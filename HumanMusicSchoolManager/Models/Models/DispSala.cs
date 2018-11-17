@@ -13,6 +13,8 @@ namespace HumanMusicSchoolManager.Models.Models
         public int Hora { get; set; }
         public Sala Sala { get; set; }
         public List<Matricula> Matriculas { get; set; }
+        public List<Reposicao> Reposicoes { get; set; }
+        public List<Demostrativa> Demostrativas { get; set; }
 
         public Professor Professor { get; set; }
 

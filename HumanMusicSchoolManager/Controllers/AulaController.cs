@@ -17,18 +17,21 @@ namespace HumanMusicSchoolManager.Controllers
         private readonly ICursoService _cursoService;
         private readonly ISalaService _salaService;
         private readonly IChamadaService _chamadaService;
+        private readonly IMatriculaService _matriculaService;
 
         public AulaController(IAulaService aulaService,
             IProfessorService professorService,
             ICursoService cursoService,
             ISalaService salaService,
-            IChamadaService chamadaService)
+            IChamadaService chamadaService,
+            IMatriculaService matriculaService)
         {
             this._aulaService = aulaService;
             this._professorService = professorService;
             this._cursoService = cursoService;
             this._salaService = salaService;
             this._chamadaService = chamadaService;
+            this._matriculaService = matriculaService;
         }
 
         [HttpGet]
@@ -66,6 +69,12 @@ namespace HumanMusicSchoolManager.Controllers
         [HttpPost]
         public IActionResult Form(Aula aula)
         {
+
+            foreach (var model in ModelState.Where(m => m.Key.Contains(".PacoteCompra.")).ToList())
+            {
+                ModelState.Remove(model.Key);
+            }
+
             if (aula.DescAtividades == null)
             {
                 ModelState.AddModelError("DescAtividades", "Descrição de atividades obrigatória");
@@ -76,9 +85,25 @@ namespace HumanMusicSchoolManager.Controllers
             }
 
             aula.AulaDada = true;
+            var matriculas = new List<Matricula>();
+            var pacoteCompras = new List<PacoteCompra>();
+            foreach (var chamada in aula.Chamadas)
+            {
+                var modulo = chamada.PacoteCompra.Matricula.Modulo;
+                var estrelas = chamada.PacoteCompra.Matricula.Estrelas;
+                var matricula = _matriculaService.BuscarPorId(chamada.PacoteCompra.MatriculaId);
+                chamada.PacoteCompra = null;
+                matricula.Modulo = modulo;
+                matricula.Estrelas = estrelas;
+                matriculas.Add(matricula);
+            }
 
             if (ModelState.IsValid)
             {
+                foreach (var matricula in matriculas)
+                {
+                    _matriculaService.Alterar(matricula);
+                }
                 foreach (var chamada in aula.Chamadas)
                 {
                     _chamadaService.Alterar(chamada);
@@ -88,6 +113,10 @@ namespace HumanMusicSchoolManager.Controllers
             }
             else
             {
+                aula.Professor = _professorService.BuscarPorId(aula.ProfessorId);
+                aula.Curso = _cursoService.BuscarPorId(aula.CursoId);
+                aula.Sala = _salaService.BuscarPorId(aula.SalaId);
+                aula.Chamadas = _aulaService.BuscarPorId(aula.Id).Chamadas;
                 return View(aula);
             }
         }

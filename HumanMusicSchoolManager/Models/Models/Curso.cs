@@ -16,8 +16,10 @@ namespace HumanMusicSchoolManager.Models.Models
         public bool Ativo { get; set; }
         [Display(Name = "Quantidade de módulos")]
         [Range(0, int.MaxValue, ErrorMessage = "Valor Quantidade de módulos inválido")]
+        [Required(ErrorMessage = "Quantidade de módulos obrigatório")]
         public int QtdModulo { get; set; }
         public List<CursoSala> Salas { get; set; }
+        public List<Demostrativa> Demostrativas { get; set; }
 
         public Curso()
         {

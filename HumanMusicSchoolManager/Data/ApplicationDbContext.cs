@@ -30,6 +30,10 @@ namespace HumanMusicSchoolManager.Data
         public DbSet<Evento> Eventos { get; set; }
         public DbSet<Aula> Aulas { get; set; }
         public DbSet<Chamada> Chamadas { get; set; }
+        public DbSet<Reposicao> Reposicoes { get; set; }
+        public DbSet<Candidato> Candidatos { get; set; }
+        public DbSet<Demostrativa> Demostrativas { get; set; }
+
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -69,6 +73,21 @@ namespace HumanMusicSchoolManager.Data
             builder.Entity<DispSala>()
                 .HasMany(ds => ds.Matriculas)
                 .WithOne(m => m.DispSala);
+
+            builder.Entity<DispSala>()
+                .HasMany(ds => ds.Reposicoes)
+                .WithOne(r => r.DispSala)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<DispSala>()
+                .HasMany(ds => ds.Demostrativas)
+                .WithOne(d => d.DispSala)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Curso>()
+                .HasMany(c => c.Demostrativas)
+                .WithOne(d => d.Curso)
+                .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(builder);
             // Customize the ASP.NET Identity model and override the defaults if needed.

@@ -235,11 +235,11 @@ namespace HumanMusicSchoolManager.Controllers
                 };
                 if (user == true)
                 {
-                    cal.Url = "/Aula/Form?aulaId=" + aula.Id;
+                    cal.Url = "/Aula/Aula?aulaId=" + aula.Id;
                 }
                 else
                 {
-                    cal.Url = "/Aula/Aula?aulaId=" + aula.Id;
+                    cal.Url = "/Aula/Form?aulaId=" + aula.Id;
                 }
 
                 int ultimo = 0;

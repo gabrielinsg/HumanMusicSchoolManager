@@ -17,19 +17,27 @@ namespace HumanMusicSchoolManager.Models.Models
         public Curso Curso { get; set; }
 
         [Required]
+        [Display(Name = "Disponibilidade de sala")]
         public DispSala DispSala { get; set; }
 
         [Required]
         public int? RespFinanceiroId { get; set; }
+        [Display(Name = "Responsável Financeiro")]
         public RespFinanceiro RespFinanceiro { get; set; }
 
         [Required]
         public bool Ativo { get; set; }
 
         [Required]
+        [Display(Name = "Data da matrícula")]
         public DateTime DataMatricula { get; set; }
 
         [Required]
         public List<PacoteCompra> PacoteCompras { get; set; }
+
+        public int? Estrelas { get; set; }
+
+        [Display(Name = "Módulo")]
+        public int Modulo { get; set; }
     }
 }

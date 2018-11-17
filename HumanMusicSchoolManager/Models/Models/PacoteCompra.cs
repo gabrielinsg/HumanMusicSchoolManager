@@ -11,11 +11,11 @@ namespace HumanMusicSchoolManager.Models.Models
     {
         public int? Id { get; set; }
 
-        [Required(ErrorMessage = "Pacote de aula obrigatório")]
+        public int PacoteAulaId { get; set; }
         [Display(Name = "Pacote de Aula")]
         public PacoteAula PacoteAula { get; set; }
 
-        [Required(ErrorMessage = "Matricula obrigatório")]
+        public int MatriculaId { get; set; }
         [Display(Name = "Matrícula")]
         public Matricula Matricula { get; set; }
 
