@@ -4,12 +4,11 @@
 }
 
 
-
-
 <h2>Aula de @Model.Aula.Curso.Nome</h2>
 
+
 <div class="row">
-    @{ 
+    @{
         var dia = Dia.SEGUNDA;
         switch (Model.Aula.Data.DayOfWeek)
         {
@@ -20,7 +19,7 @@
             case (DayOfWeek)Dia.SEXTA: dia = Dia.SEXTA; break;
             case (DayOfWeek)Dia.SABADO: dia = Dia.SABADO; break;
         }
-        }
+    }
     <div class="col-md-3"><b>Data: </b>@Model.Aula.Data.ToString("dd/MM/yyyy") - @Html.DisplayFor(d => dia) - @Model.Aula.Data.ToString("HH:mm'h'")</div>
     <div class="col-md-4"><b>Professor: </b>@Model.Aula.Professor.Nome</div>
     <div class="col-md-4">
@@ -39,6 +38,8 @@
         }
     </div>
 </div>
+<br /><br />
+<a class="btn btn-outline-success" asp-controller="Reposicao" asp-action="Form" asp-route-chamadaId="@Model.Id" role="button">Reposição</a>
 <br /><br />
 <div class="row">
     <div class="col-md-10">

@@ -18,6 +18,8 @@
     <Compile Remove="Migrations\20181113022958_AulaDescAtividades.Designer.cs" />
     <Compile Remove="Migrations\20181115171446_ReposicaoCandidatoDemostrativa.cs" />
     <Compile Remove="Migrations\20181115171446_ReposicaoCandidatoDemostrativa.Designer.cs" />
+    <Compile Remove="Migrations\20181118145004_ChamadaReposicao.cs" />
+    <Compile Remove="Migrations\20181118145004_ChamadaReposicao.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

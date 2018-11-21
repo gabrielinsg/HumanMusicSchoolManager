@@ -27,6 +27,7 @@ namespace HumanMusicSchoolManager.Services
         public Chamada BuscarPorId(int chamadaId)
         {
             return _context.Chamadas
+                .Include(c => c.Reposicao)
                 .Include(c => c.Aula)
                 .ThenInclude(a => a.Curso)
                 .Include(c => c.Aula)
@@ -36,6 +37,8 @@ namespace HumanMusicSchoolManager.Services
                 .Include(c => c.PacoteCompra)
                 .ThenInclude(pc => pc.Matricula)
                 .ThenInclude(m => m.Aluno)
+                .Include(c => c.Reposicao)
+                .ThenInclude(r => r.DispSala)
                 .FirstOrDefault(c => c.Id == chamadaId);
         }
 

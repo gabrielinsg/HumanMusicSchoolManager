@@ -260,15 +260,12 @@ namespace HumanMusicSchoolManager.Controllers
         public JsonResult Calendario(int pacoteCompraId)
         {
             var pacoteCompra = _pacoteCompraService.BuscarPorId(pacoteCompraId);
-            DateTime dataInicial = pacoteCompra.Chamadas.OrderBy(c => c.Aula.Data).Select(c => c.Aula.Data).FirstOrDefault();
-            DateTime dataFinal = pacoteCompra.Chamadas.OrderByDescending(c => c.Aula.Data).Select(c => c.Aula.Data).FirstOrDefault();
-            var feriados = _feriadoService.BuscarEntreDatas(dataInicial, dataFinal);
+            var feriados = _feriadoService.BuscarTodos();
             var calendar = new List<Calendar>();
             var cont = 1;
             foreach (var chamada in pacoteCompra.Chamadas)
             {
                 var start = chamada.Aula.Data;
-                start = start.AddHours((double)pacoteCompra.Matricula.DispSala.Hora);
                 var end = start.AddMinutes(55);
                 var color = "";
                 if (chamada.Presenca == null)

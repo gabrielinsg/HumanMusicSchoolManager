@@ -4,14 +4,16 @@ using HumanMusicSchoolManager.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HumanMusicSchoolManager.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181118153723_ChamadaReposicao")]
+    partial class ChamadaReposicao
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -499,8 +501,6 @@ namespace HumanMusicSchoolManager.Migrations
                     b.Property<int>("ChamadaId");
 
                     b.Property<int>("DispSalaId");
-
-                    b.Property<string>("Motivo");
 
                     b.HasKey("Id");
 

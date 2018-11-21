@@ -89,6 +89,10 @@ namespace HumanMusicSchoolManager.Data
                 .WithOne(d => d.Curso)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            builder.Entity<Reposicao>()
+                .HasOne(r => r.Chamada)
+                .WithOne(c => c.Reposicao);
+
             base.OnModelCreating(builder);
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.

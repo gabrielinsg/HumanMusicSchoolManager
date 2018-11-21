@@ -50,6 +50,7 @@ namespace HumanMusicSchoolManager.Services
                 .ThenInclude(m => m.Aluno)
                 .Include(ds => ds.Matriculas)
                 .ThenInclude(m => m.Curso)
+                .Include(ds => ds.Reposicoes)
                 .ToList();
 
             return hr
