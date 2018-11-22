@@ -1,0 +1,133 @@
+﻿@model Contrato
+@{
+    ViewData["Title"] = "Form";
+}
+
+<input id="rota" type="hidden" value="Contrato" />
+<div class="row">
+    <div class="col-md-11">
+        <h2 class="col-md-10">Contrato</h2>
+    </div>
+    <div class="col-md-1">
+        <a asp-action="Form" class="btn btn-primary">Novo</a>
+    </div>
+</div>
+<br />
+<div class="list-group">
+    <div class="list-group-item">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label><i class="fas fa-search"></i> Buscar Por Nome</label>
+                <input id="BuscaNome" class="form-control">
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<div class="list-group">
+    <div class="list-group-item">
+        <form role="form" method="post" asp-action="form">
+
+            <input asp-for="Id" type="hidden" />
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Nome"></label>
+                        <input asp-for="Nome" class="form-control">
+                        <span asp-validation-for="Nome" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <div class="checkbox">
+                            @if (Model == null)
+                            {
+                                <label asp-for="Ativo">
+                                    <input asp-for="Ativo" checked="checked" />
+                                    @Html.DisplayNameFor(p => p.Ativo)
+                                </label>
+                            }
+                            else
+                            {
+                                <label asp-for="Ativo">
+                                    <input asp-for="Ativo" />
+                                    @Html.DisplayNameFor(p => p.Ativo)
+                                </label>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="toolbar-container"></div>
+
+                    <!-- This container will become the editable. -->
+                    <div id="editor" style="border: solid 1px gray; border-radius: 2px;">
+                        @if (Model != null)
+                        {
+                            @Html.Raw(Model.Conteudo)
+                        }
+                        else
+                        {
+                            <p>Digite o contrato aqui!</p>
+                        }
+
+                    </div>
+                </div>
+            </div>
+            <textarea asp-for="Conteudo" style="display:none;"></textarea>
+            <br /><br />
+            <button type="submit" class="btn btn-success">@(Model == null ? "Cadastrar" : Model.Id == null ? "Cadastrar" : "Alterar")</button>
+            <a asp-action="Index" class="btn btn-primary">Voltar</a>
+        </form>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/js/Buscas/BuscarPorNome.js"></script>
+    <script src="~/ckeditor5-build-decoupled-document/ckeditor.js"></script>
+    <script src="~/ckeditor5-build-decoupled-document/translations/pt-br.js"></script>
+    <script>
+        DecoupledEditor
+            .create(document.querySelector('#editor'), {
+                fontSize: {
+                    options: [
+                        9,
+                        11,
+                        13,
+                        'default',
+                        17,
+                        19,
+                        21
+                    ]
+                },
+                language: 'pt-br',
+                toolbar: ['heading', '|', 'fontfamily', 'fontsize', '|', 'bold', 'italic', 'underline', 'strikethrough', 'highlight', '|', 'alignment', '|',
+                    'numberedlist', 'bulletedlist', '|', 'link', 'blockquote', 'inserttable','mediaEmbed','|','undo','redo']
+                
+                
+            })
+            .then(editor => {
+                const toolbarContainer = document.querySelector('#toolbar-container');
+                toolbarContainer.appendChild(editor.ui.view.toolbar.element);
+                window.editor = editor;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        
+        $("#editor").keyup(function () {
+            //console.log(Array.from(editor.ui.componentFactory.names()));
+            var conteudo = editor.getData();
+            $("#Conteudo").val(conteudo);
+        });
+
+        $("#toolbar-container").click(function () {
+            var conteudo = editor.getData();
+            $("#Conteudo").val(conteudo);
+        });
+    </script>
+}

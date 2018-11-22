@@ -7,8 +7,9 @@ namespace HumanMusicSchoolManager.Models.Models
 {
     public class Contrato
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public string Nome { get; set; }
         public string Conteudo { get; set; }
+        public bool Ativo { get; set; }
     }
 }

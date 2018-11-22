@@ -34,6 +34,8 @@ namespace HumanMusicSchoolManager.Models.Models
         [Required]
         [Display(Name = "Ativo")]
         public bool Ativo { get; set; }
+
+        public Contrato Contrato { get; set; }
     }
 }
 

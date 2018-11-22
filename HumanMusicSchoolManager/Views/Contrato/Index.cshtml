@@ -1,0 +1,60 @@
+﻿@model List<Contrato>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="card mb-3">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-11">
+                <i class="far fa-file-alt"></i>
+                Contrato
+            </div>
+            <div class="col-md-1">
+                <a asp-action="Form" class="btn btn-primary">Novo</a>
+            </div>
+        </div>
+
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped" id="dataTable" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th class="text-center">Ativo</th>
+                        <th class="text-center">Alterar</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Nome</th>
+                        <th class="text-center">Ativo</th>
+                        <th class="text-center">Alterar</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var contrato in Model)
+                    {
+                        <tr>
+                            <td>@contrato.Nome</td>
+                            <td class="text-center">
+                                <input asp-for="@contrato.Ativo" onclick="return false" />
+                            </td>
+                            <td class="text-center">
+                                <a asp-action="Form" asp-route-contratoId="@(contrato.Id)"><i class="fas fa-pencil-alt"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/vendor/datatables/jquery.dataTables.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.js"></script>
+    <script src="~/js/demo/datatables-demo.js"></script>
+}
+

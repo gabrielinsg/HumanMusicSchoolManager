@@ -33,6 +33,7 @@ namespace HumanMusicSchoolManager.Data
         public DbSet<Reposicao> Reposicoes { get; set; }
         public DbSet<Candidato> Candidatos { get; set; }
         public DbSet<Demostrativa> Demostrativas { get; set; }
+        public DbSet<Contrato> Contratos { get; set; }
 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
@@ -92,6 +93,11 @@ namespace HumanMusicSchoolManager.Data
             builder.Entity<Reposicao>()
                 .HasOne(r => r.Chamada)
                 .WithOne(c => c.Reposicao);
+
+            builder.Entity<PacoteAula>()
+                .HasOne(p => p.Contrato)
+                .WithMany()
+                .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(builder);
             // Customize the ASP.NET Identity model and override the defaults if needed.
