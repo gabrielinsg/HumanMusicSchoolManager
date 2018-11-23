@@ -29,8 +29,10 @@ namespace HumanMusicSchoolManager.Services
         {
             return _context.PacoteCompras
                 .Include(pc => pc.PacoteAula)
+                .ThenInclude(pa => pa.Contrato)
                 .Include(pc => pc.Matricula)
                 .ThenInclude(m => m.Aluno)
+                .ThenInclude(a => a.Endereco)
                 .Include(pc => pc.Chamadas)
                 .ThenInclude(c => c.Aula)
                 .Include(pc => pc.Matricula)
@@ -41,6 +43,9 @@ namespace HumanMusicSchoolManager.Services
                 .Include(pc => pc.Matricula)
                 .ThenInclude(m => m.DispSala)
                 .ThenInclude(ds => ds.Sala)
+                .Include(ds => ds.Matricula)
+                .ThenInclude(m => m.RespFinanceiro)
+                .ThenInclude(rf => rf.Endereco)
                 .FirstOrDefault(pc => pc.Id == pacoteCompraId);
         }
 

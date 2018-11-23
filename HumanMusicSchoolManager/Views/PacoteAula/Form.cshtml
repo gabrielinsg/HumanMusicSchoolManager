@@ -65,12 +65,23 @@
 
                 <div class="col-md-2">
                     <div class="form-group">
-                        <label asp-for="TipoAula"  control-label"></label>
+                        <label asp-for="TipoAula" control-label"></label>
                         <div>
                             <select asp-for="TipoAula" class="form-control" asp-items="Html.GetEnumSelectList<TipoAula>()">
                                 <option selected="selected" value=""></option>
                             </select>
                             <span asp-validation-for="TipoAula" class="text-danger" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label asp-for="Contrato" control-label"></label>
+                        <div>
+                            <select asp-for="ContratoId" class="form-control" asp-items="ViewBag.Contratos">
+                                <option selected="selected" value=""></option>
+                            </select>
+                            <span asp-validation-for="ContratoId" class="text-danger" />
                         </div>
                     </div>
                 </div>

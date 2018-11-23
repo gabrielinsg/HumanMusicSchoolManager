@@ -179,6 +179,7 @@ namespace HumanMusicSchoolManager.Controllers
             if (ModelState.IsValid)
             {
                 matriculaViewModel.Matricula.Ativo = true;
+                matriculaViewModel.Matricula.DataMatricula = DateTime.Now;
                 _matriculaService.Cadastrar(matriculaViewModel.Matricula);
                 foreach (var financeiro in matriculaViewModel.Financeiros)
                 {

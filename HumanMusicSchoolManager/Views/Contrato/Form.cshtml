@@ -61,12 +61,79 @@
                     </div>
                 </div>
             </div>
+
+
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Mapa de tags
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <ul class="list-group">
+                        <li class="list-group-item active">Responsável Financeiro</li>
+                        <li class="list-group-item">
+                            {Responsavel.Nome}
+                            {Responsavel.CPF}
+                            {Responsavel.RG}
+                            {Responsavel.DataNasc}
+                            {Responsavel.Idade}
+                            {Responsavel.Logradouro}
+                            {Responsavel.Numero}
+                            {Responsavel.Cidade}
+                            {Responsavel.UF}
+                            {Responsavel.Bairro}
+                            {Responsavel.CEP}
+                            {Responsavel.Cel}
+                            {Responsavel.Tel}
+                            {Responsavel.email}
+                        </li>
+                    </ul>
+                    <ul class="list-group">
+                        <li class="list-group-item active">Aluno</li>
+                        <li class="list-group-item">
+                            {Aluno.Nome}
+                            {Aluno.CPF}
+                            {Aluno.RG}
+                            {Aluno.DataNasc}
+                            {Aluno.Idade}
+                            {Aluno.Logradouro}
+                            {Aluno.Numero}
+                            {Aluno.Cidade}
+                            {Aluno.UF}
+                            {Aluno.Bairro}
+                            {Aluno.CEP}
+                            {Aluno.Cel}
+                            {Aluno.Tel}
+                            {Aluno.email
+                            {Pacote.Nome}
+                        </li>
+                    </ul>
+                    <ul class="list-group">
+                        <li class="list-group-item active">Pacote</li>
+                        <li class="list-group-item">
+                            {Pacote.Valor}
+                            {Pacote.ValorExtenso}
+                            {Pacote.QtdParcelas}
+                            {Pacote.TipoAula}
+                            {Matricula.Curso}
+                            {Matricula.DataMatricula}
+                        </li>
+                    </ul>
+                    <ul class="list-group">
+                        <li class="list-group-item active">Matricula</li>
+                        <li class="list-group-item">
+                            {Matricula.Curso}
+                            {Matricula.DataMatricula}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-md-12">
                     <div id="toolbar-container"></div>
 
                     <!-- This container will become the editable. -->
-                    <div id="editor" style="border: solid 1px gray; border-radius: 2px;">
+                    <div id="editor" style="border: solid 1px gray; border-radius: 2px; max-height: 600px;">
                         @if (Model != null)
                         {
                             @Html.Raw(Model.Conteudo)
@@ -114,6 +181,7 @@
                 const toolbarContainer = document.querySelector('#toolbar-container');
                 toolbarContainer.appendChild(editor.ui.view.toolbar.element);
                 window.editor = editor;
+
             })
             .catch(error => {
                 console.error(error);

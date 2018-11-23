@@ -6,16 +6,20 @@ using HumanMusicSchoolManager.Models.Models;
 using HumanMusicSchoolManager.Services;
 using HumanMusicSchoolManager.ServicesInterface;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace HumanMusicSchoolManager.Controllers
 {
     public class PacoteAulaController : Controller
     {
         private readonly IPacoteAulaService _pacoteAulaService;
+        private readonly IContratoService _contratoService;
 
-        public PacoteAulaController(IPacoteAulaService pacoteAulaService)
+        public PacoteAulaController(IPacoteAulaService pacoteAulaService,
+            IContratoService contratoService)
         {
             this._pacoteAulaService = pacoteAulaService;
+            this._contratoService = contratoService;
         }
 
         public IActionResult Index()
@@ -28,10 +32,34 @@ namespace HumanMusicSchoolManager.Controllers
         {
             if (pacoteAulaId == null)
             {
+                var selectListItens = new List<SelectListItem>();
+                var contratos = _contratoService.BuscarTodos();
+                foreach (var contrato in contratos)
+                {
+                    var selectListItem = new SelectListItem
+                    {
+                        Value = contrato.Id.ToString(),
+                        Text = contrato.Nome
+                    };
+                    selectListItens.Add(selectListItem);
+                }
+                ViewBag.Contratos = selectListItens;
                 return View();
             }
             else
             {
+                var selectListItens = new List<SelectListItem>();
+                var contratos = _contratoService.BuscarTodos();
+                foreach (var contrato in contratos)
+                {
+                    var selectListItem = new SelectListItem
+                    {
+                        Value = contrato.Id.ToString(),
+                        Text = contrato.Nome
+                    };
+                    selectListItens.Add(selectListItem);
+                }
+                ViewBag.Contratos = selectListItens;
                 var pacoteAula = _pacoteAulaService.BuscarPorId(pacoteAulaId.Value);
                 return View(pacoteAula);
             }
@@ -63,6 +91,18 @@ namespace HumanMusicSchoolManager.Controllers
                 }
                 else
                 {
+                    var selectListItens = new List<SelectListItem>();
+                    var contratos = _contratoService.BuscarTodos();
+                    foreach (var contrato in contratos)
+                    {
+                        var selectListItem = new SelectListItem
+                        {
+                            Value = contrato.Id.ToString(),
+                            Text = contrato.Nome
+                        };
+                        selectListItens.Add(selectListItem);
+                    }
+                    ViewBag.Contratos = selectListItens;
                     return View(pacoteAula);
                 }
             }

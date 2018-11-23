@@ -28,6 +28,8 @@
     <Compile Remove="Migrations\20181121144946_Contrato.Designer.cs" />
     <Compile Remove="Migrations\20181121180536_Contrato.cs" />
     <Compile Remove="Migrations\20181121180536_Contrato.Designer.cs" />
+    <Compile Remove="Migrations\20181122165450_Teste.cs" />
+    <Compile Remove="Migrations\20181122165450_Teste.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
