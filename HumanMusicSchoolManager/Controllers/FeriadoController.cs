@@ -100,7 +100,7 @@ namespace HumanMusicSchoolManager.Controllers
                 };
                 if (feriado.DataFinal != null)
                 {
-                    feriadoJson.End = feriado.DataFinal.Value.ToString("yyyy-MM-dd");
+                    feriadoJson.End = feriado.DataFinal.Value.AddDays(1).ToString("yyyy-MM-dd");
                 }
                 feriadosJson.Add(feriadoJson);
             }

@@ -100,7 +100,7 @@ namespace HumanMusicSchoolManager.Controllers
                 };
                 if (evento.DataFinal != null)
                 {
-                    eventoJson.End = evento.DataFinal.Value.ToString("yyyy-MM-dd");
+                    eventoJson.End = evento.DataFinal.Value.AddDays(1).ToString("yyyy-MM-dd");
                 }
                 eventosJson.Add(eventoJson);
             }

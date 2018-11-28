@@ -33,7 +33,6 @@
     </div>
 </div>
 <br />
-@await Html.PartialAsync("_Message")
 <div class="list-group">
     <div class="list-group-item">
         <div asp-validation-summary="All"></div>
@@ -44,7 +43,7 @@
             <div class="row">
                 <div class="col-md-2">
                     <div class="form-group">
-                        <label asp-for="DispSala.Dia" class="col-md-2 control-label"></label>
+                        <label asp-for="DispSala.Dia" class="col-md-3 control-label"></label>
                         <div class="col-md-11">
                             <select asp-for="DispSala.Dia" autofocus="autofocus" required class="form-control" asp-items="Html.GetEnumSelectList<Dia>()">
                                 <option selected="selected" value=""></option>
