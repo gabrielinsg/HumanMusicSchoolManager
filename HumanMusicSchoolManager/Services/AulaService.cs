@@ -55,6 +55,10 @@ namespace HumanMusicSchoolManager.Services
                 .ThenInclude(c => c.PacoteCompra)
                 .ThenInclude(pc => pc.Chamadas)
                 .ThenInclude(c => c.Reposicao)
+                .Include(a => a.Demostrativas)
+                .ThenInclude(d => d.Candidato)
+                .Include(a => a.Demostrativas)
+                .ThenInclude(d => d.Curso)
                 .FirstOrDefault(a => a.Id == aulaId);
         }
 

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HumanMusicSchoolManager.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181126221925_DemostrativaContratou")]
-    partial class DemostrativaContratou
+    [Migration("20181128114922_inicial")]
+    partial class inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -78,7 +78,7 @@ namespace HumanMusicSchoolManager.Migrations
 
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Aula", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -223,7 +223,7 @@ namespace HumanMusicSchoolManager.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AulaId");
+                    b.Property<int?>("AulaId");
 
                     b.Property<int>("CandidatoId");
 
@@ -231,17 +231,17 @@ namespace HumanMusicSchoolManager.Migrations
 
                     b.Property<int>("CursoId");
 
-                    b.Property<int>("DispSalaId");
+                    b.Property<int?>("DispSalaId");
 
-                    b.Property<int>("Estrelas");
-
-                    b.Property<int>("FuncionarioId");
+                    b.Property<int?>("Estrelas");
 
                     b.Property<int>("Motivo");
 
                     b.Property<string>("Observacao");
 
                     b.Property<string>("Outros");
+
+                    b.Property<int>("PessoaId");
 
                     b.Property<bool?>("Presenca");
 
@@ -255,7 +255,7 @@ namespace HumanMusicSchoolManager.Migrations
 
                     b.HasIndex("DispSalaId");
 
-                    b.HasIndex("FuncionarioId");
+                    b.HasIndex("PessoaId");
 
                     b.ToTable("Demostrativas");
                 });
@@ -799,12 +799,11 @@ namespace HumanMusicSchoolManager.Migrations
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Demostrativa", b =>
                 {
                     b.HasOne("HumanMusicSchoolManager.Models.Models.Aula", "Aula")
-                        .WithMany()
-                        .HasForeignKey("AulaId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithMany("Demostrativas")
+                        .HasForeignKey("AulaId");
 
                     b.HasOne("HumanMusicSchoolManager.Models.Models.Candidato", "Candidato")
-                        .WithMany()
+                        .WithMany("Demostrativas")
                         .HasForeignKey("CandidatoId")
                         .OnDelete(DeleteBehavior.Cascade);
 
@@ -818,9 +817,9 @@ namespace HumanMusicSchoolManager.Migrations
                         .HasForeignKey("DispSalaId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("HumanMusicSchoolManager.Models.Models.Funcionario", "Funcionario")
+                    b.HasOne("HumanMusicSchoolManager.Models.Models.Pessoa", "Pessoa")
                         .WithMany()
-                        .HasForeignKey("FuncionarioId")
+                        .HasForeignKey("PessoaId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 

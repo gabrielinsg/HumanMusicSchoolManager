@@ -16,6 +16,23 @@
             $("#labelSwitch" + i).text("Faltou");
         }
     }
+
+    var DqtdAluno = $("#DqtdAluno").val();
+    for (i = 0; i < DqtdAluno; i++) {
+        var Dpresenca = $("#Demostrativas_" + i + "__Presenca").val();
+        if (Dpresenca === "") {
+            Dpresenca = "True";
+            $("#Demostrativas_" + i + "__Presenca").val("True");
+        }
+        if (Dpresenca === "True") {
+            $("#Dswitch" + i).prop("checked", true);
+            $("#DlabelSwitch" + i).text("Presente");
+        }
+        else {
+            $("#Dswitch" + i).prop("checked", false);
+            $("#DlabelSwitch" + i).text("Faltou");
+        }
+    }
 });
 
 function presenca(i) {
@@ -28,6 +45,19 @@ function presenca(i) {
     else {
         $("#Chamadas_" + i + "__Presenca").val("True");
         $("#labelSwitch" + i).text("Presente");
+    }
+}
+
+function Dpresenca(i) {
+
+    var presenca = $("#Demostrativas_" + i + "__Presenca").val();
+    if (presenca === "True") {
+        $("#Demostrativas_" + i + "__Presenca").val("False");
+        $("#DlabelSwitch" + i).text("Faltou");
+    }
+    else {
+        $("#Demostrativas_" + i + "__Presenca").val("True");
+        $("#DlabelSwitch" + i).text("Presente");
     }
 }
 

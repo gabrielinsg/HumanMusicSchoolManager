@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HumanMusicSchoolManager.Models.Models;
+using HumanMusicSchoolManager.Models.ViewModels;
 using HumanMusicSchoolManager.ServicesInterface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -72,6 +73,26 @@ namespace HumanMusicSchoolManager.Controllers
         {
             var candidato = _candidatoService.BuscarPorNome(nome);
             return Json(candidato);
+        }
+
+        public IActionResult Candidato(int? candidatoId)
+        {
+            if (candidatoId != null)
+            {
+                var candidato = _candidatoService.BuscarPorId(candidatoId.Value);
+                if (candidato != null)
+                {
+                    var candidatoViewModel = new CandidatoViewModel
+                    {
+                        Candidato = candidato,
+                        Contratou = false
+                    };
+                    return View(candidatoViewModel);
+                }
+            }
+
+            TempData["Error"] = "Candidato não encontrado!";
+            return RedirectToAction("Index");
         }
     }
 }

@@ -35,7 +35,10 @@ namespace HumanMusicSchoolManager.Services
 
         public DispSala BuscarPorId(int dispSalaId)
         {
-            return _context.DispSalas.SingleOrDefault(ds => ds.Id == dispSalaId);
+            return _context.DispSalas
+                .Include(ds => ds.Professor)
+                .Include(ds => ds.Sala)
+                .SingleOrDefault(ds => ds.Id == dispSalaId);
         }
 
         public List<DispSala> HorariosDisponiveis()

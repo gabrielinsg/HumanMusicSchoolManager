@@ -100,7 +100,7 @@ namespace HumanMusicSchoolManager.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Demostrativa>()
-                .HasOne(d => d.Funcionario)
+                .HasOne(d => d.Pessoa)
                 .WithMany()
                 .OnDelete(DeleteBehavior.Restrict);
 

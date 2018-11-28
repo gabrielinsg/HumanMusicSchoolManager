@@ -1,6 +1,7 @@
 ﻿using HumanMusicSchoolManager.Data;
 using HumanMusicSchoolManager.Models.Models;
 using HumanMusicSchoolManager.ServicesInterface;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,9 @@ namespace HumanMusicSchoolManager.Services
 
         public Demostrativa BuscarPorId(int demostrativaId)
         {
-           return _context.Demostrativas.FirstOrDefault(d => d.Id == demostrativaId);
+           return _context.Demostrativas
+                .Include(d => d.Aula)
+                .FirstOrDefault(d => d.Id == demostrativaId);
         }
 
         public List<Demostrativa> BuscarTodos()

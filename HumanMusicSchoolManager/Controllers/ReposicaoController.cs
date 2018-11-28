@@ -146,10 +146,10 @@ namespace HumanMusicSchoolManager.Controllers
                 var aulaAntiga = reposicaoViewModel.Chamada.Aula;
                 reposicaoViewModel.Chamada.Aula = aula;
                 _chamadaService.Alterar(reposicaoViewModel.Chamada);
-                aulaAntiga = _aulaService.BuscarPorId(aulaAntiga.Id);
-                if (aulaAntiga.Chamadas.Count == 0)
+                aulaAntiga = _aulaService.BuscarPorId(aulaAntiga.Id.Value);
+                if (aulaAntiga.Chamadas.Count == 0 && aulaAntiga.Demostrativas.Count == 0)
                 {
-                    _aulaService.Excluir(aulaAntiga.Id);
+                    _aulaService.Excluir(aulaAntiga.Id.Value);
                 }
 
                 return RedirectToAction("PacoteCompra", "PacoteCompra", new { pacoteCompraId = reposicaoViewModel.Chamada.PacoteCompraId });

@@ -9,9 +9,9 @@ namespace HumanMusicSchoolManager.ServicesInterface
     public interface IDemostrativaService
     {
         void Cadastrar(Demostrativa demostrativa);
-        void Alterar(Demostrativa demostrativa);
         List<Demostrativa> BuscarTodos();
         Demostrativa BuscarPorId(int demostrativaId);
         void Excluir(int demostrativaId);
+        void Alterar(Demostrativa demostrativa);
     }
 }

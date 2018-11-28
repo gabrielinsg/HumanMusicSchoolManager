@@ -13,13 +13,13 @@ namespace HumanMusicSchoolManager.Models.Models
         public int CandidatoId { get; set; }
         public Candidato Candidato { get; set; }
 
-        public int DispSalaId { get; set; }
+        public int? DispSalaId { get; set; }
         public DispSala DispSala { get; set; }
 
         public int CursoId { get; set; }
         public Curso Curso { get; set; }
 
-        public int AulaId { get; set; }
+        public int? AulaId { get; set; }
         public Aula Aula { get; set; }
 
         [Display(Name = "Presença")]
@@ -34,11 +34,10 @@ namespace HumanMusicSchoolManager.Models.Models
 
         public bool? Contratou { get; set; }
 
-        [Required(ErrorMessage = "Estrelas é obrigatório")]
-        public int Estrelas { get; set; }
+        public int? Estrelas { get; set; }
 
-        public int FuncionarioId { get; set; }
-        public Funcionario Funcionario { get; set; }
+        public int PessoaId { get; set; }
+        public Pessoa Pessoa { get; set; }
     }
 
     public enum Motivo

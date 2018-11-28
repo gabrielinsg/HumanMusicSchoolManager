@@ -27,6 +27,7 @@
                         <th class="text-center">Email</th>
                         <th>Telefone</th>
                         <th>Celular</th>
+                        <th class="text-center">Demostrativas</th>
                         <th>Alterar</th>
                     </tr>
                 </thead>
@@ -38,6 +39,7 @@
                         <th class="text-center">Email</th>
                         <th>Telefone</th>
                         <th>Celular</th>
+                        <th class="text-center">Demostrativas</th>
                         <th>Alterar</th>
                     </tr>
                 </tfoot>
@@ -51,6 +53,7 @@
                             <td class="text-center">@candidato.Email</td>
                             <td>@candidato.Tel</td>
                             <td>@candidato.Cel</td>
+                            <td class="text-center"><a asp-action="Candidato" asp-route-candidatoId="@candidato.Id"><i class="fas fa-music"></i></a></td>
                             <td class="text-center">
                                 <a asp-action="Form" asp-route-candidatoId="@(candidato.Id)"><i class="fas fa-pencil-alt"></i></a>
                             </td>

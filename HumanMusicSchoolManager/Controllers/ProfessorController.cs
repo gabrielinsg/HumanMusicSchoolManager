@@ -256,6 +256,24 @@ namespace HumanMusicSchoolManager.Controllers
                         cal.Title += nome[0];
                     }
                 }
+                ultimo = 0;
+                if (aula.Chamadas.Count > 0 && aula.Demostrativas.Count > 0)
+                {
+                    cal.Title += ", ";
+                }
+                foreach (var demostrativa in aula.Demostrativas)
+                {
+                    ultimo++;
+                    var nome = demostrativa.Candidato.Nome.Split(' ');
+                    if (ultimo == aula.Demostrativas.Count && ultimo != 1)
+                    {
+                        cal.Title += ", " + nome[0];
+                    }
+                    else
+                    {
+                        cal.Title += nome[0];
+                    }
+                }
                 calendar.Add(cal);
             }
 

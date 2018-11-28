@@ -1,6 +1,7 @@
 ﻿using HumanMusicSchoolManager.Data;
 using HumanMusicSchoolManager.Models.Models;
 using HumanMusicSchoolManager.ServicesInterface;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,18 @@ namespace HumanMusicSchoolManager.Services
 
         public Candidato BuscarPorId(int candidatoId)
         {
-            return _context.Candidatos.FirstOrDefault(c => c.Id == candidatoId);
+            return _context.Candidatos
+                .Include(c => c.Demostrativas)
+                .ThenInclude(d => d.Curso)
+                .Include(c => c.Demostrativas)
+                .ThenInclude(d => d.DispSala)
+                .ThenInclude(ds => ds.Sala)
+                .Include(c => c.Demostrativas)
+                .ThenInclude(d => d.DispSala)
+                .ThenInclude(ds => ds.Professor)
+                .Include(c => c.Demostrativas)
+                .ThenInclude(d => d.Aula)
+                .FirstOrDefault(c => c.Id == candidatoId);
         }
 
         public List<Candidato> BuscarPorNome(string nome)

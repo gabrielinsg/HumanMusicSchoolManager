@@ -8,7 +8,7 @@ namespace HumanMusicSchoolManager.Models.Models
 {
     public class Aula
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [Required(ErrorMessage = "Data da aula é obrigatório")]
         public DateTime Data { get; set; }
@@ -30,5 +30,7 @@ namespace HumanMusicSchoolManager.Models.Models
         public DateTime DataLimite { get; set; }
 
         public List<Chamada> Chamadas { get; set; }
+
+        public List<Demostrativa> Demostrativas { get; set; }
     }
 }

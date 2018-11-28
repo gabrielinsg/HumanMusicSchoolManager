@@ -19,6 +19,7 @@ namespace HumanMusicSchoolManager.Controllers
         private readonly IChamadaService _chamadaService;
         private readonly IMatriculaService _matriculaService;
         private readonly IReposicaoService _reposicaoService;
+        private readonly IDemostrativaService _demostrativaService;
 
         public AulaController(IAulaService aulaService,
             IProfessorService professorService,
@@ -26,7 +27,8 @@ namespace HumanMusicSchoolManager.Controllers
             ISalaService salaService,
             IChamadaService chamadaService,
             IMatriculaService matriculaService,
-            IReposicaoService reposicaoService)
+            IReposicaoService reposicaoService,
+            IDemostrativaService demostrativaService)
         {
             this._aulaService = aulaService;
             this._professorService = professorService;
@@ -35,6 +37,7 @@ namespace HumanMusicSchoolManager.Controllers
             this._chamadaService = chamadaService;
             this._matriculaService = matriculaService;
             this._reposicaoService = reposicaoService;
+            this._demostrativaService = demostrativaService;
         }
 
         [HttpGet]
@@ -117,7 +120,10 @@ namespace HumanMusicSchoolManager.Controllers
                         _reposicaoService.Alterar(reposicao);
                     }
                 }
-                
+                foreach (var demostrativa in aula.Demostrativas)
+                {
+                    _demostrativaService.Alterar(demostrativa);
+                }
                 _aulaService.Alterar(aula);
                 return RedirectToAction("Calendario", "Professor", new { professorId = aula.ProfessorId });
             }
@@ -126,7 +132,7 @@ namespace HumanMusicSchoolManager.Controllers
                 aula.Professor = _professorService.BuscarPorId(aula.ProfessorId);
                 aula.Curso = _cursoService.BuscarPorId(aula.CursoId);
                 aula.Sala = _salaService.BuscarPorId(aula.SalaId);
-                aula.Chamadas = _aulaService.BuscarPorId(aula.Id).Chamadas;
+                aula.Chamadas = _aulaService.BuscarPorId(aula.Id.Value).Chamadas;
                 return View(aula);
             }
         }

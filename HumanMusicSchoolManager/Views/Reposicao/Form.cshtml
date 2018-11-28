@@ -97,7 +97,7 @@
                                                     <td>@dispSala.Sala.Nome</td>
                                                     <td>@dispSala.Professor.Nome</td>
                                                     <td class="text-center">
-                                                        @(dispSala.Sala.Capacidade - dispSala.Matriculas.Count - dispSala.Reposicoes.Count)
+                                                        @(dispSala.Sala.Capacidade - dispSala.Matriculas.Count - dispSala.Reposicoes.Count - dispSala.Demostrativas.Count)
                                                         <!-- Button trigger modal -->
                                                         <a class="btn text-primary" data-toggle="modal" data-target="#exampleModalLong@(dispSala.Id)">
                                                             <i class="fas fa-users text-info"></i>
@@ -146,6 +146,30 @@
                                                                                 }
                                                                             </tbody>
                                                                         </table>
+                                                                        @if (dispSala.Demostrativas.Count > 0)
+                                                                        {
+                                                                            <h4>Demostrativas</h4>
+                                                                            <table class="table table-sm">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th scope="col">Candidato</th>
+                                                                                        <th scope="col" class="text-center">Idade</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    @foreach (var demostrativa in dispSala.Demostrativas)
+                                                                                    {
+                                                                                        int now = int.Parse(DateTime.Now.ToString("yyyyMMdd"));
+                                                                                        int dob = int.Parse(demostrativa.Candidato.DataNascimento.ToString("yyyyMMdd"));
+                                                                                        int age = (now - dob) / 10000;
+                                                                                        <tr>
+                                                                                            <td>@demostrativa.Candidato.Nome</td>
+                                                                                            <td class="text-center">@age @(age > 1 ? "anos" : "ano")</td>
+                                                                                        </tr>
+                                                                                    }
+                                                                                </tbody>
+                                                                            </table>
+                                                                        }
                                                                     </div>
                                                                 </div>
                                                             </div>
