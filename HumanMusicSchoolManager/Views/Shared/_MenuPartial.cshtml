@@ -70,6 +70,18 @@
                 </div>
             </li>
         }
+        @if (User.IsInRole("Atendimento") || User.IsInRole("Vendas") || User.IsInRole("Admin"))
+        {
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle folders" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-folder"></i>
+                    <span>Vendas</span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                    <a class="dropdown-item" asp-controller="Candidato" asp-action="Index"><i class="fas fa-user"></i> Candidatos</a>
+                </div>
+            </li>
+        }
         <li class="nav-item">
             <a class="nav-link" href="charts.html">
                 <i class="fas fa-fw fa-chart-area"></i>

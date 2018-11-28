@@ -70,6 +70,8 @@ namespace HumanMusicSchoolManager
             services.AddTransient<IChamadaService, ChamadaService>();
             services.AddTransient<IReposicaoService, ReposicaoService>();
             services.AddTransient<IContratoService, ContratoService>();
+            services.AddTransient<ICandidatoService, CandidatoService>();
+            services.AddTransient<IDemostrativaService, DemostrativaService>();
 
             services.AddMvc();
         }
@@ -111,7 +113,7 @@ namespace HumanMusicSchoolManager
             IdentityResult roleResult;
             //Adding Admin Role
 
-            string[] roles = new string[] { "Admin", "Professor", "Financeiro", "Coordenacao", "Diretoria", "Financeiro", "Secretaria", "Atendimento" };
+            string[] roles = new string[] { "Admin", "Professor", "Financeiro", "Coordenacao", "Diretoria", "Financeiro", "Secretaria", "Atendimento", "Vendas" };
             //create the roles and seed them to the database
 
             foreach (var role in roles)

@@ -145,7 +145,7 @@ namespace HumanMusicSchoolManager.Controllers
                     contrato.Conteudo = contrato.Conteudo.Replace("{Pacote.Nome}", pacote.Nome);
                     var valorTotal = pacote.Valor - (pacoteCompra.Desconto != null ? pacoteCompra.Desconto : 0);
                     contrato.Conteudo = contrato.Conteudo.Replace("{Pacote.Valor}", ((double)valorTotal).ToString("R$ #,###.00"));
-                    contrato.Conteudo = contrato.Conteudo.Replace("{Pacote.ValorExtenso}", Escrever_Valor_Extenso(valorTotal.Value));
+                    contrato.Conteudo = contrato.Conteudo.Replace("{Pacote.ValorExtenso}", ToExtenso(valorTotal.Value));
                     contrato.Conteudo = contrato.Conteudo.Replace("{Pacote.QtdParcelas}", pacoteCompra.QtdParcela.ToString());
                     contrato.Conteudo = contrato.Conteudo.Replace("{Pacote.TipoAula}", pacote.TipoAula.GetType()
                         .GetMember(pacote.TipoAula.ToString())
@@ -174,7 +174,7 @@ namespace HumanMusicSchoolManager.Controllers
             }
         }
 
-        public static string EscreverExtenso(decimal valor)
+        public static string ToExtenso(decimal valor)
         {
             if (valor <= 0 | valor >= 1000000000000000)
                 return "Valor não suportado pelo sistema.";
@@ -182,9 +182,10 @@ namespace HumanMusicSchoolManager.Controllers
             {
                 string strValor = valor.ToString("000000000000000.00");
                 string valor_por_extenso = string.Empty;
+
                 for (int i = 0; i <= 15; i += 3)
                 {
-                    valor_por_extenso += Escrever_Valor_Extenso(Convert.ToDecimal(strValor.Substring(i, 3)));
+                    valor_por_extenso += escreva_parte(Convert.ToDecimal(strValor.Substring(i, 3)));
                     if (i == 0 & valor_por_extenso != string.Empty)
                     {
                         if (Convert.ToInt32(strValor.Substring(0, 3)) == 1)
@@ -209,25 +210,28 @@ namespace HumanMusicSchoolManager.Controllers
                     else if (i == 9 & valor_por_extenso != string.Empty)
                         if (Convert.ToInt32(strValor.Substring(9, 3)) > 0)
                             valor_por_extenso += " MIL" + ((Convert.ToDecimal(strValor.Substring(12, 3)) > 0) ? " E " : string.Empty);
+
                     if (i == 12)
                     {
                         if (valor_por_extenso.Length > 8)
                             if (valor_por_extenso.Substring(valor_por_extenso.Length - 6, 6) == "BILHÃO" | valor_por_extenso.Substring(valor_por_extenso.Length - 6, 6) == "MILHÃO")
                                 valor_por_extenso += " DE";
                             else
-                                if (valor_por_extenso.Substring(valor_por_extenso.Length - 7, 7) == "BILHÕES" | valor_por_extenso.Substring(valor_por_extenso.Length - 7, 7) == "MILHÕES"
-| valor_por_extenso.Substring(valor_por_extenso.Length - 8, 7) == "TRILHÕES")
+                                if (valor_por_extenso.Substring(valor_por_extenso.Length - 7, 7) == "BILHÕES" | valor_por_extenso.Substring(valor_por_extenso.Length - 7, 7) == "MILHÕES" | valor_por_extenso.Substring(valor_por_extenso.Length - 8, 7) == "TRILHÕES")
                                 valor_por_extenso += " DE";
                             else
                                     if (valor_por_extenso.Substring(valor_por_extenso.Length - 8, 8) == "TRILHÕES")
                                 valor_por_extenso += " DE";
+
                         if (Convert.ToInt64(strValor.Substring(0, 15)) == 1)
                             valor_por_extenso += " REAL";
                         else if (Convert.ToInt64(strValor.Substring(0, 15)) > 1)
                             valor_por_extenso += " REAIS";
+
                         if (Convert.ToInt32(strValor.Substring(16, 2)) > 0 && valor_por_extenso != string.Empty)
                             valor_por_extenso += " E ";
                     }
+
                     if (i == 15)
                         if (Convert.ToInt32(strValor.Substring(16, 2)) == 1)
                             valor_por_extenso += " CENTAVO";
@@ -237,7 +241,8 @@ namespace HumanMusicSchoolManager.Controllers
                 return valor_por_extenso;
             }
         }
-        static string Escrever_Valor_Extenso(decimal valor)
+
+        static string escreva_parte(decimal valor)
         {
             if (valor <= 0)
                 return string.Empty;
@@ -252,6 +257,7 @@ namespace HumanMusicSchoolManager.Controllers
                 int a = Convert.ToInt32(strValor.Substring(0, 1));
                 int b = Convert.ToInt32(strValor.Substring(1, 1));
                 int c = Convert.ToInt32(strValor.Substring(2, 1));
+
                 if (a == 1) montagem += (b + c == 0) ? "CEM" : "CENTO";
                 else if (a == 2) montagem += "DUZENTOS";
                 else if (a == 3) montagem += "TREZENTOS";
@@ -261,6 +267,7 @@ namespace HumanMusicSchoolManager.Controllers
                 else if (a == 7) montagem += "SETECENTOS";
                 else if (a == 8) montagem += "OITOCENTOS";
                 else if (a == 9) montagem += "NOVECENTOS";
+
                 if (b == 1)
                 {
                     if (c == 0) montagem += ((a > 0) ? " E " : string.Empty) + "DEZ";
@@ -282,7 +289,9 @@ namespace HumanMusicSchoolManager.Controllers
                 else if (b == 7) montagem += ((a > 0) ? " E " : string.Empty) + "SETENTA";
                 else if (b == 8) montagem += ((a > 0) ? " E " : string.Empty) + "OITENTA";
                 else if (b == 9) montagem += ((a > 0) ? " E " : string.Empty) + "NOVENTA";
+
                 if (strValor.Substring(1, 1) != "1" & c != 0 & montagem != string.Empty) montagem += " E ";
+
                 if (strValor.Substring(1, 1) != "1")
                     if (c == 1) montagem += "UM";
                     else if (c == 2) montagem += "DOIS";
@@ -293,6 +302,7 @@ namespace HumanMusicSchoolManager.Controllers
                     else if (c == 7) montagem += "SETE";
                     else if (c == 8) montagem += "OITO";
                     else if (c == 9) montagem += "NOVE";
+
                 return montagem;
             }
         }

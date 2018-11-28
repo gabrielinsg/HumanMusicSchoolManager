@@ -107,17 +107,24 @@ namespace HumanMusicSchoolManager.Migrations
 
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Candidato", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("DataNasc");
+                    b.Property<string>("CPF")
+                        .IsRequired();
+
+                    b.Property<string>("Cel");
+
+                    b.Property<DateTime>("DataNascimento");
 
                     b.Property<string>("Email")
                         .IsRequired();
 
                     b.Property<string>("Nome")
                         .IsRequired();
+
+                    b.Property<string>("Tel");
 
                     b.HasKey("Id");
 
@@ -210,7 +217,7 @@ namespace HumanMusicSchoolManager.Migrations
 
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Demostrativa", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -218,13 +225,15 @@ namespace HumanMusicSchoolManager.Migrations
 
                     b.Property<int>("CandidatoId");
 
-                    b.Property<bool>("Contratou");
+                    b.Property<bool?>("Contratou");
 
                     b.Property<int>("CursoId");
 
                     b.Property<int>("DispSalaId");
 
                     b.Property<int>("Estrelas");
+
+                    b.Property<int>("FuncionarioId");
 
                     b.Property<int>("Motivo");
 
@@ -243,6 +252,8 @@ namespace HumanMusicSchoolManager.Migrations
                     b.HasIndex("CursoId");
 
                     b.HasIndex("DispSalaId");
+
+                    b.HasIndex("FuncionarioId");
 
                     b.ToTable("Demostrativas");
                 });
@@ -803,6 +814,11 @@ namespace HumanMusicSchoolManager.Migrations
                     b.HasOne("HumanMusicSchoolManager.Models.Models.DispSala", "DispSala")
                         .WithMany("Demostrativas")
                         .HasForeignKey("DispSalaId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("HumanMusicSchoolManager.Models.Models.Funcionario", "Funcionario")
+                        .WithMany()
+                        .HasForeignKey("FuncionarioId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 

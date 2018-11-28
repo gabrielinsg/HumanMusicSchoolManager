@@ -42,7 +42,9 @@ namespace HumanMusicSchoolManager.Services
         {
                var hr = _context.DispSalas
                 .Where(ds => ds.Sala.Capacidade > ds.Matriculas.Count + ds.Demostrativas.Count + ds.Reposicoes.Count &&
-                    ds.Matriculas.FirstOrDefault(m => m.PacoteCompras.Contains(m.PacoteCompras.FirstOrDefault(pc => pc.Chamadas.Contains(pc.Chamadas.FirstOrDefault(c => c.PacoteCompra.PacoteAula.TipoAula == TipoAula.INDIVIDUAL && c.Presenca == null))))) == null)
+                    ds.Matriculas.FirstOrDefault(m => m.PacoteCompras.Contains(m.PacoteCompras
+                    .FirstOrDefault(pc => pc.Chamadas.Contains(pc.Chamadas
+                    .FirstOrDefault(c => c.PacoteCompra.PacoteAula.TipoAula == TipoAula.INDIVIDUAL && c.Presenca == null))))) == null)
                 .Include(dp => dp.Professor)
                 .ThenInclude(p => p.Cursos)
                 .Include(dp => dp.Sala)
@@ -51,6 +53,14 @@ namespace HumanMusicSchoolManager.Services
                 .Include(ds => ds.Matriculas)
                 .ThenInclude(m => m.Curso)
                 .Include(ds => ds.Reposicoes)
+                .ThenInclude(r => r.Chamada)
+                .ThenInclude(c => c.PacoteCompra)
+                .ThenInclude(pc => pc.Matricula)
+                .ThenInclude(m => m.Curso)
+                .Include(dp => dp.Demostrativas)
+                .ThenInclude(d => d.Curso)
+                .Include(dp => dp.Demostrativas)
+                .ThenInclude(d => d.Candidato)
                 .ToList();
 
             return hr

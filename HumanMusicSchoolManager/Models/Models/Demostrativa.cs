@@ -8,7 +8,7 @@ namespace HumanMusicSchoolManager.Models.Models
 {
     public class Demostrativa
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         public int CandidatoId { get; set; }
         public Candidato Candidato { get; set; }
@@ -32,10 +32,13 @@ namespace HumanMusicSchoolManager.Models.Models
         [Display(Name = "Observação")]
         public string Observacao { get; set; }
 
-        public bool Contratou { get; set; }
+        public bool? Contratou { get; set; }
 
         [Required(ErrorMessage = "Estrelas é obrigatório")]
         public int Estrelas { get; set; }
+
+        public int FuncionarioId { get; set; }
+        public Funcionario Funcionario { get; set; }
     }
 
     public enum Motivo

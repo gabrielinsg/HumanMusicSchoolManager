@@ -25,7 +25,7 @@ namespace HumanMusicSchoolManager.Models.Models
         [EmailAddress(ErrorMessage = "E-mail inválido")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "O Campo Dada de Nasimento é obrigatório")]
+        [Required(ErrorMessage = "O Campo Dada de Nascimento é obrigatório")]
         [Display(Name = "Data de Nascimento")]
         [DataType(DataType.Date, ErrorMessage = "Formato de Data incorreta")]
         public DateTime DataNascimento { get; set; }

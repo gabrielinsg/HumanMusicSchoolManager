@@ -18,13 +18,15 @@ namespace HumanMusicSchoolManager.Controllers
         private readonly ISalaService _salaService;
         private readonly IChamadaService _chamadaService;
         private readonly IMatriculaService _matriculaService;
+        private readonly IReposicaoService _reposicaoService;
 
         public AulaController(IAulaService aulaService,
             IProfessorService professorService,
             ICursoService cursoService,
             ISalaService salaService,
             IChamadaService chamadaService,
-            IMatriculaService matriculaService)
+            IMatriculaService matriculaService,
+            IReposicaoService reposicaoService)
         {
             this._aulaService = aulaService;
             this._professorService = professorService;
@@ -32,6 +34,7 @@ namespace HumanMusicSchoolManager.Controllers
             this._salaService = salaService;
             this._chamadaService = chamadaService;
             this._matriculaService = matriculaService;
+            this._reposicaoService = reposicaoService;
         }
 
         [HttpGet]
@@ -106,8 +109,15 @@ namespace HumanMusicSchoolManager.Controllers
                 }
                 foreach (var chamada in aula.Chamadas)
                 {
+                    var reposicao = chamada.Reposicao;
                     _chamadaService.Alterar(chamada);
+                    if (reposicao != null)
+                    {
+                        reposicao.DispSala = null;
+                        _reposicaoService.Alterar(reposicao);
+                    }
                 }
+                
                 _aulaService.Alterar(aula);
                 return RedirectToAction("Calendario", "Professor", new { professorId = aula.ProfessorId });
             }

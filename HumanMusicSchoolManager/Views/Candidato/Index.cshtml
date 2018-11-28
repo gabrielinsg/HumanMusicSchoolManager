@@ -1,0 +1,72 @@
+﻿@model List<Candidato>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="card mb-3">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-11">
+                <i class="fas fa-user"></i>
+                Candidato
+            </div>
+            <div class="col-md-1">
+                <a asp-action="Form" class="btn btn-primary">Novo</a>
+            </div>
+        </div>
+
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped" id="dataTable" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>CPF</th>
+                        <th class="text-center">Data Nascimento</th>
+                        <th class="text-center">Email</th>
+                        <th>Telefone</th>
+                        <th>Celular</th>
+                        <th>Alterar</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Nome</th>
+                        <th>CPF</th>
+                        <th class="text-center">Data Nascimento</th>
+                        <th class="text-center">Email</th>
+                        <th>Telefone</th>
+                        <th>Celular</th>
+                        <th>Alterar</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var candidato in Model)
+                    {
+                        <tr>
+                            <td>@candidato.Nome</td>
+                            <td>@candidato.CPF</td>
+                            <td class="text-center">@candidato.DataNascimento.ToString("dd/MM/yyyy")</td>
+                            <td class="text-center">@candidato.Email</td>
+                            <td>@candidato.Tel</td>
+                            <td>@candidato.Cel</td>
+                            <td class="text-center">
+                                <a asp-action="Form" asp-route-candidatoId="@(candidato.Id)"><i class="fas fa-pencil-alt"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/vendor/datatables/jquery.dataTables.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.js"></script>
+    <script src="~/js/demo/datatables-demo.js"></script>
+}
+
+
+
