@@ -25,6 +25,7 @@ namespace HumanMusicSchoolManager.Models.Models
         public bool AulaDada { get; set; }
 
         [Display(Name = "Descrição de Atividades")]
+        [MinLength(7, ErrorMessage = "A descrição deve ter no mínimo 7 caracteres")]
         public string DescAtividades { get; set; }
 
         public DateTime DataLimite { get; set; }

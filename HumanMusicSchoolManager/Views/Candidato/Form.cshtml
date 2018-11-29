@@ -5,10 +5,10 @@
 
 <input id="rota" type="hidden" value="Candidato" />
 <div class="row">
-    <div class="col-md-11">
+    <div class="col-xl-11 col-md-10">
         <h2 class="col-md-10">Candidato</h2>
     </div>
-    <div class="col-md-1">
+    <div class="col-xl-1 col-md-2">
         <a asp-action="Form" class="btn btn-primary">Novo</a>
     </div>
 </div>
@@ -38,14 +38,14 @@
                             <span asp-validation-for="Nome" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-xl-2 col-md-3">
                         <div class="form-group">
                             <label asp-for="DataNascimento"></label>
                             <input asp-for="DataNascimento" class="form-control" type="date" />
                             <span asp-validation-for="DataNascimento" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-xl-2 col-md-3">
                         <div class="form-group">
                             <label asp-for="CPF"></label>
                             <input asp-for="CPF" class="form-control mask-cpf" />
@@ -67,7 +67,7 @@
                             <span asp-validation-for="Cel" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-xl-4 col-md-5">
                         <div class="form-group">
                             <label asp-for="Email">E-mail</label>
                             <input asp-for="Email" class="form-control" />

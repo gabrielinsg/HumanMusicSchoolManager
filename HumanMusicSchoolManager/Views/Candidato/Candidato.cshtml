@@ -27,12 +27,12 @@
     <div class="tab-pane fade show active" id="dados" role="tabpanel" aria-labelledby="dados-tab">
         <br />
         <div class="row">
-            <div class="col-md-3"><b>Nome: </b>@Model.Candidato.Nome</div>
-            <div class="col-md-3"><b>Data de Nascimento: </b>@Model.Candidato.DataNascimento.ToString("dd/MM/yyyy")</div>
-            <div class="col-md-3"><b>CPF: </b>@Model.Candidato.CPF</div>
-            <div class="col-md-3"><b>E-Mail: </b>@Model.Candidato.Email</div>
-            <div class="col-md-3"><b>Telefone: </b>@Model.Candidato.Tel</div>
-            <div class="col-md-3"><b>Celular: </b>@Model.Candidato.Cel</div>
+            <div class="col-xl-3 col-md-4"><b>Nome: </b>@Model.Candidato.Nome</div>
+            <div class="col-xl-3 col-md-4"><b>Data de Nascimento: </b>@Model.Candidato.DataNascimento.ToString("dd/MM/yyyy")</div>
+            <div class="col-xl-3 col-md-4"><b>CPF: </b>@Model.Candidato.CPF</div>
+            <div class="col-xl-3 col-md-4"><b>E-Mail: </b>@Model.Candidato.Email</div>
+            <div class="col-xl-3 col-md-4"><b>Telefone: </b>@Model.Candidato.Tel</div>
+            <div class="col-xl-3 col-md-4"><b>Celular: </b>@Model.Candidato.Cel</div>
         </div>
         <br />
         <a asp-action="Form" asp-route-alunoId="@Model.Candidato.Id" class="btn btn-primary">Alterar</a>
@@ -49,7 +49,7 @@
             }
             else
             {
-                <span><b>@Html.DisplayFor(d => demostrativa.DispSala.Dia)</b> às <b>@demostrativa.DispSala.Hora.ToString("00:'00'h")</b> com <b>@demostrativa.DispSala.Professor.Nome</b> - <b>@demostrativa.DispSala.Sala.Nome</b></span>
+                <span><b>@Html.DisplayFor(d => demostrativa.DispSala.Dia)</b> às <b>@demostrativa.DispSala.Hora.ToString("00:'00'h")</b> com <b>@demostrativa.DispSala.Professor.Nome</b> - <b>@demostrativa.DispSala.Sala.Nome</b> dia <b>@demostrativa.Aula.Data.ToString("dd/MM/yyyy")</b></span>
             }
 
             <br /><br />

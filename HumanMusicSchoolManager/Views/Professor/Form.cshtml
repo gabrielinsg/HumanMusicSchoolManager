@@ -10,10 +10,10 @@
 
 <input id="rota" type="hidden" value="Professor" />
 <div class="row">
-    <div class="col-md-11">
+    <div class="col-xl-11 col-md-10">
         <h2 class="col-md-10">Professor</h2>
     </div>
-    <div class="col-md-1">
+    <div class="col-xl-1 col-md-2">
         <a asp-action="Form" class="btn btn-primary">Novo</a>
     </div>
 </div>
@@ -43,28 +43,28 @@
                         <span asp-validation-for="Nome" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-xl-2 col-md-3">
                     <div class="form-group">
                         <label asp-for="DataNascimento"></label>
                         <input asp-for="DataNascimento" class="form-control" type="date" />
                         <span asp-validation-for="DataNascimento" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-xl-2 col-md-3">
                     <div class="form-group">
                         <label asp-for="RG"></label>
                         <input asp-for="RG" class="form-control mask-rg" />
                         <span asp-validation-for="RG" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-xl-2 col-md-3">
                     <div class="form-group">
                         <label asp-for="CPF"></label>
                         <input asp-for="CPF" class="form-control mask-cpf" />
                         <span asp-validation-for="CPF" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-xl-6 col-md-7">
                     <div class="form-group">
                         <label asp-for="Endereco.Logradouro"></label>
                         <input asp-for="Endereco.Logradouro" class="form-control" />
@@ -78,7 +78,7 @@
                         <span asp-validation-for="Endereco.Numero" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-xl-4 col-md-5">
                     <div class="form-group">
                         <label asp-for="Endereco.Bairro"></label>
                         <input asp-for="Endereco.Bairro" class="form-control" />
@@ -99,10 +99,10 @@
                         <span asp-validation-for="Endereco.Cidade" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-xl-2 col-md-3">
                     <div class="form-group">
                         <label asp-for="Endereco.UF" class="col-md-2 control-label"></label>
-                        <div class="col-md-10">
+                        <div class="col-md-12">
                             <select asp-for="Endereco.UF" class="form-control" asp-items="Html.GetEnumSelectList<UF>()">
                                 <option selected="selected" value=""></option>
                             </select>
@@ -110,7 +110,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-xl-2 col-md-3">
                     <div class="form-group">
                         <label asp-for="Endereco.CEP"></label>
                         <input asp-for="Endereco.CEP" class="form-control mask-cep" />
@@ -131,7 +131,7 @@
                         <span asp-validation-for="Cel" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-xl-4 col-md-5">
                     <div class="form-group">
                         <label asp-for="Email">E-mail</label>
                         <input asp-for="Email" class="form-control" />

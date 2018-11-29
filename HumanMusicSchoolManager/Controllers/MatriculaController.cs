@@ -213,7 +213,7 @@ namespace HumanMusicSchoolManager.Controllers
                 if (ModelState.IsValid)
                 {
                     matriculaViewModel.Aluno = _alunoService.BuscarPorId(matriculaViewModel.Aluno.Id.Value);
-                    matriculaViewModel.DispSalas = _dispSalaService.BuscarTodos();
+                    matriculaViewModel.DispSalas = _dispSalaService.HorariosDisponiveis();
                     matriculaViewModel.Cursos = _cursoService.BuscarTodos();
                     matriculaViewModel.TaxasMatricula = _taxaMatriculaService.BuscarTodos();
                     if (matriculaViewModel.DispSala.Id != null)
@@ -231,7 +231,7 @@ namespace HumanMusicSchoolManager.Controllers
                 {
                     ViewBag.Collapse = "respFinanceiro";
                     matriculaViewModel.Aluno = _alunoService.BuscarPorId(matriculaViewModel.Aluno.Id.Value);
-                    matriculaViewModel.DispSalas = _dispSalaService.BuscarTodos();
+                    matriculaViewModel.DispSalas = _dispSalaService.HorariosDisponiveis();
                     matriculaViewModel.Cursos = _cursoService.BuscarTodos();
                     matriculaViewModel.TaxasMatricula = _taxaMatriculaService.BuscarTodos();
                     if (matriculaViewModel.DispSala.Id != null)
@@ -254,7 +254,7 @@ namespace HumanMusicSchoolManager.Controllers
                 if (ModelState.IsValid)
                 {
                     matriculaViewModel.Aluno = _alunoService.BuscarPorId(matriculaViewModel.Aluno.Id.Value);
-                    matriculaViewModel.DispSalas = _dispSalaService.BuscarTodos();
+                    matriculaViewModel.DispSalas = _dispSalaService.HorariosDisponiveis();
                     matriculaViewModel.Cursos = _cursoService.BuscarTodos();
                     matriculaViewModel.TaxasMatricula = _taxaMatriculaService.BuscarTodos();
                     if (matriculaViewModel.DispSala.Id != null)
@@ -272,7 +272,7 @@ namespace HumanMusicSchoolManager.Controllers
                 {
                     ViewBag.Collapse = "respFinanceiro";
                     matriculaViewModel.Aluno = _alunoService.BuscarPorId(matriculaViewModel.Aluno.Id.Value);
-                    matriculaViewModel.DispSalas = _dispSalaService.BuscarTodos();
+                    matriculaViewModel.DispSalas = _dispSalaService.HorariosDisponiveis();
                     matriculaViewModel.Cursos = _cursoService.BuscarTodos();
                     matriculaViewModel.TaxasMatricula = _taxaMatriculaService.BuscarTodos();
                     if (matriculaViewModel.DispSala.Id != null)

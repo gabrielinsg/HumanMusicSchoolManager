@@ -85,44 +85,54 @@ namespace HumanMusicSchoolManager.Controllers
             {
                 ModelState.AddModelError("DescAtividades", "Descrição de atividades obrigatória");
             }
-            else if (aula.DescAtividades.Length < 7)
+            else if (aula.DescAtividades.Length < 15)
             {
-                ModelState.AddModelError("DescAtividades", "Descrição de atividades deve ter no mínimo 6 caracteres");
+                ModelState.AddModelError("DescAtividades", "Descrição não atingiu o mínimo de caracteres exigidos.");
             }
 
             aula.AulaDada = true;
             var matriculas = new List<Matricula>();
             var pacoteCompras = new List<PacoteCompra>();
-            foreach (var chamada in aula.Chamadas)
-            {
-                var modulo = chamada.PacoteCompra.Matricula.Modulo;
-                var estrelas = chamada.PacoteCompra.Matricula.Estrelas;
-                var matricula = _matriculaService.BuscarPorId(chamada.PacoteCompra.MatriculaId);
-                chamada.PacoteCompra = null;
-                matricula.Modulo = modulo;
-                matricula.Estrelas = estrelas;
-                matriculas.Add(matricula);
-            }
 
+            if(aula.Chamadas != null)
+            {
+                foreach (var chamada in aula.Chamadas)
+                {
+                    var modulo = chamada.PacoteCompra.Matricula.Modulo;
+                    var estrelas = chamada.PacoteCompra.Matricula.Estrelas;
+                    var matricula = _matriculaService.BuscarPorId(chamada.PacoteCompra.MatriculaId);
+                    chamada.PacoteCompra = null;
+                    matricula.Modulo = modulo;
+                    matricula.Estrelas = estrelas;
+                    matriculas.Add(matricula);
+                }
+            }
+                
             if (ModelState.IsValid)
             {
                 foreach (var matricula in matriculas)
                 {
                     _matriculaService.Alterar(matricula);
                 }
-                foreach (var chamada in aula.Chamadas)
+                if (aula.Chamadas != null)
                 {
-                    var reposicao = chamada.Reposicao;
-                    _chamadaService.Alterar(chamada);
-                    if (reposicao != null)
+                    foreach (var chamada in aula.Chamadas)
                     {
-                        reposicao.DispSala = null;
-                        _reposicaoService.Alterar(reposicao);
+                        var reposicao = chamada.Reposicao;
+                        _chamadaService.Alterar(chamada);
+                        if (reposicao != null)
+                        {
+                            reposicao.DispSala = null;
+                            _reposicaoService.Alterar(reposicao);
+                        }
                     }
                 }
-                foreach (var demostrativa in aula.Demostrativas)
+                if (aula.Demostrativas != null)
                 {
-                    _demostrativaService.Alterar(demostrativa);
+                    foreach (var demostrativa in aula.Demostrativas)
+                    {
+                        _demostrativaService.Alterar(demostrativa);
+                    }
                 }
                 _aulaService.Alterar(aula);
                 return RedirectToAction("Calendario", "Professor", new { professorId = aula.ProfessorId });
@@ -133,6 +143,7 @@ namespace HumanMusicSchoolManager.Controllers
                 aula.Curso = _cursoService.BuscarPorId(aula.CursoId);
                 aula.Sala = _salaService.BuscarPorId(aula.SalaId);
                 aula.Chamadas = _aulaService.BuscarPorId(aula.Id.Value).Chamadas;
+                aula.Demostrativas = _aulaService.BuscarPorId(aula.Id.Value).Demostrativas;
                 return View(aula);
             }
         }
