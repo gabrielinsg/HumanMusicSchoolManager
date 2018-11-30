@@ -73,7 +73,7 @@ namespace HumanMusicSchoolManager.Controllers
         }
 
         [HttpPost]
-        public IActionResult Form(Aula aula)
+        public IActionResult Form(Aula aula, List<int> Estrelas)
         {
 
             foreach (var model in ModelState.Where(m => m.Key.Contains(".PacoteCompra.")).ToList())
@@ -129,9 +129,12 @@ namespace HumanMusicSchoolManager.Controllers
                 }
                 if (aula.Demostrativas != null)
                 {
+                    var i = 0;
                     foreach (var demostrativa in aula.Demostrativas)
                     {
+                        demostrativa.Estrelas = Estrelas[i];
                         _demostrativaService.Alterar(demostrativa);
+                        i++;
                     }
                 }
                 _aulaService.Alterar(aula);

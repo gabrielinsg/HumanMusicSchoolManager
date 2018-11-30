@@ -209,11 +209,11 @@
 
                             <div class="col-md-3">
                                 <div class="starrating risingstar d-flex justify-content-center flex-row-reverse" style="padding-top: 30px;">
-                                    <input asp-for="Demostrativas[i].Estrelas" type="radio" id="Dstar5@(Model.Demostrativas[i].Id)" value="5" /><label for="Dstar5@(Model.Demostrativas[i].Id)" title="5 star"></label>
-                                    <input asp-for="Demostrativas[i].Estrelas" type="radio" id="Dstar4@(Model.Demostrativas[i].Id)" value="4" /><label for="Dstar4@(Model.Demostrativas[i].Id)" title="4 star"></label>
-                                    <input asp-for="Demostrativas[i].Estrelas" type="radio" id="Dstar3@(Model.Demostrativas[i].Id)" value="3" /><label for="Dstar3@(Model.Demostrativas[i].Id)" title="3 star"></label>
-                                    <input asp-for="Demostrativas[i].Estrelas" type="radio" id="Dstar2@(Model.Demostrativas[i].Id)" value="2" /><label for="Dstar2@(Model.Demostrativas[i].Id)" title="2 star"></label>
-                                    <input asp-for="Demostrativas[i].Estrelas" type="radio" id="Dstar1@(Model.Demostrativas[i].Id)" value="1" /><label for="Dstar1@(Model.Demostrativas[i].Id)" title="1 star"></label>
+                                    <input name="Estrelas[@i]" @(Model.Demostrativas[i].Estrelas == 5 ? "checked" : "") type="radio" id="Dstar5@(Model.Demostrativas[i].Id)" value="5" /><label for="Dstar5@(Model.Demostrativas[i].Id)" title="5 star"></label>
+                                    <input name="Estrelas[@i]" @(Model.Demostrativas[i].Estrelas == 4 ? "checked" : "") type="radio" id="Dstar4@(Model.Demostrativas[i].Id)" value="4" /><label for="Dstar4@(Model.Demostrativas[i].Id)" title="4 star"></label>
+                                    <input name="Estrelas[@i]" @(Model.Demostrativas[i].Estrelas == 3 ? "checked" : "") type="radio" id="Dstar3@(Model.Demostrativas[i].Id)" value="3" /><label for="Dstar3@(Model.Demostrativas[i].Id)" title="3 star"></label>
+                                    <input name="Estrelas[@i]" @(Model.Demostrativas[i].Estrelas == 2 ? "checked" : "") type="radio" id="Dstar2@(Model.Demostrativas[i].Id)" value="2" /><label for="Dstar2@(Model.Demostrativas[i].Id)" title="2 star"></label>
+                                    <input name="Estrelas[@i]" @(Model.Demostrativas[i].Estrelas == 1 ? "checked" : "") type="radio" id="Dstar1@(Model.Demostrativas[i].Id)" value="1" /><label for="Dstar1@(Model.Demostrativas[i].Id)" title="1 star"></label>
                                 </div>
                             </div>
                             <div class="col-md-4">
