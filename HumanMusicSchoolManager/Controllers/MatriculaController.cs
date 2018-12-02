@@ -183,6 +183,18 @@ namespace HumanMusicSchoolManager.Controllers
                 _matriculaService.Cadastrar(matriculaViewModel.Matricula);
                 foreach (var financeiro in matriculaViewModel.Financeiros)
                 {
+
+                    decimal? desconto = 0;
+                    if (financeiro.Desconto != null)
+                    {
+                        desconto = financeiro.Desconto;
+                    }
+                    var valor = financeiro.Valor - desconto;
+                    if (financeiro.FormaPagamento == FormaPagamento.DEBITO || financeiro.FormaPagamento == FormaPagamento.CREDITO)
+                    {
+                        financeiro.ValorPago = valor;
+                        financeiro.DataPagamento = DateTime.Now;
+                    }
                     _financeiroService.Cadastrar(financeiro);
                 }
                 return RedirectToAction("Aluno", "Aluno", new { alunoId = matriculaViewModel.Aluno.Id });

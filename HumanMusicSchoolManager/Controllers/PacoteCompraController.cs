@@ -153,7 +153,8 @@ namespace HumanMusicSchoolManager.Controllers
                     };
                     if (financeiro.FormaPagamento == FormaPagamento.DEBITO || financeiro.FormaPagamento == FormaPagamento.CREDITO)
                     {
-                        financeiro.ValorPago = valor;  
+                        financeiro.ValorPago = valor;
+                        financeiro.DataPagamento = DateTime.Now;
                     }
                     _financeiroService.Cadastrar(financeiro);
                 }

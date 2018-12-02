@@ -39,6 +39,9 @@ namespace HumanMusicSchoolManager.Models.Models
         [Display(Name = "Data de vencimento")]
         public DateTime DataVencimento { get; set; }
 
+        [Display(Name = "Data do pagamento")]
+        public DateTime? DataPagamento { get; set; }
+
         public int? PessoaId { get; set; }
         public Pessoa Pessoa { get; set; }
 

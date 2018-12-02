@@ -14,6 +14,7 @@
                     <th scope="col">Forma de Pagamento</th>
                     <th scope="col">Data de Criação</th>
                     <th scope="col">Data de Vencimento</th>
+                    <th scope="col">Data do Pagamento</th>
                     <th scope="col">Responsável</th>
                     <th scope="col" class="text-center">Lançar</th>
                 </tr>
@@ -37,6 +38,8 @@
                         <td>@Html.DisplayFor(d => financeiro.FormaPagamento)</td>
                         <td>@financeiro.UltimaAlteracao.ToString("dd/MM/yyyy")</td>
                         <td>@financeiro.DataVencimento.ToString("dd/MM/yyyy")</td>
+                        <td>@if (financeiro.DataPagamento != null)
+                        { @financeiro.DataPagamento.Value.ToString("dd/MM/yyyy"); }</td>
                         <td>@financeiro.Pessoa.Nome</td>
                         <td class="text-center"><a asp-controller="Financeiro" asp-action="Form" asp-route-alunoId="@Model.Id" asp-route-financeiroId="@financeiro.Id" class="text-success"><i class="far fa-money-bill-alt"></i></a></td>
                     </tr>
