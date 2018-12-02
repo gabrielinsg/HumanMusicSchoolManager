@@ -7,7 +7,7 @@ namespace HumanMusicSchoolManager.Models.Models
 {
     public class Chamada
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         public string Observacao { get; set; }
 

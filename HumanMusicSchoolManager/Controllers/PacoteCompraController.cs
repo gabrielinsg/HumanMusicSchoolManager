@@ -151,6 +151,10 @@ namespace HumanMusicSchoolManager.Controllers
                         DataVencimento = pacoteCompraViewModel.Vencimento.AddMonths(i),
                         PacoteCompra = pacoteCompraViewModel.PacoteCompra
                     };
+                    if (financeiro.FormaPagamento == FormaPagamento.DEBITO || financeiro.FormaPagamento == FormaPagamento.CREDITO)
+                    {
+                        financeiro.ValorPago = valor;  
+                    }
                     _financeiroService.Cadastrar(financeiro);
                 }
 

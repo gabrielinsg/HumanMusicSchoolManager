@@ -41,13 +41,33 @@ namespace HumanMusicSchoolManager.Services
                 .SingleOrDefault(ds => ds.Id == dispSalaId);
         }
 
+        private Object RetornaObjeto(Object ob, string tipo)
+        {
+            if (ob == null)
+            {
+
+                switch (tipo)
+                {
+                    case "chamada": return new Chamada();
+                    case "pacoteCompra": return new PacoteCompra();
+                    default: return null;
+                }
+            }
+            else
+            {
+                return ob;
+            }
+        }
+
         public List<DispSala> HorariosDisponiveis()
         {
-               var hr = _context.DispSalas
-                .Where(ds => ds.Sala.Capacidade > ds.Matriculas.Count + ds.Demostrativas.Count + ds.Reposicoes.Count &&
-                    ds.Matriculas.FirstOrDefault(m => m.PacoteCompras.Contains(m.PacoteCompras
-                    .FirstOrDefault(pc => pc.Chamadas.Contains(pc.Chamadas
-                    .FirstOrDefault(c => c.PacoteCompra.PacoteAula.TipoAula == TipoAula.INDIVIDUAL && c.Presenca == null))))) == null)
+            //var chamada = _context.Chamadas.FirstOrDefault(c => c.PacoteCompra.PacoteAula.TipoAula == TipoAula.INDIVIDUAL && c.Presenca == null);
+            //var pacoteCompra = _context.PacoteCompras.FirstOrDefault(pc => pc.Chamadas.Contains((Chamada)RetornaObjeto(chamada, "chamada")));
+            //var matricula = _context.Matriculas.FirstOrDefault(m => m.PacoteCompras.Contains((PacoteCompra)RetornaObjeto(pacoteCompra, "pacoteCompra")));
+
+
+            var hr = _context.DispSalas
+                .Where(ds => ds.Sala.Capacidade > ds.Matriculas.Count + ds.Demostrativas.Count + ds.Reposicoes.Count)
                 .Include(dp => dp.Professor)
                 .ThenInclude(p => p.Cursos)
                 .Include(dp => dp.Sala)
@@ -65,6 +85,38 @@ namespace HumanMusicSchoolManager.Services
                 .Include(dp => dp.Demostrativas)
                 .ThenInclude(d => d.Candidato)
                 .ToList();
+
+            List<DispSala> retirar = new List<DispSala>();
+            if (hr != null)
+            {
+                foreach (var dispSala in hr)
+                {
+                    if (dispSala.Matriculas != null)
+                    {
+                        foreach (var matricula in dispSala.Matriculas)
+                        {
+                            if (matricula.PacoteCompras != null)
+                            {
+                                foreach (var pacoteCompra in matricula.PacoteCompras)
+                                {
+                                    if (pacoteCompra.PacoteAula.TipoAula == TipoAula.INDIVIDUAL)
+                                    {
+                                        retirar.Add(pacoteCompra.Matricula.DispSala);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (retirar != null)
+            {
+                foreach (var retira in retirar)
+                {
+                    hr.Remove(retira);
+                }
+            }
 
             return hr
                 .OrderBy(h => h.Professor.Nome)

@@ -20,7 +20,14 @@ namespace HumanMusicSchoolManager.Services
 
         public void Alterar(Demostrativa demostrativa)
         {
-            _context.Demostrativas.Update(demostrativa);
+            var entry = _context.Entry<Demostrativa>(demostrativa);
+            if (entry.State == EntityState.Detached)
+            {
+                var fin = _context.Demostrativas.FirstOrDefault(f => f.Id == demostrativa.Id);
+                var ent = _context.Entry<Demostrativa>(fin);
+                ent.State = EntityState.Detached;
+                entry.State = EntityState.Modified;
+            }
             _context.SaveChanges();
         }
 

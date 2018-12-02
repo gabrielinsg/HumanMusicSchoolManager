@@ -80,7 +80,7 @@ namespace HumanMusicSchoolManager.Controllers
                 ModelState.Remove(model.Key);
             }
             reposicaoViewModel.DispSala = _dispSalaService.BuscarPorId(reposicaoViewModel.DispSala.Id.Value);
-            reposicaoViewModel.Chamada = _chamadaService.BuscarPorId(reposicaoViewModel.Chamada.Id);
+            reposicaoViewModel.Chamada = _chamadaService.BuscarPorId(reposicaoViewModel.Chamada.Id.Value);
             if ((DayOfWeek)reposicaoViewModel.DispSala.Dia != reposicaoViewModel.DiaAula.DayOfWeek)
             {
                 var dia = reposicaoViewModel.DispSala.Dia.GetType()
@@ -117,7 +117,7 @@ namespace HumanMusicSchoolManager.Controllers
 
             if (ModelState.IsValid)
             {
-                reposicaoViewModel.Reposicao.ChamadaId = reposicaoViewModel.Chamada.Id;
+                reposicaoViewModel.Reposicao.ChamadaId = reposicaoViewModel.Chamada.Id.Value;
                 reposicaoViewModel.Reposicao.DispSalaId = reposicaoViewModel.DispSala.Id.Value;
                 if (reposicaoViewModel.Reposicao.Id == null)
                 {
@@ -145,7 +145,17 @@ namespace HumanMusicSchoolManager.Controllers
 
                 var aulaAntiga = reposicaoViewModel.Chamada.Aula;
                 reposicaoViewModel.Chamada.Aula = aula;
-                _chamadaService.Alterar(reposicaoViewModel.Chamada);
+
+                if (aulaAntiga.AulaDada == true)
+                {
+                    reposicaoViewModel.Chamada.Id = null;
+                    _chamadaService.Cadastrar(reposicaoViewModel.Chamada);
+                }
+                else
+                {
+                    _chamadaService.Alterar(reposicaoViewModel.Chamada);
+                }
+
                 aulaAntiga = _aulaService.BuscarPorId(aulaAntiga.Id.Value);
                 if (aulaAntiga.Chamadas.Count == 0 && aulaAntiga.Demostrativas.Count == 0)
                 {
