@@ -34,6 +34,8 @@
     <Compile Remove="Migrations\20181126163049_DemonstrativaFuncionario.Designer.cs" />
     <Compile Remove="Migrations\20181202231847_FinanceiroDataPagamento.cs" />
     <Compile Remove="Migrations\20181202231847_FinanceiroDataPagamento.Designer.cs" />
+    <Compile Remove="Migrations\20181203222541_Trancamento.cs" />
+    <Compile Remove="Migrations\20181203222541_Trancamento.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

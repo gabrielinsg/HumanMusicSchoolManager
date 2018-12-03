@@ -34,6 +34,7 @@ namespace HumanMusicSchoolManager.Data
         public DbSet<Candidato> Candidatos { get; set; }
         public DbSet<Demostrativa> Demostrativas { get; set; }
         public DbSet<Contrato> Contratos { get; set; }
+        public DbSet<Trancamento> Trancamentos { get; set; }
 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)

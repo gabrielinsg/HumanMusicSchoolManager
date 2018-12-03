@@ -148,8 +148,14 @@ namespace HumanMusicSchoolManager.Controllers
 
                 if (aulaAntiga.AulaDada == true)
                 {
-                    reposicaoViewModel.Chamada.Id = null;
-                    _chamadaService.Cadastrar(reposicaoViewModel.Chamada);
+                    var chamada = new Chamada
+                    {
+                        AulaId = reposicaoViewModel.Chamada.AulaId,
+                        PacoteCompraId = reposicaoViewModel.Chamada.PacoteCompraId,
+                        Reposicao = reposicaoViewModel.Reposicao,
+                    };
+                    
+                    _chamadaService.Cadastrar(chamada);
                 }
                 else
                 {

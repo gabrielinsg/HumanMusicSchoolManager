@@ -177,7 +177,7 @@ namespace HumanMusicSchoolManager.Controllers
                         };
                         if (aula == null)
                         {
-                            
+
                             aula = new Aula()
                             {
                                 CursoId = pacoteCompraViewModel.Matricula.CursoId,
@@ -230,7 +230,7 @@ namespace HumanMusicSchoolManager.Controllers
             var chart = new Chart()
             {
                 Labels = new string[] { "Disponíveis", "Feitas" },
-                Datasets = new double[] {compradas-feitas, feitas},
+                Datasets = new double[] { compradas - feitas, feitas },
                 Color = new string[] { "#007bff", "#28a745" }
             };
 
@@ -259,7 +259,7 @@ namespace HumanMusicSchoolManager.Controllers
         {
             public string[] Labels { get; set; }
             public double[] Datasets { get; set; }
-            public string[] Color  { get; set; }
+            public string[] Color { get; set; }
         }
 
         public JsonResult Calendario(int pacoteCompraId)
@@ -291,7 +291,7 @@ namespace HumanMusicSchoolManager.Controllers
                     Start = start.ToString("yyyy-MM-ddTHH:mm:ss"),
                     End = end.ToString("yyyy-MM-ddTHH:mm:ss"),
                     Color = color,
-                    Url = "/PacoteCompra/Aula?chamadaId="+chamada.Id
+                    Url = "/PacoteCompra/Aula?chamadaId=" + chamada.Id
                 };
                 calendar.Add(cal);
                 cont++;

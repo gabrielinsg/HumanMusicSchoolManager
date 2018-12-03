@@ -84,6 +84,9 @@ namespace HumanMusicSchoolManager.Services
                 .ThenInclude(d => d.Curso)
                 .Include(dp => dp.Demostrativas)
                 .ThenInclude(d => d.Candidato)
+                .Include(ds => ds.Matriculas)
+                .ThenInclude(m => m.PacoteCompras)
+                .ThenInclude(pc => pc.PacoteAula)
                 .ToList();
 
             List<DispSala> retirar = new List<DispSala>();

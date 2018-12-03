@@ -32,5 +32,7 @@ namespace HumanMusicSchoolManager.Models.Models
         public decimal? Desconto { get; set; }
 
         public List<Chamada> Chamadas { get; set; }
+
+        public Trancamento Trancamento { get; set; }
     }
 }
