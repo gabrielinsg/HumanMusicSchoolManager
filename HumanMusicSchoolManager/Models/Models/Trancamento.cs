@@ -8,7 +8,7 @@ namespace HumanMusicSchoolManager.Models.Models
 {
     public class Trancamento
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [Required(ErrorMessage = "Data inicial obrigatório")]
         [Display(Name = "Data inicial")]
