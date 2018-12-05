@@ -118,11 +118,11 @@ namespace HumanMusicSchoolManager.Controllers
                 {
                     foreach (var chamada in aula.Chamadas)
                     {
-                        var reposicao = chamada.Reposicao;
+                        var reposicao = _reposicaoService.BuscarPorChamada(chamada.Id.Value);
                         _chamadaService.Alterar(chamada);
                         if (reposicao != null)
                         {
-                            reposicao.DispSala = null;
+                            reposicao.DispSalaId = null;
                             _reposicaoService.Alterar(reposicao);
                         }
                     }
@@ -137,6 +137,7 @@ namespace HumanMusicSchoolManager.Controllers
                         i++;
                     }
                 }
+               
                 _aulaService.Alterar(aula);
                 return RedirectToAction("Calendario", "Professor", new { professorId = aula.ProfessorId });
             }

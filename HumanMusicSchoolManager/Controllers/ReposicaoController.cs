@@ -117,16 +117,9 @@ namespace HumanMusicSchoolManager.Controllers
 
             if (ModelState.IsValid)
             {
-                reposicaoViewModel.Reposicao.ChamadaId = reposicaoViewModel.Chamada.Id.Value;
+                
                 reposicaoViewModel.Reposicao.DispSalaId = reposicaoViewModel.DispSala.Id.Value;
-                if (reposicaoViewModel.Reposicao.Id == null)
-                {
-                    _reposicaoService.Cadastrar(reposicaoViewModel.Reposicao);
-                }
-                else
-                {
-                    _reposicaoService.Alterar(reposicaoViewModel.Reposicao);
-                }
+                
 
                 var aula = _aulaService.BuscarPorDiaHora(reposicaoViewModel.DiaAula);
                 if (aula == null)
@@ -144,22 +137,32 @@ namespace HumanMusicSchoolManager.Controllers
                 }
 
                 var aulaAntiga = reposicaoViewModel.Chamada.Aula;
-                reposicaoViewModel.Chamada.Aula = aula;
+                
 
                 if (aulaAntiga.AulaDada == true)
                 {
                     var chamada = new Chamada
                     {
-                        AulaId = reposicaoViewModel.Chamada.AulaId,
+                        AulaId = aula.Id.Value,
                         PacoteCompraId = reposicaoViewModel.Chamada.PacoteCompraId,
-                        Reposicao = reposicaoViewModel.Reposicao,
                     };
-                    
                     _chamadaService.Cadastrar(chamada);
+                    reposicaoViewModel.Reposicao.ChamadaId = chamada.Id.Value;
                 }
                 else
                 {
+                    reposicaoViewModel.Chamada.Aula = aula;
                     _chamadaService.Alterar(reposicaoViewModel.Chamada);
+                    reposicaoViewModel.Reposicao.ChamadaId = reposicaoViewModel.Chamada.Id.Value;
+                }
+
+                if (reposicaoViewModel.Reposicao.Id == null)
+                {
+                    _reposicaoService.Cadastrar(reposicaoViewModel.Reposicao);
+                }
+                else
+                {
+                    _reposicaoService.Alterar(reposicaoViewModel.Reposicao);
                 }
 
                 aulaAntiga = _aulaService.BuscarPorId(aulaAntiga.Id.Value);

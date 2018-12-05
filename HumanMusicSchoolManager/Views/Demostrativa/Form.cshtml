@@ -117,8 +117,8 @@
                                                     <td>@dispSala.Sala.Nome</td>
                                                     <td>@dispSala.Professor.Nome</td>
                                                     <td class="text-center">
-                                                        @(dispSala.Sala.Capacidade - dispSala.Matriculas.Count - dispSala.Demostrativas.Count)
-                                                         <!-- Button trigger modal -->
+                                                        @(dispSala.Sala.Capacidade - dispSala.Matriculas.Count - dispSala.Reposicoes.Count - dispSala.Demostrativas.Count)
+                                                        <!-- Button trigger modal -->
                                                         <a class="btn text-primary" data-toggle="modal" data-target="#exampleModalLong@(dispSala.Id)">
                                                             <i class="fas fa-users text-info"></i>
                                                         </a>
@@ -134,6 +134,7 @@
                                                                         </button>
                                                                     </div>
                                                                     <div class="modal-body text-left">
+                                                                        <h4>Alunos</h4>
                                                                         <table class="table table-sm">
                                                                             <thead>
                                                                                 <tr>
@@ -166,6 +167,42 @@
                                                                                 }
                                                                             </tbody>
                                                                         </table>
+                                                                        @if (dispSala.Reposicoes.Count > 0)
+                                                                        {
+                                                                            <h4>Reposição</h4>
+                                                                            <table class="table table-sm">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th scope="col">Aluno</th>
+                                                                                        <th scope="col" class="text-center">Idade</th>
+                                                                                        <th scope="col" class="text-center">Módulo</th>
+                                                                                        <th scope="col" class="text-center">Estrelas</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    @foreach (var reposicao in dispSala.Reposicoes)
+                                                                                    {
+                                                                                        int now = int.Parse(DateTime.Now.ToString("yyyyMMdd"));
+                                                                                        int dob = int.Parse(reposicao.Chamada.PacoteCompra.Matricula.Aluno.DataNascimento.ToString("yyyyMMdd"));
+                                                                                        int age = (now - dob) / 10000;
+                                                                                        <tr>
+                                                                                            <td>@reposicao.Chamada.PacoteCompra.Matricula.Aluno.Nome</td>
+                                                                                            <td class="text-center">@age @(age > 1 ? "anos" : "ano")</td>
+                                                                                            <td class="text-center">@reposicao.Chamada.PacoteCompra.Matricula.Modulo</td>
+                                                                                            <td>
+                                                                                                <div class="starrating risingstar d-flex justify-content-center flex-row-reverse">
+                                                                                                    <input asp-for="@reposicao.Chamada.PacoteCompra.Matricula.Estrelas" type="radio" id="star5" value="5" disabled /><label for="star5" title="5 star"></label>
+                                                                                                    <input asp-for="@reposicao.Chamada.PacoteCompra.Matricula.Estrelas" type="radio" id="star4" value="4" disabled /><label for="star4" title="4 star"></label>
+                                                                                                    <input asp-for="@reposicao.Chamada.PacoteCompra.Matricula.Estrelas" type="radio" id="star3" value="3" disabled /><label for="star3" title="3 star"></label>
+                                                                                                    <input asp-for="@reposicao.Chamada.PacoteCompra.Matricula.Estrelas" type="radio" id="star2" value="2" disabled /><label for="star2" title="2 star"></label>
+                                                                                                    <input asp-for="@reposicao.Chamada.PacoteCompra.Matricula.Estrelas" type="radio" id="star1" value="1" disabled /><label for="star1" title="1 star"></label>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    }
+                                                                                </tbody>
+                                                                            </table>
+                                                                        }
                                                                         @if (dispSala.Demostrativas.Count > 0)
                                                                         {
                                                                             <h4>Demostrativas</h4>
@@ -186,7 +223,7 @@
                                                                                             <td>@demostrativa.Candidato.Nome</td>
                                                                                             <td class="text-center">@age @(age > 1 ? "anos" : "ano")</td>
                                                                                         </tr>
-                                                                                    } 
+                                                                                    }
                                                                                 </tbody>
                                                                             </table>
                                                                         }

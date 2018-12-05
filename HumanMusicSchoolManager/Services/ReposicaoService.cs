@@ -31,6 +31,11 @@ namespace HumanMusicSchoolManager.Services
             _context.SaveChanges();
         }
 
+        public Reposicao BuscarPorChamada(int chamadaId)
+        {
+            return _context.Reposicoes.FirstOrDefault(r => r.ChamadaId == chamadaId);
+        }
+
         public Reposicao BuscarPorId(int reposicaoId)
         {
             return _context.Reposicoes.FirstOrDefault(r => r.Id == reposicaoId);
