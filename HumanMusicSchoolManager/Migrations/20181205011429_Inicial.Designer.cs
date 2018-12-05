@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HumanMusicSchoolManager.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181203222906_Trancamento")]
-    partial class Trancamento
+    [Migration("20181205011429_Inicial")]
+    partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -536,7 +536,7 @@ namespace HumanMusicSchoolManager.Migrations
 
                     b.Property<int>("ChamadaId");
 
-                    b.Property<int>("DispSalaId");
+                    b.Property<int?>("DispSalaId");
 
                     b.Property<string>("Motivo");
 
@@ -749,6 +749,19 @@ namespace HumanMusicSchoolManager.Migrations
                 {
                     b.HasBaseType("HumanMusicSchoolManager.Models.Models.Pessoa");
 
+                    b.Property<int>("EstadoCivil");
+
+                    b.Property<string>("Nacionalidade")
+                        .IsRequired();
+
+                    b.Property<string>("Naturidade")
+                        .IsRequired();
+
+                    b.Property<string>("OrgaoExpedidor")
+                        .IsRequired();
+
+                    b.Property<string>("Profissao")
+                        .IsRequired();
 
                     b.ToTable("RespFinanceiro");
 

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HumanMusicSchoolManager.Migrations
 {
-    public partial class inicial : Migration
+    public partial class Inicial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -46,8 +46,8 @@ namespace HumanMusicSchoolManager.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Nome = table.Column<string>(nullable: true),
-                    Conteudo = table.Column<string>(nullable: true),
+                    Nome = table.Column<string>(nullable: false),
+                    Conteudo = table.Column<string>(nullable: false),
                     Ativo = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
@@ -209,7 +209,12 @@ namespace HumanMusicSchoolManager.Migrations
                     Tel = table.Column<string>(nullable: true),
                     Cel = table.Column<string>(nullable: true),
                     EnderecoId = table.Column<int>(nullable: false),
-                    Discriminator = table.Column<string>(nullable: false)
+                    Discriminator = table.Column<string>(nullable: false),
+                    Nacionalidade = table.Column<string>(nullable: true),
+                    Naturidade = table.Column<string>(nullable: true),
+                    EstadoCivil = table.Column<int>(nullable: true),
+                    Profissao = table.Column<string>(nullable: true),
+                    OrgaoExpedidor = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -620,6 +625,7 @@ namespace HumanMusicSchoolManager.Migrations
                     FormaPagamento = table.Column<int>(nullable: false),
                     UltimaAlteracao = table.Column<DateTime>(nullable: false),
                     DataVencimento = table.Column<DateTime>(nullable: false),
+                    DataPagamento = table.Column<DateTime>(nullable: true),
                     PessoaId = table.Column<int>(nullable: true),
                     AlunoId = table.Column<int>(nullable: true),
                     PacoteCompraId = table.Column<int>(nullable: true)
@@ -648,13 +654,34 @@ namespace HumanMusicSchoolManager.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Trancamentos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    DataInicial = table.Column<DateTime>(nullable: false),
+                    DataFinal = table.Column<DateTime>(nullable: false),
+                    PacoteCompraId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Trancamentos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Trancamentos_PacoteCompras_PacoteCompraId",
+                        column: x => x.PacoteCompraId,
+                        principalTable: "PacoteCompras",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Reposicoes",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ChamadaId = table.Column<int>(nullable: false),
-                    DispSalaId = table.Column<int>(nullable: false),
+                    DispSalaId = table.Column<int>(nullable: true),
                     Motivo = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -853,6 +880,12 @@ namespace HumanMusicSchoolManager.Migrations
                 name: "IX_Reposicoes_DispSalaId",
                 table: "Reposicoes",
                 column: "DispSalaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Trancamentos_PacoteCompraId",
+                table: "Trancamentos",
+                column: "PacoteCompraId",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -895,6 +928,9 @@ namespace HumanMusicSchoolManager.Migrations
 
             migrationBuilder.DropTable(
                 name: "TaxaMatriculas");
+
+            migrationBuilder.DropTable(
+                name: "Trancamentos");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

@@ -747,6 +747,19 @@ namespace HumanMusicSchoolManager.Migrations
                 {
                     b.HasBaseType("HumanMusicSchoolManager.Models.Models.Pessoa");
 
+                    b.Property<int>("EstadoCivil");
+
+                    b.Property<string>("Nacionalidade")
+                        .IsRequired();
+
+                    b.Property<string>("Naturalidade")
+                        .IsRequired();
+
+                    b.Property<string>("OrgaoExpedidor")
+                        .IsRequired();
+
+                    b.Property<string>("Profissao")
+                        .IsRequired();
 
                     b.ToTable("RespFinanceiro");
 

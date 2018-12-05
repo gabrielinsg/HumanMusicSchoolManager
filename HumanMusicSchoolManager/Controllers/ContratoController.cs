@@ -120,10 +120,18 @@ namespace HumanMusicSchoolManager.Controllers
                     contrato.Conteudo = contrato.Conteudo.Replace("{Responsavel.CEP}", respFinanceiro.Endereco.CEP);
                     contrato.Conteudo = contrato.Conteudo.Replace("{Responsavel.Cel}", respFinanceiro.Cel);
                     contrato.Conteudo = contrato.Conteudo.Replace("{Responsavel.Tel}", respFinanceiro.Tel);
-                    contrato.Conteudo = contrato.Conteudo.Replace("{Responsavel.email}", respFinanceiro.Email);
+                    contrato.Conteudo = contrato.Conteudo.Replace("{Responsavel.Email}", respFinanceiro.Email);
+                    contrato.Conteudo = contrato.Conteudo.Replace("{Responsavel.Nacionalidade}", respFinanceiro.Nacionalidade);
+                    contrato.Conteudo = contrato.Conteudo.Replace("{Responsavel.Naturalidade}", respFinanceiro.Naturalidade);
+                    contrato.Conteudo = contrato.Conteudo.Replace("{Responsavel.EstadoCivil}", respFinanceiro.EstadoCivil.GetType()
+                        .GetMember(respFinanceiro.EstadoCivil.ToString())
+                        .First()
+                        .GetCustomAttribute<DisplayAttribute>()
+                        .GetName());
+                    contrato.Conteudo = contrato.Conteudo.Replace("{Responsavel.Profissao}", respFinanceiro.Profissao);
+                    contrato.Conteudo = contrato.Conteudo.Replace("{Responsavel.OrgaoExpedidor}", respFinanceiro.OrgaoExpedidor);
 
                     //Aluno
-
                     var aluno = pacoteCompra.Matricula.Aluno;
                     contrato.Conteudo = contrato.Conteudo.Replace("{Aluno.Nome}", aluno.Nome);
                     contrato.Conteudo = contrato.Conteudo.Replace("{Aluno.CPF}", aluno.CPF);

@@ -64,5 +64,13 @@
         $("#RespFinanceiro_Tel").val(data.tel);
         $("#RespFinanceiro_Cel").val(data.cel);
         $("#RespFinanceiro_Email").val(data.email);
+        $("#RespFinanceiro_Nacionalidade").val(data.nacionalidade);
+        $("#RespFinanceiro_Naturalidade").val(data.naturalidade);
+        $("#RespFinanceiro_EstadoCivil").val(data.estadoCivil);
+        $("#RespFinanceiro_Profissao").val(data.profissao);
+        $("#RespFinanceiro_OrgaoExpedidor").val(data.orgaoExpedidor);
+        if (data.ativo === true) {
+            $("#RespFinanceiro_Ativo").prop("checked", true);
+        }
     }
 });

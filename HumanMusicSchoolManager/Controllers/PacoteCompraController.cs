@@ -160,44 +160,11 @@ namespace HumanMusicSchoolManager.Controllers
                 }
 
                 //Gerar Aulas
-                var diaAula = pacoteCompraViewModel.PrimeiraAula;
-                var qtdAulas = pacoteCompraViewModel.PacoteAula.QtdAula;
-                diaAula = diaAula.AddHours((double)pacoteCompraViewModel.Matricula.DispSala.Hora);
-
-                while (qtdAulas > 0)
-                {
-                    var feriado = _feriadoService.BuscarPorData(diaAula);
-                    if (feriado == null)
-                    {
-                        //criando as aulas
-                        var aula = _aulaService.BuscarPorDiaHora(diaAula);
-                        var chamada = new Chamada()
-                        {
-                            PacoteCompraId = pacoteCompraViewModel.PacoteCompra.Id.Value
-                        };
-                        if (aula == null)
-                        {
-
-                            aula = new Aula()
-                            {
-                                CursoId = pacoteCompraViewModel.Matricula.CursoId,
-                                ProfessorId = pacoteCompraViewModel.Matricula.DispSala.Professor.Id.Value,
-                                SalaId = pacoteCompraViewModel.Matricula.DispSala.Sala.Id.Value,
-                                Data = diaAula,
-                                DataLimite = diaAula.AddDays(3)
-                            };
-                            _aulaService.Cadastrar(aula);
-                        }
-
-                        chamada.Aula = aula;
-                        chamada.Presenca = null;
-                        _chamadaService.Cadastrar(chamada);
-
-                        //incremento
-                        qtdAulas--;
-                    }
-                    diaAula = diaAula.AddDays(7);
-                }
+                CriarAulas(pacoteCompraViewModel.PrimeiraAula,
+                    pacoteCompraViewModel.PacoteAula.QtdAula,
+                    pacoteCompraViewModel.Matricula.DispSala.Hora,
+                    pacoteCompraViewModel.Matricula,
+                    pacoteCompraViewModel.PacoteCompra);
 
                 return RedirectToAction("Aluno", "Aluno", new { alunoId = pacoteCompraViewModel.Matricula.Aluno.Id.Value });
             }
@@ -353,6 +320,48 @@ namespace HumanMusicSchoolManager.Controllers
             else
             {
                 return RedirectToAction("Index", "Home");
+            }
+        }
+
+        private void CriarAulas(DateTime PrimeiraAula, int QtdAula, int Hora, Matricula Matricula, PacoteCompra PacoteCompra)
+        {
+            var diaAula = PrimeiraAula; //pacoteCompraViewModel.PrimeiraAula;
+            var qtdAulas = QtdAula;//pacoteCompraViewModel.PacoteAula.QtdAula;
+            diaAula = diaAula.AddHours((double)Hora);//pacoteCompraViewModel.Matricula.DispSala.Hora);
+
+            while (qtdAulas > 0)
+            {
+                var feriado = _feriadoService.BuscarPorData(diaAula);
+                if (feriado == null)
+                {
+                    //criando as aulas
+                    var aula = _aulaService.BuscarPorDiaHora(diaAula);
+                    var chamada = new Chamada()
+                    {
+                        PacoteCompraId = PacoteCompra.Id.Value
+                    };
+                    if (aula == null)
+                    {
+
+                        aula = new Aula()
+                        {
+                            CursoId = Matricula.CursoId,
+                            ProfessorId = Matricula.DispSala.Professor.Id.Value,
+                            SalaId = Matricula.DispSala.Sala.Id.Value,
+                            Data = diaAula,
+                            DataLimite = diaAula.AddDays(3)
+                        };
+                        _aulaService.Cadastrar(aula);
+                    }
+
+                    chamada.Aula = aula;
+                    chamada.Presenca = null;
+                    _chamadaService.Cadastrar(chamada);
+
+                    //incremento
+                    qtdAulas--;
+                }
+                diaAula = diaAula.AddDays(7);
             }
         }
     }

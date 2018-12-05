@@ -305,16 +305,16 @@
                                         <input asp-for="DispSala.Id" type="hidden" />
 
                                         <div class="row">
-                                            <div class="col-md-5">
+                                            <div class="col-lx-4 col-md-4">
                                                 <div class="form-group">
                                                     <label asp-for="RespFinanceiro.Nome"></label>
                                                     <input asp-for="RespFinanceiro.Nome" class="form-control" />
                                                     <span asp-validation-for="RespFinanceiro.Nome" class="text-danger"></span>
                                                 </div>
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-xl-2 col-md-3">
                                                 <div class="form-group">
-                                                    <label asp-for="RespFinanceiro.DataNascimento">Nascimento</label>
+                                                    <label asp-for="RespFinanceiro.DataNascimento"></label>
                                                     <input asp-for="RespFinanceiro.DataNascimento" class="form-control" type="date" />
                                                     <span asp-validation-for="RespFinanceiro.DataNascimento" class="text-danger"></span>
                                                 </div>
@@ -326,6 +326,11 @@
                                                     <span asp-validation-for="RespFinanceiro.RG" class="text-danger"></span>
                                                 </div>
                                             </div>
+                                            <div class="col-xl-2 col-md-3">
+                                                <label asp-for="RespFinanceiro.OrgaoExpedidor"></label>
+                                                <input asp-for="RespFinanceiro.OrgaoExpedidor" class="form-control" />
+                                                <span asp-validation-for="RespFinanceiro.OrgaoExpedidor" class="text-danger"></span>
+                                            </div>
                                             <div class="col-md-2">
                                                 <div class="form-group">
                                                     <label asp-for="RespFinanceiro.CPF"></label>
@@ -333,7 +338,14 @@
                                                     <span asp-validation-for="RespFinanceiro.CPF" class="text-danger"></span>
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label asp-for="RespFinanceiro.Endereco.CEP"></label>
+                                                    <input asp-for="RespFinanceiro.Endereco.CEP" class="form-control mask-cep" />
+                                                    <span asp-validation-for="RespFinanceiro.Endereco.CEP" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8">
                                                 <div class="form-group">
                                                     <label asp-for="RespFinanceiro.Endereco.Logradouro"></label>
                                                     <input asp-for="RespFinanceiro.Endereco.Logradouro" class="form-control" />
@@ -347,7 +359,7 @@
                                                     <span asp-validation-for="RespFinanceiro.Endereco.Numero" class="text-danger"></span>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-5">
                                                 <div class="form-group">
                                                     <label asp-for="RespFinanceiro.Endereco.Bairro"></label>
                                                     <input asp-for="RespFinanceiro.Endereco.Bairro" class="form-control" />
@@ -370,20 +382,13 @@
                                             </div>
                                             <div class="col-md-2">
                                                 <div class="form-group">
-                                                    <label asp-for="RespFinanceiro.Endereco.UF" class="col-md-12 control-label"></label>
+                                                    <label asp-for="RespFinanceiro.Endereco.UF" class="col-md-4 control-label"></label>
                                                     <div class="col-md-10">
                                                         <select asp-for="RespFinanceiro.Endereco.UF" class="form-control" asp-items="Html.GetEnumSelectList<UF>()">
                                                             <option selected="selected" value=""></option>
                                                         </select>
                                                         <span asp-validation-for="RespFinanceiro.Endereco.UF" class="text-danger" />
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <div class="form-group">
-                                                    <label asp-for="RespFinanceiro.Endereco.CEP"></label>
-                                                    <input asp-for="RespFinanceiro.Endereco.CEP" class="form-control mask-cep" />
-                                                    <span asp-validation-for="RespFinanceiro.Endereco.CEP" class="text-danger"></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
@@ -407,13 +412,46 @@
                                                     <span asp-validation-for="RespFinanceiro.Email" class="text-danger"></span>
                                                 </div>
                                             </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label asp-for="RespFinanceiro.Nacionalidade"></label>
+                                                    <input asp-for="RespFinanceiro.Nacionalidade" class="form-control" />
+                                                    <span asp-validation-for="RespFinanceiro.Nacionalidade" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label asp-for="RespFinanceiro.Naturalidade"></label>
+                                                    <input asp-for="RespFinanceiro.Naturalidade" class="form-control" />
+                                                    <span asp-validation-for="RespFinanceiro.Naturalidade" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-2 col-md-3">
+                                                <div class="form-group">
+                                                    <label asp-for="RespFinanceiro.EstadoCivil" class="col-md-10 control-label"></label>
+                                                    <div class="col-md-10">
+                                                        <select asp-for="RespFinanceiro.EstadoCivil" class="form-control" asp-items="Html.GetEnumSelectList<EstadoCivil>()">
+                                                            <option selected="selected" value=""></option>
+                                                        </select>
+                                                    </div>
+                                                    <span asp-validation-for="RespFinanceiro.EstadoCivil" class="text-danger" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label asp-for="RespFinanceiro.Profissao"></label>
+                                                    <input asp-for="RespFinanceiro.Profissao" class="form-control" />
+                                                    <span asp-validation-for="RespFinanceiro.Profissao" class="text-danger"></span>
+                                                </div>
+                                            </div>
+
 
                                         </div>
                                         <div class="row">
                                             <div class="form-group">
                                                 <div class="col-md-12">
                                                     <div class="checkbox">
-                                                        @if (Model.RespFinanceiro.Id == null)
+                                                        @if (Model == null)
                                                         {
                                                             <label asp-for="RespFinanceiro.Ativo">
                                                                 <input asp-for="RespFinanceiro.Ativo" checked />
