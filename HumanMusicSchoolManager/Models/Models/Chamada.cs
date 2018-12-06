@@ -14,7 +14,7 @@ namespace HumanMusicSchoolManager.Models.Models
         public int PacoteCompraId { get; set; }
         public PacoteCompra PacoteCompra { get; set; }
 
-        public int AulaId { get; set; }
+        public int? AulaId { get; set; }
         public Aula Aula { get; set; }
 
         public bool? Presenca { get; set; }

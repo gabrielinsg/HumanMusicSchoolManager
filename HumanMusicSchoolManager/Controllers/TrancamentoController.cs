@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using HumanMusicSchoolManager.Models.Models;
 using HumanMusicSchoolManager.Models.ViewModels;
@@ -63,6 +65,24 @@ namespace HumanMusicSchoolManager.Controllers
                 ModelState.AddModelError("DataFinal", "Data final não pode ser maior que a última aula do aluno que é dia " + pacoteCompra.Chamadas.OrderByDescending(c => c.Aula.Data).FirstOrDefault().Aula.Data.ToString("dd/MM/yyyy"));
             }
 
+            if (trancamento.DataInicial.DayOfWeek != (DayOfWeek)pacoteCompra.Matricula.DispSala.Dia)
+            {
+                ModelState.AddModelError("DataInicial", "Data Inicial deve ser " + pacoteCompra.Matricula.DispSala.Dia.GetType()
+                        .GetMember(pacoteCompra.Matricula.DispSala.Dia.ToString())
+                        .First()
+                        .GetCustomAttribute<DisplayAttribute>()
+                        .Name);
+            }
+
+            if (trancamento.DataFinal.DayOfWeek != (DayOfWeek)pacoteCompra.Matricula.DispSala.Dia)
+            {
+                ModelState.AddModelError("DataFinal", "Data Final deve ser " + pacoteCompra.Matricula.DispSala.Dia.GetType()
+                        .GetMember(pacoteCompra.Matricula.DispSala.Dia.ToString())
+                        .First()
+                        .GetCustomAttribute<DisplayAttribute>()
+                        .Name);
+            }
+
             if (ModelState.IsValid)
             {
 
@@ -114,6 +134,79 @@ namespace HumanMusicSchoolManager.Controllers
             {
                 return View(trancamento);
             }
+        }
+
+        public IActionResult ExcluirTrancamento(int? pacoteCompraId)
+        {
+
+            if (pacoteCompraId != null)
+            {
+                var pacoteCompra = _pacoteCompraService.BuscarPorId(pacoteCompraId.Value);
+                List<Aula> aulasAntigas = new List<Aula>();
+                if (pacoteCompra != null)
+                {
+                    var chamadas = pacoteCompra.Chamadas;
+
+                    foreach (var chamada in chamadas.Where(c => c.Presenca == null).ToList())
+                    {
+                        aulasAntigas.Add(chamada.Aula);
+                        chamadas[chamadas.IndexOf(chamada)].AulaId = null;
+                    }
+
+                    foreach (var chamada in chamadas.Where(c => c.AulaId == null).ToList())
+                    {
+                        var dataAula = chamadas.Where(c => c.Aula != null).OrderByDescending(c => c.Aula.Data).FirstOrDefault().Aula.Data;
+                        if (dataAula != null)
+                        {
+                            Feriado feriado = null;
+
+                            do
+                            {
+                                dataAula = dataAula.AddDays(7);
+                            } while (dataAula <= DateTime.Now);
+
+                            do
+                            {
+                                feriado = _feriadoService.BuscarPorData(dataAula);
+                                if (feriado != null)
+                                {
+                                    dataAula = dataAula.AddDays(7);
+                                }
+                            } while (feriado != null);
+
+                            var aula = _aulaService.BuscarPorDiaHora(dataAula);
+                            if (aula == null)
+                            {
+
+                                aula = new Aula()
+                                {
+                                    CursoId = chamada.PacoteCompra.Matricula.CursoId,
+                                    ProfessorId = chamada.PacoteCompra.Matricula.DispSala.Professor.Id.Value,
+                                    SalaId = chamada.PacoteCompra.Matricula.DispSala.Sala.Id.Value,
+                                    Data = dataAula,
+                                    DataLimite = dataAula.AddDays(3)
+                                };
+                                _aulaService.Cadastrar(aula);
+                            }
+                            chamada.AulaId = aula.Id.Value;
+                            _chamadaService.Alterar(chamada);
+                        }
+                    }
+
+                    foreach (var aulaAntiga in aulasAntigas)
+                    {
+                        if (aulaAntiga.Chamadas.Count == 0 && aulaAntiga.Demostrativas.Count == 0)
+                        {
+                            _aulaService.Excluir(aulaAntiga.Id.Value);
+                        }
+                    }
+                    TempData["Success"] = "Cancelamento do trancamento feito com sucesso. Acesso o calendário para conferir o calendário.";
+                    return RedirectToAction("Aluno", "Aluno", new { alunoId = pacoteCompra.Matricula.AlunoId });
+                }
+            }
+
+            TempData["Error"] = "Pacote de aula não encontrado";
+            return RedirectToAction("Index", "Aluno");
         }
     }
 }
