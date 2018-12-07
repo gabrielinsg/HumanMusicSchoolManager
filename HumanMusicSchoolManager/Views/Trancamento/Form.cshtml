@@ -1,0 +1,38 @@
+﻿@model Trancamento
+
+@{
+    ViewData["Title"] = "Form";
+}
+
+<h2>Trancamento</h2>
+
+<hr />
+<div class="row">
+    <div class="col-xl-2 col-md-3">
+        <form asp-action="Form" method="post">
+            <input asp-for="PacoteCompraId" value="@ViewBag.PacoteCompra.Id" type="hidden" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DataInicial" class="control-label"></label>
+                <input asp-for="DataInicial" type="date" class="form-control" />
+                <span asp-validation-for="DataInicial" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DataFinal" class="control-label"></label>
+                <input asp-for="DataFinal" type="date" class="form-control" />
+                <span asp-validation-for="DataFinal" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Trancar" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

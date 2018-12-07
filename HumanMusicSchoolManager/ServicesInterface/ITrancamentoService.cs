@@ -13,5 +13,6 @@ namespace HumanMusicSchoolManager.ServicesInterface
         Trancamento BuscarPorId(int trancamentoId);
         List<Trancamento> BuscarTodos();
         List<Trancamento> BuscarEntreDatas(DateTime dataInicial, DateTime dataFinal);
+        void Excluir(int trancamentoId);
     }
 }

@@ -43,5 +43,16 @@ namespace HumanMusicSchoolManager.Services
             _context.Trancamentos.Add(trancamento);
             _context.SaveChanges();
         }
+
+        public void Excluir(int trancamentoId)
+        {
+            var trancamento = _context.Trancamentos.FirstOrDefault(t => t.Id == trancamentoId);
+
+            if (trancamento != null)
+            {
+                _context.Trancamentos.Remove(trancamento);
+                _context.SaveChanges();
+            }
+        }
     }
 }

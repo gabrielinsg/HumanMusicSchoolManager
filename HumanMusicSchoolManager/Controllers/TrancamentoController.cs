@@ -40,14 +40,21 @@ namespace HumanMusicSchoolManager.Controllers
                 var pacoteCompra = _pacoteCompraService.BuscarPorId(pacoteCompraId.Value);
                 if (pacoteCompra != null)
                 {
-                    if (pacoteCompra.Trancamento != null)
+                    if (pacoteCompra.Trancamento == null)
                     {
-                        ViewBag.PacoteCompra = pacoteCompra;
-                        return View();
+                        if (pacoteCompra.Chamadas.FirstOrDefault(c => c.Presenca != null) != null)
+                        {
+                            ViewBag.PacoteCompra = pacoteCompra;
+                            return View();
+                        }
+
+                        TempData["Warning"] = "Para trancamento é preciso ter feito pelo menos uma aula";
+                        return RedirectToAction("Aluno", "Aluno", new { alunoId = pacoteCompra.Matricula.AlunoId });
+
                     }
                     else
                     {
-                        TempData["Error"] = "Aluno já fez trancamento para esse pacote de aula";
+                        TempData["Warning"] = "Aluno já fez trancamento para esse pacote de aula";
                         return RedirectToAction("Aluno", "Aluno", new { alunoId = pacoteCompra.Matricula.AlunoId });
                     }
                 }
@@ -85,7 +92,7 @@ namespace HumanMusicSchoolManager.Controllers
 
             if (ModelState.IsValid)
             {
-
+                trancamento.DataFinal = trancamento.DataFinal.AddHours(23);
                 List<Chamada> chamadas = pacoteCompra.Chamadas.Where(c => (c.Aula.Data >= trancamento.DataInicial && c.Aula.Data <= trancamento.DataFinal) && c.Presenca == null).ToList();
                 foreach (var chamada in chamadas)
                 {
@@ -132,6 +139,7 @@ namespace HumanMusicSchoolManager.Controllers
             }
             else
             {
+                ViewBag.PacoteCompra = pacoteCompra;
                 return View(trancamento);
             }
         }
@@ -153,9 +161,10 @@ namespace HumanMusicSchoolManager.Controllers
                         chamadas[chamadas.IndexOf(chamada)].AulaId = null;
                     }
 
+                    var dataAula = chamadas.OrderByDescending(c => c.Aula.Data).FirstOrDefault(c => c.Presenca != null).Aula.Data;
+
                     foreach (var chamada in chamadas.Where(c => c.AulaId == null).ToList())
                     {
-                        var dataAula = chamadas.Where(c => c.Aula != null).OrderByDescending(c => c.Aula.Data).FirstOrDefault().Aula.Data;
                         if (dataAula != null)
                         {
                             Feriado feriado = null;
@@ -190,17 +199,31 @@ namespace HumanMusicSchoolManager.Controllers
                             }
                             chamada.AulaId = aula.Id.Value;
                             _chamadaService.Alterar(chamada);
+                            dataAula = dataAula.AddDays(7);
                         }
                     }
 
                     foreach (var aulaAntiga in aulasAntigas)
                     {
-                        if (aulaAntiga.Chamadas.Count == 0 && aulaAntiga.Demostrativas.Count == 0)
+                        if (aulaAntiga != null)
                         {
-                            _aulaService.Excluir(aulaAntiga.Id.Value);
+                            var aula = _aulaService.BuscarPorId(aulaAntiga.Id.Value);
+                            if (aula.Chamadas == null)
+                            {
+                                aula.Chamadas = new List<Chamada>();
+                            }
+                            if (aula.Demostrativas == null)
+                            {
+                                aula.Demostrativas = new List<Demostrativa>();
+                            }
+                            if (aula.Chamadas.Count == 0 && aula.Demostrativas.Count == 0)
+                            {
+                                _aulaService.Excluir(aula.Id.Value);
+                            }
                         }
                     }
-                    TempData["Success"] = "Cancelamento do trancamento feito com sucesso. Acesso o calendário para conferir o calendário.";
+                    _trancamentoService.Excluir(pacoteCompra.Trancamento.Id.Value);
+                    TempData["Success"] = "Cancelamento do trancamento feito com sucesso. Acesse o calendário para conferir as aulas.";
                     return RedirectToAction("Aluno", "Aluno", new { alunoId = pacoteCompra.Matricula.AlunoId });
                 }
             }
