@@ -117,16 +117,22 @@ namespace HumanMusicSchoolManager.Controllers
             }
             else
             {
-                foreach (var financeiro in matriculaViewModel.Financeiros)
+                if (matriculaViewModel.Financeiros != null)
                 {
-                    financeiro.Pessoa = pessoa;
+                    foreach (var financeiro in matriculaViewModel.Financeiros)
+                    {
+                        financeiro.Pessoa = pessoa;
+                    }
+
+                    foreach (var financeiro in matriculaViewModel.Financeiros)
+                    {
+                        financeiro.UltimaAlteracao = DateTime.Now;
+                    }
                 }
+
             }
 
-            foreach (var financeiro in matriculaViewModel.Financeiros)
-            {
-                financeiro.UltimaAlteracao = DateTime.Now;
-            }
+            
 
             if (matriculaViewModel.Aluno.Id == null)
             {
@@ -136,9 +142,13 @@ namespace HumanMusicSchoolManager.Controllers
             {
                 matriculaViewModel.Aluno = _alunoService.BuscarPorId(matriculaViewModel.Aluno.Id.Value);
                 matriculaViewModel.Matricula.Aluno = _alunoService.BuscarPorId(matriculaViewModel.Aluno.Id.Value);
-                foreach (var financeiro in matriculaViewModel.Financeiros)
+
+                if (matriculaViewModel.Financeiros != null)
                 {
-                    financeiro.Aluno = _alunoService.BuscarPorId(matriculaViewModel.Aluno.Id.Value);
+                    foreach (var financeiro in matriculaViewModel.Financeiros)
+                    {
+                        financeiro.Aluno = _alunoService.BuscarPorId(matriculaViewModel.Aluno.Id.Value);
+                    }
                 }
             }
 
@@ -173,7 +183,7 @@ namespace HumanMusicSchoolManager.Controllers
             }
 
             matriculaViewModel.TaxasMatricula = _taxaMatriculaService.BuscarTodos();
-            matriculaViewModel.DispSalas = _dispSalaService.BuscarTodos();
+            matriculaViewModel.DispSalas = _dispSalaService.HorariosDisponiveis();
             matriculaViewModel.Cursos = _cursoService.BuscarTodos();
 
             if (ModelState.IsValid)
@@ -181,22 +191,26 @@ namespace HumanMusicSchoolManager.Controllers
                 matriculaViewModel.Matricula.Ativo = true;
                 matriculaViewModel.Matricula.DataMatricula = DateTime.Now;
                 _matriculaService.Cadastrar(matriculaViewModel.Matricula);
-                foreach (var financeiro in matriculaViewModel.Financeiros)
+                if (matriculaViewModel.Financeiros != null)
                 {
+                    foreach (var financeiro in matriculaViewModel.Financeiros)
+                    {
 
-                    decimal? desconto = 0;
-                    if (financeiro.Desconto != null)
-                    {
-                        desconto = financeiro.Desconto;
+                        decimal? desconto = 0;
+                        if (financeiro.Desconto != null)
+                        {
+                            desconto = financeiro.Desconto;
+                        }
+                        var valor = financeiro.Valor - desconto;
+                        if (financeiro.FormaPagamento == FormaPagamento.DEBITO || financeiro.FormaPagamento == FormaPagamento.CREDITO)
+                        {
+                            financeiro.ValorPago = valor;
+                            financeiro.DataPagamento = DateTime.Now;
+                        }
+                        _financeiroService.Cadastrar(financeiro);
                     }
-                    var valor = financeiro.Valor - desconto;
-                    if (financeiro.FormaPagamento == FormaPagamento.DEBITO || financeiro.FormaPagamento == FormaPagamento.CREDITO)
-                    {
-                        financeiro.ValorPago = valor;
-                        financeiro.DataPagamento = DateTime.Now;
-                    }
-                    _financeiroService.Cadastrar(financeiro);
                 }
+                
                 return RedirectToAction("Aluno", "Aluno", new { alunoId = matriculaViewModel.Aluno.Id });
             }
             else
