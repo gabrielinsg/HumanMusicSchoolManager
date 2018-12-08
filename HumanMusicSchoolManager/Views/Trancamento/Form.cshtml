@@ -1,4 +1,4 @@
-﻿@model Trancamento
+﻿@model TrancamentoViewModel
 
 @{
     ViewData["Title"] = "Form";
@@ -7,32 +7,62 @@
 <h2>Trancamento</h2>
 
 <hr />
-<div class="row">
-    <div class="col-xl-2 col-md-3">
-        <form asp-action="Form" method="post">
-            <input asp-for="PacoteCompraId" value="@ViewBag.PacoteCompra.Id" type="hidden" />
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="DataInicial" class="control-label"></label>
-                <input asp-for="DataInicial" type="date" class="form-control" />
-                <span asp-validation-for="DataInicial" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DataFinal" class="control-label"></label>
-                <input asp-for="DataFinal" type="date" class="form-control" />
-                <span asp-validation-for="DataFinal" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Trancar" class="btn btn-default" />
-            </div>
-        </form>
-    </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+@if (Model.PacoteCompra.Trancamento == null)
+{
+    <div class="row">
+        <div class="col-xl-2 col-md-3">
+            <form asp-action="Form" method="post">
+                <input asp-for="Trancamento.PacoteCompraId" value="@Model.PacoteCompra.Id" type="hidden" />
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Trancamento.DataInicial" class="control-label"></label>
+                    <input asp-for="Trancamento.DataInicial" type="date" class="form-control" />
+                    <span asp-validation-for="Trancamento.DataInicial" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Trancamento.DataFinal" class="control-label"></label>
+                    <input asp-for="Trancamento.DataFinal" type="date" class="form-control" />
+                    <span asp-validation-for="Trancamento.DataFinal" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Trancar" class="btn btn-success" />
+                    <a asp-controller="Aluno" asp-action="Aluno" asp-route-alunoId="@Model.PacoteCompra.Matricula.AlunoId" class="btn btn-primary" role="button">Voltar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+else
+{
+    <p>Trancamento realizado dia @Model.PacoteCompra.Trancamento.Data.ToString("dd/MM/yyyy") </p>
+    <p>Aluno ausênte do dia @Model.PacoteCompra.Trancamento.DataInicial.ToString("dd/MM/yyyy") até dia @Model.PacoteCompra.Trancamento.DataFinal.ToString("dd/MM/yyyy")</p>
+    <p>Volta às aulas dia @Model.PacoteCompra.Chamadas.OrderBy(c => c.Aula.Data).FirstOrDefault(c => c.Presenca == null && c.Aula.Data > c.PacoteCompra.Trancamento.DataFinal).Aula.Data.ToString("dd/MM/yyyy")</p>
+    <a asp-action="ExcluirTrancamento" id="cancelarTrancamento" asp-route-pacoteCompraId="@Model.PacoteCompra.Id" class="btn btn-primary">Cancelar o trancamento</a>
+}
+
+
+
+
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $("a#cancelarTrancamento").click(function () {
+            var cf = confirm("Tem certeza que deseja cancelar o trancamento?");
+            if (cf == true) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        });
+
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+
+        });
+
+    </script>
 }

@@ -22,6 +22,7 @@ namespace HumanMusicSchoolManager.Controllers
         private readonly IFeriadoService _feriadoService;
         private readonly IAulaService _aulaService;
         private readonly IChamadaService _chamadaService;
+        private readonly IRelatorioMatriculaService _relatorioMatriculaService;
 
         public PacoteCompraController(IPacoteCompraService pacoteCompraService,
             IMatriculaService matriculaService,
@@ -31,7 +32,8 @@ namespace HumanMusicSchoolManager.Controllers
             IFinanceiroService financeiroService,
             IFeriadoService feriadoService,
             IAulaService aulaService,
-            IChamadaService chamadaService)
+            IChamadaService chamadaService,
+            IRelatorioMatriculaService relatorioMatriculaService)
         {
             this._pacoteCompraService = pacoteCompraService;
             this._matriculaService = matriculaService;
@@ -42,6 +44,7 @@ namespace HumanMusicSchoolManager.Controllers
             this._feriadoService = feriadoService;
             this._aulaService = aulaService;
             this._chamadaService = chamadaService;
+            this._relatorioMatriculaService = relatorioMatriculaService;
         }
 
         [HttpGet]
@@ -165,6 +168,23 @@ namespace HumanMusicSchoolManager.Controllers
                     pacoteCompraViewModel.Matricula.DispSala.Hora,
                     pacoteCompraViewModel.Matricula,
                     pacoteCompraViewModel.PacoteCompra);
+
+                var relatorioMatricula = new RelatorioMatricula
+                {
+                    PessoaId = _pessoaService.GetUser(User.Identity.Name).Id.Value,
+                    MatriculaId = pacoteCompraViewModel.PacoteCompra.Matricula.Id.Value,
+                    Data = DateTime.Now
+                };
+
+                string descricao = "Pacote " + pacoteCompraViewModel.PacoteAula.Nome + " adquirido por " + 
+                    ((decimal)(pacoteCompraViewModel.PacoteCompra.PacoteAula.Valor - desconto)).ToString("R$ #,###.00") +
+                    " em " + pacoteCompraViewModel.PacoteCompra.QtdParcela + " no " + pacoteCompraViewModel.FormaPagamento.GetType()
+                        .GetMember(pacoteCompraViewModel.FormaPagamento.ToString())
+                        .First()
+                        .GetCustomAttribute<DisplayAttribute>()
+                        .GetName();
+                relatorioMatricula.Descricao = descricao;
+                _relatorioMatriculaService.Cadastrar(relatorioMatricula);
 
                 return RedirectToAction("Aluno", "Aluno", new { alunoId = pacoteCompraViewModel.Matricula.Aluno.Id.Value });
             }

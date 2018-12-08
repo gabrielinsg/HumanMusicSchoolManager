@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using HumanMusicSchoolManager.Models;
 using HumanMusicSchoolManager.Models.Models;
@@ -26,6 +28,7 @@ namespace HumanMusicSchoolManager.Controllers
         private readonly IPessoaService _pessoaService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IFinanceiroService _financeiroService;
+        private readonly IRelatorioMatriculaService _relatorioMatriculaService;
 
         public MatriculaController(IMatriculaService matriculaService,
             IAlunoService alunoService,
@@ -36,7 +39,8 @@ namespace HumanMusicSchoolManager.Controllers
             ITaxaMatriculaService taxaMatriculaService,
             IPessoaService pessoaService,
             IFinanceiroService financeiroService,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            IRelatorioMatriculaService relatorioMatriculaService)
         {
             this._matriculaService = matriculaService;
             this._alunoService = alunoService;
@@ -48,6 +52,7 @@ namespace HumanMusicSchoolManager.Controllers
             this._pessoaService = pessoaService;
             this._userManager = userManager;
             this._financeiroService = financeiroService;
+            this._relatorioMatriculaService = relatorioMatriculaService;
         }
 
         [HttpGet]
@@ -191,6 +196,21 @@ namespace HumanMusicSchoolManager.Controllers
                 matriculaViewModel.Matricula.Ativo = true;
                 matriculaViewModel.Matricula.DataMatricula = DateTime.Now;
                 _matriculaService.Cadastrar(matriculaViewModel.Matricula);
+                var relatorioMatricula = new RelatorioMatricula
+                {
+                    PessoaId = _pessoaService.GetUser(User.Identity.Name).Id.Value,
+                    MatriculaId = matriculaViewModel.Matricula.Id.Value,
+                    Data = DateTime.Now
+                };
+                string descricao = "Matricula no curso de "
+                    + matriculaViewModel.Matricula.Curso.Nome + " com " + matriculaViewModel.DispSala.Professor.Nome +
+                    " na sala " + matriculaViewModel.DispSala.Sala.Nome + " " + matriculaViewModel.DispSala.Dia.GetType()
+                        .GetMember(matriculaViewModel.DispSala.Dia.ToString())
+                        .First()
+                        .GetCustomAttribute<DisplayAttribute>()
+                        .GetName() + " às " + matriculaViewModel.DispSala.Hora.ToString("00:'00'h");
+                relatorioMatricula.Descricao = descricao;
+                _relatorioMatriculaService.Cadastrar(relatorioMatricula);
                 if (matriculaViewModel.Financeiros != null)
                 {
                     foreach (var financeiro in matriculaViewModel.Financeiros)

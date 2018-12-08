@@ -36,6 +36,16 @@
     <Compile Remove="Migrations\20181202231847_FinanceiroDataPagamento.Designer.cs" />
     <Compile Remove="Migrations\20181203222541_Trancamento.cs" />
     <Compile Remove="Migrations\20181203222541_Trancamento.Designer.cs" />
+    <Compile Remove="Migrations\20181208133821_TrancamentoPessoaData.cs" />
+    <Compile Remove="Migrations\20181208133821_TrancamentoPessoaData.Designer.cs" />
+    <Compile Remove="Migrations\20181208153824_PacoteCompraPessoa.cs" />
+    <Compile Remove="Migrations\20181208153824_PacoteCompraPessoa.Designer.cs" />
+    <Compile Remove="Migrations\20181208154026_PacoteCompraPessoa.cs" />
+    <Compile Remove="Migrations\20181208154026_PacoteCompraPessoa.Designer.cs" />
+    <Compile Remove="Migrations\20181208154322_PacoteCompraPessoa.cs" />
+    <Compile Remove="Migrations\20181208154322_PacoteCompraPessoa.Designer.cs" />
+    <Compile Remove="Migrations\20181208154628_PacoteCompraPessoa.cs" />
+    <Compile Remove="Migrations\20181208154628_PacoteCompraPessoa.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

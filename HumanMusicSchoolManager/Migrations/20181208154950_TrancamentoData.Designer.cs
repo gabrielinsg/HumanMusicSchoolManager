@@ -4,14 +4,16 @@ using HumanMusicSchoolManager.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HumanMusicSchoolManager.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181208154950_TrancamentoData")]
+    partial class TrancamentoData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -526,29 +528,6 @@ namespace HumanMusicSchoolManager.Migrations
                     b.HasDiscriminator<string>("Discriminator").HasValue("Pessoa");
                 });
 
-            modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.RelatorioMatricula", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("Data");
-
-                    b.Property<string>("Descricao");
-
-                    b.Property<int>("MatriculaId");
-
-                    b.Property<int>("PessoaId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MatriculaId");
-
-                    b.HasIndex("PessoaId");
-
-                    b.ToTable("RelatorioMatriculas");
-                });
-
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Reposicao", b =>
                 {
                     b.Property<int?>("Id")
@@ -960,19 +939,6 @@ namespace HumanMusicSchoolManager.Migrations
                         .WithMany()
                         .HasForeignKey("EnderecoId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.RelatorioMatricula", b =>
-                {
-                    b.HasOne("HumanMusicSchoolManager.Models.Models.Matricula", "Matricula")
-                        .WithMany()
-                        .HasForeignKey("MatriculaId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("HumanMusicSchoolManager.Models.Models.Pessoa", "Pessoa")
-                        .WithMany()
-                        .HasForeignKey("PessoaId")
-                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Reposicao", b =>

@@ -20,5 +20,7 @@ namespace HumanMusicSchoolManager.Models.Models
 
         public int PacoteCompraId { get; set; }
         public PacoteCompra PacoteCompra { get; set; }
+
+        public DateTime Data { get; set; }
     }
 }

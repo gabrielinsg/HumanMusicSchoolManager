@@ -18,18 +18,24 @@ namespace HumanMusicSchoolManager.Controllers
         private readonly IAulaService _aulaService;
         private readonly IFeriadoService _feriadoService;
         private readonly IChamadaService _chamadaService;
+        private readonly IPessoaService _pessoaService;
+        private readonly IRelatorioMatriculaService _relatorioMatriculaService;
 
         public TrancamentoController(ITrancamentoService trancamentoService,
             IPacoteCompraService pacoteCompraService,
             IAulaService aulaService,
             IFeriadoService feriadoService,
-            IChamadaService chamadaService)
+            IChamadaService chamadaService,
+            IPessoaService pessoaService,
+            IRelatorioMatriculaService relatorioMatriculaService)
         {
             this._trancamentoService = trancamentoService;
             this._pacoteCompraService = pacoteCompraService;
             this._aulaService = aulaService;
             this._feriadoService = feriadoService;
             this._chamadaService = chamadaService;
+            this._pessoaService = pessoaService;
+            this._relatorioMatriculaService = relatorioMatriculaService;
         }
 
         [HttpGet]
@@ -40,23 +46,14 @@ namespace HumanMusicSchoolManager.Controllers
                 var pacoteCompra = _pacoteCompraService.BuscarPorId(pacoteCompraId.Value);
                 if (pacoteCompra != null)
                 {
-                    if (pacoteCompra.Trancamento == null)
-                    {
-                        if (pacoteCompra.Chamadas.FirstOrDefault(c => c.Presenca != null) != null)
-                        {
-                            ViewBag.PacoteCompra = pacoteCompra;
-                            return View();
-                        }
 
-                        TempData["Warning"] = "Para trancamento é preciso ter feito pelo menos uma aula";
-                        return RedirectToAction("Aluno", "Aluno", new { alunoId = pacoteCompra.Matricula.AlunoId });
-
-                    }
-                    else
+                    if (pacoteCompra.Chamadas.FirstOrDefault(c => c.Presenca != null) != null)
                     {
-                        TempData["Warning"] = "Aluno já fez trancamento para esse pacote de aula";
-                        return RedirectToAction("Aluno", "Aluno", new { alunoId = pacoteCompra.Matricula.AlunoId });
+                        return View(new TrancamentoViewModel(pacoteCompra));
                     }
+
+                    TempData["Warning"] = "Para trancamento é preciso ter feito pelo menos uma aula";
+                    return RedirectToAction("Aluno", "Aluno", new { alunoId = pacoteCompra.Matricula.AlunoId });
                 }
             }
             TempData["Error"] = "Não foi possível localizar o pacote";
@@ -138,17 +135,30 @@ namespace HumanMusicSchoolManager.Controllers
                     _chamadaService.Alterar(chamada);
 
                 }
-
+                trancamento.Data = DateTime.Now;
                 _trancamentoService.Cadastrar(trancamento);
 
+                var relatorioMatricula = new RelatorioMatricula
+                {
+                    PessoaId = _pessoaService.GetUser(User.Identity.Name).Id.Value,
+                    MatriculaId = pacoteCompra.Matricula.Id.Value,
+                    Data = DateTime.Now
+                };
+                string descricao = "Trancamento feito do dia " + trancamento.DataInicial.ToString("dd/MM/yyyy") + " até dia " +
+                    trancamento.DataFinal.ToString("dd/MM/yyyy");
+                relatorioMatricula.Descricao = descricao;
+
+                _relatorioMatriculaService.Cadastrar(relatorioMatricula);
+                
                 TempData["Success"] = "Trancamento realizado com sucesso.";
 
                 return RedirectToAction("Aluno", "Aluno", new { alunoId = pacoteCompra.Matricula.AlunoId });
             }
             else
             {
-                ViewBag.PacoteCompra = pacoteCompra;
-                return View(trancamento);
+                
+
+                return View(new TrancamentoViewModel(trancamento, pacoteCompra));
             }
         }
 
@@ -165,6 +175,18 @@ namespace HumanMusicSchoolManager.Controllers
                 {
                     _trancamentoService.Excluir(pacoteCompra.Trancamento.Id.Value);
                 }
+
+                var relatorioMatricula = new RelatorioMatricula
+                {
+                    PessoaId = _pessoaService.GetUser(User.Identity.Name).Id.Value,
+                    MatriculaId = pacoteCompra.Matricula.Id.Value,
+                    Data = DateTime.Now
+                };
+                string descricao = "Trancamento cancelado";
+                relatorioMatricula.Descricao = descricao;
+
+                _relatorioMatriculaService.Cadastrar(relatorioMatricula);
+
                 TempData["Success"] = "Trancamento Excluido com sucesso. Favor verificar o calendário";
                 return RedirectToAction("Aluno", "Aluno", new { alunoId = pacoteCompra.Matricula.AlunoId });
             }
