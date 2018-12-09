@@ -34,5 +34,7 @@ namespace HumanMusicSchoolManager.Models.Models
         public List<Chamada> Chamadas { get; set; }
 
         public Trancamento Trancamento { get; set; }
+
+        public List<Financeiro> Financeiros { get; set; }
     }
 }

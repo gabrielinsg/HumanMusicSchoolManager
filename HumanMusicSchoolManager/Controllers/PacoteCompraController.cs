@@ -23,6 +23,7 @@ namespace HumanMusicSchoolManager.Controllers
         private readonly IAulaService _aulaService;
         private readonly IChamadaService _chamadaService;
         private readonly IRelatorioMatriculaService _relatorioMatriculaService;
+        private readonly IReposicaoService _reposicaoService;
 
         public PacoteCompraController(IPacoteCompraService pacoteCompraService,
             IMatriculaService matriculaService,
@@ -33,7 +34,8 @@ namespace HumanMusicSchoolManager.Controllers
             IFeriadoService feriadoService,
             IAulaService aulaService,
             IChamadaService chamadaService,
-            IRelatorioMatriculaService relatorioMatriculaService)
+            IRelatorioMatriculaService relatorioMatriculaService,
+            IReposicaoService reposicaoService)
         {
             this._pacoteCompraService = pacoteCompraService;
             this._matriculaService = matriculaService;
@@ -45,6 +47,7 @@ namespace HumanMusicSchoolManager.Controllers
             this._aulaService = aulaService;
             this._chamadaService = chamadaService;
             this._relatorioMatriculaService = relatorioMatriculaService;
+            this._reposicaoService = reposicaoService;
         }
 
         [HttpGet]
@@ -383,6 +386,88 @@ namespace HumanMusicSchoolManager.Controllers
                 }
                 diaAula = diaAula.AddDays(7);
             }
+        }
+
+        [HttpGet]
+        public IActionResult CancelarPacote(int? pacoteCompraId)
+        {
+
+            if (pacoteCompraId != null)
+            {
+                var pacoteCompra = _pacoteCompraService.BuscarPorId(pacoteCompraId.Value);
+                if (pacoteCompra != null)
+                {
+
+                    if (pacoteCompra.Chamadas.Any(c => c.Presenca == null))
+                    {
+                        return View(new CancelarPacoteViewModel(pacoteCompra));
+                    }
+                    else
+                    {
+                        TempData["Info"] = "Não existem aulas em aberto para realizar o cancelamento do pacote";
+                        return RedirectToAction("Aluno", "Aluno", new { alunoId = pacoteCompra.Matricula.AlunoId });
+                    }
+                    
+                }
+            }
+
+            TempData["Error"] = "Pacote de compra não encontrado!";
+            return RedirectToAction("Index", "Aluno");
+        }
+
+        public IActionResult CancelarPacote(CancelarPacoteViewModel cancelarPacoteViewModel)
+        {
+            var pacoteCompra = _pacoteCompraService.BuscarPorId(cancelarPacoteViewModel.PacoteCompra.Id.Value);
+
+            var totalContratado = pacoteCompra.Financeiros.Sum(f => f.Valor);
+            var valorPorAula = totalContratado / pacoteCompra.Chamadas.Count(pc => pc.Reposicao == null);
+            var valorGasto = valorPorAula * pacoteCompra.Chamadas.Count(pc => pc.Presenca != null);
+            var totalPago = pacoteCompra.Financeiros.Sum(f => f.ValorPago);
+            var subTotal = valorGasto - totalPago;
+            var total = subTotal + cancelarPacoteViewModel.Multa - cancelarPacoteViewModel.Desconto;
+
+            foreach (var chamada in pacoteCompra.Chamadas.Where(c => c.Presenca == null).ToList())
+            {
+                if (chamada.Reposicao != null)
+                {
+                    _reposicaoService.Excluir(chamada.Reposicao.Id.Value);
+                }
+                var aulaAntiga = chamada.Aula;
+                _chamadaService.Excluir(chamada.Id.Value);
+                aulaAntiga = _aulaService.BuscarPorId(aulaAntiga.Id.Value);
+                if (aulaAntiga.Chamadas.Count == 0 && aulaAntiga.Demostrativas.Count == 0)
+                {
+                    _aulaService.Excluir(aulaAntiga.Id.Value);
+                }
+            }
+
+            foreach (var fin in pacoteCompra.Financeiros.Where(f => f.ValorPago == null))
+            {
+                _financeiroService.Excluir(fin.Id.Value);
+            }
+
+            var financeiro = new Financeiro()
+            {
+                Aluno = pacoteCompra.Matricula.Aluno,
+                Nome = "Cancelamento do Pacote do curso de " + pacoteCompra.Matricula.Curso.Nome,
+                UltimaAlteracao = DateTime.Now,
+                FormaPagamento = cancelarPacoteViewModel.FormaPagamento,
+                Pessoa = _pessoaService.GetUser(User.Identity.Name),
+                Valor = Math.Round(subTotal.Value, 2),
+                Multa = cancelarPacoteViewModel.Multa,
+                Desconto = cancelarPacoteViewModel.Desconto,
+                DataVencimento = DateTime.Now,
+                PacoteCompra = pacoteCompra
+            };
+            if (financeiro.FormaPagamento == FormaPagamento.DEBITO || financeiro.FormaPagamento == FormaPagamento.CREDITO)
+            {
+                financeiro.ValorPago = total;
+                financeiro.DataPagamento = DateTime.Now;
+            }
+            _financeiroService.Cadastrar(financeiro);
+
+            TempData["Success"] = "Cancelamento efetuado com sucesso";
+            return RedirectToAction("Aluno", "Aluno", new { alunoId = pacoteCompra.Matricula.AlunoId });
         }
     }
 }

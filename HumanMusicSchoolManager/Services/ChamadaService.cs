@@ -47,5 +47,15 @@ namespace HumanMusicSchoolManager.Services
             _context.Add(chamada);
             _context.SaveChanges();
         }
+
+        public void Excluir(int chamadaId)
+        {
+            var chamada = _context.Chamadas.FirstOrDefault(c => c.Id == chamadaId);
+            if (chamada != null)
+            {
+                _context.Chamadas.Remove(chamada);
+                _context.SaveChanges();
+            }
+        }
     }
 }

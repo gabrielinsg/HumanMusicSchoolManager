@@ -51,5 +51,15 @@ namespace HumanMusicSchoolManager.Services
             _context.Reposicoes.Add(reposicao);
             _context.SaveChanges();
         }
+
+        public void Excluir(int reposicaoId)
+        {
+            var reposicao = _context.Reposicoes.FirstOrDefault(r => r.Id == reposicaoId);
+            if (reposicao != null)
+            {
+                _context.Reposicoes.Remove(reposicao);
+                _context.SaveChanges();
+            }
+        }
     }
 }

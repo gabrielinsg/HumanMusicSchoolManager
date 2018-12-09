@@ -13,5 +13,6 @@ namespace HumanMusicSchoolManager.ServicesInterface
         List<Reposicao> BuscarTodos();
         Reposicao BuscarPorId(int reposicaoId);
         Reposicao BuscarPorChamada(int chamadaId);
+        void Excluir(int reposicaoId);
     }
 }

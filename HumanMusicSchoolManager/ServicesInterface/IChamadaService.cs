@@ -11,5 +11,6 @@ namespace HumanMusicSchoolManager.ServicesInterface
         void Cadastrar(Chamada chamada);
         void Alterar(Chamada chamada);
         Chamada BuscarPorId(int chamadaId);
+        void Excluir(int chamadaId);
     }
 }
