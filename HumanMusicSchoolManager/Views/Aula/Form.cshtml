@@ -216,10 +216,11 @@
                                     <input name="Estrelas[@i]" @(Model.Demostrativas[i].Estrelas == 1 ? "checked" : "") type="radio" id="Dstar1@(Model.Demostrativas[i].Id)" value="1" /><label for="Dstar1@(Model.Demostrativas[i].Id)" title="1 star"></label>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-12">
                                 <div class="form-group">
                                     <label asp-for="Demostrativas[i].Observacao"></label>
-                                    <input asp-for="Demostrativas[i].Observacao" class="form-control" />
+                                    <textarea asp-for="Demostrativas[i].Observacao" rows="5" cols="10">
+                                    </textarea>
                                     <span asp-validation-for="Demostrativas[i].Observacao" class="text-danger"></span>
                                 </div>
                             </div>
@@ -227,6 +228,7 @@
                     </div>
                 </div>
             }
+            <br />
             <button type="submit" class="btn btn-success col-md-4">Lançar</button>
         </form>
     </div>
@@ -239,6 +241,10 @@
         // Replace the <textarea id="editor1"> with a CKEditor
         // instance, using default configuration.
         CKEDITOR.replace('DescAtividades');
+        @for(var i = 0; i < Model.Demostrativas.Count; i++)
+        {
+            <text>CKEDITOR.replace('Demostrativas_@(i)__Observacao')</Text>
+        }
     </script>
     <script src="~/js/Aula.js"></script>
 }

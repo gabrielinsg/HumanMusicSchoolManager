@@ -3,8 +3,6 @@
     ViewData["Title"] = "Form";
 }
 
-<div asp-validation-summary="All"></div>
-
 <div class="row">
     <div class="col-md-11">
         <h2 class="col-md-10">@ViewBag.Aluno.Nome - Financeiro</h2>
@@ -32,36 +30,36 @@
                 <div class="col-md-2">
                     <div class="form-group">
                         <label asp-for="Valor"></label>
-                        <input asp-for="Valor" class="form-control" />
-                        <span asp-validation-for="Valor"></span>
+                        <input asp-for="Valor"zzz class="form-control" />
+                        <span asp-validation-for="Valor" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="form-group">
                         <label asp-for="Desconto"></label>
                         <input asp-for="Desconto" class="form-control" />
-                        <span asp-validation-for="Desconto"></span>
+                        <span asp-validation-for="Desconto" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="form-group">
                         <label asp-for="Multa"></label>
                         <input asp-for="Multa" class="form-control" />
-                        <span asp-validation-for="Multa"></span>
+                        <span asp-validation-for="Multa" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="form-group">
                         <label asp-for="ValorPago"></label>
                         <input asp-for="ValorPago" class="form-control" />
-                        <span asp-validation-for="ValorPago"></span>
+                        <span asp-validation-for="ValorPago" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="form-group">
                         <label asp-for="DataVencimento"></label>
                         <input asp-for="DataVencimento" type="date" class="form-control" />
-                        <span asp-validation-for="DataVencimento"></span>
+                        <span asp-validation-for="DataVencimento" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-md-2">

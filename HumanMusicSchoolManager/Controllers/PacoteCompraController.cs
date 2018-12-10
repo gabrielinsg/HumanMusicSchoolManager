@@ -179,7 +179,7 @@ namespace HumanMusicSchoolManager.Controllers
                     Data = DateTime.Now
                 };
 
-                string descricao = "Pacote " + pacoteCompraViewModel.PacoteAula.Nome + " adquirido por " + 
+                string descricao = "Pacote " + pacoteCompraViewModel.PacoteAula.Nome + " adquirido por " +
                     ((decimal)(pacoteCompraViewModel.PacoteCompra.PacoteAula.Valor - desconto)).ToString("R$ #,###.00") +
                     " em " + pacoteCompraViewModel.PacoteCompra.QtdParcela + " no " + pacoteCompraViewModel.FormaPagamento.GetType()
                         .GetMember(pacoteCompraViewModel.FormaPagamento.ToString())
@@ -214,7 +214,7 @@ namespace HumanMusicSchoolManager.Controllers
         {
 
             var pacoteCompra = _pacoteCompraService.BuscarPorId(pacoteCompraId);
-            var compradas = pacoteCompra.PacoteAula.QtdAula;
+            var compradas = pacoteCompra.Chamadas.Count;
             var feitas = pacoteCompra.Chamadas.Where(c => c.Presenca != null).ToList().Count();
 
             var chart = new Chart()
@@ -397,17 +397,7 @@ namespace HumanMusicSchoolManager.Controllers
                 var pacoteCompra = _pacoteCompraService.BuscarPorId(pacoteCompraId.Value);
                 if (pacoteCompra != null)
                 {
-
-                    if (pacoteCompra.Chamadas.Any(c => c.Presenca == null))
-                    {
-                        return View(new CancelarPacoteViewModel(pacoteCompra));
-                    }
-                    else
-                    {
-                        TempData["Info"] = "Não existem aulas em aberto para realizar o cancelamento do pacote";
-                        return RedirectToAction("Aluno", "Aluno", new { alunoId = pacoteCompra.Matricula.AlunoId });
-                    }
-                    
+                    return View(new CancelarPacoteViewModel(pacoteCompra));
                 }
             }
 
@@ -441,10 +431,17 @@ namespace HumanMusicSchoolManager.Controllers
                 }
             }
 
+            var financeiros = new List<Financeiro>();
             foreach (var fin in pacoteCompra.Financeiros.Where(f => f.ValorPago == null))
+            {
+                financeiros.Add(fin);
+            }
+
+            foreach (var fin in financeiros)
             {
                 _financeiroService.Excluir(fin.Id.Value);
             }
+
 
             var financeiro = new Financeiro()
             {

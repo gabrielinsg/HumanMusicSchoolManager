@@ -10,28 +10,36 @@
 
 @if (Model.PacoteCompra.Trancamento == null)
 {
-    <div class="row">
-        <div class="col-xl-2 col-md-3">
-            <form asp-action="Form" method="post">
-                <input asp-for="Trancamento.PacoteCompraId" value="@Model.PacoteCompra.Id" type="hidden" />
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Trancamento.DataInicial" class="control-label"></label>
-                    <input asp-for="Trancamento.DataInicial" type="date" class="form-control" />
-                    <span asp-validation-for="Trancamento.DataInicial" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Trancamento.DataFinal" class="control-label"></label>
-                    <input asp-for="Trancamento.DataFinal" type="date" class="form-control" />
-                    <span asp-validation-for="Trancamento.DataFinal" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Trancar" class="btn btn-success" />
-                    <a asp-controller="Aluno" asp-action="Aluno" asp-route-alunoId="@Model.PacoteCompra.Matricula.AlunoId" class="btn btn-primary" role="button">Voltar</a>
-                </div>
-            </form>
+    if (Model.PacoteCompra.Chamadas.Any(c => c.Presenca == null))
+    {
+        <div class="row">
+            <div class="col-xl-2 col-md-3">
+                <form asp-action="Form" method="post">
+                    <input asp-for="Trancamento.PacoteCompraId" value="@Model.PacoteCompra.Id" type="hidden" />
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Trancamento.DataInicial" class="control-label"></label>
+                        <input asp-for="Trancamento.DataInicial" type="date" class="form-control" />
+                        <span asp-validation-for="Trancamento.DataInicial" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Trancamento.DataFinal" class="control-label"></label>
+                        <input asp-for="Trancamento.DataFinal" type="date" class="form-control" />
+                        <span asp-validation-for="Trancamento.DataFinal" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Trancar" class="btn btn-success" />
+                        <a asp-controller="Aluno" asp-action="Aluno" asp-route-alunoId="@Model.PacoteCompra.Matricula.AlunoId" class="btn btn-primary" role="button">Voltar</a>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
+    }
+    else
+    {
+        <p>Não existem aulas para serem trancadas neste pacote!</p>
+    }
+
 }
 else
 {

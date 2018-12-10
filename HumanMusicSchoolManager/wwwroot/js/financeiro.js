@@ -24,24 +24,30 @@ function carregarDados() {
     var desconto = $("#Desconto").val();
     var multa = $("#Multa").val();
     var valorPago = $("#ValorPago").val();
+
     if (valor === "") {
         valor = 0;
     }
     else
     {
+        valor = valor.replace(',', '.');
         valor = parseFloat(valor);
     }
+
     if (desconto === "") {
         desconto = 0;
     }
     else {
+        desconto = desconto.replace(',', '.');
         desconto = parseFloat(desconto);
     }
+
     if (multa === "") {
         multa = 0;
     }
     else
     {
+        multa = multa.replace(',', '.');
         multa = parseFloat(multa);
     }
     if (valorPago === "") {
@@ -49,6 +55,7 @@ function carregarDados() {
     }
     else
     {
+        valorPago = valorPago.replace(',', '.');
         valorPago = parseFloat(valorPago);
     }
     

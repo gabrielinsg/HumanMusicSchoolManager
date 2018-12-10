@@ -19,15 +19,19 @@ function carregarDados() {
     var desconto = $("#PacoteCompra_Desconto").val();
     var parcelas = parseInt($("#PacoteCompra_QtdParcela").val());
     var formaPagamento = parseInt($("#FormaPagamento").val());
+
     if (valor === "") {
         valor = 0;
     }
+
     if (desconto === "") {
         desconto = 0;
     }
     else {
+        desconto = desconto.replace(',', '.');
         desconto = parseFloat(desconto);
     }
+
     if (parcelas === "") {
         parcelas = 0;
     }
