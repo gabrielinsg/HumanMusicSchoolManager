@@ -28,6 +28,18 @@ namespace HumanMusicSchoolManager.Services
                 .ThenInclude(m => m.Aluno)
                 .Include(ds => ds.Matriculas)
                 .ThenInclude(m => m.Curso)
+                .Include(ds => ds.Reposicoes)
+                .ThenInclude(r => r.Chamada)
+                .ThenInclude(c => c.PacoteCompra)
+                .ThenInclude(pc => pc.Matricula)
+                .ThenInclude(m => m.Curso)
+                .Include(dp => dp.Demostrativas)
+                .ThenInclude(d => d.Curso)
+                .Include(dp => dp.Demostrativas)
+                .ThenInclude(d => d.Candidato)
+                .Include(ds => ds.Matriculas)
+                .ThenInclude(m => m.PacoteCompras)
+                .ThenInclude(pc => pc.PacoteAula)
                 .ToList();
 
             return dispSalas;
@@ -36,8 +48,25 @@ namespace HumanMusicSchoolManager.Services
         public DispSala BuscarPorId(int dispSalaId)
         {
             return _context.DispSalas
-                .Include(ds => ds.Professor)
-                .Include(ds => ds.Sala)
+                .Include(dp => dp.Professor)
+                .ThenInclude(p => p.Cursos)
+                .Include(dp => dp.Sala)
+                .Include(ds => ds.Matriculas)
+                .ThenInclude(m => m.Aluno)
+                .Include(ds => ds.Matriculas)
+                .ThenInclude(m => m.Curso)
+                .Include(ds => ds.Reposicoes)
+                .ThenInclude(r => r.Chamada)
+                .ThenInclude(c => c.PacoteCompra)
+                .ThenInclude(pc => pc.Matricula)
+                .ThenInclude(m => m.Curso)
+                .Include(dp => dp.Demostrativas)
+                .ThenInclude(d => d.Curso)
+                .Include(dp => dp.Demostrativas)
+                .ThenInclude(d => d.Candidato)
+                .Include(ds => ds.Matriculas)
+                .ThenInclude(m => m.PacoteCompras)
+                .ThenInclude(pc => pc.PacoteAula)
                 .SingleOrDefault(ds => ds.Id == dispSalaId);
         }
 
