@@ -29,6 +29,10 @@ namespace HumanMusicSchoolManager.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IFinanceiroService _financeiroService;
         private readonly IRelatorioMatriculaService _relatorioMatriculaService;
+        private readonly IPacoteCompraService _pacoteCompraService;
+        private readonly IAulaService _aulaService;
+        private readonly IChamadaService _chamadaService;
+        private readonly IFeriadoService _feriadoService;
 
         public MatriculaController(IMatriculaService matriculaService,
             IAlunoService alunoService,
@@ -40,7 +44,11 @@ namespace HumanMusicSchoolManager.Controllers
             IPessoaService pessoaService,
             IFinanceiroService financeiroService,
             UserManager<ApplicationUser> userManager,
-            IRelatorioMatriculaService relatorioMatriculaService)
+            IRelatorioMatriculaService relatorioMatriculaService,
+            IPacoteCompraService pacoteCompraService,
+            IAulaService aulaService,
+            IChamadaService chamadaService,
+            IFeriadoService feriadoService)
         {
             this._matriculaService = matriculaService;
             this._alunoService = alunoService;
@@ -53,6 +61,10 @@ namespace HumanMusicSchoolManager.Controllers
             this._userManager = userManager;
             this._financeiroService = financeiroService;
             this._relatorioMatriculaService = relatorioMatriculaService;
+            this._pacoteCompraService = pacoteCompraService;
+            this._aulaService = aulaService;
+            this._chamadaService = chamadaService;
+            this._feriadoService = feriadoService;
         }
 
         [HttpGet]
@@ -116,7 +128,7 @@ namespace HumanMusicSchoolManager.Controllers
 
             var pessoa = _pessoaService.GetUser(User.Identity.Name);
 
-            if(pessoa == null)
+            if (pessoa == null)
             {
                 ModelState.AddModelError("Pessoa", "Não existe pessoa para a matricula");
             }
@@ -137,7 +149,7 @@ namespace HumanMusicSchoolManager.Controllers
 
             }
 
-            
+
 
             if (matriculaViewModel.Aluno.Id == null)
             {
@@ -230,7 +242,7 @@ namespace HumanMusicSchoolManager.Controllers
                         _financeiroService.Cadastrar(financeiro);
                     }
                 }
-                
+
                 return RedirectToAction("Aluno", "Aluno", new { alunoId = matriculaViewModel.Aluno.Id });
             }
             else
@@ -363,6 +375,166 @@ namespace HumanMusicSchoolManager.Controllers
             return Json(_respFinanceiroService.BuscarPorId(respFinanceiroId));
         }
 
-        
+        [HttpGet]
+        public IActionResult TrocaDispSala(int? matriculaId, int? dispSalaId)
+        {
+            if (matriculaId != null)
+            {
+
+                var trocaDispSalaViewModel = new TrocaDispSalaViewModel
+                {
+                    DispSalas = _dispSalaService.HorariosDisponiveis(),
+                    DiaAula = DateTime.Now
+                };
+
+                trocaDispSalaViewModel.Matricula = _matriculaService.BuscarPorId(matriculaId.Value);
+
+                if (trocaDispSalaViewModel.Matricula != null)
+                {
+                    if (dispSalaId != null)
+                    {
+                        trocaDispSalaViewModel.DispSala = _dispSalaService.BuscarPorId(dispSalaId.Value);
+                    }
+
+                    return View(trocaDispSalaViewModel);
+                }
+
+            }
+
+            TempData["Error"] = "Matrícula não encontrada!";
+            return RedirectToAction("Index", "Aluno");
+        }
+
+        [HttpPost]
+        public IActionResult TrocaDispSala(TrocaDispSalaViewModel trocaDispSalaViewModel)
+        {
+            trocaDispSalaViewModel.Matricula = _matriculaService.BuscarPorId(trocaDispSalaViewModel.Matricula.Id.Value);
+            trocaDispSalaViewModel.DispSala = _dispSalaService.BuscarPorId(trocaDispSalaViewModel.DispSala.Id.Value);
+
+            foreach (var model in ModelState)
+            {
+                ModelState.Remove(model.Key);
+            }
+
+            if (trocaDispSalaViewModel.DiaAula < DateTime.Now.Date || trocaDispSalaViewModel.DiaAula == null)
+            {
+                ModelState.AddModelError("DiaAula", "Primeira aula deve ser selecionado a partir de hoje");
+            }
+
+            if (trocaDispSalaViewModel.DispSala.Id == null)
+            {
+                ModelState.AddModelError("DispSala", "Um horário deve ser selecionado");
+            }
+            else
+            {
+                trocaDispSalaViewModel.DispSala = _dispSalaService.BuscarPorId(trocaDispSalaViewModel.DispSala.Id.Value);
+            }
+
+            if (trocaDispSalaViewModel.DiaAula.DayOfWeek != (DayOfWeek)trocaDispSalaViewModel.DispSala.Dia)
+            {
+                var dia = trocaDispSalaViewModel.Matricula.DispSala.Dia.GetType()
+                        .GetMember(trocaDispSalaViewModel.Matricula.DispSala.Dia.ToString())
+                        .First()
+                        .GetCustomAttribute<DisplayAttribute>()
+                        .Name;
+                ModelState.AddModelError("PrimeiraAula", "A primeira aula precisa ser " + dia);
+            }
+
+            if (ModelState.IsValid)
+            {
+                trocaDispSalaViewModel.Matricula.DispSala = trocaDispSalaViewModel.DispSala;
+                _matriculaService.Alterar(trocaDispSalaViewModel.Matricula);
+                trocaDispSalaViewModel.DiaAula = trocaDispSalaViewModel.DiaAula.AddHours(trocaDispSalaViewModel.DispSala.Hora);
+
+                if (trocaDispSalaViewModel.Matricula.PacoteCompras != null)
+                {
+                    foreach (var pc in trocaDispSalaViewModel.Matricula.PacoteCompras)
+                    {
+
+
+                        var pacoteCompra = _pacoteCompraService.BuscarPorId(pc.Id.Value);
+
+                        if (pacoteCompra.Chamadas.Any(c => c.Reposicao == null && c.Presenca == null))
+                        {
+                            foreach (var chamada in pacoteCompra.Chamadas.Where(c => c.Reposicao == null && c.Presenca == null).ToList())
+                            {
+                                var aulaAntiga = chamada.Aula;
+                                chamada.AulaId = null;
+                                _chamadaService.Alterar(chamada);
+                                aulaAntiga = _aulaService.BuscarPorId(aulaAntiga.Id.Value);
+
+                                if (aulaAntiga.Chamadas.Count == 0 && aulaAntiga.Demostrativas.Count == 0)
+                                {
+                                    _aulaService.Excluir(aulaAntiga.Id.Value);
+                                }
+                            }
+
+                            pacoteCompra = _pacoteCompraService.BuscarPorId(pc.Id.Value);
+
+                            foreach (var chamada in pacoteCompra.Chamadas.Where(c => c.Aula == null))
+                            {
+                                Feriado feriado = null;
+                                do
+                                {
+                                    feriado = _feriadoService.BuscarPorData(trocaDispSalaViewModel.DiaAula);
+                                    if (feriado != null)
+                                    {
+                                        trocaDispSalaViewModel.DiaAula = trocaDispSalaViewModel.DiaAula.AddDays(7);
+                                    }
+                                } while (feriado != null);
+
+                                
+                                var aula = _aulaService.BuscarPorDiaHora(trocaDispSalaViewModel.DiaAula);
+
+                                if (aula == null)
+                                {
+
+                                    aula = new Aula()
+                                    {
+                                        CursoId = trocaDispSalaViewModel.Matricula.CursoId,
+                                        ProfessorId = trocaDispSalaViewModel.Matricula.DispSala.Professor.Id.Value,
+                                        SalaId = trocaDispSalaViewModel.Matricula.DispSala.Sala.Id.Value,
+                                        Data = trocaDispSalaViewModel.DiaAula,
+                                        DataLimite = trocaDispSalaViewModel.DiaAula.AddDays(3)
+                                    };
+                                    _aulaService.Cadastrar(aula);
+                                }
+
+                                chamada.AulaId = aula.Id.Value;
+                                _chamadaService.Alterar(chamada);
+                                trocaDispSalaViewModel.DiaAula = trocaDispSalaViewModel.DiaAula.AddDays(7);
+
+                               
+                            }
+                        }
+                    }
+                }
+
+                var relatorioMatricula = new RelatorioMatricula
+                {
+                    Data = DateTime.Now,
+                    MatriculaId = trocaDispSalaViewModel.Matricula.Id.Value,
+                    PessoaId = _pessoaService.GetUser(User.Identity.Name).Id.Value
+                };
+
+                var descricao = "Alterado matricula para " +
+                 trocaDispSalaViewModel.Matricula.Curso.Nome + " com " + trocaDispSalaViewModel.Matricula.DispSala.Professor.Nome +
+                 " na sala " + trocaDispSalaViewModel.Matricula.DispSala.Sala.Nome + " " + trocaDispSalaViewModel.Matricula.DispSala.Dia.GetType()
+                .GetMember(trocaDispSalaViewModel.Matricula.DispSala.Dia.ToString())
+                .First()
+                .GetCustomAttribute<DisplayAttribute>()
+                .GetName() + " às " + trocaDispSalaViewModel.Matricula.DispSala.Hora.ToString("00:'00'h");
+
+                _relatorioMatriculaService.Cadastrar(relatorioMatricula);
+
+                TempData["Success"] = "Hórario alterado com sucesso. Verificar o calendário para novas aulas";
+                return RedirectToAction("Aluno", "Aluno", new { alunoId = trocaDispSalaViewModel.Matricula.AlunoId });
+            }
+            else
+            {
+                trocaDispSalaViewModel.DispSalas = _dispSalaService.HorariosDisponiveis();
+                return View(trocaDispSalaViewModel);
+            }
+        }
     }
 }

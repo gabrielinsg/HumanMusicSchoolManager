@@ -62,7 +62,7 @@
             <div class="tab-pane fade" id="@matricula.Curso.Nome@matricula.Id" role="tabpanel" aria-labelledby="profile-tab">
                 <br />
                 <h2>@matricula.Curso.Nome</h2>
-                <b>@Html.DisplayFor(d => matricula.DispSala.Dia)</b> às <b>@matricula.DispSala.Hora.ToString("00:'00'h")</b> com <b>@matricula.DispSala.Professor.Nome</b> - <b>@matricula.DispSala.Sala.Nome</b>
+                <b>@Html.DisplayFor(d => matricula.DispSala.Dia)</b> às <b>@matricula.DispSala.Hora.ToString("00:'00'h")</b> com <b>@matricula.DispSala.Professor.Nome</b> - <b>@matricula.DispSala.Sala.Nome</b> - <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Trocar horário"><a asp-controller="Matricula" asp-action="TrocaDispSala" asp-route-matriculaId="@matricula.Id" class="btn btn-outline-primary"><i class="fas fa-exchange-alt"></i></a></span>
                 <br /><br />
                 <div class="row">
                     <div class="col-md-8">

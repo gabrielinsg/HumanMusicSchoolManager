@@ -463,6 +463,19 @@ namespace HumanMusicSchoolManager.Controllers
             }
             _financeiroService.Cadastrar(financeiro);
 
+            var relatorioMatricula = new RelatorioMatricula
+            {
+                Data = DateTime.Now,
+                MatriculaId = pacoteCompra.MatriculaId,
+                PessoaId = _pessoaService.GetUser(User.Identity.Name).Id.Value
+            };
+
+            string descricao = "Pacote " + pacoteCompra.PacoteAula.Nome + " do curso de " + pacoteCompra.Matricula.Curso.Nome + 
+                "cancelado";
+
+            relatorioMatricula.Descricao = descricao;
+            _relatorioMatriculaService.Cadastrar(relatorioMatricula);
+
             TempData["Success"] = "Cancelamento efetuado com sucesso";
             return RedirectToAction("Aluno", "Aluno", new { alunoId = pacoteCompra.Matricula.AlunoId });
         }
