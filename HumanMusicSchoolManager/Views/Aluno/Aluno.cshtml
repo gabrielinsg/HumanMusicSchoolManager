@@ -57,63 +57,99 @@
         @await Html.PartialAsync("_Financeiro")
     </div>
 
-        @foreach (var matricula in Model.Matriculas)
-        {
-            <div class="tab-pane fade" id="@matricula.Curso.Nome@matricula.Id" role="tabpanel" aria-labelledby="profile-tab">
-                <br />
-                <h2>@matricula.Curso.Nome</h2>
-                <b>@Html.DisplayFor(d => matricula.DispSala.Dia)</b> às <b>@matricula.DispSala.Hora.ToString("00:'00'h")</b> com <b>@matricula.DispSala.Professor.Nome</b> - <b>@matricula.DispSala.Sala.Nome</b> - <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Trocar horário"><a asp-controller="Matricula" asp-action="TrocaDispSala" asp-route-matriculaId="@matricula.Id" class="btn btn-outline-primary"><i class="fas fa-exchange-alt"></i></a></span>
-                <br /><br />
-                <div class="row">
-                    <div class="col-md-8">
-                        <ul class="list-group">
-                            <li class="list-group-item active">Pacotes de Aula <a asp-controller="PacoteCompra" asp-action="Form" asp-route-matriculaId="@matricula.Id" class="btn btn-success"><i class="fas fa-plus-circle"></i></a></li>
-                            <li class="list-group-item">
-                                <table class="table table-sm table-hover">
-                                    <tbody>
-                                        @foreach (var pacoteCompra in matricula.PacoteCompras)
+    @foreach (var matricula in Model.Matriculas)
+    {
+        <div class="tab-pane fade" id="@matricula.Curso.Nome@matricula.Id" role="tabpanel" aria-labelledby="profile-tab">
+            <br />
+            <h2>@matricula.Curso.Nome @if (matricula.EncerramentoMatricula == null)
+            { <span> - </span> <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Cancelar Matrícula"><a id="cancelaMatricula" asp-controller="Matricula" asp-action="CancelaMatricula" asp-route-matriculaId="@matricula.Id" class="btn btn-outline-danger"><i class="far fa-times-circle"></i></a></span>}</h2>
+
+            @if (matricula.DispSala != null)
+            {
+                <span><b>@Html.DisplayFor(d => matricula.DispSala.Dia)</b> às <b>@matricula.DispSala.Hora.ToString("00:'00'h")</b> com <b>@matricula.DispSala.Professor.Nome</b> - <b>@matricula.DispSala.Sala.Nome</b> - <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Trocar horário"><a asp-controller="Matricula" asp-action="TrocaDispSala" asp-route-matriculaId="@matricula.Id" class="btn btn-outline-primary"><i class="fas fa-exchange-alt"></i></a></span></span>
+            }
+            else
+            {
+                <p>Matricula cancelada</p>
+            }
+            <br /><br />
+            <div class="row">
+                <div class="col-md-8">
+                    <ul class="list-group">
+                        <li class="list-group-item active">
+                            Pacotes de Aula @if (matricula.DispSala != null)
+                            {<a asp-controller="PacoteCompra" asp-action="Form" asp-route-matriculaId="@matricula.Id" class="btn btn-success"><i class="fas fa-plus-circle"></i></a>}
+                        </li>
+                        <li class="list-group-item">
+                            <table class="table table-sm table-hover">
+                                <tbody>
+                                    @foreach (var pacoteCompra in matricula.PacoteCompras)
+                                    {
+                                        var totalAulas = pacoteCompra.Chamadas.Count;
+                                        var aulasFeitas = pacoteCompra.Chamadas.Where(c => c.Aula.AulaDada == true).ToList().Count;
+                                        double porcentagem = 100;
+                                        if (totalAulas > 0)
                                         {
-                                            var totalAulas = pacoteCompra.Chamadas.Count;
-                                            var aulasFeitas = pacoteCompra.Chamadas.Where(c => c.Aula.AulaDada == true).ToList().Count;
-                                            double porcentagem = 100 * aulasFeitas / totalAulas;
-                                            <tr class="row">
-                                                <td class="col-md-3">@pacoteCompra.PacoteAula.Nome</td>
-                                                <td class="col-md-4">
-                                                    <div class="progress" style="margin-top: .30rem;">
-                                                        <div class="progress-bar bg-success" role="progressbar" style="width: @porcentagem%" aria-valuenow="1" aria-valuemin="0" aria-valuemax="100">@aulasFeitas aulas</div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Calendário de aulas">
-                                                        <a asp-controller="PacoteCompra" asp-action="PacoteCompra" asp-route-pacoteCompraId="@pacoteCompra.Id"><i class="far fa-calendar-alt btn text-info"></i></a>
-                                                    </span>
-                                                </td>
-                                                <td>
-                                                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Contrato">
-                                                        <a asp-controller="Contrato" asp-action="Contrato" asp-route-pacoteCompraId="@pacoteCompra.Id" target="_blank"><i class="far fa-file-pdf btn text-danger"></i></a>
-                                                    </span>
-                                                </td>
-                                                <td>
-                                                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Trancar">
-                                                        <a asp-controller="Trancamento", asp-action="Form" asp-route-pacoteCompraId="@pacoteCompra.Id"><i class="far fa-pause-circle btn text-success"></i></a>
-                                                    </span>
-                                                </td>
-                                                <td>
-                                                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Cancelar">
-                                                        <a asp-controller="PacoteCompra" asp-action="CancelarPacote" asp-route-pacoteCompraId="@pacoteCompra.Id"><i class="far fa-times-circle btn text-danger"></i></a>
-                                                    </span>
-                                                </td>
-                                            </tr>
+                                            porcentagem = 100 * aulasFeitas / totalAulas;
                                         }
-                                    </tbody>
-                                </table>
-                            </li>
-                        </ul>
-                    </div>
+                                        <tr class="row">
+                                            <td class="col-md-3">@pacoteCompra.PacoteAula.Nome</td>
+                                            <td class="col-md-4">
+                                                <div class="progress" style="margin-top: .30rem;">
+                                                    <div class="progress-bar bg-success" role="progressbar" style="width: @porcentagem%" aria-valuenow="1" aria-valuemin="0" aria-valuemax="100">@aulasFeitas aulas</div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Calendário de aulas">
+                                                    <a asp-controller="PacoteCompra" asp-action="PacoteCompra" asp-route-pacoteCompraId="@pacoteCompra.Id"><i class="far fa-calendar-alt btn text-info"></i></a>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Contrato">
+                                                    <a asp-controller="Contrato" asp-action="Contrato" asp-route-pacoteCompraId="@pacoteCompra.Id" target="_blank"><i class="far fa-file-pdf btn text-danger"></i></a>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Trancar">
+                                                    <a asp-controller="Trancamento" , asp-action="Form" asp-route-pacoteCompraId="@pacoteCompra.Id"><i class="far fa-pause-circle btn text-success"></i></a>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Cancelar">
+                                                    <a asp-controller="PacoteCompra" asp-action="CancelarPacote" asp-route-pacoteCompraId="@pacoteCompra.Id"><i class="far fa-times-circle btn text-danger"></i></a>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </li>
+                    </ul>
                 </div>
-
             </div>
-        }
-    </div>
+
+        </div>
+    }
+</div>
 
 
+@section Scripts
+    {
+    <script>
+        $("a#cancelaMatricula").click(function () {
+            var cf = confirm("Tem certeza que deseja cancelar essa matrícula?");
+            if (cf == true) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        });
+
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+
+        });
+
+    </script>
+}

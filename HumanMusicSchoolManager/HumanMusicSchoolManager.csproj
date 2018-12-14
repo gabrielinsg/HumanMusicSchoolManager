@@ -48,6 +48,10 @@
     <Compile Remove="Migrations\20181208154628_PacoteCompraPessoa.Designer.cs" />
     <Compile Remove="Migrations\20181209012005_teste.cs" />
     <Compile Remove="Migrations\20181209012005_teste.Designer.cs" />
+    <Compile Remove="Migrations\20181213185905_MatriculaDispSalaNull.cs" />
+    <Compile Remove="Migrations\20181213185905_MatriculaDispSalaNull.Designer.cs" />
+    <Compile Remove="Migrations\20181213204525_MatriculaEncerramentoMatricula.cs" />
+    <Compile Remove="Migrations\20181213204525_MatriculaEncerramentoMatricula.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

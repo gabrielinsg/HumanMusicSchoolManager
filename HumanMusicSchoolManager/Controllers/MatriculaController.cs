@@ -483,7 +483,7 @@ namespace HumanMusicSchoolManager.Controllers
                                     }
                                 } while (feriado != null);
 
-                                
+
                                 var aula = _aulaService.BuscarPorDiaHora(trocaDispSalaViewModel.DiaAula);
 
                                 if (aula == null)
@@ -504,7 +504,7 @@ namespace HumanMusicSchoolManager.Controllers
                                 _chamadaService.Alterar(chamada);
                                 trocaDispSalaViewModel.DiaAula = trocaDispSalaViewModel.DiaAula.AddDays(7);
 
-                               
+
                             }
                         }
                     }
@@ -535,6 +535,47 @@ namespace HumanMusicSchoolManager.Controllers
                 trocaDispSalaViewModel.DispSalas = _dispSalaService.HorariosDisponiveis();
                 return View(trocaDispSalaViewModel);
             }
+        }
+
+        [HttpGet]
+        public IActionResult CancelaMatricula(int? matriculaId)
+        {
+            if (matriculaId != null)
+            {
+                var matricula = _matriculaService.BuscarPorId(matriculaId.Value);
+                if (matricula != null)
+                {
+                    bool verifica = true;
+                    if (matricula.PacoteCompras != null)
+                    {
+                        foreach (var pc in matricula.PacoteCompras)
+                        {
+                            var pacoteCompra = _pacoteCompraService.BuscarPorId(pc.Id.Value);
+                            if (pacoteCompra.Chamadas.Any(c => c.Presenca == null))
+                            {
+                                verifica = false;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (verifica)
+                    {
+                        matricula.DispSalaId = null;
+                        matricula.EncerramentoMatricula = DateTime.Now;
+                        _matriculaService.Alterar(matricula);
+                        TempData["Success"] = "Matricula Cancelada com sucesso!";
+                        return RedirectToAction("Aluno", "Aluno", new { alunoId = matricula.AlunoId });
+                    }
+                    else
+                    {
+                        TempData["Warning"] = "Não é possível fazer o cancelamento pois existem aulas em aberto para essa matrícula!";
+                        return RedirectToAction("Aluno", "Aluno", new { alunoId = matricula.AlunoId });
+                    }
+                }
+            }
+            TempData["Error"] = "Matricula não encontrada!";
+            return RedirectToAction("Index", "Aluno");
         }
     }
 }

@@ -16,8 +16,8 @@ namespace HumanMusicSchoolManager.Models.Models
         public int CursoId { get; set; }
         public Curso Curso { get; set; }
 
-        [Required]
         [Display(Name = "Disponibilidade de sala")]
+        public int? DispSalaId { get; set; }
         public DispSala DispSala { get; set; }
 
         [Required]
@@ -31,6 +31,8 @@ namespace HumanMusicSchoolManager.Models.Models
         [Required]
         [Display(Name = "Data da matrícula")]
         public DateTime DataMatricula { get; set; }
+
+        public DateTime? EncerramentoMatricula { get; set; }
 
         [Required]
         public List<PacoteCompra> PacoteCompras { get; set; }
