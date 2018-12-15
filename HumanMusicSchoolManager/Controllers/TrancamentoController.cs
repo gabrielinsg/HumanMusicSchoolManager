@@ -115,7 +115,7 @@ namespace HumanMusicSchoolManager.Controllers
                         feriado = _feriadoService.BuscarPorData(dataAula);
                     } while (feriado != null);
 
-                    var aula = _aulaService.BuscarPorDiaHora(dataAula);
+                    var aula = _aulaService.BuscarPorDiaHora(dataAula, chamada.PacoteCompra.Matricula.DispSala);
 
                     if (aula == null)
                     {
@@ -236,7 +236,7 @@ namespace HumanMusicSchoolManager.Controllers
                             }
                         } while (feriado != null);
 
-                        var aula = _aulaService.BuscarPorDiaHora(dataAula);
+                        var aula = _aulaService.BuscarPorDiaHora(dataAula, chamada.PacoteCompra.Matricula.DispSala);
                         if (aula == null)
                         {
 

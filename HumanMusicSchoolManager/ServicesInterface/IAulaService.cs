@@ -12,7 +12,7 @@ namespace HumanMusicSchoolManager.ServicesInterface
         void Alterar(Aula aula);
         List<Aula> BuscarTodas();
         Aula BuscarPorId(int aulaId);
-        Aula BuscarPorDiaHora(DateTime data);
+        Aula BuscarPorDiaHora(DateTime data, DispSala dispSala);
         void Excluir(int aulaId);
         List<Aula> BuscarPorSala(int salaId);
     }

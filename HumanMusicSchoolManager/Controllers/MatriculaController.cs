@@ -484,7 +484,7 @@ namespace HumanMusicSchoolManager.Controllers
                                 } while (feriado != null);
 
 
-                                var aula = _aulaService.BuscarPorDiaHora(trocaDispSalaViewModel.DiaAula);
+                                var aula = _aulaService.BuscarPorDiaHora(trocaDispSalaViewModel.DiaAula, trocaDispSalaViewModel.Matricula.DispSala);
 
                                 if (aula == null)
                                 {

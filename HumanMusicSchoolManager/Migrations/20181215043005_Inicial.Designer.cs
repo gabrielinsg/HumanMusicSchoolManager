@@ -3,23 +3,21 @@ using System;
 using HumanMusicSchoolManager.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HumanMusicSchoolManager.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181206133138_ChamadaAulaIdNull")]
-    partial class ChamadaAulaIdNull
+    [Migration("20181215043005_Inicial")]
+    partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("HumanMusicSchoolManager.Models.ApplicationUser", b =>
                 {
@@ -68,8 +66,7 @@ namespace HumanMusicSchoolManager.Migrations
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+                        .HasName("UserNameIndex");
 
                     b.HasIndex("PessoaId");
 
@@ -79,8 +76,7 @@ namespace HumanMusicSchoolManager.Migrations
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Aula", b =>
                 {
                     b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<bool>("AulaDada");
 
@@ -110,8 +106,7 @@ namespace HumanMusicSchoolManager.Migrations
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Candidato", b =>
                 {
                     b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("CPF")
                         .IsRequired();
@@ -136,8 +131,7 @@ namespace HumanMusicSchoolManager.Migrations
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Chamada", b =>
                 {
                     b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int?>("AulaId");
 
@@ -159,8 +153,7 @@ namespace HumanMusicSchoolManager.Migrations
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Contrato", b =>
                 {
                     b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<bool>("Ativo");
 
@@ -178,8 +171,7 @@ namespace HumanMusicSchoolManager.Migrations
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Curso", b =>
                 {
                     b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<bool>("Ativo");
 
@@ -222,8 +214,7 @@ namespace HumanMusicSchoolManager.Migrations
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Demostrativa", b =>
                 {
                     b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int?>("AulaId");
 
@@ -265,8 +256,7 @@ namespace HumanMusicSchoolManager.Migrations
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.DispSala", b =>
                 {
                     b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("Dia");
 
@@ -288,8 +278,7 @@ namespace HumanMusicSchoolManager.Migrations
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Endereco", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Bairro")
                         .IsRequired();
@@ -317,8 +306,7 @@ namespace HumanMusicSchoolManager.Migrations
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Evento", b =>
                 {
                     b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime?>("DataFinal");
 
@@ -335,8 +323,7 @@ namespace HumanMusicSchoolManager.Migrations
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Feriado", b =>
                 {
                     b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime?>("DataFinal");
 
@@ -353,8 +340,7 @@ namespace HumanMusicSchoolManager.Migrations
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Financeiro", b =>
                 {
                     b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int?>("AlunoId");
 
@@ -400,8 +386,7 @@ namespace HumanMusicSchoolManager.Migrations
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Matricula", b =>
                 {
                     b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("AlunoId");
 
@@ -411,8 +396,9 @@ namespace HumanMusicSchoolManager.Migrations
 
                     b.Property<DateTime>("DataMatricula");
 
-                    b.Property<int?>("DispSalaId")
-                        .IsRequired();
+                    b.Property<int?>("DispSalaId");
+
+                    b.Property<DateTime?>("EncerramentoMatricula");
 
                     b.Property<int?>("Estrelas");
 
@@ -437,8 +423,7 @@ namespace HumanMusicSchoolManager.Migrations
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.PacoteAula", b =>
                 {
                     b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<bool>("Ativo");
 
@@ -466,8 +451,7 @@ namespace HumanMusicSchoolManager.Migrations
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.PacoteCompra", b =>
                 {
                     b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("DataCompra");
 
@@ -492,8 +476,7 @@ namespace HumanMusicSchoolManager.Migrations
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Pessoa", b =>
                 {
                     b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<bool>("Ativo");
 
@@ -528,11 +511,32 @@ namespace HumanMusicSchoolManager.Migrations
                     b.HasDiscriminator<string>("Discriminator").HasValue("Pessoa");
                 });
 
+            modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.RelatorioMatricula", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("Data");
+
+                    b.Property<string>("Descricao");
+
+                    b.Property<int>("MatriculaId");
+
+                    b.Property<int>("PessoaId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MatriculaId");
+
+                    b.HasIndex("PessoaId");
+
+                    b.ToTable("RelatorioMatriculas");
+                });
+
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Reposicao", b =>
                 {
                     b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("ChamadaId");
 
@@ -553,8 +557,7 @@ namespace HumanMusicSchoolManager.Migrations
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Sala", b =>
                 {
                     b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<bool>("Ativo");
 
@@ -571,8 +574,7 @@ namespace HumanMusicSchoolManager.Migrations
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.TaxaMatricula", b =>
                 {
                     b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Nome")
                         .IsRequired();
@@ -588,8 +590,9 @@ namespace HumanMusicSchoolManager.Migrations
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Trancamento", b =>
                 {
                     b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("Data");
 
                     b.Property<DateTime>("DataFinal");
 
@@ -623,8 +626,7 @@ namespace HumanMusicSchoolManager.Migrations
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
+                        .HasName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles");
                 });
@@ -632,8 +634,7 @@ namespace HumanMusicSchoolManager.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("ClaimType");
 
@@ -652,8 +653,7 @@ namespace HumanMusicSchoolManager.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("ClaimType");
 
@@ -878,7 +878,7 @@ namespace HumanMusicSchoolManager.Migrations
                         .HasForeignKey("AlunoId");
 
                     b.HasOne("HumanMusicSchoolManager.Models.Models.PacoteCompra", "PacoteCompra")
-                        .WithMany()
+                        .WithMany("Financeiros")
                         .HasForeignKey("PacoteCompraId");
 
                     b.HasOne("HumanMusicSchoolManager.Models.Models.Pessoa", "Pessoa")
@@ -901,8 +901,7 @@ namespace HumanMusicSchoolManager.Migrations
 
                     b.HasOne("HumanMusicSchoolManager.Models.Models.DispSala", "DispSala")
                         .WithMany("Matriculas")
-                        .HasForeignKey("DispSalaId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("DispSalaId");
 
                     b.HasOne("HumanMusicSchoolManager.Models.Models.RespFinanceiro", "RespFinanceiro")
                         .WithMany()
@@ -937,6 +936,19 @@ namespace HumanMusicSchoolManager.Migrations
                         .WithMany()
                         .HasForeignKey("EnderecoId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.RelatorioMatricula", b =>
+                {
+                    b.HasOne("HumanMusicSchoolManager.Models.Models.Matricula", "Matricula")
+                        .WithMany()
+                        .HasForeignKey("MatriculaId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("HumanMusicSchoolManager.Models.Models.Pessoa", "Pessoa")
+                        .WithMany()
+                        .HasForeignKey("PessoaId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Reposicao", b =>

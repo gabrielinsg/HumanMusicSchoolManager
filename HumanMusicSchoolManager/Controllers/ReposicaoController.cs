@@ -121,7 +121,7 @@ namespace HumanMusicSchoolManager.Controllers
                 reposicaoViewModel.Reposicao.DispSalaId = reposicaoViewModel.DispSala.Id.Value;
                 
 
-                var aula = _aulaService.BuscarPorDiaHora(reposicaoViewModel.DiaAula);
+                var aula = _aulaService.BuscarPorDiaHora(reposicaoViewModel.DiaAula, reposicaoViewModel.DispSala);
                 if (aula == null)
                 {
 

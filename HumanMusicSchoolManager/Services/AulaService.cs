@@ -32,9 +32,13 @@ namespace HumanMusicSchoolManager.Services
             _context.SaveChanges();
         }
 
-        public Aula BuscarPorDiaHora(DateTime data)
+        public Aula BuscarPorDiaHora(DateTime data, DispSala dispSala)
         {
-            return _context.Aulas.FirstOrDefault(a => a.Data == data);
+            dispSala = _context.DispSalas
+                .Include(ds => ds.Professor)
+                .Include(ds => ds.Sala)
+                .FirstOrDefault(ds => ds.Id == dispSala.Id);
+            return _context.Aulas.FirstOrDefault(a => a.Data == data && a.ProfessorId == dispSala.Professor.Id && a.SalaId == dispSala.Sala.Id);
         }
 
         public Aula BuscarPorId(int aulaId)

@@ -358,7 +358,7 @@ namespace HumanMusicSchoolManager.Controllers
                 if (feriado == null)
                 {
                     //criando as aulas
-                    var aula = _aulaService.BuscarPorDiaHora(diaAula);
+                    var aula = _aulaService.BuscarPorDiaHora(diaAula, Matricula.DispSala);
                     var chamada = new Chamada()
                     {
                         PacoteCompraId = PacoteCompra.Id.Value

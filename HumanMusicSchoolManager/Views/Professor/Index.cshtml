@@ -27,6 +27,7 @@
                         <th class="text-center">Ativo</th>
                         <th class="text-center">Informações</th>
                         <th class="text-center">Calendário</th>
+                        <th class="text-center">Folha Ponto</th>
                         <th class="text-center">Alterar</th>
                     </tr>
                 </thead>
@@ -38,6 +39,7 @@
                         <th class="text-center">Ativo</th>
                         <th class="text-center">Informações</th>
                         <th class="text-center">Calendário</th>
+                        <th class="text-center">Folha Ponto</th>
                         <th class="text-center">Alterar</th>
                     </tr>
                 </tfoot>
@@ -112,6 +114,9 @@
                             </td>
                             <td class="text-center">
                                 <a asp-controller="Professor" asp-action="Calendario" asp-route-professorId="@(professor.Id)"><i class="far fa-calendar-alt"></i></a>
+                            </td>
+                            <td class="text-center">
+                                <a asp-action="FolhaPontoProfessor" target="_blank" asp-route-professorId="@professor.Id"><i class="far fa-file-alt"></i></a>
                             </td>
                             <td class="text-center">
                                 <a asp-action="Form" asp-route-professorId="@(professor.Id)"><i class="fas fa-pencil-alt text-primary"></i></a>

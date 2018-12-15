@@ -1,0 +1,92 @@
+﻿@model ProfessorPorDataViewModel
+@{
+    ViewData["Title"] = "FolhaPontoProfessor";
+    Layout = "_Print";
+}
+
+<div class="container d-print-none">
+    <br />
+    <br />
+    <form role="form" asp-action="FolhaPontoProfessor" method="get">
+        @if (Model.Professor != null)
+        {
+            <input name="professorId" value="@Model.Professor.Id" type="hidden" />
+        }
+
+        <div class="row">
+            <div class="col-xl-3 col-md-4">
+                <label asp-for="Inicial">Data Inicial</label>
+                <input asp-for="Inicial" type="date" class="form-control" />
+                <span asp-validation-for="Inicial" class="text-danger"></span>
+            </div>
+            <div class="col-xl-3 col-md-4">
+                <label asp-for="Final">Data Final</label>
+                <input asp-for="Final" type="date" class="form-control" />
+                <span asp-validation-for="Final" class="text-danger"></span>
+            </div>
+            <div class="col-3" style="padding-top: 32px;">
+                <button type="submit" class="btn btn-success">Filtrar</button>
+            </div>
+            <div class="col-1" style="padding-top: 32px;">
+                <button class="btn btn-primary" onclick="imprimir()"><i class="fas fa-print"></i></button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@if (Model.Professores != null)
+{
+    foreach (var professor in Model.Professores)
+    {
+        if (professor != null)
+        {
+            <div class="container" style="padding: 20px 0 20px 0; page-break-before: always; page-break-inside: avoid;">
+                <h2>@professor.Nome</h2>
+                <br /><br />
+                @{
+                    var dias = professor.Aulas.Select(a => a.Data.Date).Distinct().ToList();
+
+                    for (var i = 0; i < dias.Count; i++)
+                    {
+                        <a>
+                            @{
+                                var index = 1;
+                                <hr />
+                                <p>
+                                    <b>@dias[i].Date.ToString("dd/MM/yyyy")</b> -
+                                    @foreach (var aula in professor.Aulas.Where(a => a.Data.Date == dias[i].Date))
+                                    {
+                                        if (index == professor.Aulas.Where(a => a.Data.Date == dias[i].Date).ToList().Count)
+                                        {
+                                            <span>@aula.Data.ToString("hh:mm")</span>
+                                        }
+                                        else
+                                        {
+                                            <span>@aula.Data.ToString("hh:mm") -</span>
+                                        }
+                                        index++;
+                                    }
+                                </p>
+                            }
+                        </a>
+                    }
+                    <hr />
+                }
+                <br /><br />
+                <div class="text-center">
+                    <div class="rol-12">___________________________________</div>
+                    <br />
+                    <div class="rol-12">@professor.Nome</div>
+                </div>
+            </div>
+        }
+    }
+}
+
+@section Scripts{
+    <script>
+        function imprimir() {
+            window.print();
+        }
+    </script>
+}

@@ -27,7 +27,7 @@ namespace HumanMusicSchoolManager.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Nome = table.Column<string>(nullable: false),
                     DataNascimento = table.Column<DateTime>(nullable: false),
                     Email = table.Column<string>(nullable: false),
@@ -45,7 +45,7 @@ namespace HumanMusicSchoolManager.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Nome = table.Column<string>(nullable: false),
                     Conteudo = table.Column<string>(nullable: false),
                     Ativo = table.Column<bool>(nullable: false)
@@ -60,7 +60,7 @@ namespace HumanMusicSchoolManager.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Nome = table.Column<string>(nullable: false),
                     Ativo = table.Column<bool>(nullable: false),
                     QtdModulo = table.Column<int>(nullable: false)
@@ -75,7 +75,7 @@ namespace HumanMusicSchoolManager.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Logradouro = table.Column<string>(nullable: false),
                     Numero = table.Column<int>(nullable: false),
                     Complemento = table.Column<string>(nullable: true),
@@ -94,7 +94,7 @@ namespace HumanMusicSchoolManager.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Nome = table.Column<string>(nullable: false),
                     DataInicial = table.Column<DateTime>(nullable: false),
                     DataFinal = table.Column<DateTime>(nullable: true)
@@ -109,7 +109,7 @@ namespace HumanMusicSchoolManager.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Nome = table.Column<string>(nullable: false),
                     DataInicial = table.Column<DateTime>(nullable: false),
                     DataFinal = table.Column<DateTime>(nullable: true)
@@ -124,7 +124,7 @@ namespace HumanMusicSchoolManager.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Nome = table.Column<string>(nullable: false),
                     Capacidade = table.Column<int>(nullable: false),
                     Ativo = table.Column<bool>(nullable: false)
@@ -139,7 +139,7 @@ namespace HumanMusicSchoolManager.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Nome = table.Column<string>(nullable: false),
                     Valor = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
@@ -153,7 +153,7 @@ namespace HumanMusicSchoolManager.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     RoleId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -174,7 +174,7 @@ namespace HumanMusicSchoolManager.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Nome = table.Column<string>(nullable: false),
                     QtdAula = table.Column<int>(nullable: false),
                     Valor = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -199,7 +199,7 @@ namespace HumanMusicSchoolManager.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Nome = table.Column<string>(nullable: false),
                     Ativo = table.Column<bool>(nullable: false),
                     CPF = table.Column<string>(nullable: false),
@@ -211,7 +211,7 @@ namespace HumanMusicSchoolManager.Migrations
                     EnderecoId = table.Column<int>(nullable: false),
                     Discriminator = table.Column<string>(nullable: false),
                     Nacionalidade = table.Column<string>(nullable: true),
-                    Naturidade = table.Column<string>(nullable: true),
+                    Naturalidade = table.Column<string>(nullable: true),
                     EstadoCivil = table.Column<int>(nullable: true),
                     Profissao = table.Column<string>(nullable: true),
                     OrgaoExpedidor = table.Column<string>(nullable: true)
@@ -288,7 +288,7 @@ namespace HumanMusicSchoolManager.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Data = table.Column<DateTime>(nullable: false),
                     ProfessorId = table.Column<int>(nullable: false),
                     CursoId = table.Column<int>(nullable: false),
@@ -349,7 +349,7 @@ namespace HumanMusicSchoolManager.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Dia = table.Column<int>(nullable: false),
                     Hora = table.Column<int>(nullable: false),
                     SalaId = table.Column<int>(nullable: true),
@@ -377,7 +377,7 @@ namespace HumanMusicSchoolManager.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -462,7 +462,7 @@ namespace HumanMusicSchoolManager.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     CandidatoId = table.Column<int>(nullable: false),
                     DispSalaId = table.Column<int>(nullable: true),
                     CursoId = table.Column<int>(nullable: false),
@@ -515,13 +515,14 @@ namespace HumanMusicSchoolManager.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     AlunoId = table.Column<int>(nullable: false),
                     CursoId = table.Column<int>(nullable: false),
-                    DispSalaId = table.Column<int>(nullable: false),
+                    DispSalaId = table.Column<int>(nullable: true),
                     RespFinanceiroId = table.Column<int>(nullable: false),
                     Ativo = table.Column<bool>(nullable: false),
                     DataMatricula = table.Column<DateTime>(nullable: false),
+                    EncerramentoMatricula = table.Column<DateTime>(nullable: true),
                     Estrelas = table.Column<int>(nullable: true),
                     Modulo = table.Column<int>(nullable: false)
                 },
@@ -545,7 +546,7 @@ namespace HumanMusicSchoolManager.Migrations
                         column: x => x.DispSalaId,
                         principalTable: "DispSalas",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Matriculas_Pessoas_RespFinanceiroId",
                         column: x => x.RespFinanceiroId,
@@ -559,7 +560,7 @@ namespace HumanMusicSchoolManager.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     PacoteAulaId = table.Column<int>(nullable: false),
                     MatriculaId = table.Column<int>(nullable: false),
                     DataCompra = table.Column<DateTime>(nullable: false),
@@ -584,14 +585,42 @@ namespace HumanMusicSchoolManager.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "RelatorioMatriculas",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    PessoaId = table.Column<int>(nullable: false),
+                    Data = table.Column<DateTime>(nullable: false),
+                    Descricao = table.Column<string>(nullable: true),
+                    MatriculaId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RelatorioMatriculas", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RelatorioMatriculas_Matriculas_MatriculaId",
+                        column: x => x.MatriculaId,
+                        principalTable: "Matriculas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RelatorioMatriculas_Pessoas_PessoaId",
+                        column: x => x.PessoaId,
+                        principalTable: "Pessoas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Chamadas",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Observacao = table.Column<string>(nullable: true),
                     PacoteCompraId = table.Column<int>(nullable: false),
-                    AulaId = table.Column<int>(nullable: false),
+                    AulaId = table.Column<int>(nullable: true),
                     Presenca = table.Column<bool>(nullable: true)
                 },
                 constraints: table =>
@@ -602,7 +631,7 @@ namespace HumanMusicSchoolManager.Migrations
                         column: x => x.AulaId,
                         principalTable: "Aulas",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Chamadas_PacoteCompras_PacoteCompraId",
                         column: x => x.PacoteCompraId,
@@ -616,7 +645,7 @@ namespace HumanMusicSchoolManager.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Nome = table.Column<string>(nullable: false),
                     Valor = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Desconto = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
@@ -658,10 +687,11 @@ namespace HumanMusicSchoolManager.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     DataInicial = table.Column<DateTime>(nullable: false),
                     DataFinal = table.Column<DateTime>(nullable: false),
-                    PacoteCompraId = table.Column<int>(nullable: false)
+                    PacoteCompraId = table.Column<int>(nullable: false),
+                    Data = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -679,7 +709,7 @@ namespace HumanMusicSchoolManager.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     ChamadaId = table.Column<int>(nullable: false),
                     DispSalaId = table.Column<int>(nullable: true),
                     Motivo = table.Column<string>(nullable: true)
@@ -710,8 +740,7 @@ namespace HumanMusicSchoolManager.Migrations
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
                 column: "NormalizedName",
-                unique: true,
-                filter: "[NormalizedName] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
@@ -737,8 +766,7 @@ namespace HumanMusicSchoolManager.Migrations
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
-                unique: true,
-                filter: "[NormalizedUserName] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUsers_PessoaId",
@@ -871,6 +899,16 @@ namespace HumanMusicSchoolManager.Migrations
                 column: "EnderecoId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_RelatorioMatriculas_MatriculaId",
+                table: "RelatorioMatriculas",
+                column: "MatriculaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RelatorioMatriculas_PessoaId",
+                table: "RelatorioMatriculas",
+                column: "PessoaId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Reposicoes_ChamadaId",
                 table: "Reposicoes",
                 column: "ChamadaId",
@@ -922,6 +960,9 @@ namespace HumanMusicSchoolManager.Migrations
 
             migrationBuilder.DropTable(
                 name: "Financeiros");
+
+            migrationBuilder.DropTable(
+                name: "RelatorioMatriculas");
 
             migrationBuilder.DropTable(
                 name: "Reposicoes");

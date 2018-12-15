@@ -18,5 +18,7 @@ namespace HumanMusicSchoolManager.ServicesInterface
         List<Professor> BuscarProfessorPorCurso(int cursoId);
         Professor BuscarPorCPF(string cpf);
         List<Professor> BuscarPorNome(string nome);
+        Professor BuscarPorIdData(int professorId, DateTime inicial, DateTime final);
+        List<Professor> BuscarTodosData(DateTime inicial, DateTime final);
     }
 }

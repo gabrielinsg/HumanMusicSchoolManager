@@ -107,5 +107,65 @@ namespace HumanMusicSchoolManager.Services
         {
             return _context.Professores.Where(p => p.Nome.Contains(nome)).OrderBy(P => P.Nome).ToList();
         }
+
+        public Professor BuscarPorIdData(int professorId, DateTime inicial, DateTime final)
+        {
+            inicial = inicial.AddHours(-inicial.Hour);
+            inicial = inicial.AddMinutes(-inicial.Minute);
+            inicial = inicial.AddMilliseconds(-inicial.Millisecond);
+            final = final.AddHours(-final.Hour);
+            final = final.AddMinutes(-final.Minute);
+            final = final.AddMilliseconds(-final.Millisecond);
+            final = final.AddHours(23);
+            var professor = _context.Professores
+                .Include(p => p.Aulas)
+                .FirstOrDefault(p => p.Id == professorId);
+            var listAulas = new List<Aula>();
+            if (professor.Aulas != null)
+            {
+                foreach (var aula in professor.Aulas)
+                {
+                    if (aula.Data >= inicial && aula.Data <= final && aula.AulaDada == true)
+                    {
+                        listAulas.Add(aula);
+                    }
+                }
+            }
+            professor.Aulas = listAulas;
+            return professor;
+        }
+
+        public List<Professor> BuscarTodosData(DateTime inicial, DateTime final)
+        {
+            inicial = inicial.AddHours(-inicial.Hour);
+            inicial = inicial.AddMinutes(-inicial.Minute);
+            inicial = inicial.AddMilliseconds(-inicial.Millisecond);
+            final = final.AddHours(-final.Hour);
+            final = final.AddMinutes(-final.Minute);
+            final = final.AddMilliseconds(-final.Millisecond);
+            final = final.AddHours(23);
+            var professores = _context.Professores.Include(p => p.Aulas).ToList();
+            if (professores != null)
+            {
+                foreach (var professor in professores)
+                {
+                    var listAulas = new List<Aula>();
+                    if (professor.Aulas != null)
+                    {
+                        foreach (var aula in professor.Aulas)
+                        {
+                            if (aula.Data >= inicial && aula.Data <= final && aula.AulaDada == true)
+                            {
+                                listAulas.Add(aula);
+                            }
+                        }
+                    }
+                    professores[professores.IndexOf(professor)].Aulas = listAulas;
+                }
+                
+            }
+            
+            return professores;
+        }
     }
 }

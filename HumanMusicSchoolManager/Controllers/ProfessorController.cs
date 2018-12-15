@@ -321,5 +321,62 @@ namespace HumanMusicSchoolManager.Controllers
             public string Color { get; set; }
             public string End { get; set; }
         }
+
+        public IActionResult FolhaPontoProfessor(int? professorId, DateTime? inicial, DateTime? final)
+        {
+            if (professorId != null)
+            {
+                var professor = _professorService.BuscarPorId(professorId.Value);
+                if (professor != null)
+                {
+
+                    if (inicial == null)
+                    {
+                        inicial = DateTime.Now.AddDays(- DateTime.Now.Day + 1);
+                    }
+
+                    if (final == null)
+                    {
+                        final = DateTime.Now.AddDays(-DateTime.Now.Day + 1).AddMonths(1).AddDays(-1);
+                    }
+
+                    var professorEncontrado = _professorService.BuscarPorIdData(professor.Id.Value, (DateTime)inicial, (DateTime)final);
+
+                    var professorDataViewModel = new ProfessorPorDataViewModel
+                    {
+                        Professores = new List<Professor> { professorEncontrado },
+                        Inicial = (DateTime)inicial,
+                        Final = (DateTime)final,
+                        Professor = professor
+                    };
+
+                    return View(professorDataViewModel);
+                }
+            }
+            else
+            {
+                if (inicial == null)
+                {
+                    inicial = DateTime.Now.AddDays(-DateTime.Now.Day + 1);
+                }
+
+                if (final == null)
+                {
+                    final = DateTime.Now.AddDays(-DateTime.Now.Day + 1).AddMonths(1).AddDays(-1);
+                }
+
+                var professorDataViewModel = new ProfessorPorDataViewModel
+                {
+                    Professores = _professorService.BuscarTodosData((DateTime)inicial, (DateTime)final),
+                    Inicial = (DateTime)inicial,
+                    Final = (DateTime)final
+                };
+
+                return View(professorDataViewModel);
+            }
+
+            TempData["Error"] = "Professor não encontrado";
+            return RedirectToAction("Index", "Professor");
+        }
     }
 }
