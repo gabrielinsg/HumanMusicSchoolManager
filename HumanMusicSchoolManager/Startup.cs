@@ -15,6 +15,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Rewrite;
 using HumanMusicSchoolManager.Models.Models;
 using HumanMusicSchoolManager.ServicesInterface;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 
 namespace HumanMusicSchoolManager
 {
@@ -95,8 +97,22 @@ namespace HumanMusicSchoolManager
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseStaticFiles();
+            var supportedCultures = new[]
+            {
+                new CultureInfo("pt-BR")
+            };
 
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("pt-BR"),
+                // Formatting numbers, dates, etc.
+                SupportedCultures = supportedCultures,
+                // UI strings that we have localized.
+                SupportedUICultures = supportedCultures
+            });
+
+            app.UseStaticFiles();
+            app.UseHttpsRedirection();
             app.UseAuthentication();
 
             app.UseMvc(routes =>
@@ -140,7 +156,7 @@ namespace HumanMusicSchoolManager
                     Ativo = true,
                     Email = "admin@admin",
                     CPF = "",
-                    RG  = "",
+                    RG = "",
                     Endereco = new Endereco()
                     {
                         Bairro = "Bairro",

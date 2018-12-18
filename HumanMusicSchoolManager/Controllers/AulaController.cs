@@ -50,7 +50,7 @@ namespace HumanMusicSchoolManager.Controllers
                 if (aula != null)
                 {
 
-                    if (aula.DataLimite == null || aula.DataLimite > DateTime.Now)
+                    if (aula.DataLimite == null || aula.DataLimite > NowHorarioBrasilia.GetNow())
                     {
                         return View(aula);
                     }

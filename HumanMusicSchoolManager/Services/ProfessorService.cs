@@ -119,6 +119,7 @@ namespace HumanMusicSchoolManager.Services
             final = final.AddHours(23);
             var professor = _context.Professores
                 .Include(p => p.Aulas)
+                .ThenInclude(a => a.Chamadas)
                 .FirstOrDefault(p => p.Id == professorId);
             var listAulas = new List<Aula>();
             if (professor.Aulas != null)
@@ -144,7 +145,10 @@ namespace HumanMusicSchoolManager.Services
             final = final.AddMinutes(-final.Minute);
             final = final.AddMilliseconds(-final.Millisecond);
             final = final.AddHours(23);
-            var professores = _context.Professores.Include(p => p.Aulas).ToList();
+            var professores = _context.Professores
+                .Include(p => p.Aulas)
+                .ThenInclude(a => a.Chamadas)
+                .ToList();
             if (professores != null)
             {
                 foreach (var professor in professores)

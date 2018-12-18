@@ -147,7 +147,7 @@
                                                                             <tbody>
                                                                                 @foreach (var matricula in dispSala.Matriculas)
                                                                                 {
-                                                                                    int now = int.Parse(DateTime.Now.ToString("yyyyMMdd"));
+                                                                                    int now = int.Parse(NowHorarioBrasilia.GetNow().ToString("yyyyMMdd"));
                                                                                     int dob = int.Parse(matricula.Aluno.DataNascimento.ToString("yyyyMMdd"));
                                                                                     int age = (now - dob) / 10000;
                                                                                     <tr>
@@ -182,7 +182,7 @@
                                                                                 <tbody>
                                                                                     @foreach (var reposicao in dispSala.Reposicoes)
                                                                                     {
-                                                                                        int now = int.Parse(DateTime.Now.ToString("yyyyMMdd"));
+                                                                                        int now = int.Parse(NowHorarioBrasilia.GetNow().ToString("yyyyMMdd"));
                                                                                         int dob = int.Parse(reposicao.Chamada.PacoteCompra.Matricula.Aluno.DataNascimento.ToString("yyyyMMdd"));
                                                                                         int age = (now - dob) / 10000;
                                                                                         <tr>
@@ -216,7 +216,7 @@
                                                                                 <tbody>
                                                                                     @foreach (var demostrativa in dispSala.Demostrativas)
                                                                                     {
-                                                                                        int now = int.Parse(DateTime.Now.ToString("yyyyMMdd"));
+                                                                                        int now = int.Parse(NowHorarioBrasilia.GetNow().ToString("yyyyMMdd"));
                                                                                         int dob = int.Parse(demostrativa.Candidato.DataNascimento.ToString("yyyyMMdd"));
                                                                                         int age = (now - dob) / 10000;
                                                                                         <tr>

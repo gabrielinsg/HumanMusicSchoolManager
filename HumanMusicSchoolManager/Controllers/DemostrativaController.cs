@@ -63,7 +63,7 @@ namespace HumanMusicSchoolManager.Controllers
                     demostrativaViewModel.Curso = _cursoService.BuscarPorId(cursoId.Value);
                 }
 
-                demostrativaViewModel.DiaAula = DateTime.Now;
+                demostrativaViewModel.DiaAula = NowHorarioBrasilia.GetNow();
 
                 return View(demostrativaViewModel);
             }
@@ -107,7 +107,7 @@ namespace HumanMusicSchoolManager.Controllers
                 ModelState.AddModelError("DiaAula", "Não é possível agendar para este dia - " + feriado.Nome);
             }
 
-            if (demostrativaViewModel.DiaAula < DateTime.Now)
+            if (demostrativaViewModel.DiaAula < NowHorarioBrasilia.GetNow())
             {
                 ModelState.AddModelError("DiaAula", "Dia da aula não pode ser menor que hoje");
             }

@@ -45,36 +45,67 @@
                 <br /><br />
                 @{
                     var dias = professor.Aulas.Select(a => a.Data.Date).Distinct().ToList();
-
-                    for (var i = 0; i < dias.Count; i++)
-                    {
-                        <a>
-                            @{
-                                var index = 1;
-                                <hr />
-                                <p>
+                }
+                <table class="table table-sm border-bottom">
+                    <tbody>
+                        @for (var i = 0; i < dias.Count; i++)
+                        {
+                            <tr>
+                                <td>
                                     <b>@dias[i].Date.ToString("dd/MM/yyyy")</b> -
+
+                                    @{
+                                        var index = 1;
+                                    }
                                     @foreach (var aula in professor.Aulas.Where(a => a.Data.Date == dias[i].Date))
                                     {
-                                        if (index == professor.Aulas.Where(a => a.Data.Date == dias[i].Date).ToList().Count)
+
+                                        @if (index == professor.Aulas.Where(a => a.Data.Date == dias[i].Date).ToList().Count)
                                         {
-                                            <span>@aula.Data.ToString("hh:mm")</span>
+                                            <span>@aula.Data.ToString("hh:mm")<span class="badge badge-light">@aula.Chamadas.Count</span></span>
                                         }
                                         else
                                         {
-                                            <span>@aula.Data.ToString("hh:mm") -</span>
+                                            <span>@aula.Data.ToString("hh:mm")<span class="badge badge-light">@aula.Chamadas.Count</span> -</span>
                                         }
                                         index++;
+
                                     }
-                                </p>
-                            }
-                        </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <table class="table table-sm table-borderless">
+                    <tr>
+                        <td>
+                            <b>Total de Aulas dadas: </b>@professor.Aulas.Count
+                        </td>
+                    </tr>
+                    @{
+                        var r = professor.Aulas.Max(a => a.Chamadas.Count);
+                        for (var i = 1; i <= r; i++)
+                        {
+                            <tr>
+                                <td>
+                                    @if (i == 1)
+                                    {
+                                        <b>Aulas com @i aluno: </b> @professor.Aulas.Where(a => a.Chamadas.Count == i).ToList().Count
+                                    }
+                                    else
+                                    {
+                                        <b>Aulas com @i alunos: </b> @professor.Aulas.Where(a => a.Chamadas.Count == i).ToList().Count
+                                    }
+                                </td>
+                            </tr>
+                        }
                     }
-                    <hr />
-                }
+                </table>
+
                 <br /><br />
                 <div class="text-center">
-                    <div class="rol-12">___________________________________</div>
+                    <div class="rol-12"><div style="border-bottom: solid;border-color: black;width: 500px;margin-right: auto; margin-left: auto; border-width:thin"></div></div>
                     <br />
                     <div class="rol-12">@professor.Nome</div>
                 </div>

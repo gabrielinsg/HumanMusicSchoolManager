@@ -218,7 +218,7 @@ namespace HumanMusicSchoolManager.Controllers
                 {
                     color = "#28a745";
                 }
-                else if (aula.AulaDada == false && aula.Data < DateTime.Now)
+                else if (aula.AulaDada == false && aula.Data < NowHorarioBrasilia.GetNow())
                 {
                     color = "#dc3545";
                 }
@@ -332,12 +332,12 @@ namespace HumanMusicSchoolManager.Controllers
 
                     if (inicial == null)
                     {
-                        inicial = DateTime.Now.AddDays(- DateTime.Now.Day + 1);
+                        inicial = NowHorarioBrasilia.GetNow().AddDays(- NowHorarioBrasilia.GetNow().Day + 1);
                     }
 
                     if (final == null)
                     {
-                        final = DateTime.Now.AddDays(-DateTime.Now.Day + 1).AddMonths(1).AddDays(-1);
+                        final = NowHorarioBrasilia.GetNow().AddDays(-NowHorarioBrasilia.GetNow().Day + 1).AddMonths(1).AddDays(-1);
                     }
 
                     var professorEncontrado = _professorService.BuscarPorIdData(professor.Id.Value, (DateTime)inicial, (DateTime)final);
@@ -357,12 +357,12 @@ namespace HumanMusicSchoolManager.Controllers
             {
                 if (inicial == null)
                 {
-                    inicial = DateTime.Now.AddDays(-DateTime.Now.Day + 1);
+                    inicial = NowHorarioBrasilia.GetNow().AddDays(-NowHorarioBrasilia.GetNow().Day + 1);
                 }
 
                 if (final == null)
                 {
-                    final = DateTime.Now.AddDays(-DateTime.Now.Day + 1).AddMonths(1).AddDays(-1);
+                    final = NowHorarioBrasilia.GetNow().AddDays(-NowHorarioBrasilia.GetNow().Day + 1).AddMonths(1).AddDays(-1);
                 }
 
                 var professorDataViewModel = new ProfessorPorDataViewModel
@@ -378,5 +378,7 @@ namespace HumanMusicSchoolManager.Controllers
             TempData["Error"] = "Professor não encontrado";
             return RedirectToAction("Index", "Professor");
         }
+
+
     }
 }

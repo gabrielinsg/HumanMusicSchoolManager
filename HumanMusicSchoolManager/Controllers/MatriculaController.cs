@@ -143,7 +143,7 @@ namespace HumanMusicSchoolManager.Controllers
 
                     foreach (var financeiro in matriculaViewModel.Financeiros)
                     {
-                        financeiro.UltimaAlteracao = DateTime.Now;
+                        financeiro.UltimaAlteracao = NowHorarioBrasilia.GetNow();
                     }
                 }
 
@@ -206,13 +206,13 @@ namespace HumanMusicSchoolManager.Controllers
             if (ModelState.IsValid)
             {
                 matriculaViewModel.Matricula.Ativo = true;
-                matriculaViewModel.Matricula.DataMatricula = DateTime.Now;
+                matriculaViewModel.Matricula.DataMatricula = NowHorarioBrasilia.GetNow();
                 _matriculaService.Cadastrar(matriculaViewModel.Matricula);
                 var relatorioMatricula = new RelatorioMatricula
                 {
                     PessoaId = _pessoaService.GetUser(User.Identity.Name).Id.Value,
                     MatriculaId = matriculaViewModel.Matricula.Id.Value,
-                    Data = DateTime.Now
+                    Data = NowHorarioBrasilia.GetNow()
                 };
                 string descricao = "Matricula no curso de "
                     + matriculaViewModel.Matricula.Curso.Nome + " com " + matriculaViewModel.DispSala.Professor.Nome +
@@ -237,7 +237,7 @@ namespace HumanMusicSchoolManager.Controllers
                         if (financeiro.FormaPagamento == FormaPagamento.DEBITO || financeiro.FormaPagamento == FormaPagamento.CREDITO)
                         {
                             financeiro.ValorPago = valor;
-                            financeiro.DataPagamento = DateTime.Now;
+                            financeiro.DataPagamento = NowHorarioBrasilia.GetNow();
                         }
                         _financeiroService.Cadastrar(financeiro);
                     }
@@ -384,7 +384,7 @@ namespace HumanMusicSchoolManager.Controllers
                 var trocaDispSalaViewModel = new TrocaDispSalaViewModel
                 {
                     DispSalas = _dispSalaService.HorariosDisponiveis(),
-                    DiaAula = DateTime.Now
+                    DiaAula = NowHorarioBrasilia.GetNow()
                 };
 
                 trocaDispSalaViewModel.Matricula = _matriculaService.BuscarPorId(matriculaId.Value);
@@ -416,7 +416,7 @@ namespace HumanMusicSchoolManager.Controllers
                 ModelState.Remove(model.Key);
             }
 
-            if (trocaDispSalaViewModel.DiaAula < DateTime.Now.Date || trocaDispSalaViewModel.DiaAula == null)
+            if (trocaDispSalaViewModel.DiaAula < NowHorarioBrasilia.GetNow().Date || trocaDispSalaViewModel.DiaAula == null)
             {
                 ModelState.AddModelError("DiaAula", "Primeira aula deve ser selecionado a partir de hoje");
             }
@@ -512,7 +512,7 @@ namespace HumanMusicSchoolManager.Controllers
 
                 var relatorioMatricula = new RelatorioMatricula
                 {
-                    Data = DateTime.Now,
+                    Data = NowHorarioBrasilia.GetNow(),
                     MatriculaId = trocaDispSalaViewModel.Matricula.Id.Value,
                     PessoaId = _pessoaService.GetUser(User.Identity.Name).Id.Value
                 };
@@ -524,6 +524,8 @@ namespace HumanMusicSchoolManager.Controllers
                 .First()
                 .GetCustomAttribute<DisplayAttribute>()
                 .GetName() + " às " + trocaDispSalaViewModel.Matricula.DispSala.Hora.ToString("00:'00'h");
+
+                relatorioMatricula.Descricao = descricao;
 
                 _relatorioMatriculaService.Cadastrar(relatorioMatricula);
 
@@ -562,7 +564,7 @@ namespace HumanMusicSchoolManager.Controllers
                     if (verifica)
                     {
                         matricula.DispSalaId = null;
-                        matricula.EncerramentoMatricula = DateTime.Now;
+                        matricula.EncerramentoMatricula = NowHorarioBrasilia.GetNow();
                         _matriculaService.Alterar(matricula);
                         TempData["Success"] = "Matricula Cancelada com sucesso!";
                         return RedirectToAction("Aluno", "Aluno", new { alunoId = matricula.AlunoId });

@@ -135,14 +135,14 @@ namespace HumanMusicSchoolManager.Controllers
                     _chamadaService.Alterar(chamada);
 
                 }
-                trancamento.Data = DateTime.Now;
+                trancamento.Data = NowHorarioBrasilia.GetNow();
                 _trancamentoService.Cadastrar(trancamento);
 
                 var relatorioMatricula = new RelatorioMatricula
                 {
                     PessoaId = _pessoaService.GetUser(User.Identity.Name).Id.Value,
                     MatriculaId = pacoteCompra.Matricula.Id.Value,
-                    Data = DateTime.Now
+                    Data = NowHorarioBrasilia.GetNow()
                 };
                 string descricao = "Trancamento feito do dia " + trancamento.DataInicial.ToString("dd/MM/yyyy") + " até dia " +
                     trancamento.DataFinal.ToString("dd/MM/yyyy");
@@ -180,7 +180,7 @@ namespace HumanMusicSchoolManager.Controllers
                 {
                     PessoaId = _pessoaService.GetUser(User.Identity.Name).Id.Value,
                     MatriculaId = pacoteCompra.Matricula.Id.Value,
-                    Data = DateTime.Now
+                    Data = NowHorarioBrasilia.GetNow()
                 };
                 string descricao = "Trancamento cancelado";
                 relatorioMatricula.Descricao = descricao;
@@ -225,7 +225,7 @@ namespace HumanMusicSchoolManager.Controllers
                         do
                         {
                             dataAula = dataAula.AddDays(7);
-                        } while (dataAula <= DateTime.Now);
+                        } while (dataAula <= NowHorarioBrasilia.GetNow());
 
                         do
                         {

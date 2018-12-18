@@ -111,7 +111,7 @@ namespace HumanMusicSchoolManager.Controllers
                     contrato.Conteudo = contrato.Conteudo.Replace("{Responsavel.CPF}", respFinanceiro.CPF);
                     contrato.Conteudo = contrato.Conteudo.Replace("{Responsavel.RG}", respFinanceiro.RG);
                     contrato.Conteudo = contrato.Conteudo.Replace("{Responsavel.DataNasc}", respFinanceiro.DataNascimento.ToString("dd/MM/yyyy"));
-                    contrato.Conteudo = contrato.Conteudo.Replace("{Responsavel.Idade}", ((int.Parse(DateTime.Now.ToString("yyyyMMdd")) - int.Parse(respFinanceiro.DataNascimento.ToString("yyyyMMdd"))) / 1000).ToString());
+                    contrato.Conteudo = contrato.Conteudo.Replace("{Responsavel.Idade}", ((int.Parse(NowHorarioBrasilia.GetNow().ToString("yyyyMMdd")) - int.Parse(respFinanceiro.DataNascimento.ToString("yyyyMMdd"))) / 1000).ToString());
                     contrato.Conteudo = contrato.Conteudo.Replace("{Responsavel.Logradouro}", respFinanceiro.Endereco.Logradouro);
                     contrato.Conteudo = contrato.Conteudo.Replace("{Responsavel.Numero}", respFinanceiro.Endereco.Numero.ToString());
                     contrato.Conteudo = contrato.Conteudo.Replace("{Responsavel.Cidade}", respFinanceiro.Endereco.Cidade);
@@ -137,7 +137,7 @@ namespace HumanMusicSchoolManager.Controllers
                     contrato.Conteudo = contrato.Conteudo.Replace("{Aluno.CPF}", aluno.CPF);
                     contrato.Conteudo = contrato.Conteudo.Replace("{Aluno.RG}", aluno.RG);
                     contrato.Conteudo = contrato.Conteudo.Replace("{Aluno.DataNasc}", aluno.DataNascimento.ToString("dd/MM/yyyy"));
-                    contrato.Conteudo = contrato.Conteudo.Replace("{Aluno.Idade}", ((int.Parse(DateTime.Now.ToString("yyyyMMdd")) - int.Parse(aluno.DataNascimento.ToString("yyyyMMdd"))) / 1000).ToString());
+                    contrato.Conteudo = contrato.Conteudo.Replace("{Aluno.Idade}", ((int.Parse(NowHorarioBrasilia.GetNow().ToString("yyyyMMdd")) - int.Parse(aluno.DataNascimento.ToString("yyyyMMdd"))) / 1000).ToString());
                     contrato.Conteudo = contrato.Conteudo.Replace("{Aluno.Logradouro}", aluno.Endereco.Logradouro);
                     contrato.Conteudo = contrato.Conteudo.Replace("{Aluno.Numero}", aluno.Endereco.Numero.ToString());
                     contrato.Conteudo = contrato.Conteudo.Replace("{Aluno.Cidade}", aluno.Endereco.Cidade);

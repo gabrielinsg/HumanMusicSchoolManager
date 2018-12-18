@@ -59,8 +59,8 @@ namespace HumanMusicSchoolManager.Controllers
                 {
                     Matricula = _matriculaService.BuscarPorId(matriculaId.Value),
                     PacotesAula = _pacoteAulaService.BuscarTodos(),
-                    Vencimento = DateTime.Now,
-                    PrimeiraAula = DateTime.Now
+                    Vencimento = NowHorarioBrasilia.GetNow(),
+                    PrimeiraAula = NowHorarioBrasilia.GetNow()
                 };
 
                 if (pacoteAulaId != null)
@@ -114,7 +114,7 @@ namespace HumanMusicSchoolManager.Controllers
                 ModelState.AddModelError("Vencimento", "Escolha uma data de vencimento");
             }
 
-            if (pacoteCompraViewModel.PrimeiraAula == null || pacoteCompraViewModel.PrimeiraAula.Date < DateTime.Now.Date)
+            if (pacoteCompraViewModel.PrimeiraAula == null || pacoteCompraViewModel.PrimeiraAula.Date < NowHorarioBrasilia.GetNow().Date)
             {
                 ModelState.AddModelError("PrimeiraAula", "Primeira aula deve ser selecionado a partir de hoje");
             }
@@ -150,7 +150,7 @@ namespace HumanMusicSchoolManager.Controllers
                     {
                         Aluno = pacoteCompraViewModel.Matricula.Aluno,
                         Nome = pacoteCompraViewModel.PacoteAula.Nome + " - " + pacoteCompraViewModel.Matricula.Curso.Nome + " - Parcela " + (i + 1) + " de " + pacoteCompraViewModel.PacoteCompra.QtdParcela,
-                        UltimaAlteracao = DateTime.Now,
+                        UltimaAlteracao = NowHorarioBrasilia.GetNow(),
                         FormaPagamento = pacoteCompraViewModel.FormaPagamento,
                         Pessoa = _pessoaService.GetUser(User.Identity.Name),
                         Valor = Math.Round(valor.Value, 2),
@@ -160,7 +160,7 @@ namespace HumanMusicSchoolManager.Controllers
                     if (financeiro.FormaPagamento == FormaPagamento.DEBITO || financeiro.FormaPagamento == FormaPagamento.CREDITO)
                     {
                         financeiro.ValorPago = valor;
-                        financeiro.DataPagamento = DateTime.Now;
+                        financeiro.DataPagamento = NowHorarioBrasilia.GetNow();
                     }
                     _financeiroService.Cadastrar(financeiro);
                 }
@@ -176,7 +176,7 @@ namespace HumanMusicSchoolManager.Controllers
                 {
                     PessoaId = _pessoaService.GetUser(User.Identity.Name).Id.Value,
                     MatriculaId = pacoteCompraViewModel.PacoteCompra.Matricula.Id.Value,
-                    Data = DateTime.Now
+                    Data = NowHorarioBrasilia.GetNow()
                 };
 
                 string descricao = "Pacote " + pacoteCompraViewModel.PacoteAula.Nome + " adquirido por " +
@@ -447,25 +447,25 @@ namespace HumanMusicSchoolManager.Controllers
             {
                 Aluno = pacoteCompra.Matricula.Aluno,
                 Nome = "Cancelamento do Pacote do curso de " + pacoteCompra.Matricula.Curso.Nome,
-                UltimaAlteracao = DateTime.Now,
+                UltimaAlteracao = NowHorarioBrasilia.GetNow(),
                 FormaPagamento = cancelarPacoteViewModel.FormaPagamento,
                 Pessoa = _pessoaService.GetUser(User.Identity.Name),
                 Valor = Math.Round(subTotal.Value, 2),
                 Multa = cancelarPacoteViewModel.Multa,
                 Desconto = cancelarPacoteViewModel.Desconto,
-                DataVencimento = DateTime.Now,
+                DataVencimento = NowHorarioBrasilia.GetNow(),
                 PacoteCompra = pacoteCompra
             };
             if (financeiro.FormaPagamento == FormaPagamento.DEBITO || financeiro.FormaPagamento == FormaPagamento.CREDITO)
             {
                 financeiro.ValorPago = total;
-                financeiro.DataPagamento = DateTime.Now;
+                financeiro.DataPagamento = NowHorarioBrasilia.GetNow();
             }
             _financeiroService.Cadastrar(financeiro);
 
             var relatorioMatricula = new RelatorioMatricula
             {
-                Data = DateTime.Now,
+                Data = NowHorarioBrasilia.GetNow(),
                 MatriculaId = pacoteCompra.MatriculaId,
                 PessoaId = _pessoaService.GetUser(User.Identity.Name).Id.Value
             };

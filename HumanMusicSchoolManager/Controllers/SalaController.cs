@@ -271,7 +271,7 @@ namespace HumanMusicSchoolManager.Controllers
                 {
                     color = "#28a745";
                 }
-                else if (aula.AulaDada == false && aula.Data < DateTime.Now)
+                else if (aula.AulaDada == false && aula.Data < NowHorarioBrasilia.GetNow())
                 {
                     color = "#dc3545";
                 }

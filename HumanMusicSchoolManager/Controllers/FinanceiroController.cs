@@ -68,7 +68,7 @@ namespace HumanMusicSchoolManager.Controllers
                 }
 
                 financeiro.PessoaId = _pessoaService.GetUser(User.Identity.Name).Id;
-                financeiro.UltimaAlteracao = DateTime.Now;
+                financeiro.UltimaAlteracao = NowHorarioBrasilia.GetNow();
                 if (ModelState.IsValid)
                 {
                     _financeiroService.Cadastrar(financeiro);
@@ -88,7 +88,7 @@ namespace HumanMusicSchoolManager.Controllers
                 }
 
                 financeiro.PessoaId = _pessoaService.GetUser(User.Identity.Name).Id;
-                financeiro.UltimaAlteracao = DateTime.Now;
+                financeiro.UltimaAlteracao = NowHorarioBrasilia.GetNow();
                 if (ModelState.IsValid)
                 {
                     _financeiroService.Alterar(financeiro);

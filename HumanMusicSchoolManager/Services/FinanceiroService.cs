@@ -34,7 +34,7 @@ namespace HumanMusicSchoolManager.Services
 
         public List<Financeiro> BuscarAtrasador()
         {
-            return _context.Financeiros.Where(f => f.DataVencimento < DateTime.Now).ToList();
+            return _context.Financeiros.Where(f => f.DataVencimento < NowHorarioBrasilia.GetNow()).ToList();
         }
 
         public List<Financeiro> BuscarPorAluno(int alunoId)

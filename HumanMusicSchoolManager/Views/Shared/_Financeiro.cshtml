@@ -26,7 +26,7 @@
                     if (financeiro.Desconto == null) { financeiro.Desconto = 0; }
                     if (financeiro.Multa == null) { financeiro.Multa = 0; }
                     var total = financeiro.Valor - financeiro.Desconto + financeiro.Multa;
-                    <tr class="@(financeiro.ValorPago >= total ? "text-success" : "") @(financeiro.DataVencimento < DateTime.Now.AddDays(-1) && (financeiro.ValorPago < total || financeiro.ValorPago == null) ? "text-danger" : "")">
+                    <tr class="@(financeiro.ValorPago >= total ? "text-success" : "") @(financeiro.DataVencimento < NowHorarioBrasilia.GetNow().AddDays(-1) && (financeiro.ValorPago < total || financeiro.ValorPago == null) ? "text-danger" : "")">
                         <td>@financeiro.Nome</td>
                         <td>@financeiro.Valor</td>
                         <td>@if (financeiro.Desconto != 0)
