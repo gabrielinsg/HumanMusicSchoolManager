@@ -52,6 +52,10 @@
     <Compile Remove="Migrations\20181213185905_MatriculaDispSalaNull.Designer.cs" />
     <Compile Remove="Migrations\20181213204525_MatriculaEncerramentoMatricula.cs" />
     <Compile Remove="Migrations\20181213204525_MatriculaEncerramentoMatricula.Designer.cs" />
+    <Compile Remove="Migrations\20181219115350_EmailConfig.cs" />
+    <Compile Remove="Migrations\20181219115350_EmailConfig.Designer.cs" />
+    <Compile Remove="Migrations\20181219120230_teste.cs" />
+    <Compile Remove="Migrations\20181219120230_teste.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
