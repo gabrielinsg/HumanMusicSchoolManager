@@ -18,7 +18,14 @@
                 <div class="col-md-2">
                     <div class="form-group">
                         <label asp-for="Data"></label>
-                        <input asp-for="Data" type="date" class="form-control" />
+                        @if (User.IsInRole("Coordenacao") || User.IsInRole("Admin"))
+                        {
+                            <input asp-for="Data" type="date" class="form-control" />
+                        }
+                        else
+                        {
+                            <input asp-for="Data" type="date" disabled="disabled" class="form-control" />
+                        }
                         <span asp-validation-for="Data" class="text-danger"></span>
                     </div>
                 </div>

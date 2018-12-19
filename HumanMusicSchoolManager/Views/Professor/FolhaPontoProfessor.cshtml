@@ -62,11 +62,11 @@
 
                                         @if (index == professor.Aulas.Where(a => a.Data.Date == dias[i].Date).ToList().Count)
                                         {
-                                            <span>@aula.Data.ToString("hh:mm")<span class="badge badge-light">@aula.Chamadas.Count</span></span>
+                                            <a asp-controller="Aula" asp-action="Form" asp-route-aulaId="@aula.Id" style="text-decoration: none; color:black"><span>@aula.Data.ToString("hh:mm")<span class="badge badge-light">@aula.Chamadas.Count</span></span></a>
                                         }
                                         else
                                         {
-                                            <span>@aula.Data.ToString("hh:mm")<span class="badge badge-light">@aula.Chamadas.Count</span> -</span>
+                                            <a asp-controller="Aula" asp-action="Form" asp-route-aulaId="@aula.Id" style="text-decoration: none; color:black"   ><span>@aula.Data.ToString("hh:mm")<span class="badge badge-light">@aula.Chamadas.Count</span> -</span></a>
                                         }
                                         index++;
 
