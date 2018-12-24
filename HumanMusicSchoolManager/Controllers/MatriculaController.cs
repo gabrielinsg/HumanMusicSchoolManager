@@ -503,8 +503,6 @@ namespace HumanMusicSchoolManager.Controllers
                                 chamada.AulaId = aula.Id.Value;
                                 _chamadaService.Alterar(chamada);
                                 trocaDispSalaViewModel.DiaAula = trocaDispSalaViewModel.DiaAula.AddDays(7);
-
-
                             }
                         }
                     }
@@ -528,6 +526,8 @@ namespace HumanMusicSchoolManager.Controllers
                 relatorioMatricula.Descricao = descricao;
 
                 _relatorioMatriculaService.Cadastrar(relatorioMatricula);
+
+
 
                 TempData["Success"] = "Hórario alterado com sucesso. Verificar o calendário para novas aulas";
                 return RedirectToAction("Aluno", "Aluno", new { alunoId = trocaDispSalaViewModel.Matricula.AlunoId });

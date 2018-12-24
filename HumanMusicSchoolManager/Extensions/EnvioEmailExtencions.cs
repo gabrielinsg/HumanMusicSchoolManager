@@ -36,14 +36,20 @@ namespace HumanMusicSchoolManager.Extensions
 
             //set the content
             mail.Subject = titulo;
-            mail.Body = corpo;
+            mail.Body = String.Format("<h2>{0}</h2>" +
+                "<br/><br/>" +
+                "{1}" +
+                "<br/><br/><br/><br/><p style='color: gray; font - size: 13px; '><i>Mensagem automática, não é necessário responder</i></p>", titulo, corpo);
+            mail.IsBodyHtml = true;
+
             //send the message
             SmtpClient smtp = new SmtpClient(Dominio);
 
             //IMPORANT:  Your smtp login email MUST be same as your FROM address.
             NetworkCredential Credentials = new NetworkCredential(Email, Senha);
             smtp.Credentials = Credentials;
-            smtp.Send(mail);
+            //smtp.Send(mail);
+            smtp.SendAsync(mail, null);
         }
 
     }

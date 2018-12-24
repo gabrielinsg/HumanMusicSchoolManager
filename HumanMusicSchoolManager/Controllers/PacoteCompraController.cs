@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using HumanMusicSchoolManager.Extensions;
 using HumanMusicSchoolManager.Models.Models;
 using HumanMusicSchoolManager.Models.ViewModels;
 using HumanMusicSchoolManager.ServicesInterface;
@@ -24,6 +25,7 @@ namespace HumanMusicSchoolManager.Controllers
         private readonly IChamadaService _chamadaService;
         private readonly IRelatorioMatriculaService _relatorioMatriculaService;
         private readonly IReposicaoService _reposicaoService;
+        private readonly IEmailConfigService _emailConfigService;
 
         public PacoteCompraController(IPacoteCompraService pacoteCompraService,
             IMatriculaService matriculaService,
@@ -35,7 +37,8 @@ namespace HumanMusicSchoolManager.Controllers
             IAulaService aulaService,
             IChamadaService chamadaService,
             IRelatorioMatriculaService relatorioMatriculaService,
-            IReposicaoService reposicaoService)
+            IReposicaoService reposicaoService,
+            IEmailConfigService emailConfigService)
         {
             this._pacoteCompraService = pacoteCompraService;
             this._matriculaService = matriculaService;
@@ -48,6 +51,7 @@ namespace HumanMusicSchoolManager.Controllers
             this._chamadaService = chamadaService;
             this._relatorioMatriculaService = relatorioMatriculaService;
             this._reposicaoService = reposicaoService;
+            this._emailConfigService = emailConfigService;
         }
 
         [HttpGet]
@@ -179,6 +183,8 @@ namespace HumanMusicSchoolManager.Controllers
                     Data = NowHorarioBrasilia.GetNow()
                 };
 
+
+                //Relatório matrícula
                 string descricao = "Pacote " + pacoteCompraViewModel.PacoteAula.Nome + " adquirido por " +
                     ((decimal)(pacoteCompraViewModel.PacoteCompra.PacoteAula.Valor - desconto)).ToString("R$ #,###.00") +
                     " em " + pacoteCompraViewModel.PacoteCompra.QtdParcela + " no " + pacoteCompraViewModel.FormaPagamento.GetType()
@@ -188,6 +194,19 @@ namespace HumanMusicSchoolManager.Controllers
                         .GetName();
                 relatorioMatricula.Descricao = descricao;
                 _relatorioMatriculaService.Cadastrar(relatorioMatricula);
+
+
+                //Enviar email professor
+                string corpo = "Adicionado " + pacoteCompraViewModel.PacoteAula.QtdAula + (pacoteCompraViewModel.PacoteAula.QtdAula > 1 ? " aulas" : " aula") +
+                    " - " + pacoteCompraViewModel.Matricula.DispSala.Dia.GetType()
+                            .GetMember(pacoteCompraViewModel.Matricula.DispSala.Dia.ToString())
+                            .First()
+                            .GetCustomAttribute<DisplayAttribute>()
+                            .GetName() + " às " + pacoteCompraViewModel.Matricula.DispSala.Hora.ToString("00h'00'") + " para " + pacoteCompraViewModel.Matricula.Aluno.Nome;
+
+                var email = new EnvioEmailExtencions(_emailConfigService);
+
+                email.EnviarEmail("Atualização na Agenda", corpo, pacoteCompraViewModel.Matricula.DispSala.Professor.Email);
 
                 return RedirectToAction("Aluno", "Aluno", new { alunoId = pacoteCompraViewModel.Matricula.Aluno.Id.Value });
             }

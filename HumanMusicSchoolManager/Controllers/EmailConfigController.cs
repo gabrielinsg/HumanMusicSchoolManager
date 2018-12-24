@@ -56,5 +56,15 @@ namespace HumanMusicSchoolManager.Controllers
 
             return View(emailConfig);
         }
+
+        public IActionResult Teste()
+        {
+            var host = HttpContext.Request;
+            var email = new EnvioEmailExtencions(_emailConfigService);
+            string corpo = "<b>Teste</b>"+host.Host;
+            email.EnviarEmail("Teste com html", corpo, "gabriel.insg@gmail.com");
+
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

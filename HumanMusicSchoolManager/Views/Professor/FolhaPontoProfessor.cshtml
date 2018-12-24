@@ -84,22 +84,29 @@
                         </td>
                     </tr>
                     @{
-                        var r = professor.Aulas.Max(a => a.Chamadas.Count);
-                        for (var i = 1; i <= r; i++)
+                        if (professor.Aulas.Count > 0)
                         {
-                            <tr>
-                                <td>
-                                    @if (i == 1)
+                            var r = professor.Aulas.Max(a => a.Chamadas.Count);
+                            for (var i = 1; i <= r; i++)
+                            {
+                                <tr>
+                                    @if (professor.Aulas.Where(a => a.Chamadas.Count == i).ToList().Count > 0)
                                     {
-                                        <b>Aulas com @i aluno: </b> @professor.Aulas.Where(a => a.Chamadas.Count == i).ToList().Count
+                                        <td>
+                                            @if (i == 1)
+                                            {
+                                                <b>Aulas com @i aluno: </b> @professor.Aulas.Where(a => a.Chamadas.Count == i).ToList().Count
+                                            }
+                                            else
+                                            {
+                                                <b>Aulas com @i alunos: </b> @professor.Aulas.Where(a => a.Chamadas.Count == i).ToList().Count
+                                            }
+                                        </td>
                                     }
-                                    else
-                                    {
-                                        <b>Aulas com @i alunos: </b> @professor.Aulas.Where(a => a.Chamadas.Count == i).ToList().Count
-                                    }
-                                </td>
-                            </tr>
+                                </tr>
+                            }
                         }
+
                     }
                 </table>
 
