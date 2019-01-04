@@ -14,14 +14,22 @@ $("#FormaPagamento").on('change', function () {
     carregarDados();
 });
 
+$("#Valor").keyup(function () {
+    carregarDados();
+});
+
 function carregarDados() {
-    var valor = parseFloat($("#PacoteAula_Valor").val());
+    var valor = $("#Valor").val();
     var desconto = $("#PacoteCompra_Desconto").val();
     var parcelas = parseInt($("#PacoteCompra_QtdParcela").val());
     var formaPagamento = parseInt($("#FormaPagamento").val());
 
     if (valor === "") {
         valor = 0;
+    }
+    else {
+        valor = valor.replace(',', '.');
+        valor = parseFloat(valor);
     }
 
     if (desconto === "") {

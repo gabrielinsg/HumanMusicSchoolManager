@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using HumanMusicSchoolManager.Extensions;
 using HumanMusicSchoolManager.Models.Models;
 using HumanMusicSchoolManager.Models.ViewModels;
 using HumanMusicSchoolManager.ServicesInterface;
@@ -20,6 +21,8 @@ namespace HumanMusicSchoolManager.Controllers
         private readonly IChamadaService _chamadaService;
         private readonly IPessoaService _pessoaService;
         private readonly IRelatorioMatriculaService _relatorioMatriculaService;
+        private readonly IEmailConfigService _emailConfigService;
+        private readonly IMatriculaService _matriculaService;
 
         public TrancamentoController(ITrancamentoService trancamentoService,
             IPacoteCompraService pacoteCompraService,
@@ -27,7 +30,9 @@ namespace HumanMusicSchoolManager.Controllers
             IFeriadoService feriadoService,
             IChamadaService chamadaService,
             IPessoaService pessoaService,
-            IRelatorioMatriculaService relatorioMatriculaService)
+            IRelatorioMatriculaService relatorioMatriculaService,
+            IEmailConfigService emailConfigService,
+            IMatriculaService matriculaService)
         {
             this._trancamentoService = trancamentoService;
             this._pacoteCompraService = pacoteCompraService;
@@ -36,6 +41,8 @@ namespace HumanMusicSchoolManager.Controllers
             this._chamadaService = chamadaService;
             this._pessoaService = pessoaService;
             this._relatorioMatriculaService = relatorioMatriculaService;
+            this._emailConfigService = emailConfigService;
+            this._matriculaService = matriculaService;
         }
 
         [HttpGet]
@@ -115,6 +122,7 @@ namespace HumanMusicSchoolManager.Controllers
                         feriado = _feriadoService.BuscarPorData(dataAula);
                     } while (feriado != null);
 
+
                     var aula = _aulaService.BuscarPorDiaHora(dataAula, chamada.PacoteCompra.Matricula.DispSala);
 
                     if (aula == null)
@@ -138,6 +146,8 @@ namespace HumanMusicSchoolManager.Controllers
                 trancamento.Data = NowHorarioBrasilia.GetNow();
                 _trancamentoService.Cadastrar(trancamento);
 
+
+                //Relatório Matrícula
                 var relatorioMatricula = new RelatorioMatricula
                 {
                     PessoaId = _pessoaService.GetUser(User.Identity.Name).Id.Value,
@@ -149,7 +159,15 @@ namespace HumanMusicSchoolManager.Controllers
                 relatorioMatricula.Descricao = descricao;
 
                 _relatorioMatriculaService.Cadastrar(relatorioMatricula);
-                
+
+                //Enviar email
+                var envioEmail = new EnvioEmailExtencions(_emailConfigService);
+                var matricula = _matriculaService.BuscarPorId(trancamento.PacoteCompra.MatriculaId);
+                string corpo = matricula.Aluno.Nome + " fez trancamento do dia " +
+                    trancamento.DataInicial.ToString("dd/MM/yyyy") + " até dia " +
+                    trancamento.DataFinal.ToString("dd/MM/yyyy");
+                envioEmail.EnviarEmail("Aviso Trancamento", corpo, matricula.DispSala.Professor.Email);
+
                 TempData["Success"] = "Trancamento realizado com sucesso.";
 
                 return RedirectToAction("Aluno", "Aluno", new { alunoId = pacoteCompra.Matricula.AlunoId });

@@ -129,8 +129,16 @@
                                             <div class="row">
                                                 <div class="col-md-2">
                                                     <div class="form-group">
-                                                        <label asp-for="PacoteAula.Valor"></label>
-                                                        <input class="form-control" disabled asp-for="PacoteAula.Valor" />
+                                                        <label asp-for="Valor"></label>
+                                                        <input class="form-control" asp-for="Valor" />
+                                                        <span asp-validation-for="Valor" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label asp-for="QtdAula"></label>
+                                                        <input class="form-control" asp-for="QtdAula" />
+                                                        <span asp-validation-for="QtdAula" class="text-danger"></span>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2">

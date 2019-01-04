@@ -508,6 +508,7 @@ namespace HumanMusicSchoolManager.Controllers
                     }
                 }
 
+                //Relatório Matrícula
                 var relatorioMatricula = new RelatorioMatricula
                 {
                     Data = NowHorarioBrasilia.GetNow(),
@@ -527,6 +528,9 @@ namespace HumanMusicSchoolManager.Controllers
 
                 _relatorioMatriculaService.Cadastrar(relatorioMatricula);
 
+
+                //Enviar Email
+                //var corpo = trocaDispSalaViewModel.Matricula.Aluno.Nome + " mudou "
 
 
                 TempData["Success"] = "Hórario alterado com sucesso. Verificar o calendário para novas aulas";

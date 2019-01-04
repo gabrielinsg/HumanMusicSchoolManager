@@ -70,6 +70,8 @@ namespace HumanMusicSchoolManager.Controllers
                 if (pacoteAulaId != null)
                 {
                     pacoteCompraViewModel.PacoteAula = _pacoteAulaService.BuscarPorId(pacoteAulaId.Value);
+                    pacoteCompraViewModel.Valor = pacoteCompraViewModel.PacoteAula.Valor;
+                    pacoteCompraViewModel.QtdAula = pacoteCompraViewModel.PacoteAula.QtdAula;
                 }
 
                 return View(pacoteCompraViewModel);
@@ -144,7 +146,8 @@ namespace HumanMusicSchoolManager.Controllers
                 {
                     desconto = pacoteCompraViewModel.PacoteCompra.Desconto;
                 }
-                var valor = (pacoteCompraViewModel.PacoteCompra.PacoteAula.Valor - desconto) / pacoteCompraViewModel.PacoteCompra.QtdParcela;
+                //var valor = (pacoteCompraViewModel.PacoteCompra.PacoteAula.Valor - desconto) / pacoteCompraViewModel.PacoteCompra.QtdParcela;
+                var valor = (pacoteCompraViewModel.Valor - desconto) / pacoteCompraViewModel.PacoteCompra.QtdParcela;
                 pacoteCompraViewModel.PacoteCompra = _pacoteCompraService.Cadastrar(pacoteCompraViewModel.PacoteCompra);
 
                 //Gerar Financeiros
@@ -171,7 +174,7 @@ namespace HumanMusicSchoolManager.Controllers
 
                 //Gerar Aulas
                 CriarAulas(pacoteCompraViewModel.PrimeiraAula,
-                    pacoteCompraViewModel.PacoteAula.QtdAula,
+                    pacoteCompraViewModel.QtdAula,
                     pacoteCompraViewModel.Matricula.DispSala.Hora,
                     pacoteCompraViewModel.Matricula,
                     pacoteCompraViewModel.PacoteCompra);
@@ -185,8 +188,8 @@ namespace HumanMusicSchoolManager.Controllers
 
 
                 //Relatório matrícula
-                string descricao = "Pacote " + pacoteCompraViewModel.PacoteAula.Nome + " adquirido por " +
-                    ((decimal)(pacoteCompraViewModel.PacoteCompra.PacoteAula.Valor - desconto)).ToString("R$ #,###.00") +
+                string descricao = "Pacote " + pacoteCompraViewModel.PacoteAula.Nome +" com " +pacoteCompraViewModel.QtdAula+ " aulas adquirido por " +
+                    ((decimal)(pacoteCompraViewModel.Valor - desconto)).ToString("R$ #,###.00") +
                     " em " + pacoteCompraViewModel.PacoteCompra.QtdParcela + " no " + pacoteCompraViewModel.FormaPagamento.GetType()
                         .GetMember(pacoteCompraViewModel.FormaPagamento.ToString())
                         .First()
@@ -197,7 +200,7 @@ namespace HumanMusicSchoolManager.Controllers
 
 
                 //Enviar email professor
-                string corpo = "Adicionado " + pacoteCompraViewModel.PacoteAula.QtdAula + (pacoteCompraViewModel.PacoteAula.QtdAula > 1 ? " aulas" : " aula") +
+                string corpo = "Adicionado " + pacoteCompraViewModel.QtdAula + (pacoteCompraViewModel.QtdAula > 1 ? " aulas" : " aula") +
                     " - " + pacoteCompraViewModel.Matricula.DispSala.Dia.GetType()
                             .GetMember(pacoteCompraViewModel.Matricula.DispSala.Dia.ToString())
                             .First()
@@ -482,6 +485,8 @@ namespace HumanMusicSchoolManager.Controllers
             }
             _financeiroService.Cadastrar(financeiro);
 
+
+            //Relatório Matrícula
             var relatorioMatricula = new RelatorioMatricula
             {
                 Data = NowHorarioBrasilia.GetNow(),
@@ -494,6 +499,12 @@ namespace HumanMusicSchoolManager.Controllers
 
             relatorioMatricula.Descricao = descricao;
             _relatorioMatriculaService.Cadastrar(relatorioMatricula);
+
+            //Enviar Email
+            var matricula = _matriculaService.BuscarPorId(cancelarPacoteViewModel.PacoteCompra.MatriculaId);
+            string corpo = matricula.Aluno.Nome + " cancelou o pacote do curso de " + matricula.Curso.Nome;
+            var enviaEmail = new EnvioEmailExtencions(_emailConfigService);
+            enviaEmail.EnviarEmail("Aviaso Cancelamento", corpo, matricula.DispSala.Professor.Email);
 
             TempData["Success"] = "Cancelamento efetuado com sucesso";
             return RedirectToAction("Aluno", "Aluno", new { alunoId = pacoteCompra.Matricula.AlunoId });

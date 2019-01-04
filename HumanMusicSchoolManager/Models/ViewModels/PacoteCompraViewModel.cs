@@ -18,6 +18,11 @@ namespace HumanMusicSchoolManager.Models.ViewModels
         public DateTime Vencimento { get; set; }
         [Display(Name = "Primeira Aula")]
         public DateTime PrimeiraAula { get; set; }
+        [Required(ErrorMessage = "Valor obrigatório")]
+        public Decimal Valor { get; set; }
+        [Required(ErrorMessage = "Qtd Aula obrigatório")]
+        [Display(Name = "Qtd Aulas")]
+        public int QtdAula { get; set; }
 
 
         public PacoteCompraViewModel()
