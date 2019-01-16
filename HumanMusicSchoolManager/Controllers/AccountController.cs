@@ -14,6 +14,7 @@ using HumanMusicSchoolManager.Models;
 using HumanMusicSchoolManager.Models.AccountViewModels;
 using HumanMusicSchoolManager.Services;
 using HumanMusicSchoolManager.ServicesInterface;
+using HumanMusicSchoolManager.Extensions;
 
 namespace HumanMusicSchoolManager.Controllers
 {
@@ -27,6 +28,7 @@ namespace HumanMusicSchoolManager.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IEmailConfigService _emailConfigService;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
@@ -34,7 +36,8 @@ namespace HumanMusicSchoolManager.Controllers
             IEmailSender emailSender,
             ILogger<AccountController> logger,
             RoleManager<IdentityRole> roleManager,
-            IPessoaService pessoaService)
+            IPessoaService pessoaService,
+            IEmailConfigService emailConfigService)
         {
             _pessoaService = pessoaService;
             _userManager = userManager;
@@ -42,6 +45,7 @@ namespace HumanMusicSchoolManager.Controllers
             _emailSender = emailSender;
             _logger = logger;
             _roleManager = roleManager;
+            _emailConfigService = emailConfigService;
         }
 
         [TempData]
@@ -378,7 +382,8 @@ namespace HumanMusicSchoolManager.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByEmailAsync(model.Email);
-                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                //if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                if (user == null)
                 {
                     // Don't reveal that the user does not exist or is not confirmed
                     return RedirectToAction(nameof(ForgotPasswordConfirmation));
@@ -388,8 +393,12 @@ namespace HumanMusicSchoolManager.Controllers
                 // visit https://go.microsoft.com/fwlink/?LinkID=532713
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var callbackUrl = Url.ResetPasswordCallbackLink(user.Id, code, Request.Scheme);
-                await _emailSender.SendEmailAsync(model.Email, "Reset Password",
-                   $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
+                //await _emailSender.SendEmailAsync(model.Email, "Reset Password",
+                //   $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
+                var EnvioEmail = new EnvioEmailExtencions(_emailConfigService);
+                EnvioEmail.EnviarEmail("Resetar a senha",
+                    $"Redefinir a senha clicando sobre esse link: <a href='{callbackUrl}'>link</a>", model.Email);
+
                 return RedirectToAction(nameof(ForgotPasswordConfirmation));
             }
 
