@@ -297,8 +297,8 @@
                                 <div class="list-group-item">
                                     <form role="form" method="post" asp-action="CadastraRespFinanceiro">
 
-                                        <input asp-for="RespFinanceiro.Id" value="@Model.RespFinanceiro.Id" type="hidden" />
-                                        <input asp-for="RespFinanceiro.Endereco.Id" type="hidden" />
+                                        <input asp-for="RespFinanceiro.Id" value="@(Model.RespFinanceiro.Id == null ? null : Model.RespFinanceiro.Id)" type="hidden" />
+                                        <input asp-for="RespFinanceiro.Endereco.Id" value="@(Model.RespFinanceiro.Id == null ? 0 : Model.RespFinanceiro.Endereco.Id)" type="hidden" />
                                         <input asp-for="RespFinanceiro.EnderecoId" type="hidden" />
                                         <input asp-for="Aluno.Id" type="hidden" />
                                         <input asp-for="Curso.Id" type="hidden" />
@@ -451,7 +451,7 @@
                                             <div class="form-group">
                                                 <div class="col-md-12">
                                                     <div class="checkbox">
-                                                        @if (Model == null)
+                                                        @if (Model.RespFinanceiro.Id == null)
                                                         {
                                                             <label asp-for="RespFinanceiro.Ativo">
                                                                 <input asp-for="RespFinanceiro.Ativo" checked />

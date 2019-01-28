@@ -268,6 +268,12 @@ namespace HumanMusicSchoolManager.Controllers
                 {
                     ModelState.Remove(model.Key);
                 }
+
+                var respPorCpf = _respFinanceiroService.BuscarPorCPF(matriculaViewModel.RespFinanceiro.CPF != null ? 
+                    matriculaViewModel.RespFinanceiro.CPF : "");
+
+                if (respPorCpf != null) ModelState.AddModelError("RespFinanceiro.CPF", "CPF já cadastrado");
+
                 if (ModelState.IsValid)
                 {
                     matriculaViewModel.Aluno = _alunoService.BuscarPorId(matriculaViewModel.Aluno.Id.Value);
