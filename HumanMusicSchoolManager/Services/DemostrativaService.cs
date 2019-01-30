@@ -49,6 +49,18 @@ namespace HumanMusicSchoolManager.Services
             _context.SaveChanges();
         }
 
+        public List<Demostrativa> DemostrativasAbertas()
+        {
+            return _context.Demostrativas
+                .Where(d => d.DispSalaId != null)
+                .Include(d => d.Curso)
+                .Include(d => d.Candidato)
+                .Include(d => d.DispSala)
+                .ThenInclude(ds => ds.Professor)
+                .Include(d => d.Aula)
+                .ToList();
+        }
+
         public void Excluir(int demostrativaId)
         {
             var demostrativa = _context.Demostrativas.FirstOrDefault(d => d.Id == demostrativaId);

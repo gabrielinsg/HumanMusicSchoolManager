@@ -166,6 +166,51 @@ namespace HumanMusicSchoolManager.Controllers
                     contrato.Conteudo = contrato.Conteudo.Replace("{Matricula.Curso}", matricula.Curso.Nome);
                     contrato.Conteudo = contrato.Conteudo.Replace("{Matricula.DataMatricula}", matricula.DataMatricula.ToString("dd/MM/yyyy"));
 
+                    //Financeiro
+                    var linhas = "";
+                    foreach (var financeiro in pacoteCompra.Financeiros)
+                    {
+                        if (financeiro.Valor == null) { financeiro.Valor = 0; }
+                        if (financeiro.Desconto == null) { financeiro.Desconto = 0; }
+                        if (financeiro.Multa == null) { financeiro.Multa = 0; }
+                        var total = financeiro.Valor - financeiro.Desconto + financeiro.Multa;
+                        linhas += "<tr>" +
+                            "<td>" + (financeiro.Nome ?? "") + "</td>" +
+                            "<td>" + (financeiro.Valor == 0 ? "" : financeiro.Valor.ToString()) + "</td>" +
+                            "<td>" + (financeiro.Desconto == 0 ? "" : financeiro.Desconto.ToString()) + "</td>" +
+                            "<td>" + (financeiro.Multa == 0 ? "" : financeiro.Multa.ToString()) + "</td>" +
+                            "<td>" + total + "</td>" +
+                            "<td>" + (financeiro.ValorPago == null ? "" : financeiro.ValorPago.ToString()) + "</td>" +
+                            "<td>" + financeiro.FormaPagamento.GetType()
+                            .GetMember(financeiro.FormaPagamento.ToString())
+                            .First()
+                            .GetCustomAttribute<DisplayAttribute>()
+                            .GetName() + "</td>" +
+                            "<td>" + (financeiro.DataVencimento == null ? "" : financeiro.DataVencimento.ToString("dd/MM/yyyy")) + "</td>" +
+                            "<td>" + (financeiro.DataPagamento == null ? "" : ((DateTime)financeiro.DataPagamento).ToString("dd/MM/yyyy")) + "</td>" +
+                            "</tr>";
+                    }
+                    var parcelas = "<table>"
+                                    + "<thead>"
+                                        + "<tr>"
+                                        + "<th> Nome </ th >"
+                                            + "<th>Valor</th>"
+                                            + "<th> Desconto </ th >"
+                                            + "<th>Multa</th>"
+                                            + "<th> Total </ th >"
+                                            + "<th>Valor Pago</th>"
+                                            + "<th> Forma de Pagamento</th>"
+                                            + "<th> Data de Vencimento</th>"
+                                            + "<th> Data do Pagamento</th>"
+                                        + "</tr>"
+                                    + "</thead>"
+                                    + "<tbody>"
+                                        + linhas
+                                    + "</tbody>"
+                                + "</table>";
+
+                    contrato.Conteudo = contrato.Conteudo.Replace("{Financeiro}", parcelas);
+
                     return View(contrato);
 
                 }

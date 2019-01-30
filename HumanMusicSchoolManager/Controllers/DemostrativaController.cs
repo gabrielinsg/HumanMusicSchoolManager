@@ -176,13 +176,19 @@ namespace HumanMusicSchoolManager.Controllers
             TempData["Success"] = "Demostrativa alterada com sucesso";
             if (demostrativa.Contratou == true)
             {
-                return RedirectToAction("Form", "Aluno");
+
+                return RedirectToAction("Candidato", "Aluno", new { candidatoId = demostrativa.CandidatoId });
             }
             else
             {
                 return RedirectToAction("Candidato", "Candidato", new { candidatoId = demostrativa.CandidatoId });
             }
 
+        }
+
+        public IActionResult DemostrativasAbertas()
+        {
+            return View(_demostrativaService.DemostrativasAbertas());
         }
     }
 }

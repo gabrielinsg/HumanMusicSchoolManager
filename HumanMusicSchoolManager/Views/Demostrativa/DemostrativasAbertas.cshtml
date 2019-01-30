@@ -1,0 +1,77 @@
+﻿@model List<Demostrativa>
+@{
+    ViewData["Title"] = "DemostrativasAbertas";
+}
+
+<div class="card mb-3">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-xl-11 col-md-10">
+                <i class="fas fa-music"></i>
+                Demostrativas abertas
+            </div>
+        </div>
+
+    </div>
+    <div class="card-body">
+        <div class="table-responsive table table-sm table-hover small">
+            <table class="table table-bordered table-striped" id="dataTable" cellspacing="0">
+                <thead>
+                    <tr class="small">
+                        <th>Nome</th>
+                        <th>Curso</th>
+                        <th>Professor</th>
+                        <th class="text-center">Data</th>
+                        <th>Aula dada</th>
+                        <th>Presença</th>
+                        <th class="text-center">Data Nascimento</th>
+                        <th>Email</th>
+                        <th>Telefone</th>
+                        <th>Celular</th>
+                        <th class="text-center">Demostrativa</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Curso</th>
+                        <th>Professor</th>
+                        <th class="text-center">Data</th>
+                        <th>Aula dada</th>
+                        <th>Presença</th>
+                        <th class="text-center">Data Nascimento</th>
+                        <th>Email</th>
+                        <th>Telefone</th>
+                        <th>Celular</th>
+                        <th class="text-center">Demostrativa</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var demostrativa in Model)
+                    {
+                        <tr>
+                            <td>@demostrativa.Candidato.Nome</td>
+                            <td>@demostrativa.Curso.Nome</td>
+                            <td>@demostrativa.DispSala.Professor.Nome</td>
+                            <td class="text-center">@demostrativa.Aula.Data.ToString("dd/MM/yyy - HH:mm'h'")</td>
+                            <td>@(demostrativa.Aula.AulaDada == true ? "Sim" : "Não")</td>
+                            <td>@(demostrativa.Presenca == null ? "" : demostrativa.Presenca == true ? "Presente" : "Faltou")</td>
+                            <td class="text-center">@demostrativa.Candidato.DataNascimento.ToString("dd/MM/yyyy")</td>
+                            <td>@demostrativa.Candidato.Email</td>
+                            <td>@demostrativa.Candidato.Tel</td>
+                            <td>@demostrativa.Candidato.Cel</td>
+                            <td class="text-center"><a asp-controller="Candidato" asp-action="Candidato" asp-route-candidatoId="@demostrativa.CandidatoId"><i class="fas fa-music"></i></a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/vendor/datatables/jquery.dataTables.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.js"></script>
+    <script src="~/js/demo/datatables-demo.js"></script>
+}
+

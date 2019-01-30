@@ -60,7 +60,7 @@ namespace HumanMusicSchoolManager.Controllers
                     _candidatoService.Alterar(candidato);
                     TempData["Success"] = "Candidato Alterado com sucesso!";
                 }
-                return RedirectToAction("Form");
+                return RedirectToAction("Candidato", "Candidato", new { candidatoId = candidato.Id.Value });
             }
             else
             {

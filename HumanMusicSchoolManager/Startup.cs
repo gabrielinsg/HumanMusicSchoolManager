@@ -80,6 +80,7 @@ namespace HumanMusicSchoolManager
             services.AddTransient<ITrancamentoService, TrancamentoService>();
             services.AddTransient<IRelatorioMatriculaService, RelatorioMatriculaService>();
             services.AddTransient<IEmailConfigService, EmailConfigService>();
+            services.AddTransient<IEnderecoService, EnderecoService>();
 
             services.AddMvc();
         }

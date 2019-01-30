@@ -13,5 +13,6 @@ namespace HumanMusicSchoolManager.ServicesInterface
         Demostrativa BuscarPorId(int demostrativaId);
         void Excluir(int demostrativaId);
         void Alterar(Demostrativa demostrativa);
+        List<Demostrativa> DemostrativasAbertas();
     }
 }

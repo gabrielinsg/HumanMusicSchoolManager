@@ -501,10 +501,10 @@ namespace HumanMusicSchoolManager.Controllers
             _relatorioMatriculaService.Cadastrar(relatorioMatricula);
 
             //Enviar Email
-            var matricula = _matriculaService.BuscarPorId(cancelarPacoteViewModel.PacoteCompra.MatriculaId);
-            string corpo = matricula.Aluno.Nome + " cancelou o pacote do curso de " + matricula.Curso.Nome;
-            var enviaEmail = new EnvioEmailExtencions(_emailConfigService);
-            enviaEmail.EnviarEmail("Aviaso Cancelamento", corpo, matricula.DispSala.Professor.Email);
+            //var matricula = _matriculaService.BuscarPorId(cancelarPacoteViewModel.PacoteCompra.MatriculaId);
+            //string corpo = matricula.Aluno.Nome + " cancelou o pacote do curso de " + matricula.Curso.Nome;
+            //var enviaEmail = new EnvioEmailExtencions(_emailConfigService);
+            //enviaEmail.EnviarEmail("Aviaso Cancelamento", corpo, matricula.DispSala.Professor.Email);
 
             TempData["Success"] = "Cancelamento efetuado com sucesso";
             return RedirectToAction("Aluno", "Aluno", new { alunoId = pacoteCompra.Matricula.AlunoId });

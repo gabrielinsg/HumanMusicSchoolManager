@@ -17,11 +17,15 @@ namespace HumanMusicSchoolManager.Controllers
     {
         private readonly IAlunoService _alunoService;
         private readonly ICursoService _cursoService;
+        private readonly ICandidatoService _candidatoService;
 
-        public AlunoController(IAlunoService alunoService, ICursoService cursoService)
+        public AlunoController(IAlunoService alunoService, 
+            ICursoService cursoService,
+            ICandidatoService candidatoService)
         {
             this._alunoService = alunoService;
             this._cursoService = cursoService;
+            this._candidatoService = candidatoService;
         }
 
         public IActionResult Index()
@@ -62,7 +66,7 @@ namespace HumanMusicSchoolManager.Controllers
                     {
                         _alunoService.Cadastrar(aluno);
                         TempData["Success"] = "Aluno cadastrado com sucesso!";
-                        return RedirectToAction("Form");
+                        return RedirectToAction("Aluno", "Aluno", new { alunoId = aluno.Id.Value });
                     }
                     else
                     {
@@ -81,7 +85,7 @@ namespace HumanMusicSchoolManager.Controllers
                 {
                     _alunoService.Alterar(aluno);
                     TempData["Success"] = "Aluno alterado com sucesso!";
-                    return RedirectToAction("Form");
+                    return RedirectToAction("Aluno", "Aluno", new { alunoId = aluno.Id.Value });
                 }
                 else
                 {
@@ -118,6 +122,33 @@ namespace HumanMusicSchoolManager.Controllers
         {
             var aluno = _alunoService.BuscarPorNome(nome);
             return Json(aluno);
+        }
+
+        public IActionResult Candidato(int candidatoId)
+        {
+            var candidato = _candidatoService.BuscarPorId(candidatoId);
+            var aluno = _alunoService.BuscarPorCPF(candidato.CPF);
+
+            if (aluno == null)
+            {
+                aluno = new Aluno
+                {
+                    Nome = candidato.Nome,
+                    CPF = candidato.CPF,
+                    Tel = candidato.Tel,
+                    Cel = candidato.Cel,
+                    DataNascimento = candidato.DataNascimento,
+                    Email = candidato.Email,
+                    Ativo = true
+                };
+
+                foreach (var Model in ModelState)
+                {
+                    ModelState.Remove(Model.Key);
+                }
+            }
+
+            return View("Form", aluno);
         }
     }
 }
