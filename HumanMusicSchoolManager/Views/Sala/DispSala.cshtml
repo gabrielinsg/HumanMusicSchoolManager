@@ -69,6 +69,28 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-2">
+                    <div class="form-group">
+                        <label> </label>
+                        <div class="checkbox">
+                            @if (Model.DispSala == null)
+                            {
+                                <label asp-for="DispSala.Ativo">
+                                    <input asp-for="DispSala.Ativo" checked />
+                                    @Html.DisplayNameFor(p => p.DispSala.Ativo)
+                                </label>
+                            }
+                            else
+                            {
+                                <label asp-for="DispSala.Ativo">
+                                    <input asp-for="DispSala.Ativo" />
+                                    @Html.DisplayNameFor(p => p.DispSala.Ativo)
+                                </label>
+                            }
+
+                        </div>
+                    </div>
+                </div>
                 <div class="col-md-2" style="padding-top:30px">
                     <button type="submit" class="btn btn-success form-control">@(Model.DispSala == null ? "Incluir" : "Alterar")</button>
                 </div>
@@ -106,7 +128,7 @@
                             }
                             nomeProfessor = nomeProfessor.Substring(0, 1) + ultimaLetra;
                         }
-                        <b>@dispSala.Hora.ToString("00:'00'h")</b> - @nomeProfessor
+                        <b>@dispSala.Hora.ToString("00:'00'h")</b> - @nomeProfessor - @(dispSala.Ativo == true ? "Ativo" : "Desativado")
                     </div>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                         <div class="container">
@@ -165,7 +187,7 @@
                             }
                             nomeProfessor = nomeProfessor.Substring(0, 1) + ultimaLetra;
                         }
-                        <b>@dispSala.Hora.ToString("00:'00'h")</b> - @nomeProfessor
+                        <b>@dispSala.Hora.ToString("00:'00'h")</b> - @nomeProfessor - @(dispSala.Ativo == true ? "Ativo" : "Desativado")
                     </div>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                         <div class="container">
@@ -224,7 +246,7 @@
                             }
                             nomeProfessor = nomeProfessor.Substring(0, 1) + ultimaLetra;
                         }
-                        <b>@dispSala.Hora.ToString("00:'00'h")</b> - @nomeProfessor
+                        <b>@dispSala.Hora.ToString("00:'00'h")</b> - @nomeProfessor - @(dispSala.Ativo == true ? "Ativo" : "Desativado")
                     </div>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                         <div class="container">
@@ -283,7 +305,7 @@
                             }
                             nomeProfessor = nomeProfessor.Substring(0, 1) + ultimaLetra;
                         }
-                        <b>@dispSala.Hora.ToString("00:'00'h")</b> - @nomeProfessor
+                        <b>@dispSala.Hora.ToString("00:'00'h")</b> - @nomeProfessor - @(dispSala.Ativo == true ? "Ativo" : "Desativado")
                     </div>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                         <div class="container">
@@ -342,7 +364,7 @@
                             }
                             nomeProfessor = nomeProfessor.Substring(0, 1) + ultimaLetra;
                         }
-                        <b>@dispSala.Hora.ToString("00:'00'h")</b> - @nomeProfessor
+                        <b>@dispSala.Hora.ToString("00:'00'h")</b> - @nomeProfessor - @(dispSala.Ativo == true ? "Ativo" : "Desativado")
                     </div>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                         <div class="container">
@@ -401,7 +423,7 @@
                             }
                             nomeProfessor = nomeProfessor.Substring(0, 1) + ultimaLetra;
                         }
-                        <b>@dispSala.Hora.ToString("00:'00'h")</b> - @nomeProfessor
+                        <b>@dispSala.Hora.ToString("00:'00'h")</b> - @nomeProfessor - @(dispSala.Ativo == true ? "Ativo" : "Desativado")
                     </div>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                         <div class="container">

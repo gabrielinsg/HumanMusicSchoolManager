@@ -34,7 +34,16 @@ namespace HumanMusicSchoolManager.Services
 
         public List<Financeiro> BuscarAtrasador()
         {
-            return _context.Financeiros.Where(f => f.DataVencimento < NowHorarioBrasilia.GetNow()).ToList();
+            return _context.Financeiros
+                .Where(f => f.DataVencimento < NowHorarioBrasilia.GetNow() && ((f.Valor - (f.Desconto == null ? 0 : f.Desconto) + (f.Multa == null ? 0 : f.Multa)) > (f.ValorPago == null ? 0 : f.ValorPago)))
+                .Include(f => f.Aluno)
+                .Include(f => f.PacoteCompra)
+                .Include(f => f.PacoteCompra)
+                .ThenInclude(f => f.Matricula)
+                .Include(f => f.PacoteCompra)
+                .ThenInclude(pc => pc.Matricula)
+                .ThenInclude(m => m.RespFinanceiro)
+                .ToList();
         }
 
         public List<Financeiro> BuscarPorAluno(int alunoId)
@@ -66,6 +75,28 @@ namespace HumanMusicSchoolManager.Services
                 _context.Financeiros.Remove(financeiro);
                 _context.SaveChanges();
             }
+        }
+
+        public List<Financeiro> ParcelasEmAberto(DateTime inicial, DateTime final)
+        {
+            inicial = inicial.AddHours(-inicial.Hour);
+            inicial = inicial.AddMinutes(-inicial.Minute);
+            inicial = inicial.AddMilliseconds(-inicial.Millisecond);
+            final = final.AddHours(-final.Hour);
+            final = final.AddMinutes(-final.Minute);
+            final = final.AddMilliseconds(-final.Millisecond);
+            final = final.AddHours(23);
+
+            return _context.Financeiros
+                .Where(f => (f.Valor - (f.Desconto == null ? 0 : f.Desconto) + (f.Multa == null ? 0 : f.Multa)) > (f.ValorPago == null ? 0 : f.ValorPago) && f.DataVencimento >= inicial && f.DataVencimento <= final)
+                .Include(f => f.Aluno)
+                .Include(f => f.PacoteCompra)
+                .Include(f => f.PacoteCompra)
+                .ThenInclude(f => f.Matricula)
+                .Include(f => f.PacoteCompra)
+                .ThenInclude(pc => pc.Matricula)
+                .ThenInclude(m => m.RespFinanceiro)
+                .ToList();
         }
     }
 }

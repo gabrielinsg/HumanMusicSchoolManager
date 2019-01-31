@@ -101,5 +101,29 @@ namespace HumanMusicSchoolManager.Controllers
                 }
             }
         }
+
+        public IActionResult ParcelasEmAberto(DateTime? inicial, DateTime? final)
+        {
+
+            if (inicial == null)
+            {
+                inicial = NowHorarioBrasilia.GetNow().AddDays(-NowHorarioBrasilia.GetNow().Day + 1);
+            }
+
+            if (final == null)
+            {
+                final = NowHorarioBrasilia.GetNow().AddDays(-NowHorarioBrasilia.GetNow().Day + 1).AddMonths(1).AddDays(-1);
+            }
+
+            ViewBag.Inicial = (DateTime)inicial;
+            ViewBag.Final = (DateTime)final;
+
+            return View(_financeiroService.ParcelasEmAberto((DateTime)inicial, (DateTime)final));
+        }
+
+        public IActionResult ParcelasVencidas()
+        {
+            return View(_financeiroService.BuscarAtrasador());
+        }
     }
 }

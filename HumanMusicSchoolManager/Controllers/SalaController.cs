@@ -197,6 +197,7 @@ namespace HumanMusicSchoolManager.Controllers
                 sala.DispSalas[index].Dia = dispSala.Dia;
                 sala.DispSalas[index].Hora = dispSala.Hora;
                 sala.DispSalas[index].Professor = dispSala.Professor;
+                sala.DispSalas[index].Ativo = dispSala.Ativo;
                 _salaService.Alterar(sala);
                 TempData["Success"] = "Horário alterado com sucesso!";
                 return RedirectToAction("DispSala", new { salaId = sala.Id });

@@ -12,6 +12,7 @@ namespace HumanMusicSchoolManager.ServicesInterface
         void Alterar(Financeiro financeiro);
         List<Financeiro> BuscarPorAluno(int alunoId);
         List<Financeiro> BuscarAtrasador();
+        List<Financeiro> ParcelasEmAberto(DateTime dataInicial, DateTime dataFinal);
         Financeiro BuscarPorId(int financeiroId);
         void Excluir(int financeiroId);
     }

@@ -242,38 +242,45 @@ namespace HumanMusicSchoolManager.Controllers
                     cal.Url = "/Aula/Form?aulaId=" + aula.Id;
                 }
 
-                int ultimo = 0;
-                foreach (var chamada in aula.Chamadas)
+                
+                if (aula.Chamadas.Count  > 1)
                 {
-                    ultimo++;
-                    var nome = chamada.PacoteCompra.Matricula.Aluno.Nome.Split(' ');
-                    if (ultimo == aula.Chamadas.Count && ultimo != 1)
+                    var nomes = new List<string>();
+
+                    foreach (var chamada in aula.Chamadas)
                     {
-                        cal.Title += ", " + nome[0];
+                        nomes.Add(chamada.PacoteCompra.Matricula.Aluno.Nome.Split(' ')[0]);
                     }
-                    else
-                    {
-                        cal.Title += nome[0];
-                    }
+
+                    cal.Title += CarregarNomes(nomes);
                 }
-                ultimo = 0;
+                else if (aula.Chamadas.Count > 0)
+                {
+                    cal.Title += " " + aula.Chamadas.FirstOrDefault().PacoteCompra.Matricula.Aluno.Nome.Split(' ')[0];
+                }
+                    
+                
                 if (aula.Chamadas.Count > 0 && aula.Demostrativas.Count > 0)
                 {
                     cal.Title += ", ";
                 }
-                foreach (var demostrativa in aula.Demostrativas)
+                
+                if (aula.Demostrativas.Count > 1)
                 {
-                    ultimo++;
-                    var nome = demostrativa.Candidato.Nome.Split(' ');
-                    if (ultimo == aula.Demostrativas.Count && ultimo != 1)
+                    var nomes = new List<string>();
+
+                    foreach (var demo in aula.Demostrativas)
                     {
-                        cal.Title += ", " + nome[0];
+                        nomes.Add("(D)"+demo.Candidato.Nome.Split(' ')[0]);
                     }
-                    else
-                    {
-                        cal.Title += nome[0];
-                    }
+
+                    cal.Title += CarregarNomes(nomes);
                 }
+                else if (aula.Demostrativas.Count > 0)
+                {
+                    cal.Title += " (D)" + aula.Demostrativas.FirstOrDefault().Candidato.Nome.Split(' ')[0];
+                }
+
                 calendar.Add(cal);
             }
 
@@ -379,6 +386,24 @@ namespace HumanMusicSchoolManager.Controllers
             return RedirectToAction("Index", "Professor");
         }
 
+        private string CarregarNomes(List<string> nomes)
+        {
+            string title = "";
+
+            for (var i = 0; i < nomes.Count; i++)
+            {
+                if (i == nomes.Count - 1)
+                {
+                    title += " " + nomes[i];
+                }
+                else
+                {
+                    title += " " + nomes[i] + ",";
+                }
+            }
+
+            return title;
+        }
 
     }
 }

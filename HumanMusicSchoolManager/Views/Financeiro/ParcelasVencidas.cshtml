@@ -1,0 +1,73 @@
+﻿@model List<Financeiro>
+@{
+    ViewData["Title"] = "ParcelasVencidas";
+}
+
+<div class="card mb-3">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-xl-11 col-md-10">
+                <i class="fas fa-dollar-sign"></i>
+                Parcelas vencidas
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive table table-sm table-hover small">
+            <table class="table table-bordered table-striped" id="dataTable" cellspacing="0">
+                <thead>
+                    <tr class="small">
+                        <th>Aluno</th>
+                        <th>Nome</th>
+                        <th>Responsável Financeiro</th>
+                        <th class="text-center">CPF Responsável</th>
+                        <th class="text-center">Valor</th>
+                        <th class="text-center">Vendimento</th>
+                        <th class="text-center">Vencido</th>
+                        <th class="text-center">Lançar</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr class="small">
+                        <th>Aluno</th>
+                        <th>Nome</th>
+                        <th>Responsável Financeiro</th>
+                        <th class="text-center">CPF Responsável</th>
+                        <th class="text-center">Valor</th>
+                        <th class="text-center">Vendimento</th>
+                        <th class="text-center">Vencido</th>
+                        <th class="text-center">Lançar</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var financeiro in Model)
+                    {
+                        <tr>
+                            <td>@financeiro.Aluno.Nome</td>
+                            <td>@financeiro.Nome</td>
+                            <td>@(financeiro.PacoteCompra == null ? financeiro.Aluno.Nome : financeiro.PacoteCompra.Matricula.RespFinanceiro.Nome)</td>
+                            <td class="text-center">@(financeiro.PacoteCompra == null ? financeiro.Aluno.CPF : financeiro.PacoteCompra.Matricula.RespFinanceiro.CPF)</td>
+                            <td class="text-center">@financeiro.Valor</td>
+                            <td class="text-center">@financeiro.DataVencimento.ToString("dd/MM/yyyy")</td>
+                            <td class="text-center">@(financeiro.DataVencimento < DateTime.Now ? "Sim" : "Não")</td>
+                            <td class="text-center"><a asp-controller="Financeiro" asp-action="Form" asp-route-alunoId="@financeiro.AlunoId" asp-route-financeiroId="@financeiro.Id" class="text-success"><i class="fas fa-dollar-sign"></i></a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/vendor/datatables/jquery.dataTables.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.js"></script>
+    <script src="~/js/demo/datatables-demo.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+}
+
+

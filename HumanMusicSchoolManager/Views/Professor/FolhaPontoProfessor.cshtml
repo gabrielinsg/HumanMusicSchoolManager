@@ -57,16 +57,16 @@
                                     @{
                                         var index = 1;
                                     }
-                                    @foreach (var aula in professor.Aulas.OrderBy(a => a.Data).Where(a => a.Data.Date == dias[i].Date))
+                                    @foreach (var aula in professor.Aulas.OrderBy(a => a.Data).Where(a => a.Data.Date == dias[i].Date && a.Chamadas.Count > 0))
                                     {
 
-                                        @if (index == professor.Aulas.Where(a => a.Data.Date == dias[i].Date).ToList().Count)
+                                        @if (index == professor.Aulas.Where(a => a.Data.Date == dias[i].Date && a.Chamadas.Count > 0).ToList().Count)
                                         {
                                             <a asp-controller="Aula" asp-action="Form" asp-route-aulaId="@aula.Id" style="text-decoration: none; color:black"><span>@aula.Data.ToString("HH:mm")<span class="badge badge-light">@aula.Chamadas.Count</span></span></a>
                                         }
                                         else
                                         {
-                                            <a asp-controller="Aula" asp-action="Form" asp-route-aulaId="@aula.Id" style="text-decoration: none; color:black"   ><span>@aula.Data.ToString("HH:mm")<span class="badge badge-light">@aula.Chamadas.Count</span> -</span></a>
+                                            <a asp-controller="Aula" asp-action="Form" asp-route-aulaId="@aula.Id" style="text-decoration: none; color:black"><span>@aula.Data.ToString("HH:mm")<span class="badge badge-light">@aula.Chamadas.Count</span> -</span></a>
                                         }
                                         index++;
 
@@ -80,7 +80,7 @@
                 <table class="table table-sm table-borderless">
                     <tr>
                         <td>
-                            <b>Total de Aulas dadas: </b>@professor.Aulas.Count
+                            <b>Total de Aulas dadas: </b>@professor.Aulas.Where(a => a.Chamadas.Count > 0).ToList().Count
                         </td>
                     </tr>
                     @{

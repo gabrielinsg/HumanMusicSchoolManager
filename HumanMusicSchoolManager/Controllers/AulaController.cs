@@ -132,7 +132,10 @@ namespace HumanMusicSchoolManager.Controllers
                     var i = 0;
                     foreach (var demostrativa in aula.Demostrativas)
                     {
-                        demostrativa.Estrelas = Estrelas[i];
+                        if (Estrelas.Count > 0)
+                        {
+                            demostrativa.Estrelas = Estrelas[i];
+                        }
                         _demostrativaService.Alterar(demostrativa);
                         i++;
                     }

@@ -96,7 +96,7 @@ namespace HumanMusicSchoolManager.Services
 
 
             var hr = _context.DispSalas
-                .Where(ds => ds.Sala.Capacidade > ds.Matriculas.Count + ds.Demostrativas.Count + ds.Reposicoes.Count)
+                .Where(ds => (ds.Sala.Capacidade > ds.Matriculas.Count + ds.Demostrativas.Count + ds.Reposicoes.Count) && ds.Ativo == true)
                 .Include(dp => dp.Professor)
                 .ThenInclude(p => p.Cursos)
                 .Include(dp => dp.Sala)

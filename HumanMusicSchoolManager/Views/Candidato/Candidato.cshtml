@@ -83,13 +83,18 @@
                 </div>
                 <div class="col-md-2">
                     <label><b>Aula:</b></label>
-                    @if (demostrativa.Aula.AulaDada == true)
+
+                    @if (demostrativa.Aula == null)
+                    {
+                        <p>Aula cancelada</p>
+                    }
+                    else if (demostrativa.Aula.AulaDada == true)
                     {
                         <p>Aula dada</p>
                     }
                     else
                     {
-                        <p>Aula ainda não foi dada</p>
+                        <p>Aula ifnda não foi dada</p>
                     }
                 </div>
                 <div class="col-md-2">

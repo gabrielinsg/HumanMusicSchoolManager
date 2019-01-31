@@ -15,6 +15,7 @@ namespace HumanMusicSchoolManager.Models.Models
         public List<Matricula> Matriculas { get; set; }
         public List<Reposicao> Reposicoes { get; set; }
         public List<Demostrativa> Demostrativas { get; set; }
+        public bool Ativo { get; set; }
 
         public Professor Professor { get; set; }
 

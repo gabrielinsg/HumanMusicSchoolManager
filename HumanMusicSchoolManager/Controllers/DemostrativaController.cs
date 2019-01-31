@@ -185,8 +185,14 @@ namespace HumanMusicSchoolManager.Controllers
             if (aula.AulaDada == false)
             {
                 demostrativa.AulaId = null;
+                aula.Demostrativas.Remove(demostrativa);
+                if (aula.Demostrativas.Count <= 1 && aula.Chamadas.Count == 0)
+                {
+                    _aulaService.Excluir(aula.Id.Value);
+                }
             }
             _demostrativaService.Alterar(demostrativa);
+
             TempData["Success"] = "Demostrativa alterada com sucesso";
             if (demostrativa.Contratou == true)
             {
