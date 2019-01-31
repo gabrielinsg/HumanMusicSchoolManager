@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using HumanMusicSchoolManager.Extensions;
 using HumanMusicSchoolManager.Models.Models;
 using HumanMusicSchoolManager.Models.ViewModels;
 using HumanMusicSchoolManager.Services;
@@ -22,6 +23,7 @@ namespace HumanMusicSchoolManager.Controllers
         private readonly IFeriadoService _feriadoService;
         private readonly ICandidatoService _candidatoService;
         private readonly IPessoaService _pessoaService;
+        private readonly IEmailConfigService _emailConfigService;
 
         public DemostrativaController(IDemostrativaService demostrativaService,
             IChamadaService chamadaService,
@@ -30,7 +32,8 @@ namespace HumanMusicSchoolManager.Controllers
             IAulaService aulaService,
             IFeriadoService feriadoService,
             ICandidatoService candidatoService,
-            IPessoaService pessoaService)
+            IPessoaService pessoaService,
+            IEmailConfigService emailConfigService)
         {
             this._demostrativaService = demostrativaService;
             this._chamadaService = chamadaService;
@@ -40,6 +43,7 @@ namespace HumanMusicSchoolManager.Controllers
             this._feriadoService = feriadoService;
             this._candidatoService = candidatoService;
             this._pessoaService = pessoaService;
+            this._emailConfigService = emailConfigService;
         }
 
         [HttpGet]
@@ -140,7 +144,17 @@ namespace HumanMusicSchoolManager.Controllers
                 demostrativaViewModel.Demostrativa.Aula = aula;
                 _demostrativaService.Cadastrar(demostrativaViewModel.Demostrativa);
 
+                //Enviar email professor
+                string corpo = "Adicionado uma desmonstrativa " +
+                    " - " + demostrativaViewModel.Demostrativa.DispSala.Dia.GetType()
+                            .GetMember(demostrativaViewModel.Demostrativa.DispSala.Dia.ToString())
+                            .First()
+                            .GetCustomAttribute<DisplayAttribute>()
+                            .GetName() + " às " + demostrativaViewModel.Demostrativa.DispSala.Hora.ToString("00h'00'") + " para " + demostrativaViewModel.Demostrativa.Candidato.Nome;
 
+                var email = new EnvioEmailExtencions(_emailConfigService);
+
+                email.EnviarEmail("Atualização na Agenda", corpo, demostrativaViewModel.Demostrativa.DispSala.Professor.Email);
 
                 return RedirectToAction("Candidato", "Candidato", new { candidatoId = demostrativaViewModel.Candidato.Id.Value });
             }
