@@ -1,0 +1,88 @@
+﻿@model List<PacoteCompra>
+@{
+    ViewData["Title"] = "UtimaAula";
+}
+
+<form role="form" asp-action="UtimaAula" method="get">
+
+    <div class="row">
+        <div class="col-xl-3 col-md-4">
+            <label>Data Inicial</label>
+            <input nome="Inicial" type="date" value="@ViewBag.Inicial.ToString("yyyy-MM-dd")" class="form-control" />
+        </div>
+        <div class="col-xl-3 col-md-4">
+            <label>Data Final</label>
+            <input name="Final" type="date" value="@ViewBag.Final.ToString("yyyy-MM-dd")" class="form-control" />
+        </div>
+        <div class="col-3" style="padding-top: 32px;">
+            <button type="submit" class="btn btn-success">Filtrar</button>
+        </div>
+    </div>
+</form>
+<br />
+<div class="card mb-3">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-xl-11 col-md-10">
+                <i class="fas fa-dollar-sign"></i>
+                Parcelas em aberto
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive table table-hover ">
+            <table class="table table-bordered table-striped" id="dataTable" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Telefone</th>
+                        <th>Celular</th>
+                        <th>E-mail</th>
+                        <th class="text-center">Curso</th>
+                        <th class="text-center">Total Aulas</th>
+                        <th class="text-center">Data</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Telefone</th>
+                        <th>Celular</th>
+                        <th>E-mail</th>
+                        <th class="text-center">Curso</th>
+                        <th class="text-center">Total Aulas</th>
+                        <th class="text-center">Data</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var pacoteCompra in Model)
+                    {
+                        <tr>
+                            <td>@pacoteCompra.Matricula.Aluno.Nome</td>
+                            <td>@pacoteCompra.Matricula.Aluno.Tel</td>
+                            <td>@pacoteCompra.Matricula.Aluno.Cel</td>
+                            <td>@pacoteCompra.Matricula.Aluno.Email</td>
+                            <td class="text-center">@pacoteCompra.Matricula.Curso.Nome</td>
+                            <td class="text-center">@pacoteCompra.Chamadas.Count</td>
+                            <td class="text-center">@pacoteCompra.Chamadas.OrderByDescending(c => c.Aula.Data).FirstOrDefault().Aula.Data.ToString("dd/MM/yyyy")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/vendor/datatables/jquery.dataTables.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.js"></script>
+    <script src="~/js/demo/datatables-demo.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+}
+
+
+

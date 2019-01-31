@@ -13,5 +13,7 @@ namespace HumanMusicSchoolManager.ServicesInterface
         List<PacoteCompra> BuscarTodos();
         PacoteCompra BuscarPorId(int pacoteCompraId);
         void Excluir(int pacoteCompraId);
+        List<PacoteCompra> FaltasSeguidas();
+        List<PacoteCompra> UtimaAulaPorPeriodo(DateTime inicial, DateTime final);
     }
 }

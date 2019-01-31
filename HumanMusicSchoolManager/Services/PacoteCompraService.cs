@@ -73,5 +73,56 @@ namespace HumanMusicSchoolManager.Services
                 _context.SaveChanges();
             }
         }
+
+        public List<PacoteCompra> FaltasSeguidas()
+        {
+            var pacoteCompraFull = _context.PacoteCompras
+                .Include(pc => pc.Chamadas)
+                .ThenInclude(c => c.Aula)
+                .Include(pc => pc.Matricula)
+                .ThenInclude(m => m.Aluno)
+                .Include(pc => pc.Matricula)
+                .ThenInclude(m => m.Curso)
+                .ToList();
+
+            var pacotesCompra = new List<PacoteCompra>();
+
+            if (pacoteCompraFull.Count > 0)
+            {
+                foreach (var pacoteCompra in pacoteCompraFull)
+                {
+                    pacoteCompra.Chamadas = pacoteCompra.Chamadas.OrderByDescending(c => c.Aula.Data).Where(c => c.Presenca != null).ToList();
+                    if (pacoteCompra.Chamadas.Count > 1)
+                    {
+                        if (pacoteCompra.Chamadas[0].Presenca == false && pacoteCompra.Chamadas[1].Presenca == false)
+                        {
+                            pacotesCompra.Add(pacoteCompra);
+                        }
+                    }
+                }
+            }
+
+            return pacotesCompra.OrderBy(p => p.Matricula.Aluno.Nome).ToList();
+        }
+
+        public List<PacoteCompra> UtimaAulaPorPeriodo(DateTime inicial, DateTime final)
+        {
+            inicial = inicial.AddHours(-inicial.Hour);
+            inicial = inicial.AddMinutes(-inicial.Minute);
+            inicial = inicial.AddMilliseconds(-inicial.Millisecond);
+            final = final.AddHours(-final.Hour);
+            final = final.AddMinutes(-final.Minute);
+            final = final.AddMilliseconds(-final.Millisecond);
+            final = final.AddHours(23);
+
+            return _context.PacoteCompras.Where(pc => pc.Chamadas.OrderByDescending(c => c.Aula.Data).FirstOrDefault().Aula.Data >= inicial && pc.Chamadas.OrderByDescending(c => c.Aula.Data).FirstOrDefault().Aula.Data <= final)
+                .Include(pc => pc.Chamadas)
+                .ThenInclude(c => c.Aula)
+                .Include(pc => pc.Matricula)
+                .ThenInclude(m => m.Aluno)
+                .Include(pc => pc.Matricula)
+                .ThenInclude(m => m.Curso)
+                .ToList();
+        }
     }
 }

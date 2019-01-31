@@ -1,0 +1,82 @@
+﻿@model List<PacoteCompra>
+@{
+    ViewData["Title"] = "FaltasSeguidas";
+}
+
+
+<div class="card mb-3">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-11">
+                <i class="far fa-file-alt"></i>
+                Faltas Seguidas
+            </div>
+            <div class="col-md-1">
+                <a asp-action="Form" class="btn btn-primary">Novo</a>
+            </div>
+        </div>
+
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped" id="dataTable" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Telefone</th>
+                        <th>Celular</th>
+                        <th>E-mail</th>
+                        <th class="text-center">Curso</th>
+                        <th class="text-center">Faltas Seguidas</th>
+                        <th class="text-center">Calendário</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Telefone</th>
+                        <th>Celular</th>
+                        <th>E-mail</th>
+                        <th class="text-center">Curso</th>
+                        <th class="text-center">Faltas Seguidas</th>
+                        <th class="text-center">Calendário</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var pacoteCompra in Model)
+                    {
+                        var cont = 0;
+
+                        foreach (var chamada in pacoteCompra.Chamadas.OrderByDescending(c => c.Aula.Data).ToList())
+                        {
+                            if (chamada.Presenca == false)
+                            {
+                                cont++;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+
+                        <tr>
+                            <td>@pacoteCompra.Matricula.Aluno.Nome</td>
+                            <td>@pacoteCompra.Matricula.Aluno.Tel</td>
+                            <td>@pacoteCompra.Matricula.Aluno.Cel</td>
+                            <td>@pacoteCompra.Matricula.Aluno.Email</td>
+                            <td class="text-center">@pacoteCompra.Matricula.Curso.Nome</td>
+                            <td class="text-center">@cont</td>
+                            <td class="text-center"><a asp-controller="PacoteCompra" asp-action="PacoteCompra" asp-route-pacoteCompraId="@pacoteCompra.Id"><i class="far fa-calendar-alt"></i></a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/vendor/datatables/jquery.dataTables.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.js"></script>
+    <script src="~/js/demo/datatables-demo.js"></script>
+}

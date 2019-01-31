@@ -176,27 +176,28 @@ namespace HumanMusicSchoolManager.Controllers
 
         public IActionResult Calendario(int? professorId)
         {
-            Professor professor = null;
 
-            if (professorId == null)
+            var professor = _professorService.BuscarPorId(_pessoaService.GetUser(User.Identity.Name).Id.Value);
+
+            if(professor != null)
             {
-                professor = _professorService.BuscarPorId(_pessoaService.GetUser(User.Identity.Name).Id.Value);
                 ViewBag.user = 0;
-            }
-            else
-            {
-                professor = _professorService.BuscarPorId(professorId.Value);
-                ViewBag.user = 1;
-
-            }
-
-            if (professor != null)
-            {
                 return View(professor);
             }
             else
             {
+                if (professorId != null)
+                {
+                    professor = _professorService.BuscarPorId(professorId.Value);
+                    if (professor != null)
+                    {
+                        ViewBag.user = 1;
+                        return View(professor);
+                    }
+                }
+
                 return RedirectToAction("Index", "Home");
+
             }
         }
 

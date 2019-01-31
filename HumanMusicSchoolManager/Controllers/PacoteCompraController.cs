@@ -509,5 +509,29 @@ namespace HumanMusicSchoolManager.Controllers
             TempData["Success"] = "Cancelamento efetuado com sucesso";
             return RedirectToAction("Aluno", "Aluno", new { alunoId = pacoteCompra.Matricula.AlunoId });
         }
+
+        public IActionResult FaltasSeguidas()
+        {
+            return View(_pacoteCompraService.FaltasSeguidas());
+        }
+
+        public IActionResult UtimaAula(DateTime? inicial, DateTime? final)
+        {
+
+            if (inicial == null)
+            {
+                inicial = NowHorarioBrasilia.GetNow().AddDays(-NowHorarioBrasilia.GetNow().Day + 1);
+            }
+
+            if (final == null)
+            {
+                final = NowHorarioBrasilia.GetNow().AddDays(-NowHorarioBrasilia.GetNow().Day + 1).AddMonths(1).AddDays(-1);
+            }
+
+            ViewBag.Inicial = (DateTime)inicial;
+            ViewBag.Final = (DateTime)final;
+
+            return View(_pacoteCompraService.UtimaAulaPorPeriodo((DateTime)inicial, (DateTime)final));
+        }
     }
 }
