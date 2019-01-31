@@ -181,14 +181,17 @@ namespace HumanMusicSchoolManager.Controllers
 
             demostrativa.DispSalaId = null;
             demostrativa.Contratou = Contratou;
-            var aula = _aulaService.BuscarPorId(demostrativa.AulaId.Value);
-            if (aula.AulaDada == false)
+            if (demostrativa.AulaId != null)
             {
-                demostrativa.AulaId = null;
-                aula.Demostrativas.Remove(demostrativa);
-                if (aula.Demostrativas.Count <= 1 && aula.Chamadas.Count == 0)
+                var aula = _aulaService.BuscarPorId(demostrativa.AulaId.Value);
+                if (aula.AulaDada == false)
                 {
-                    _aulaService.Excluir(aula.Id.Value);
+                    demostrativa.AulaId = null;
+                    aula.Demostrativas.Remove(demostrativa);
+                    if (aula.Demostrativas.Count <= 1 && aula.Chamadas.Count == 0)
+                    {
+                        _aulaService.Excluir(aula.Id.Value);
+                    }
                 }
             }
             _demostrativaService.Alterar(demostrativa);

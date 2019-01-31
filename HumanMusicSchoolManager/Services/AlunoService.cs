@@ -26,7 +26,7 @@ namespace HumanMusicSchoolManager.Services
 
         public Aluno BuscarPorCPF(string CPF)
         {
-            return _context.Alunos.SingleOrDefault(a => a.CPF == CPF);
+            return _context.Alunos.Include(a => a.Endereco).SingleOrDefault(a => a.CPF == CPF);
         }
 
         public Aluno BuscarPorId(int alunoId)
