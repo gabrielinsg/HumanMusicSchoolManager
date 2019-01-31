@@ -181,12 +181,12 @@ namespace HumanMusicSchoolManager.Controllers
             if (professorId == null)
             {
                 professor = _professorService.BuscarPorId(_pessoaService.GetUser(User.Identity.Name).Id.Value);
-                ViewBag.user = false;
+                ViewBag.user = 0;
             }
             else
             {
                 professor = _professorService.BuscarPorId(professorId.Value);
-                ViewBag.user = true;
+                ViewBag.user = 1;
 
             }
 
@@ -200,7 +200,7 @@ namespace HumanMusicSchoolManager.Controllers
             }
         }
 
-        public JsonResult CalendarioJson(int professorId, bool user)
+        public JsonResult CalendarioJson(int professorId, int user)
         {
 
             var professor = _professorService.BuscarPorId(professorId);
@@ -233,7 +233,7 @@ namespace HumanMusicSchoolManager.Controllers
                     Color = color,
                     Title = "Aula - "                    
                 };
-                if (user == true)
+                if (user == 1)
                 {
                     cal.Url = "/Aula/Aula?aulaId=" + aula.Id;
                 }
@@ -331,6 +331,13 @@ namespace HumanMusicSchoolManager.Controllers
 
         public IActionResult FolhaPontoProfessor(int? professorId, DateTime? inicial, DateTime? final)
         {
+
+            var professorPorUsuario = _professorService.BuscarPorId(_pessoaService.GetUser(User.Identity.Name).Id.Value);
+            if (professorPorUsuario != null)
+            {
+                professorId = professorPorUsuario.Id.Value;
+            }
+
             if (professorId != null)
             {
                 var professor = _professorService.BuscarPorId(professorId.Value);

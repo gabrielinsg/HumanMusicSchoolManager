@@ -286,7 +286,7 @@ namespace HumanMusicSchoolManager.Controllers
                     End = end.ToString("yyyy-MM-ddTHH:mm:ss"),
                     Color = color,
                     Title = "Aula - ",
-                    Url = "/Aula/Form?aulaId=" + aula.Id
+                    Url = "/Aula/Aula?aulaId=" + aula.Id
                 };
 
                 int ultimo = 0;
