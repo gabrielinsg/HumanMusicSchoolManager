@@ -263,6 +263,15 @@
                                             <input asp-for="DiaAula" type="date" class="form-control" />
                                             <span asp-validation-for="DiaAula" class="text-danger"></span>
                                         </div>
+                                        @if (Model.Chamada.Aula.AulaDada == true)
+                                        {
+                                            <div class="checkbox">
+                                                <label asp-for="Reposicao.Remunerada">
+                                                    <input asp-for="Reposicao.Remunerada" />
+                                                    @Html.DisplayNameFor(p => p.Reposicao.Remunerada)
+                                                </label>
+                                            </div>
+                                        }
                                     </div>
                                     <div class="col-md-9">
                                         <div class="form-group">

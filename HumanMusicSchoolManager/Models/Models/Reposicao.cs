@@ -13,5 +13,6 @@ namespace HumanMusicSchoolManager.Models.Models
         public int? DispSalaId { get; set; }
         public DispSala DispSala { get; set; }
         public string Motivo { get; set; }
+        public bool Remunerada { get; set; }
     }
 }

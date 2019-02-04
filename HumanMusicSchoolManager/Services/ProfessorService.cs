@@ -120,6 +120,7 @@ namespace HumanMusicSchoolManager.Services
             var professor = _context.Professores
                 .Include(p => p.Aulas)
                 .ThenInclude(a => a.Chamadas)
+                .ThenInclude(c => c.Reposicao)
                 .FirstOrDefault(p => p.Id == professorId);
             var listAulas = new List<Aula>();
             if (professor.Aulas != null)
@@ -148,6 +149,7 @@ namespace HumanMusicSchoolManager.Services
             var professores = _context.Professores
                 .Include(p => p.Aulas)
                 .ThenInclude(a => a.Chamadas)
+                .ThenInclude(c => c.Reposicao)
                 .ToList();
             if (professores != null)
             {

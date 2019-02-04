@@ -57,16 +57,16 @@
                                     @{
                                         var index = 1;
                                     }
-                                    @foreach (var aula in professor.Aulas.OrderBy(a => a.Data).Where(a => a.Data.Date == dias[i].Date && a.Chamadas.Count > 0))
+                                    @foreach (var aula in professor.Aulas.OrderBy(a => a.Data).Where(a => a.Data.Date == dias[i].Date && a.Chamadas.Count > 0 && a.Chamadas.Any(c => c.Reposicao == null || c.Reposicao.Remunerada == true)))
                                     {
 
-                                        @if (index == professor.Aulas.Where(a => a.Data.Date == dias[i].Date && a.Chamadas.Count > 0).ToList().Count)
+                                        @if (index == professor.Aulas.Where(a => a.Data.Date == dias[i].Date && a.Chamadas.Count > 0 && a.Chamadas.Any(c => c.Reposicao == null || c.Reposicao.Remunerada == true)).ToList().Count)
                                         {
-                                            <a asp-controller="Aula" asp-action="Form" asp-route-aulaId="@aula.Id" style="text-decoration: none; color:black"><span>@aula.Data.ToString("HH:mm")<span class="badge badge-light">@aula.Chamadas.Count</span></span></a>
+                                            <a asp-controller="Aula" asp-action="Form" asp-route-aulaId="@aula.Id" style="text-decoration: none; color:black"><span>@aula.Data.ToString("HH:mm")<span class="badge badge-light">@aula.Chamadas.Where(c => c.Reposicao == null || c.Reposicao.Remunerada == true).ToList().Count</span></span></a>
                                         }
                                         else
                                         {
-                                            <a asp-controller="Aula" asp-action="Form" asp-route-aulaId="@aula.Id" style="text-decoration: none; color:black"><span>@aula.Data.ToString("HH:mm")<span class="badge badge-light">@aula.Chamadas.Count</span> -</span></a>
+                                            <a asp-controller="Aula" asp-action="Form" asp-route-aulaId="@aula.Id" style="text-decoration: none; color:black"><span>@aula.Data.ToString("HH:mm")<span class="badge badge-light">@aula.Chamadas.Where(c => c.Reposicao == null || c.Reposicao.Remunerada == true).ToList().Count</span> -</span></a>
                                         }
                                         index++;
 
@@ -80,26 +80,26 @@
                 <table class="table table-sm table-borderless">
                     <tr>
                         <td>
-                            <b>Total de Aulas dadas: </b>@professor.Aulas.Where(a => a.Chamadas.Count > 0).ToList().Count
+                            <b>Total de Aulas dadas: </b>@professor.Aulas.Where(a => a.Chamadas.Count > 0 && a.Chamadas.Any(c => c.Reposicao == null || c.Reposicao.Remunerada == true)).ToList().Count
                         </td>
                     </tr>
                     @{
-                        if (professor.Aulas.Count > 0)
+                        if (professor.Aulas.Where(a => a.Chamadas.Count > 0 && a.Chamadas.Any(c => c.Reposicao == null || c.Reposicao.Remunerada == true)).ToList().Count > 0)
                         {
-                            var r = professor.Aulas.Max(a => a.Chamadas.Count);
+                            var r = professor.Aulas.Max(a => a.Chamadas.Where(c => c.Reposicao == null || c.Reposicao.Remunerada == true).ToList().Count);
                             for (var i = 1; i <= r; i++)
                             {
                                 <tr>
-                                    @if (professor.Aulas.Where(a => a.Chamadas.Count == i).ToList().Count > 0)
+                                    @if (professor.Aulas.Where(a => a.Chamadas.Where(c => c.Reposicao == null || c.Reposicao.Remunerada == true).ToList().Count == i).ToList().Count > 0)
                                     {
                                         <td>
                                             @if (i == 1)
                                             {
-                                                <b>Aulas com @i aluno: </b> @professor.Aulas.Where(a => a.Chamadas.Count == i).ToList().Count
+                                                <b>Aulas com @i aluno: </b> @professor.Aulas.Where(a => a.Chamadas.Where(c => c.Reposicao == null || c.Reposicao.Remunerada == true).ToList().Count == i).ToList().Count
                                             }
                                             else
                                             {
-                                                <b>Aulas com @i alunos: </b> @professor.Aulas.Where(a => a.Chamadas.Count == i).ToList().Count
+                                                <b>Aulas com @i alunos: </b> @professor.Aulas.Where(a => a.Chamadas.Where(c => c.Reposicao == null || c.Reposicao.Remunerada == true).ToList().Count == i).ToList().Count
                                             }
                                         </td>
                                     }
