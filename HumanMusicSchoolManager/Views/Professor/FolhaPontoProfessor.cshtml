@@ -44,7 +44,7 @@
                 <h2>@professor.Nome</h2>
                 <br /><br />
                 @{
-                    var dias = professor.Aulas.Select(a => a.Data.Date).Distinct().ToList();
+                    var dias = professor.Aulas.Select(a => a.Data.Date).Distinct().OrderBy(a => a.Date).ToList();
                 }
                 <table class="table table-sm border-bottom">
                     <tbody>
