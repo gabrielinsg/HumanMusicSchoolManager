@@ -413,5 +413,42 @@ namespace HumanMusicSchoolManager.Controllers
             return title;
         }
 
+        public IActionResult RelatorioProfessor(int? professorId, DateTime? inicial, DateTime? final)
+        {
+            var professorPorUsuario = _professorService.BuscarPorId(_pessoaService.GetUser(User.Identity.Name).Id.Value);
+            if (professorPorUsuario != null)
+            {
+                professorId = professorPorUsuario.Id.Value;
+            }
+
+            if (professorId != null)
+            {
+                var professor = _professorService.BuscarPorId(professorId.Value);
+                if (professor != null)
+                {
+
+                    if (inicial == null)
+                    {
+                        inicial = NowHorarioBrasilia.GetNow().AddDays(-NowHorarioBrasilia.GetNow().Day + 1);
+                    }
+
+                    if (final == null)
+                    {
+                        final = NowHorarioBrasilia.GetNow().AddDays(-NowHorarioBrasilia.GetNow().Day + 1).AddMonths(1).AddDays(-1);
+                    }
+
+                    var professorCompletoViewModel = _professorService.RelatorioCompleto(professor.Id.Value, inicial.Value, final.Value);
+                    professorCompletoViewModel.Inicial = inicial.Value;
+                    professorCompletoViewModel.Final = final.Value;
+
+
+                    return View(professorCompletoViewModel);
+                }
+            }
+
+            TempData["Error"] = "Professor não encontrado";
+            return RedirectToAction("Index", "Professor");
+        }
+
     }
 }

@@ -32,6 +32,11 @@ namespace HumanMusicSchoolManager.Models.Models
         [Display(Name = "Casado")]
         CASADO,
         [Display(Name = "Solteiro")]
-        SOLTEIRO
+        SOLTEIRO,
+        [Display(Name = "Viúvo")]
+        VIUVO,
+        [Display(Name = "Divorciado")]
+        DIVORCIADO
+
     }
 }

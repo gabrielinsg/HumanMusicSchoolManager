@@ -1,5 +1,6 @@
 ﻿using HumanMusicSchoolManager.Data;
 using HumanMusicSchoolManager.Models.Models;
+using HumanMusicSchoolManager.Models.ViewModels;
 using HumanMusicSchoolManager.ServicesInterface;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -172,6 +173,37 @@ namespace HumanMusicSchoolManager.Services
             }
             
             return professores;
+        }
+
+        public ProfessorCompletoViewModel RelatorioCompleto(int professorId, DateTime inicial, DateTime final)
+        {
+            inicial = inicial.AddHours(-inicial.Hour);
+            inicial = inicial.AddMinutes(-inicial.Minute);
+            inicial = inicial.AddMilliseconds(-inicial.Millisecond);
+            final = final.AddHours(-final.Hour);
+            final = final.AddMinutes(-final.Minute);
+            final = final.AddMilliseconds(-final.Millisecond);
+            final = final.AddHours(23);
+            var relatorio = new ProfessorCompletoViewModel
+            {
+                Professor = _context.Professores.FirstOrDefault(p => p.Id == professorId),
+                Aulas = _context.Aulas
+                    .Where(a => a.ProfessorId == professorId && (a.Data >= inicial && a.Data <= final))
+                    .Include(a => a.Chamadas)
+                    .ThenInclude(c => c.Reposicao)
+                    .Include(a => a.Demostrativas)
+                    .ToList(),
+                DispSalas = _context.DispSalas
+                    .Include(ds => ds.Matriculas)
+                    .Where(ds => ds.Professor.Id == professorId)
+                    .ToList(),
+                Matriculas = _context.Matriculas
+                .Where(m => m.DispSala.Professor.Id == professorId)
+                .Include(m => m.DispSala)
+                .ThenInclude(ds => ds.Professor)
+                .ToList()
+            };
+            return relatorio;
         }
     }
 }

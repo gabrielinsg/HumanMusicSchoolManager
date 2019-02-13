@@ -1,0 +1,146 @@
+﻿@model ProfessorCompletoViewModel
+@{
+    ViewData["Title"] = "RelatorioProfessor";
+}
+
+<h2>Relatório Professor</h2>
+<br />
+<h3>@Model.Professor.Nome</h3>
+<br />
+
+<form role="form" asp-action="FolhaPontoProfessor" method="get">
+    @if (Model.Professor != null)
+    {
+        <input name="professorId" value="@Model.Professor.Id" type="hidden" />
+    }
+
+    <div class="row">
+        <div class="col-xl-3 col-md-4">
+            <label asp-for="Inicial">Data Inicial</label>
+            <input asp-for="Inicial" type="date" class="form-control" />
+            <span asp-validation-for="Inicial" class="text-danger"></span>
+        </div>
+        <div class="col-xl-3 col-md-4">
+            <label asp-for="Final">Data Final</label>
+            <input asp-for="Final" type="date" class="form-control" />
+            <span asp-validation-for="Final" class="text-danger"></span>
+        </div>
+        <div class="col-3" style="padding-top: 32px;">
+            <button type="submit" class="btn btn-success">Filtrar</button>
+        </div>
+    </div>
+</form>
+<br /><br />
+<div class="row">
+    <div class="col-3">
+        <ul class="list-group">
+            <li class="list-group-item active">Aulas</li>
+            <li class="list-group-item">
+                <table class="table">
+                    <thead>
+                        <tr class="thead-light">
+                            <th scope="col">#</th>
+                            <th class="text-center" scope="col">Totais</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Previstas</th>
+                            <td class="text-center">@Model.Aulas.Count</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Dadas</th>
+                            <td class="text-center">@Model.Aulas.Where(a => a.AulaDada == true).ToList().Count</td>
+                        </tr>
+
+
+                        @{
+                            if (Model.Aulas.Where(a => a.Chamadas.Count > 0 && a.Chamadas.Any(c => c.Reposicao == null || c.Reposicao.Remunerada == true)).ToList().Count > 0)
+                            {
+                                var r = Model.Aulas.Max(a => a.Chamadas.Where(c => c.Reposicao == null || c.Reposicao.Remunerada == true).ToList().Count);
+                                for (var i = 1; i <= r; i++)
+                                {
+                                    <tr class="thead-light">
+                                        <th scope="row">#</th>
+                                        <th class="text-center" scope="row">@i @(i > 1 ? "Alunos" : "Aluno")</th>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Previstas</th>
+                                        <td class="text-center">@Model.Aulas.Where(a => a.Chamadas.Count == i).ToList().Count</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Dadas</th>
+                                        <td class="text-center">@Model.Aulas.Where(a => a.Chamadas.Count == i && a.AulaDada == true).ToList().Count</td>
+                                    </tr>
+                                }
+                            }
+
+                        }
+                    </tbody>
+                </table>
+            </li>
+        </ul>
+    </div>
+    <div class="col-3">
+        <ul class="list-group">
+            <li class="list-group-item active">Matriculas</li>
+            <li class="list-group-item">
+                <table class="table">
+                    <thead>
+                        <tr class="thead-light">
+                            <th scope="col">#</th>
+                            <th class="text-center" scope="col">Totais</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Ativas</th>
+                            <td class="text-center">@Model.Matriculas.Count</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Novas</th>
+                            <td class="text-center">@Model.Matriculas.Where(m => m.DataMatricula >= Model.Inicial && m.DataMatricula <= Model.Final).ToList().Count</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </li>
+        </ul>
+    </div>
+    <div class="col-3">
+        <ul class="list-group">
+            <li class="list-group-item active">Horários</li>
+            <li class="list-group-item">
+                <table class="table">
+                    <thead>
+                        <tr class="thead-light">
+                            <th scope="col">#</th>
+                            <th class="text-center" scope="col">Totais</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Abertos</th>
+                            <td class="text-center">@Model.DispSalas.Count</td>
+                        </tr>
+                        <tr class="thead-light">
+                            <th scope="row">Preenchidos</th>
+                            <th class="text-center">@Model.DispSalas.Where(ds => ds.Matriculas.Any(m => m.Id != null)).ToList().Count</th>
+                        </tr>
+                        @{
+                            var mt = Model.DispSalas.Max(ds => ds.Matriculas.ToList().Count);
+                            for (var i = 1; i <= mt; i++)
+                            {
+                                <tr>
+                                    <th scope="row">Com @i  @(i > 1 ? "Alunos" : "Aluno")</th>
+                                    <td class="text-center">@Model.Aulas.Where(a => a.Chamadas.Count == mt).ToList().Count</td>
+                                </tr>
+                            }
+
+                        }
+                    </tbody>
+                </table>
+            </li>
+        </ul>
+    </div>
+</div>
+<br />

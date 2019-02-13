@@ -1,4 +1,5 @@
 ﻿using HumanMusicSchoolManager.Models.Models;
+using HumanMusicSchoolManager.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,5 +21,6 @@ namespace HumanMusicSchoolManager.ServicesInterface
         List<Professor> BuscarPorNome(string nome);
         Professor BuscarPorIdData(int professorId, DateTime inicial, DateTime final);
         List<Professor> BuscarTodosData(DateTime inicial, DateTime final);
+        ProfessorCompletoViewModel RelatorioCompleto(int professorId, DateTime inicial, DateTime final);
     }
 }
