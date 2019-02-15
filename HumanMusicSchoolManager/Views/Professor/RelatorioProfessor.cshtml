@@ -46,11 +46,11 @@
                     <tbody>
                         <tr>
                             <th scope="row">Previstas</th>
-                            <td class="text-center">@Model.Aulas.Count</td>
+                            <td class="text-center">@Model.Aulas.Where(a => a.Chamadas.Count > 0 && a.Chamadas.Any(c => c.Reposicao == null || c.Reposicao.Remunerada == true)).ToList().Count</td>
                         </tr>
                         <tr>
                             <th scope="row">Dadas</th>
-                            <td class="text-center">@Model.Aulas.Where(a => a.AulaDada == true).ToList().Count</td>
+                            <td class="text-center">@Model.Aulas.Where(a => a.Chamadas.Count > 0 && a.Chamadas.Any(c => c.Reposicao == null || c.Reposicao.Remunerada == true) && a.AulaDada == true).ToList().Count</td>
                         </tr>
 
 
@@ -66,11 +66,11 @@
                                     </tr>
                                     <tr>
                                         <th scope="row">Previstas</th>
-                                        <td class="text-center">@Model.Aulas.Where(a => a.Chamadas.Count == i).ToList().Count</td>
+                                        <td class="text-center">@Model.Aulas.Where(a => a.Chamadas.Count == i && a.Chamadas.Count > 0 && a.Chamadas.Any(c => c.Reposicao == null || c.Reposicao.Remunerada == true)).ToList().Count</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">Dadas</th>
-                                        <td class="text-center">@Model.Aulas.Where(a => a.Chamadas.Count == i && a.AulaDada == true).ToList().Count</td>
+                                        <td class="text-center">@Model.Aulas.Where(a => a.Chamadas.Where(c => c.Reposicao == null || c.Reposicao.Remunerada == true).ToList().Count == i && a.AulaDada == true).ToList().Count</td>
                                     </tr>
                                 }
                             }
@@ -132,7 +132,7 @@
                             {
                                 <tr>
                                     <th scope="row">Com @i  @(i > 1 ? "Alunos" : "Aluno")</th>
-                                    <td class="text-center">@Model.Aulas.Where(a => a.Chamadas.Count == mt).ToList().Count</td>
+                                    <td class="text-center">@Model.DispSalas.Where(d => d.Matriculas.Count == i).ToList().Count</td>
                                 </tr>
                             }
 

@@ -15,7 +15,7 @@
     @foreach (var matricula in Model.Matriculas)
     {
         <li class="nav-item">
-            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#@matricula.Curso.Nome@matricula.Id" role="tab" aria-controls="@matricula.Curso.Nome@matricula.Id" aria-selected="false"><i class="fas fa-music text-success"></i> @matricula.Curso.Nome</a>
+            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#@matricula.Curso.Nome.Replace(' ','-')@matricula.Id" role="tab" aria-controls="@matricula.Curso.Nome.Replace(' ','-')@matricula.Id" aria-selected="false"><i class="fas fa-music text-success"></i> @matricula.Curso.Nome</a>
         </li>
     }
     <li class="nav-item">
@@ -59,7 +59,7 @@
 
     @foreach (var matricula in Model.Matriculas)
     {
-        <div class="tab-pane fade" id="@matricula.Curso.Nome@matricula.Id" role="tabpanel" aria-labelledby="profile-tab">
+        <div class="tab-pane fade" id="@matricula.Curso.Nome.ToString().Replace(' ','-')@matricula.Id" role="tabpanel" aria-labelledby="profile-tab">
             <br />
             <h2>@matricula.Curso.Nome @if (matricula.EncerramentoMatricula == null)
             { <span> - </span> <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Cancelar Matrícula"><a id="cancelaMatricula" asp-controller="Matricula" asp-action="CancelaMatricula" asp-route-matriculaId="@matricula.Id" class="btn btn-outline-danger"><i class="far fa-times-circle"></i></a></span>}</h2>

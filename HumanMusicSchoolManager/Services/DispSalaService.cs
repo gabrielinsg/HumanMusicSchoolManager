@@ -100,6 +100,7 @@ namespace HumanMusicSchoolManager.Services
                 .Include(dp => dp.Professor)
                 .ThenInclude(p => p.Cursos)
                 .Include(dp => dp.Sala)
+                .ThenInclude(s => s.Cursos)
                 .Include(ds => ds.Matriculas)
                 .ThenInclude(m => m.Aluno)
                 .Include(ds => ds.Matriculas)

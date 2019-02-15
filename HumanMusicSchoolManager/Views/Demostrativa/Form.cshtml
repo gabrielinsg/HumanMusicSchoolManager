@@ -71,7 +71,7 @@
                                 <tbody>
                                     @foreach (var dispSala in Model.DispSalas)
                                     {
-                                        @foreach (var curso in dispSala.Professor.Cursos)
+                                        @foreach (var curso in dispSala.Professor.Cursos.Where(c => dispSala.Sala.Cursos.Any(sc => sc.CursoId == c.CursoId)))
                                         {
                                             var cs = dispSala.Matriculas.FirstOrDefault();
                                             Curso cursoCompara = null;
