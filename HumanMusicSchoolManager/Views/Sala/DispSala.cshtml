@@ -116,8 +116,9 @@
                 <li class="list-group-item list-group-item-action btn" style="padding: 0px;">
                     <div class="" style="padding: 10px;" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         @{
-                            var nomeProfessor = dispSala.Professor.Nome;
+                            var nomeProfessor = dispSala.Professor.Nome.Trim();
                             var ultimaLetra = ' ';
+
                             for (int i = nomeProfessor.Length - 1; i > 0; i--)
                             {
                                 if (nomeProfessor[i] == ' ')
@@ -175,7 +176,7 @@
                 <li class="list-group-item list-group-item-action btn" style="padding: 0px;">
                     <div class="" style="padding: 10px;" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         @{
-                            var nomeProfessor = dispSala.Professor.Nome;
+                            var nomeProfessor = dispSala.Professor.Nome.Trim();
                             var ultimaLetra = ' ';
                             for (int i = nomeProfessor.Length - 1; i > 0; i--)
                             {
@@ -234,7 +235,7 @@
                 <li class="list-group-item list-group-item-action btn" style="padding: 0px;">
                     <div class="" style="padding: 10px;" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         @{
-                            var nomeProfessor = dispSala.Professor.Nome;
+                            var nomeProfessor = dispSala.Professor.Nome.Trim();
                             var ultimaLetra = ' ';
                             for (int i = nomeProfessor.Length - 1; i > 0; i--)
                             {
@@ -293,7 +294,7 @@
                 <li class="list-group-item list-group-item-action btn" style="padding: 0px;">
                     <div class="" style="padding: 10px;" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         @{
-                            var nomeProfessor = dispSala.Professor.Nome;
+                            var nomeProfessor = dispSala.Professor.Nome.Trim();
                             var ultimaLetra = ' ';
                             for (int i = nomeProfessor.Length - 1; i > 0; i--)
                             {
@@ -352,7 +353,7 @@
                 <li class="list-group-item list-group-item-action btn" style="padding: 0px;">
                     <div class="" style="padding: 10px;" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         @{
-                            var nomeProfessor = dispSala.Professor.Nome;
+                            var nomeProfessor = dispSala.Professor.Nome.Trim();
                             var ultimaLetra = ' ';
                             for (int i = nomeProfessor.Length - 1; i > 0; i--)
                             {
@@ -411,7 +412,7 @@
                 <li class="list-group-item list-group-item-action btn" style="padding: 0px;">
                     <div class="" style="padding: 10px;" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         @{
-                            var nomeProfessor = dispSala.Professor.Nome;
+                            var nomeProfessor = dispSala.Professor.Nome.Trim();
                             var ultimaLetra = ' ';
                             for (int i = nomeProfessor.Length - 1; i > 0; i--)
                             {
