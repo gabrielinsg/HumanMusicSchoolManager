@@ -35,6 +35,7 @@ namespace HumanMusicSchoolManager.Services
         {
            return _context.Demostrativas
                 .Include(d => d.Aula)
+                .Include(d => d.Pessoa)
                 .FirstOrDefault(d => d.Id == demostrativaId);
         }
 

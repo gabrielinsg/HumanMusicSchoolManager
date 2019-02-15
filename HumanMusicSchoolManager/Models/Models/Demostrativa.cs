@@ -38,6 +38,8 @@ namespace HumanMusicSchoolManager.Models.Models
 
         public int PessoaId { get; set; }
         public Pessoa Pessoa { get; set; }
+
+        public Confirmado Confirmado { get; set; }
     }
 
     public enum Motivo
@@ -56,5 +58,15 @@ namespace HumanMusicSchoolManager.Models.Models
         RETORNO,
         [Display(Name = "Outros")]
         OUTROS
+    }
+
+    public enum Confirmado
+    {
+        [Display(Name = "Não")]
+        NAO,
+        [Display(Name = "Aguardando")]
+        AGUARDANDO,
+        [Display(Name = "Sim")]
+        SIM
     }
 }

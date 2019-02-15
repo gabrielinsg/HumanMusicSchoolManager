@@ -8,10 +8,12 @@ using HumanMusicSchoolManager.Extensions;
 using HumanMusicSchoolManager.Models.Models;
 using HumanMusicSchoolManager.Models.ViewModels;
 using HumanMusicSchoolManager.ServicesInterface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HumanMusicSchoolManager.Controllers
 {
+    [Authorize]
     public class TrancamentoController : Controller
     {
         private readonly ITrancamentoService _trancamentoService;

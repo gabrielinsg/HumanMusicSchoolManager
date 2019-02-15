@@ -4,10 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using HumanMusicSchoolManager.Models.Models;
 using HumanMusicSchoolManager.ServicesInterface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HumanMusicSchoolManager.Controllers
 {
+    [Authorize]
     public class TaxaMatriculaController : Controller
     {
         private readonly ITaxaMatriculaService _taxaMatriculaService;

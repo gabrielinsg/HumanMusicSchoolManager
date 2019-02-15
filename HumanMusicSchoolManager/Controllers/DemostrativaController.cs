@@ -9,10 +9,12 @@ using HumanMusicSchoolManager.Models.Models;
 using HumanMusicSchoolManager.Models.ViewModels;
 using HumanMusicSchoolManager.Services;
 using HumanMusicSchoolManager.ServicesInterface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HumanMusicSchoolManager.Controllers
 {
+    [Authorize]
     public class DemostrativaController : Controller
     {
         private readonly IDemostrativaService _demostrativaService;
@@ -124,6 +126,7 @@ namespace HumanMusicSchoolManager.Controllers
                 demostrativaViewModel.Demostrativa.CursoId = demostrativaViewModel.Curso.Id.Value;
                 demostrativaViewModel.Demostrativa.CandidatoId = demostrativaViewModel.Candidato.Id.Value;
                 demostrativaViewModel.Demostrativa.PessoaId = _pessoaService.GetUser(User.Identity.Name).Id.Value;
+                demostrativaViewModel.Demostrativa.Confirmado = Confirmado.NAO;
 
                 var aula = _aulaService.BuscarPorDiaHora(demostrativaViewModel.DiaAula, demostrativaViewModel.DispSala);
                 if (aula == null)
@@ -212,6 +215,17 @@ namespace HumanMusicSchoolManager.Controllers
         public IActionResult DemostrativasAbertas()
         {
             return View(_demostrativaService.DemostrativasAbertas());
+        }
+
+        public IActionResult AlterarDemostrativa(Demostrativa demostrativa, string Observacao)
+        {
+
+            var demo = _demostrativaService.BuscarPorId(demostrativa.Id.Value);
+            demo.Confirmado = demostrativa.Confirmado;
+            demo.Observacao = Observacao;
+            _demostrativaService.Alterar(demo);
+
+            return RedirectToAction("Candidato", "Candidato", new { candidatoId = demo.CandidatoId });
         }
     }
 }

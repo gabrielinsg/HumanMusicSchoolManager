@@ -22,9 +22,9 @@
                         <th>Nome</th>
                         <th>Curso</th>
                         <th>Professor</th>
+                        <th>Confirmada</th>
                         <th>Aula dada</th>
                         <th>Presença</th>
-                        <th class="text-center">Data Nascimento</th>
                         <th>Email</th>
                         <th>Telefone</th>
                         <th>Celular</th>
@@ -37,9 +37,9 @@
                         <th>Nome</th>
                         <th>Curso</th>
                         <th>Professor</th>
+                        <th>Confirmada</th>
                         <th>Aula dada</th>
                         <th>Presença</th>
-                        <th class="text-center">Data Nascimento</th>
                         <th>Email</th>
                         <th>Telefone</th>
                         <th>Celular</th>
@@ -54,9 +54,9 @@
                             <td>@demostrativa.Candidato.Nome</td>
                             <td>@demostrativa.Curso.Nome</td>
                             <td>@demostrativa.DispSala.Professor.Nome</td>
+                            <td>@Html.DisplayFor(d => demostrativa.Confirmado)</td>
                             <td>@(demostrativa.Aula.AulaDada == true ? "Sim" : "Não")</td>
                             <td>@(demostrativa.Presenca == null ? "" : demostrativa.Presenca == true ? "Presente" : "Faltou")</td>
-                            <td class="text-center">@demostrativa.Candidato.DataNascimento.ToString("dd/MM/yyyy")</td>
                             <td>@demostrativa.Candidato.Email</td>
                             <td>@demostrativa.Candidato.Tel</td>
                             <td>@demostrativa.Candidato.Cel</td>

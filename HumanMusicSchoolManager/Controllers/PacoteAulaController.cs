@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using HumanMusicSchoolManager.Models.Models;
 using HumanMusicSchoolManager.Services;
 using HumanMusicSchoolManager.ServicesInterface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace HumanMusicSchoolManager.Controllers
 {
+    [Authorize]
     public class PacoteAulaController : Controller
     {
         private readonly IPacoteAulaService _pacoteAulaService;

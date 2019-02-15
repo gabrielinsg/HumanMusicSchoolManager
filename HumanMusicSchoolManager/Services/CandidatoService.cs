@@ -37,6 +37,8 @@ namespace HumanMusicSchoolManager.Services
                 .ThenInclude(ds => ds.Professor)
                 .Include(c => c.Demostrativas)
                 .ThenInclude(d => d.Aula)
+                .Include(c => c.Demostrativas)
+                .ThenInclude(d => d.Pessoa)
                 .FirstOrDefault(c => c.Id == candidatoId);
         }
 

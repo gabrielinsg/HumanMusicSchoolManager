@@ -53,7 +53,7 @@
             }
             else
             {
-                <span><b>@Html.DisplayFor(d => demostrativa.DispSala.Dia)</b> às <b>@demostrativa.DispSala.Hora.ToString("00:'00'h")</b> com <b>@demostrativa.DispSala.Professor.Nome</b> - <b>@demostrativa.DispSala.Sala.Nome</b> dia <b>@demostrativa.Aula.Data.ToString("dd/MM/yyyy")</b></span>
+                <span><b>@Html.DisplayFor(d => demostrativa.DispSala.Dia)</b> às <b>@demostrativa.DispSala.Hora.ToString("00:'00'h")</b> com <b>@demostrativa.DispSala.Professor.Nome</b> - <b>@demostrativa.DispSala.Sala.Nome</b> dia <b>@demostrativa.Aula.Data.ToString("dd/MM/yyyy")</b>. Marcado por <b>@demostrativa.Pessoa.Nome </b></span>
             }
 
             <br /><br />
@@ -98,7 +98,7 @@
                     }
                     else
                     {
-                        <p>Aula ifnda não foi dada</p>
+                        <p>Aula ainda não foi dada</p>
                     }
                 </div>
                 <div class="col-md-2">
@@ -133,6 +133,7 @@
                                     <input asp-for="Demostrativa.DispSalaId" value="@demostrativa.DispSalaId" type="hidden" />
                                     <input asp-for="Demostrativa.CursoId" value="@demostrativa.CursoId" type="hidden" />
                                     <input asp-for="Demostrativa.AulaId" value="@demostrativa.AulaId" type="hidden" />
+                                    <input asp-for="Demostrativa.Observacao" value="@demostrativa.Observacao" type="hidden" />
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -162,14 +163,7 @@
                                                     <input class="form-control" asp-for="Demostrativa.Outros" />
                                                 </div>
                                             </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label asp-for="@demostrativa.Observacao"></label>
-                                                    <input asp-for="Demostrativa.Observacao" class="form-control" />
 
-                                                </div>
-                                            </div>
-                                            
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -185,19 +179,40 @@
 
             </div>
             <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label>Observação</label>
-                        <textarea id="observacao@(demostrativa.Id)" disabled rows="10" cols="80">
-                            @Html.Raw(demostrativa.Observacao)
-                    </textarea>
+
+                <form asp-controller="Demostrativa" asp-action="AlterarDemostrativa" method="post">
+                    <input asp-for="Demostrativa.Id" value="@demostrativa.Id" type="hidden" />
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label asp-for="Demostrativa.Confirmado" class="col-md-2 control-label"></label>
+                            <div class="col-md-4">
+                                <select asp-for="Demostrativa.Confirmado" class="form-control" asp-items="Html.GetEnumSelectList<Confirmado>()">
+                                    <option selected="selected" value="@demostrativa.Confirmado">@Html.DisplayFor(d => demostrativa.Confirmado)</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+
+                            <label>Observação</label>
+                            <textarea name="Observacao" id="demostrativa.Observacao@(demostrativa.Id)" rows="10" cols="80">
+                            @Html.Raw(demostrativa.Observacao)
+                            </textarea>
+                        </div>
+                    </div>
+
+                    <br />
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-success">Alterar</button>
+                    </div>
+                </form>
             </div>
         </div>
     }
 </div>
-
+<br />
 @section Scripts{
     <script src="~/ckeditor/ckeditor.js"></script>
     @foreach (var demostrativa in Model.Candidato.Demostrativas)
@@ -206,11 +221,6 @@
             // Replace the <textarea id="editor1"> with a CKEditor
             // instance, using default configuration.
             CKEDITOR.replace('demostrativa.Observacao@(demostrativa.Id)');
-        </script>
-        <script>
-            // Replace the <textarea id="editor1"> with a CKEditor
-            // instance, using default configuration.
-            CKEDITOR.replace('observacao@(demostrativa.Id)');
         </script>
     }
 

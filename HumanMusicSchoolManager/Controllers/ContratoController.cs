@@ -6,10 +6,12 @@ using System.Reflection;
 using System.Threading.Tasks;
 using HumanMusicSchoolManager.Models.Models;
 using HumanMusicSchoolManager.ServicesInterface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HumanMusicSchoolManager.Controllers
 {
+    [Authorize]
     public class ContratoController : Controller
     {
         private readonly IContratoService _contratoService;
@@ -160,6 +162,8 @@ namespace HumanMusicSchoolManager.Controllers
                         .First()
                         .GetCustomAttribute<DisplayAttribute>()
                         .GetName());
+                    contrato.Conteudo = contrato.Conteudo.Replace("{Pacote.PrimeiraAula}", pacoteCompra.Chamadas.OrderBy(c => c.Aula.Data).FirstOrDefault().Aula.Data.ToString("dd/MM/yyyy"));
+
 
                     //Matricula
                     var matricula = pacoteCompra.Matricula;
@@ -168,6 +172,7 @@ namespace HumanMusicSchoolManager.Controllers
 
                     //Financeiro
                     var linhas = "";
+                    var cont = 1;
                     foreach (var financeiro in pacoteCompra.Financeiros)
                     {
                         if (financeiro.Valor == null) { financeiro.Valor = 0; }
@@ -175,7 +180,7 @@ namespace HumanMusicSchoolManager.Controllers
                         if (financeiro.Multa == null) { financeiro.Multa = 0; }
                         var total = financeiro.Valor - financeiro.Desconto + financeiro.Multa;
                         linhas += "<tr>" +
-                            "<td>" + (financeiro.Nome ?? "") + "</td>" +
+                            "<td>" + cont + "</td>" +
                             "<td>" + (financeiro.Valor == 0 ? "" : financeiro.Valor.ToString()) + "</td>" +
                             "<td>" + (financeiro.Desconto == 0 ? "" : financeiro.Desconto.ToString()) + "</td>" +
                             "<td>" + (financeiro.Multa == 0 ? "" : financeiro.Multa.ToString()) + "</td>" +
@@ -189,11 +194,12 @@ namespace HumanMusicSchoolManager.Controllers
                             "<td>" + (financeiro.DataVencimento == null ? "" : financeiro.DataVencimento.ToString("dd/MM/yyyy")) + "</td>" +
                             "<td>" + (financeiro.DataPagamento == null ? "" : ((DateTime)financeiro.DataPagamento).ToString("dd/MM/yyyy")) + "</td>" +
                             "</tr>";
+                        cont++;
                     }
                     var parcelas = "<table>"
                                     + "<thead>"
                                         + "<tr>"
-                                        + "<th> Nome </ th >"
+                                            + "<th> Parcela </ th >"
                                             + "<th>Valor</th>"
                                             + "<th> Desconto </ th >"
                                             + "<th>Multa</th>"

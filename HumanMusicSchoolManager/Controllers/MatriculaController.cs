@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HumanMusicSchoolManager.Controllers
 {
+    [Authorize]
     public class MatriculaController : Controller
     {
         private readonly IMatriculaService _matriculaService;

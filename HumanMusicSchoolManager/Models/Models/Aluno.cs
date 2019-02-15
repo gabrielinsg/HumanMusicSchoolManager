@@ -10,5 +10,7 @@ namespace HumanMusicSchoolManager.Models.Models
     {
         public List<Matricula> Matriculas { get; set; }
         public List<Financeiro> Financeiros { get; set; }
+        [Display(Name = "Observação")]
+        public string Observacao { get; set; }
     }
 }
