@@ -119,6 +119,51 @@ namespace HumanMusicSchoolManager.Services
                 .ThenInclude(pc => pc.PacoteAula)
                 .ToList();
 
+
+
+            return Organizar(hr);
+                
+        }
+
+        public List<DispSala> HorariosDisponiveisPorSala(int salaId)
+        {
+            //var chamada = _context.Chamadas.FirstOrDefault(c => c.PacoteCompra.PacoteAula.TipoAula == TipoAula.INDIVIDUAL && c.Presenca == null);
+            //var pacoteCompra = _context.PacoteCompras.FirstOrDefault(pc => pc.Chamadas.Contains((Chamada)RetornaObjeto(chamada, "chamada")));
+            //var matricula = _context.Matriculas.FirstOrDefault(m => m.PacoteCompras.Contains((PacoteCompra)RetornaObjeto(pacoteCompra, "pacoteCompra")));
+
+
+            var hr = _context.DispSalas
+                .Where(ds => (ds.Sala.Capacidade > ds.Matriculas.Count + ds.Demostrativas.Count + ds.Reposicoes.Count) && ds.Ativo == true && ds.Sala.Id == salaId)
+                .Include(dp => dp.Professor)
+                .ThenInclude(p => p.Cursos)
+                .Include(dp => dp.Sala)
+                .ThenInclude(s => s.Cursos)
+                .Include(ds => ds.Matriculas)
+                .ThenInclude(m => m.Aluno)
+                .Include(ds => ds.Matriculas)
+                .ThenInclude(m => m.Curso)
+                .Include(ds => ds.Reposicoes)
+                .ThenInclude(r => r.Chamada)
+                .ThenInclude(c => c.PacoteCompra)
+                .ThenInclude(pc => pc.Matricula)
+                .ThenInclude(m => m.Curso)
+                .Include(dp => dp.Demostrativas)
+                .ThenInclude(d => d.Curso)
+                .Include(dp => dp.Demostrativas)
+                .ThenInclude(d => d.Candidato)
+                .Include(ds => ds.Matriculas)
+                .ThenInclude(m => m.PacoteCompras)
+                .ThenInclude(pc => pc.PacoteAula)
+                .ToList();
+
+
+
+            return Organizar(hr);
+
+        }
+
+        private List<DispSala> Organizar(List<DispSala> hr)
+        {
             List<DispSala> retirar = new List<DispSala>();
             if (hr != null)
             {

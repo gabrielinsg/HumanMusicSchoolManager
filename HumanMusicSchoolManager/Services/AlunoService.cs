@@ -60,6 +60,11 @@ namespace HumanMusicSchoolManager.Services
             return _context.Alunos.Where(a => a.Nome.Contains(nome)).OrderBy(a => a.Nome).ToList();
         }
 
+        public List<Aluno> BuscarPorCPFLike(string cpf)
+        {
+            return _context.Alunos.Where(a => a.CPF.Contains(cpf)).OrderBy(a => a.CPF).ToList();
+        }
+
         public List<Aluno> BuscarTodos()
         {
             return _context.Alunos

@@ -8,7 +8,7 @@
 <h3>@Model.Professor.Nome</h3>
 <br />
 
-<form role="form" asp-action="FolhaPontoProfessor" method="get">
+<form role="form" asp-action="RelatorioProfessor" method="get">
     @if (Model.Professor != null)
     {
         <input name="professorId" value="@Model.Professor.Id" type="hidden" />

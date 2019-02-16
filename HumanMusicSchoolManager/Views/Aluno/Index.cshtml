@@ -6,11 +6,22 @@
 <div class="card mb-3">
     <div class="card-header">
         <div class="row">
-            <div class="col-md-11">
+            <div class="col-md-2">
                 <i class="fas fa-table"></i>
                 Alunos
             </div>
-            <div class="col-md-1">
+            <div class="col-md-4">
+                <label>Buscar Por Nome</label>
+                <input type="text" id="BuscaNome" class="form-control"  />
+            </div>
+            <div class="col-md-3">
+                <label>Buscar Por CPF</label>
+                <input type="text" id="BuscaCpf" class="form-control mask-cpf" />
+            </div>
+            <div class="col-md-2" style="padding-top: 30px">
+                <a asp-action="CarregarTodos"  class="btn btn-primary">Carregar Todos</a>
+            </div>
+            <div class="col-md-1" style="padding-top: 30px">
                 <a asp-action="Form" class="btn btn-primary">Novo</a>
             </div>
         </div>
@@ -108,6 +119,8 @@
     <script src="~/vendor/datatables/jquery.dataTables.js"></script>
     <script src="~/vendor/datatables/dataTables.bootstrap4.js"></script>
     <script src="~/js/demo/datatables-demo.js"></script>
+    <script src="~/js/Buscas/TabelaAluno/BuscarPorNomeOuCpf.js"></script>
+    <script src="~/js/mask.js"></script>
     <script type="text/javascript">
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()

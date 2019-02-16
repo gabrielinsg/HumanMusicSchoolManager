@@ -15,5 +15,6 @@ namespace HumanMusicSchoolManager.ServicesInterface
         void Excluir(int alunoId);
         Aluno BuscarPorCPF(string CPF);
         List<Aluno> BuscarPorNome(string nome);
+        List<Aluno> BuscarPorCPFLike(string cpf);
     }
 }

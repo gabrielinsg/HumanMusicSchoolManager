@@ -3,9 +3,27 @@
     ViewData["Title"] = "HorariosDisponiveis";
 }
 
+@section Styles{
+    <link href="~/css/Estrelas.css" rel="stylesheet" />
+}
+
 <h2>Horarios Disponíveis</h2>
 <br />
 
+<div class="row">
+    <div class="col-md-4">
+        <label><b>Filtrar por sala</b></label>
+        <select id="porSala" class="form-control">
+            <option value=""></option>
+            <option value="null">Todas</option>
+            @foreach (var sala in ViewBag.Salas)
+            {
+                <option value="@sala.Id">@sala.Nome</option>
+            }
+        </select>
+    </div>
+</div>
+<br />
 <table class="table table-bordered table-striped" id="dataTable" cellspacing="0">
     <thead>
         <tr>
@@ -200,6 +218,7 @@
 </table>
 
 @section Scripts{
+    <script src="~/js/HorariosDisponiveis.js"></script>
     <script src="~/vendor/datatables/jquery.dataTables.js"></script>
     <script src="~/vendor/datatables/dataTables.bootstrap4.js"></script>
     <script src="~/js/demo/datatables-demo.js"></script>

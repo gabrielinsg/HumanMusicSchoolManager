@@ -30,7 +30,12 @@ namespace HumanMusicSchoolManager.Controllers
 
         public IActionResult Index()
         {
-            return View(_alunoService.BuscarTodos());
+            return View(new List<Aluno>());
+        }
+
+        public IActionResult CarregarTodos()
+        {
+            return View("Index",_alunoService.BuscarTodos());
         }
 
         [HttpGet]
@@ -121,6 +126,13 @@ namespace HumanMusicSchoolManager.Controllers
         public JsonResult BuscarPorNome(string nome)
         {
             var aluno = _alunoService.BuscarPorNome(nome);
+            return Json(aluno);
+        }
+
+        [HttpPost]
+        public JsonResult BuscarPorCpf(string cpf)
+        {
+            var aluno = _alunoService.BuscarPorCPFLike(cpf);
             return Json(aluno);
         }
 
