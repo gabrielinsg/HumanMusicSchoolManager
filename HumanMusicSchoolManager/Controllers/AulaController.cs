@@ -75,7 +75,7 @@ namespace HumanMusicSchoolManager.Controllers
         }
 
         [HttpPost]
-        public IActionResult Form(Aula aula, List<int> Estrelas)
+        public IActionResult Form(Aula aula, List<int> Estrelas, int Hora)
         {
 
             foreach (var model in ModelState.Where(m => m.Key.Contains(".PacoteCompra.")).ToList())
@@ -83,16 +83,18 @@ namespace HumanMusicSchoolManager.Controllers
                 ModelState.Remove(model.Key);
             }
 
-            if (aula.DescAtividades == null)
+            if (aula.AulaDada)
             {
-                ModelState.AddModelError("DescAtividades", "Descrição de atividades obrigatória");
-            }
-            else if (aula.DescAtividades.Length < 15)
-            {
-                ModelState.AddModelError("DescAtividades", "Descrição não atingiu o mínimo de caracteres exigidos.");
+                if (aula.DescAtividades == null)
+                {
+                    ModelState.AddModelError("DescAtividades", "Descrição de atividades obrigatória");
+                }
+                else if (aula.DescAtividades.Length < 15)
+                {
+                    ModelState.AddModelError("DescAtividades", "Descrição não atingiu o mínimo de caracteres exigidos.");
+                }
             }
 
-            aula.AulaDada = true;
             var matriculas = new List<Matricula>();
             var pacoteCompras = new List<PacoteCompra>();
 
@@ -100,9 +102,9 @@ namespace HumanMusicSchoolManager.Controllers
             {
                 foreach (var chamada in aula.Chamadas)
                 {
-                    var modulo = chamada.PacoteCompra.Matricula.Modulo;
-                    var estrelas = chamada.PacoteCompra.Matricula.Estrelas;
-                    var matricula = _matriculaService.BuscarPorId(chamada.PacoteCompra.MatriculaId);
+                    var matricula = _matriculaService.BuscarPorId(_chamadaService.BuscarPorId(chamada.Id.Value).PacoteCompra.MatriculaId);
+                    var modulo = matricula.Modulo;
+                    var estrelas = matricula.Estrelas;
                     chamada.PacoteCompra = null;
                     matricula.Modulo = modulo;
                     matricula.Estrelas = estrelas;
@@ -120,8 +122,13 @@ namespace HumanMusicSchoolManager.Controllers
                 {
                     foreach (var chamada in aula.Chamadas)
                     {
+
                         var reposicao = _reposicaoService.BuscarPorChamada(chamada.Id.Value);
-                        _chamadaService.Alterar(chamada);
+                        if (!aula.AulaDada) chamada.Presenca = null;
+                        var gravarChamada = _chamadaService.BuscarPorId(chamada.Id.Value);
+                        gravarChamada.Observacao = chamada.Observacao;
+                        gravarChamada.Presenca = chamada.Presenca;
+                        _chamadaService.Alterar(gravarChamada);
                         if (reposicao != null)
                         {
                             reposicao.DispSalaId = null;
@@ -134,6 +141,7 @@ namespace HumanMusicSchoolManager.Controllers
                     var i = 0;
                     foreach (var demostrativa in aula.Demostrativas)
                     {
+                        if (!aula.AulaDada) demostrativa.Presenca = null;
                         if (Estrelas.Count > 0)
                         {
                             demostrativa.Estrelas = Estrelas[i];
@@ -142,7 +150,8 @@ namespace HumanMusicSchoolManager.Controllers
                         i++;
                     }
                 }
-               
+
+                aula.Data = aula.Data.AddHours(Hora);
                 _aulaService.Alterar(aula);
                 return RedirectToAction("Calendario", "Professor", new { professorId = aula.ProfessorId });
             }
