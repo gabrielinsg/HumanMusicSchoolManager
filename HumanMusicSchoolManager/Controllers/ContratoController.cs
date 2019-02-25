@@ -169,6 +169,9 @@ namespace HumanMusicSchoolManager.Controllers
                     var matricula = pacoteCompra.Matricula;
                     contrato.Conteudo = contrato.Conteudo.Replace("{Matricula.Curso}", matricula.Curso.Nome);
                     contrato.Conteudo = contrato.Conteudo.Replace("{Matricula.DataMatricula}", matricula.DataMatricula.ToString("dd/MM/yyyy"));
+                    contrato.Conteudo = contrato.Conteudo.Replace("{Matricula.Professor}", matricula.DispSala.Professor.Nome);
+                    contrato.Conteudo = contrato.Conteudo.Replace("{Matricula.Sala}", matricula.DispSala.Sala.Nome);
+                    contrato.Conteudo = contrato.Conteudo.Replace("{Matricula.Hora}", matricula.DispSala.Hora.ToString("00:'00'h"));
 
                     //Financeiro
                     var linhas = "";
