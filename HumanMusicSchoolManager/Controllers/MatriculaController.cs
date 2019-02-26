@@ -127,7 +127,7 @@ namespace HumanMusicSchoolManager.Controllers
                 ModelState.Remove(model.Key);
             }
 
-            var pessoa = _pessoaService.GetUser(User.Identity.Name);
+            var pessoa = _pessoaService.BusacarPorUserName(User.Identity.Name);
 
             if (pessoa == null)
             {
@@ -211,7 +211,7 @@ namespace HumanMusicSchoolManager.Controllers
                 _matriculaService.Cadastrar(matriculaViewModel.Matricula);
                 var relatorioMatricula = new RelatorioMatricula
                 {
-                    PessoaId = _pessoaService.GetUser(User.Identity.Name).Id.Value,
+                    PessoaId = _pessoaService.BusacarPorUserName(User.Identity.Name).Id.Value,
                     MatriculaId = matriculaViewModel.Matricula.Id.Value,
                     Data = NowHorarioBrasilia.GetNow()
                 };
@@ -520,7 +520,7 @@ namespace HumanMusicSchoolManager.Controllers
                 {
                     Data = NowHorarioBrasilia.GetNow(),
                     MatriculaId = trocaDispSalaViewModel.Matricula.Id.Value,
-                    PessoaId = _pessoaService.GetUser(User.Identity.Name).Id.Value
+                    PessoaId = _pessoaService.BusacarPorUserName(User.Identity.Name).Id.Value
                 };
 
                 var descricao = "Alterado matricula para " +

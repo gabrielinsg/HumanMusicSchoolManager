@@ -29,6 +29,7 @@
                         <th class="text-center">Calendário</th>
                         <th class="text-center">Folha Ponto</th>
                         <th class="text-center">Relatório</th>
+                        <th class="text-center">Usuário</th>
                         <th class="text-center">Alterar</th>
                     </tr>
                 </thead>
@@ -42,91 +43,95 @@
                         <th class="text-center">Calendário</th>
                         <th class="text-center">Folha Ponto</th>
                         <th class="text-center">Relatório</th>
+                        <th class="text-center">Usuário</th>
                         <th class="text-center">Alterar</th>
                     </tr>
                 </tfoot>
                 <tbody>
                     @foreach (var professor in Model)
                     {
-                    <tr>
-                        <td>@professor.Nome</td>
-                        <td class="text-center">@professor.CPF</td>
-                        <td class="text-center">
-                            <div class="dropdown">
-                                <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Cursos
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <div class="list-group" style="width: 200px; height: 150px; overflow-y: scroll;">
-                                        <a asp-action="ProfessorCurso" asp-route-professorId="@(professor.Id)" class="list-group-item list-group-item-action active">
-                                            Alterar
-                                        </a>
-                                        @foreach (var curso in professor.Cursos)
-                                        {
-                                            <a href="#" class="list-group-item list-group-item-action">@curso.Curso.Nome</a>
-                                        }
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="text-center">
-                            <input asp-for="@professor.Ativo" onclick="return false" />
-                        </td>
-                        <td class="text-center">
-
-                            <!-- Button trigger modal -->
-                            <a class="btn text-primary" data-toggle="modal" data-target="#exampleModalLong@(professor.Id)">
-                                <i class="fas fa-info-circle"></i>
-                            </a>
-
-                            <!-- Modal -->
-                            <div class="modal fade" id="exampleModalLong@(professor.Id)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLongTitle">Informações</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body text-left">
-                                            <p><b>Nome: </b>@professor.Nome</p>
-                                            <p><b>Data de Nascimento: </b>@professor.DataNascimento.ToString("dd/MM/yyyy")</p>
-                                            <p><b>CPF: </b>@professor.CPF</p>
-                                            <p><b>RG: </b>@professor.RG</p>
-                                            <p><b>Logradouro: </b>@professor.Endereco.Logradouro</p>
-                                            <p><b>Número: </b>@professor.Endereco.Numero</p>
-                                            <p><b>Bairro: </b>@professor.Endereco.Bairro</p>
-                                            <p><b>Complemento: </b>@professor.Endereco.Complemento</p>
-                                            <p><b>Cidade: </b>@professor.Endereco.Cidade</p>
-                                            <p><b>UF: </b>@professor.Endereco.UF</p>
-                                            <p><b>CEP: </b>@professor.Endereco.CEP</p>
-                                            <p><b>E-mail: </b>@professor.Email</p>
-                                            <p><b>Telefone: </b>@professor.Tel</p>
-                                            <p><b>Celular: </b>@professor.Cel</p>
-                                            <p><b>Ativo: </b><input asp-for="@professor.Ativo" onclick="return false" /></p>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                                            <a asp-action="Form" asp-route-professorId="@(professor.Id)" class="btn btn-primary">Alterar Dados</a>
+                        <tr>
+                            <td>@professor.Nome</td>
+                            <td class="text-center">@professor.CPF</td>
+                            <td class="text-center">
+                                <div class="dropdown">
+                                    <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Cursos
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <div class="list-group" style="width: 200px; height: 150px; overflow-y: scroll;">
+                                            <a asp-action="ProfessorCurso" asp-route-professorId="@(professor.Id)" class="list-group-item list-group-item-action active">
+                                                Alterar
+                                            </a>
+                                            @foreach (var curso in professor.Cursos)
+                                            {
+                                                <a href="#" class="list-group-item list-group-item-action">@curso.Curso.Nome</a>
+                                            }
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </td>
-                        <td class="text-center">
-                            <a asp-controller="Professor" asp-action="Calendario" asp-route-professorId="@(professor.Id)"><i class="far fa-calendar-alt"></i></a>
-                        </td>
-                        <td class="text-center">
-                            <a asp-action="FolhaPontoProfessor" target="_blank" asp-route-professorId="@professor.Id"><i class="far fa-file-alt"></i></a>
-                        </td>
-                        <td class="text-center">
-                            <a asp-action="RelatorioProfessor" asp-route-professorId="@professor.Id"><i class="far fa-file-alt"></i></a>
-                        </td>
-                        <td class="text-center">
-                            <a asp-action="Form" asp-route-professorId="@(professor.Id)"><i class="fas fa-pencil-alt text-primary"></i></a>
-                        </td>
-                    </tr>
+                            </td>
+                            <td class="text-center">
+                                <input asp-for="@professor.Ativo" onclick="return false" />
+                            </td>
+                            <td class="text-center">
+
+                                <!-- Button trigger modal -->
+                                <a class="btn text-primary" data-toggle="modal" data-target="#exampleModalLong@(professor.Id)">
+                                    <i class="fas fa-info-circle"></i>
+                                </a>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModalLong@(professor.Id)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLongTitle">Informações</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body text-left">
+                                                <p><b>Nome: </b>@professor.Nome</p>
+                                                <p><b>Data de Nascimento: </b>@professor.DataNascimento.ToString("dd/MM/yyyy")</p>
+                                                <p><b>CPF: </b>@professor.CPF</p>
+                                                <p><b>RG: </b>@professor.RG</p>
+                                                <p><b>Logradouro: </b>@professor.Endereco.Logradouro</p>
+                                                <p><b>Número: </b>@professor.Endereco.Numero</p>
+                                                <p><b>Bairro: </b>@professor.Endereco.Bairro</p>
+                                                <p><b>Complemento: </b>@professor.Endereco.Complemento</p>
+                                                <p><b>Cidade: </b>@professor.Endereco.Cidade</p>
+                                                <p><b>UF: </b>@professor.Endereco.UF</p>
+                                                <p><b>CEP: </b>@professor.Endereco.CEP</p>
+                                                <p><b>E-mail: </b>@professor.Email</p>
+                                                <p><b>Telefone: </b>@professor.Tel</p>
+                                                <p><b>Celular: </b>@professor.Cel</p>
+                                                <p><b>Ativo: </b><input asp-for="@professor.Ativo" onclick="return false" /></p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                                <a asp-action="Form" asp-route-professorId="@(professor.Id)" class="btn btn-primary">Alterar Dados</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <a asp-controller="Professor" asp-action="Calendario" asp-route-professorId="@(professor.Id)"><i class="far fa-calendar-alt"></i></a>
+                            </td>
+                            <td class="text-center">
+                                <a asp-action="FolhaPontoProfessor" target="_blank" asp-route-professorId="@professor.Id"><i class="far fa-file-alt"></i></a>
+                            </td>
+                            <td class="text-center">
+                                <a asp-action="RelatorioProfessor" asp-route-professorId="@professor.Id"><i class="far fa-file-alt"></i></a>
+                            </td>
+                            <td class="text-center">
+                                <a asp-controller="Account" asp-action="Register" asp-route-pessoaId="@professor.Id"><i class="fas fa-user"></i></a>
+                            </td>
+                            <td class="text-center">
+                                <a asp-action="Form" asp-route-professorId="@(professor.Id)"><i class="fas fa-pencil-alt text-primary"></i></a>
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>
@@ -134,7 +139,7 @@
     </div>
 </div>
 
-@section Scripts{ 
+@section Scripts{
     <script src="~/vendor/datatables/jquery.dataTables.js"></script>
     <script src="~/vendor/datatables/dataTables.bootstrap4.js"></script>
     <script src="~/js/demo/datatables-demo.js"></script>

@@ -1,4 +1,5 @@
 ﻿@model RegisterViewModel
+@inject UserManager<ApplicationUser> UserManager
 @{
     ViewData["Title"] = "Register";
 }
@@ -8,10 +9,11 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
-            <h4>Criar uma nova conta para @(Model.Pessoa.Nome).</h4>
+            <input asp-for="Id" type="hidden" />
+            <h4>@(Model.Id == null ? "Criar" : "Alterar") usuário de @(Model.Pessoa.Nome).</h4>
             <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
-            <input asp-for="PessoaId" value="@Model.Pessoa.Id" hidden="hidden"/>
+            <input asp-for="PessoaId" value="@Model.Pessoa.Id" hidden="hidden" />
             <div class="form-group">
                 <label asp-for="UserName"></label>
                 <input asp-for="UserName" class="form-control" />
@@ -22,19 +24,40 @@
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Password"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ConfirmPassword"></label>
-                <input asp-for="ConfirmPassword" class="form-control" />
-                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-            </div>
+            @if (Model.Id == null)
+            {
+                <div class="form-group">
+                    <label asp-for="Password"></label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ConfirmPassword"></label>
+                    <input asp-for="ConfirmPassword" class="form-control" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+            }
+            else
+            {
+                <div class="form-group" style="display:none">
+                    <label asp-for="Password"></label>
+                    <input asp-for="Password" class="form-control" value="password" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group" style="display:none">
+                    <label asp-for="ConfirmPassword"></label>
+                    <input asp-for="ConfirmPassword" value="password" class="form-control" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+            }
             <div class="form-group">
                 <label asp-for="Permissao"></label>
-                <select asp-for="Permissao" class="form-control">
+                <a tabindex="0" class="btn" data-placement="right"
+                   data-toggle="popover" data-trigger="focus"
+                   data-content="Mantenha a tecla Ctrl precionada para selecionar mais de uma permissão.">
+                    <i class="fas fa-question-circle"></i>
+                </a>
+                <select style="height:200px;" multiple asp-for="Permissao" class="form-control">
                     @foreach (var role in ViewBag.Roles)
                     {
                         <option value="@role.Name">@role.Name</option>
@@ -48,4 +71,10 @@
 
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script>
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+
+        });
+    </script>
 }

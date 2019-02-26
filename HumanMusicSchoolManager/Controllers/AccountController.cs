@@ -219,17 +219,43 @@ namespace HumanMusicSchoolManager.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Register(int pessoaId, string returnUrl = null)
         {
-            var pessoa = _pessoaService.BuscarPorId(pessoaId);
+            var user = _pessoaService.BuscarUserPorPessoaId(pessoaId);
 
-            var register = new RegisterViewModel()
+            if (user == null)
             {
-                Pessoa = pessoa,
-                Email = pessoa.Email
-            };
+                var pessoa = _pessoaService.BuscarPorId(pessoaId);
 
-            ViewBag.Roles = _roleManager.Roles.ToList();
-            ViewData["ReturnUrl"] = returnUrl;
-            return View(register);
+                var register = new RegisterViewModel()
+                {
+                    Pessoa = pessoa,
+                    Email = pessoa.Email
+                };
+                ViewBag.Roles = _roleManager.Roles.ToList();
+                ViewData["ReturnUrl"] = returnUrl;
+                return View(register);
+            }
+            else
+            {
+                var permissoes = _userManager.GetRolesAsync(user).Result;
+                string[] permissao = new string[permissoes.Count];
+                for (var i = 0; i < permissoes.Count; i++)
+                {
+                    permissao[i] = permissoes[i];
+                }
+                var register = new RegisterViewModel()
+                {
+                    Id = user.Id,
+                    Pessoa = _pessoaService.BuscarPorId(user.PessoaId),
+                    Email = user.Email,
+                    UserName = user.UserName,
+                    Password = "passWord",
+                    ConfirmPassword = "passWord",
+                    Permissao = permissao
+                };
+                ViewBag.Roles = _roleManager.Roles.ToList();
+                ViewData["ReturnUrl"] = returnUrl;
+                return View(register);
+            }
         }
 
         [HttpPost]
@@ -237,29 +263,75 @@ namespace HumanMusicSchoolManager.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
         {
+            
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, PessoaId = model.PessoaId };
-                var result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                if (model.Id == null)
                 {
-                    await _userManager.AddToRoleAsync(user, model.Permissao);
-                    _logger.LogInformation("O usuário criou uma nova conta com senha.");
+                    var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, PessoaId = model.PessoaId };
+                    var result = await _userManager.CreateAsync(user, model.Password);
 
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
-                    await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
+                    if (result.Succeeded)
+                    {
 
-                    //await _signInManager.SignInAsync(user, isPersistent: false);
-                    _logger.LogInformation("O usuário criou uma nova conta com senha.");
-                    return RedirectToLocal(returnUrl);
+                        await _userManager.AddToRolesAsync(user, model.Permissao);
+                        _logger.LogInformation("O usuário criou uma nova conta com senha.");
+
+                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
+                        await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
+
+                        //await _signInManager.SignInAsync(user, isPersistent: false);
+                        _logger.LogInformation("O usuário criou uma nova conta com senha.");
+                        return RedirectToLocal(returnUrl);
+                    }
+                    AddErrors(result);
                 }
-                AddErrors(result);
+                else
+                {
+                    var user = _userManager.FindByIdAsync(model.Id).Result;
+                    user.UserName = model.UserName;
+                    user.Email = model.Email;
+                    if (user != null)
+                    {
+                        var result = await _userManager.UpdateAsync(user);
+
+                        if (result.Succeeded)
+                        {
+                            var roles = _userManager.GetRolesAsync(user).Result;
+                            await _userManager.RemoveFromRolesAsync(user, roles);
+                            await _userManager.AddToRolesAsync(user, model.Permissao);
+
+                            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                            var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
+                            await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
+
+                            //await _signInManager.SignInAsync(user, isPersistent: false);
+                            _logger.LogInformation("O usuário alterado com sucesso.");
+                            return RedirectToLocal(returnUrl);
+                        }
+
+                    }
+                }
             }
 
+            model.Pessoa = _pessoaService.BuscarPorId(model.PessoaId);
+            ViewBag.Roles = _roleManager.Roles.ToList();
+            ViewData["ReturnUrl"] = returnUrl;
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteUser(string userId, string returnUrl = null)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            var result = await _userManager.DeleteAsync(user);
+            _logger.LogInformation("O usuário criou uma nova conta com senha.");
+            return RedirectToLocal(returnUrl);
         }
 
         [HttpPost]

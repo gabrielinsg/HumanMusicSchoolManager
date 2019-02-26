@@ -125,7 +125,7 @@ namespace HumanMusicSchoolManager.Controllers
                 demostrativaViewModel.Demostrativa.DispSalaId = demostrativaViewModel.DispSala.Id.Value;
                 demostrativaViewModel.Demostrativa.CursoId = demostrativaViewModel.Curso.Id.Value;
                 demostrativaViewModel.Demostrativa.CandidatoId = demostrativaViewModel.Candidato.Id.Value;
-                demostrativaViewModel.Demostrativa.PessoaId = _pessoaService.GetUser(User.Identity.Name).Id.Value;
+                demostrativaViewModel.Demostrativa.PessoaId = _pessoaService.BusacarPorUserName(User.Identity.Name).Id.Value;
                 demostrativaViewModel.Demostrativa.Confirmado = Confirmado.NAO;
 
                 var aula = _aulaService.BuscarPorDiaHora(demostrativaViewModel.DiaAula, demostrativaViewModel.DispSala);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HumanMusicSchoolManager.Data;
+using HumanMusicSchoolManager.Models;
 using HumanMusicSchoolManager.Models.Models;
 using HumanMusicSchoolManager.ServicesInterface;
 using Microsoft.EntityFrameworkCore;
@@ -35,7 +36,7 @@ namespace HumanMusicSchoolManager.Services
             return _context.Pessoas.Where(p => p.Email == pessoa.Email).SingleOrDefault();
         }
 
-        public Pessoa GetUser(string userName)
+        public Pessoa BusacarPorUserName(string userName)
         {
 
             var user = _context.Users.FirstOrDefault(u => u.UserName == userName);
@@ -47,6 +48,13 @@ namespace HumanMusicSchoolManager.Services
                     .FirstOrDefault(p => p.Id == user.PessoaId);
             }
             return pessoa;
+        }
+
+        public ApplicationUser BuscarUserPorPessoaId(int pessoaId)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.PessoaId == pessoaId);
+
+            return user;
         }
     }
 }

@@ -25,6 +25,7 @@
                         <th class="text-center">CPF</th>
                         <th class="text-center">Ativo</th>
                         <th class="text-center">Informações</th>
+                        <th class="text-center">Usuário</th>
                         <th class="text-center">Alterar</th>
                     </tr>
                 </thead>
@@ -34,6 +35,7 @@
                         <th class="text-center">CPF</th>
                         <th class="text-center">Ativo</th>
                         <th class="text-center">Informações</th>
+                        <th class="text-center">Usuário</th>
                         <th class="text-center">Alterar</th>
                     </tr>
                 </tfoot>
@@ -87,6 +89,9 @@
                                         </div>
                                     </div>
                                 </div>
+                            </td>
+                            <td class="text-center">
+                                <a asp-controller="Account" asp-action="Register" asp-route-pessoaId="@funcionario.Id"><i class="fas fa-user"></i></a>
                             </td>
                             <td class="text-center">
                                 <a asp-action="Form" asp-route-funcionarioId="@(funcionario.Id)"><i class="fas fa-pencil-alt text-primary"></i></a>

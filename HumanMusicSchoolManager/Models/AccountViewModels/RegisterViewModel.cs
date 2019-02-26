@@ -9,6 +9,8 @@ namespace HumanMusicSchoolManager.Models.AccountViewModels
 {
     public class RegisterViewModel
     {
+        public string Id { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
@@ -34,7 +36,7 @@ namespace HumanMusicSchoolManager.Models.AccountViewModels
         public string ConfirmPassword { get; set; }
 
         [Required]
-        [Display(Name = "Permissão")]
-        public string Permissao  { get; set; }
+        [Display(Name = "Permissões")]
+        public string[] Permissao  { get; set; }
     }
 }

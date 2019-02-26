@@ -178,7 +178,7 @@ namespace HumanMusicSchoolManager.Controllers
         public IActionResult Calendario(int? professorId)
         {
 
-            var professor = _professorService.BuscarPorId(_pessoaService.GetUser(User.Identity.Name).Id.Value);
+            var professor = _professorService.BuscarPorId(_pessoaService.BusacarPorUserName(User.Identity.Name).Id.Value);
 
             if(professor != null)
             {
@@ -334,7 +334,7 @@ namespace HumanMusicSchoolManager.Controllers
         public IActionResult FolhaPontoProfessor(int? professorId, DateTime? inicial, DateTime? final)
         {
 
-            var professorPorUsuario = _professorService.BuscarPorId(_pessoaService.GetUser(User.Identity.Name).Id.Value);
+            var professorPorUsuario = _professorService.BuscarPorId(_pessoaService.BusacarPorUserName(User.Identity.Name).Id.Value);
             if (professorPorUsuario != null)
             {
                 professorId = professorPorUsuario.Id.Value;
@@ -416,7 +416,7 @@ namespace HumanMusicSchoolManager.Controllers
 
         public IActionResult RelatorioProfessor(int? professorId, DateTime? inicial, DateTime? final)
         {
-            var professorPorUsuario = _professorService.BuscarPorId(_pessoaService.GetUser(User.Identity.Name).Id.Value);
+            var professorPorUsuario = _professorService.BuscarPorId(_pessoaService.BusacarPorUserName(User.Identity.Name).Id.Value);
             if (professorPorUsuario != null)
             {
                 professorId = professorPorUsuario.Id.Value;

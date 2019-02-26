@@ -1,4 +1,5 @@
-﻿using HumanMusicSchoolManager.Models.Models;
+﻿using HumanMusicSchoolManager.Models;
+using HumanMusicSchoolManager.Models.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace HumanMusicSchoolManager.ServicesInterface
         List<Pessoa> BuscarTodos();
         Pessoa BuscarPorId(int pessoaId);
         Pessoa Cadastrar(Pessoa pessoa);
-        Pessoa GetUser(string userName);
+        Pessoa BusacarPorUserName(string userName);
+        ApplicationUser BuscarUserPorPessoaId(int pessoaId);
     }
 }

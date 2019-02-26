@@ -161,7 +161,7 @@ namespace HumanMusicSchoolManager.Controllers
                         Nome = pacoteCompraViewModel.PacoteAula.Nome + " - " + pacoteCompraViewModel.Matricula.Curso.Nome + " - Parcela " + (i + 1) + " de " + pacoteCompraViewModel.PacoteCompra.QtdParcela,
                         UltimaAlteracao = NowHorarioBrasilia.GetNow(),
                         FormaPagamento = pacoteCompraViewModel.FormaPagamento,
-                        Pessoa = _pessoaService.GetUser(User.Identity.Name),
+                        Pessoa = _pessoaService.BusacarPorUserName(User.Identity.Name),
                         Valor = Math.Round(valor.Value, 2),
                         DataVencimento = pacoteCompraViewModel.Vencimento.AddMonths(i),
                         PacoteCompra = pacoteCompraViewModel.PacoteCompra
@@ -183,7 +183,7 @@ namespace HumanMusicSchoolManager.Controllers
 
                 var relatorioMatricula = new RelatorioMatricula
                 {
-                    PessoaId = _pessoaService.GetUser(User.Identity.Name).Id.Value,
+                    PessoaId = _pessoaService.BusacarPorUserName(User.Identity.Name).Id.Value,
                     MatriculaId = pacoteCompraViewModel.PacoteCompra.Matricula.Id.Value,
                     Data = NowHorarioBrasilia.GetNow()
                 };
@@ -473,7 +473,7 @@ namespace HumanMusicSchoolManager.Controllers
                 Nome = "Cancelamento do Pacote do curso de " + pacoteCompra.Matricula.Curso.Nome,
                 UltimaAlteracao = NowHorarioBrasilia.GetNow(),
                 FormaPagamento = cancelarPacoteViewModel.FormaPagamento,
-                Pessoa = _pessoaService.GetUser(User.Identity.Name),
+                Pessoa = _pessoaService.BusacarPorUserName(User.Identity.Name),
                 Valor = Math.Round(subTotal.Value, 2),
                 Multa = cancelarPacoteViewModel.Multa,
                 Desconto = cancelarPacoteViewModel.Desconto,
@@ -493,7 +493,7 @@ namespace HumanMusicSchoolManager.Controllers
             {
                 Data = NowHorarioBrasilia.GetNow(),
                 MatriculaId = pacoteCompra.MatriculaId,
-                PessoaId = _pessoaService.GetUser(User.Identity.Name).Id.Value
+                PessoaId = _pessoaService.BusacarPorUserName(User.Identity.Name).Id.Value
             };
 
             string descricao = "Pacote " + pacoteCompra.PacoteAula.Nome + " do curso de " + pacoteCompra.Matricula.Curso.Nome + 

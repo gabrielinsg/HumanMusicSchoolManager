@@ -69,7 +69,7 @@ namespace HumanMusicSchoolManager.Controllers
                     ViewBag.Aluno = _alunoService.BuscarPorId(financeiro.AlunoId.Value);
                 }
 
-                financeiro.PessoaId = _pessoaService.GetUser(User.Identity.Name).Id;
+                financeiro.PessoaId = _pessoaService.BusacarPorUserName(User.Identity.Name).Id;
                 financeiro.UltimaAlteracao = NowHorarioBrasilia.GetNow();
                 if (ModelState.IsValid)
                 {
@@ -89,7 +89,7 @@ namespace HumanMusicSchoolManager.Controllers
                     ViewBag.Aluno = _alunoService.BuscarPorId(financeiro.AlunoId.Value);
                 }
 
-                financeiro.PessoaId = _pessoaService.GetUser(User.Identity.Name).Id;
+                financeiro.PessoaId = _pessoaService.BusacarPorUserName(User.Identity.Name).Id;
                 financeiro.UltimaAlteracao = NowHorarioBrasilia.GetNow();
                 if (ModelState.IsValid)
                 {

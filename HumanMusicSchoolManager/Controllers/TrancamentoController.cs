@@ -152,7 +152,7 @@ namespace HumanMusicSchoolManager.Controllers
                 //Relatório Matrícula
                 var relatorioMatricula = new RelatorioMatricula
                 {
-                    PessoaId = _pessoaService.GetUser(User.Identity.Name).Id.Value,
+                    PessoaId = _pessoaService.BusacarPorUserName(User.Identity.Name).Id.Value,
                     MatriculaId = pacoteCompra.Matricula.Id.Value,
                     Data = NowHorarioBrasilia.GetNow()
                 };
@@ -198,7 +198,7 @@ namespace HumanMusicSchoolManager.Controllers
 
                 var relatorioMatricula = new RelatorioMatricula
                 {
-                    PessoaId = _pessoaService.GetUser(User.Identity.Name).Id.Value,
+                    PessoaId = _pessoaService.BusacarPorUserName(User.Identity.Name).Id.Value,
                     MatriculaId = pacoteCompra.Matricula.Id.Value,
                     Data = NowHorarioBrasilia.GetNow()
                 };

@@ -183,7 +183,11 @@
         <script src="~/js/jquery-ui.min.js"></script>
         <script src="~/js/pasta.js"></script>
     </environment>
-
+    <script>
+        if (screen.width <= 800) {
+            $('#sidebarToggle').trigger('click')
+        }
+    </script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>
