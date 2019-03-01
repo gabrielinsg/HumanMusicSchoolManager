@@ -21,7 +21,6 @@ namespace HumanMusicSchoolManager.Services
         public List<DispSala> BuscarTodos()
         {
             var hr = _context.DispSalas
-                .Where(ds => ds.Ativo == true)
                 .Include(dp => dp.Professor)
                 .ThenInclude(p => p.Cursos)
                 .Include(dp => dp.Sala)
@@ -69,7 +68,7 @@ namespace HumanMusicSchoolManager.Services
         public List<DispSala> BuscarTodosPorSala(int salaId)
         {
             var hr = _context.DispSalas
-                .Where(ds => ds.Ativo == true && ds.Sala.Id == salaId)
+                .Where(ds => ds.Sala.Id == salaId)
                 .Include(dp => dp.Professor)
                 .ThenInclude(p => p.Cursos)
                 .Include(dp => dp.Sala)

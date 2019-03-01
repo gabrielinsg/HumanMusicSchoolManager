@@ -37,8 +37,9 @@
             <th>Período</th>
             <th>Sala</th>
             <th>Professor</th>
+            <th class="text-center">Ativo</th>
             <th class="text-center">Vagas</th>
-        </tr>
+        </th>
     </thead>
     <tfoot>
         <tr>
@@ -48,6 +49,7 @@
             <th>Período</th>
             <th>Sala</th>
             <th>Professor</th>
+            <th class="text-center">Ativo</th>
             <th class="text-center">Vagas</th>
         </tr>
     </tfoot>
@@ -98,6 +100,7 @@
                         </td>
                         <td>@dispSala.Sala.Nome</td>
                         <td>@dispSala.Professor.Nome</td>
+                        <td class="text-center">@(dispSala.Ativo == true ? "Sim" : "Não")</td>
                         <td class="text-center">
                             @{
                                 var individual = false;
