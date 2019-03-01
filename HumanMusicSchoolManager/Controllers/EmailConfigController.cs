@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HumanMusicSchoolManager.Controllers
 {
-    [Authorize]
+    [Authorize (Roles = "Admin")]
     public class EmailConfigController : Controller
     {
         private readonly IEmailConfigService _emailConfigService;

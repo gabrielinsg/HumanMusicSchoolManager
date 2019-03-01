@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HumanMusicSchoolManager.Controllers
 {
-    [Authorize]
+    [Authorize (Roles = "Admin, Atendimento")]
     public class PacoteCompraController : Controller
     {
         private readonly IPacoteCompraService _pacoteCompraService;
@@ -222,6 +222,7 @@ namespace HumanMusicSchoolManager.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin, Atendimento, Aluno")]
         public IActionResult PacoteCompra(int? pacoteCompraId)
         {
             if (pacoteCompraId != null)
@@ -234,6 +235,7 @@ namespace HumanMusicSchoolManager.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin, Atendimento, Aluno")]
         public JsonResult Aulas(int pacoteCompraId)
         {
 
@@ -338,6 +340,7 @@ namespace HumanMusicSchoolManager.Controllers
             public string Url { get; set; }
         }
 
+        [Authorize(Roles = "Admin, Atendimento, Aluno")]
         public IActionResult PrintCalendario(int? pacoteCompraId)
         {
             if (pacoteCompraId != null)
@@ -350,6 +353,7 @@ namespace HumanMusicSchoolManager.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin, Atendimento, Aluno")]
         public IActionResult Aula(int? chamadaId)
         {
             if (chamadaId != null)

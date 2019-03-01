@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HumanMusicSchoolManager.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin, Atendimento, Vendas")]
     public class DispSalaController : Controller
     {
         private readonly IDispSalaService _dispSalaService;
@@ -53,6 +53,27 @@ namespace HumanMusicSchoolManager.Controllers
             ViewBag.Salas = _salaService.BuscarTodos().OrderBy(s => s.Nome).ToList();
 
             return View(horariosDisponiveis);
+        }
+
+        public IActionResult TodosHorarios(int? salaId)
+        {
+            var horarios = new TodosHorariosViewModel
+            {
+                Cursos = _cursoService.BuscarTodos()
+            };
+
+            if (salaId == null)
+            {
+                horarios.DispSalas = _dispSalaService.BuscarTodos();
+            }
+            else
+            {
+                horarios.DispSalas = _dispSalaService.BuscarTodosPorSala(salaId.Value);
+            }
+
+            ViewBag.Salas = _salaService.BuscarTodos().OrderBy(s => s.Nome).ToList();
+
+            return View(horarios);
         }
     }
 }

@@ -20,10 +20,12 @@ namespace HumanMusicSchoolManager.Services
 
         public List<DispSala> BuscarTodos()
         {
-            var dispSalas = _context.DispSalas
+            var hr = _context.DispSalas
+                .Where(ds => ds.Ativo == true)
                 .Include(dp => dp.Professor)
                 .ThenInclude(p => p.Cursos)
                 .Include(dp => dp.Sala)
+                .ThenInclude(s => s.Cursos)
                 .Include(ds => ds.Matriculas)
                 .ThenInclude(m => m.Aluno)
                 .Include(ds => ds.Matriculas)
@@ -33,6 +35,16 @@ namespace HumanMusicSchoolManager.Services
                 .ThenInclude(c => c.PacoteCompra)
                 .ThenInclude(pc => pc.Matricula)
                 .ThenInclude(m => m.Curso)
+                .Include(ds => ds.Reposicoes)
+                .ThenInclude(r => r.Chamada)
+                .ThenInclude(c => c.PacoteCompra)
+                .ThenInclude(pc => pc.Matricula)
+                .ThenInclude(m => m.Curso)
+                .Include(ds => ds.Reposicoes)
+                .ThenInclude(r => r.Chamada)
+                .ThenInclude(c => c.PacoteCompra)
+                .ThenInclude(pc => pc.Matricula)
+                .ThenInclude(m => m.Aluno)
                 .Include(dp => dp.Demostrativas)
                 .ThenInclude(d => d.Curso)
                 .Include(dp => dp.Demostrativas)
@@ -40,9 +52,66 @@ namespace HumanMusicSchoolManager.Services
                 .Include(ds => ds.Matriculas)
                 .ThenInclude(m => m.PacoteCompras)
                 .ThenInclude(pc => pc.PacoteAula)
+                .Include(ds => ds.Matriculas)
+                .ThenInclude(m => m.PacoteCompras)
+                .ThenInclude(pc => pc.Chamadas)
                 .ToList();
 
-            return dispSalas;
+
+
+            return hr
+                .OrderBy(h => h.Professor.Nome)
+                .OrderBy(h => h.Hora)
+                .OrderBy(h => h.Dia)
+                .ToList();
+        }
+
+        public List<DispSala> BuscarTodosPorSala(int salaId)
+        {
+            var hr = _context.DispSalas
+                .Where(ds => ds.Ativo == true && ds.Sala.Id == salaId)
+                .Include(dp => dp.Professor)
+                .ThenInclude(p => p.Cursos)
+                .Include(dp => dp.Sala)
+                .ThenInclude(s => s.Cursos)
+                .Include(ds => ds.Matriculas)
+                .ThenInclude(m => m.Aluno)
+                .Include(ds => ds.Matriculas)
+                .ThenInclude(m => m.Curso)
+                .Include(ds => ds.Reposicoes)
+                .ThenInclude(r => r.Chamada)
+                .ThenInclude(c => c.PacoteCompra)
+                .ThenInclude(pc => pc.Matricula)
+                .ThenInclude(m => m.Curso)
+                .Include(ds => ds.Reposicoes)
+                .ThenInclude(r => r.Chamada)
+                .ThenInclude(c => c.PacoteCompra)
+                .ThenInclude(pc => pc.Matricula)
+                .ThenInclude(m => m.Curso)
+                .Include(ds => ds.Reposicoes)
+                .ThenInclude(r => r.Chamada)
+                .ThenInclude(c => c.PacoteCompra)
+                .ThenInclude(pc => pc.Matricula)
+                .ThenInclude(m => m.Aluno)
+                .Include(dp => dp.Demostrativas)
+                .ThenInclude(d => d.Curso)
+                .Include(dp => dp.Demostrativas)
+                .ThenInclude(d => d.Candidato)
+                .Include(ds => ds.Matriculas)
+                .ThenInclude(m => m.PacoteCompras)
+                .ThenInclude(pc => pc.PacoteAula)
+                .Include(ds => ds.Matriculas)
+                .ThenInclude(m => m.PacoteCompras)
+                .ThenInclude(pc => pc.Chamadas)
+                .ToList();
+
+
+
+            return hr
+                .OrderBy(h => h.Professor.Nome)
+                .OrderBy(h => h.Hora)
+                .OrderBy(h => h.Dia)
+                .ToList();
         }
 
         public DispSala BuscarPorId(int dispSalaId)
@@ -127,7 +196,7 @@ namespace HumanMusicSchoolManager.Services
 
 
             return Organizar(hr);
-                
+
         }
 
         public List<DispSala> HorariosDisponiveisPorSala(int salaId)

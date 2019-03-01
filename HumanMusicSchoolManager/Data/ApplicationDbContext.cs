@@ -74,6 +74,11 @@ namespace HumanMusicSchoolManager.Data
                 .WithOne(pc => pc.Matricula)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            builder.Entity<RespFinanceiro>()
+                .HasMany(rf => rf.Matriculas)
+                .WithOne(m => m.RespFinanceiro)
+                .OnDelete(DeleteBehavior.Restrict);
+
             builder.Entity<DispSala>()
                 .HasMany(ds => ds.Matriculas)
                 .WithOne(m => m.DispSala);

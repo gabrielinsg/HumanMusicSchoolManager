@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HumanMusicSchoolManager.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin, Atendimento, Coordenacao")]
     public class ContratoController : Controller
     {
         private readonly IContratoService _contratoService;
@@ -97,6 +97,7 @@ namespace HumanMusicSchoolManager.Controllers
             return Json(contrato);
         }
 
+        [Authorize(Roles = "Admin, Atendimento, Coordenacao, Aluno")]
         public IActionResult Contrato(int? pacoteCompraId)
         {
             if (pacoteCompraId != null)
@@ -157,6 +158,7 @@ namespace HumanMusicSchoolManager.Controllers
                     contrato.Conteudo = contrato.Conteudo.Replace("{Pacote.Valor}", ((double)valorTotal).ToString("R$ #,###.00"));
                     contrato.Conteudo = contrato.Conteudo.Replace("{Pacote.ValorExtenso}", ToExtenso(valorTotal.Value));
                     contrato.Conteudo = contrato.Conteudo.Replace("{Pacote.QtdParcelas}", pacoteCompra.QtdParcela.ToString());
+                    contrato.Conteudo = contrato.Conteudo.Replace("{Pacote.Desconto}", pacoteCompra.Desconto.ToString());
                     contrato.Conteudo = contrato.Conteudo.Replace("{Pacote.TipoAula}", pacote.TipoAula.GetType()
                         .GetMember(pacote.TipoAula.ToString())
                         .First()

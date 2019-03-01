@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HumanMusicSchoolManager.Controllers
 {
-    [Authorize(Roles = "Admin, Coordenacao, Professor")]
+    [Authorize(Roles = "Admin, Atendimento")]
     public class AlunoController : Controller
     {
         private readonly IAlunoService _alunoService;
@@ -110,6 +110,7 @@ namespace HumanMusicSchoolManager.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Admin, Atendimento, Aluno")]
         public IActionResult Aluno(int? alunoId)
         {
             if (alunoId == null)

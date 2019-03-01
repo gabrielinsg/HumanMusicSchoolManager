@@ -24,6 +24,7 @@
                         <th class="text-center">CPF</th>
                         <th class="text-center">Ativo</th>
                         <th class="text-center">Informações</th>
+                        <th class="text-center">Matrículas</th>
                         <th class="text-center">Alterar</th>
                     </tr>
                 </thead>
@@ -33,6 +34,7 @@
                         <th class="text-center">CPF</th>
                         <th class="text-center">Ativo</th>
                         <th class="text-center">Informações</th>
+                        <th class="text-center">Matrículas</th>
                         <th class="text-center">Alterar</th>
                     </tr>
                 </tfoot>
@@ -78,6 +80,37 @@
                                                 <p><b>Telefone: </b>@respFinanceiro.Tel</p>
                                                 <p><b>Celular: </b>@respFinanceiro.Cel</p>
                                                 <p><b>Ativo: </b><input asp-for="@respFinanceiro.Ativo" onclick="return false" /></p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                                <a asp-action="Form" asp-route-respFinanceiroId="@(respFinanceiro.Id)" class="btn btn-primary">Alterar Dados</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-center">
+
+                                <!-- Button trigger modal -->
+                                <a class="btn text-primary" data-toggle="modal" data-target="#aluno@(respFinanceiro.Id)">
+                                    <i class="fas fa-users"></i>
+                                </a>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="aluno@(respFinanceiro.Id)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLongTitle">Matrículas que é responsável</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body text-left">
+                                                @foreach (var matricula in respFinanceiro.Matriculas)
+                                                {
+                                                    <p><b><a asp-controller="Aluno" asp-action="Aluno" asp-route-alunoId="@matricula.AlunoId">@matricula.Aluno.Nome</a></b> - @matricula.Curso.Nome - <span>@(matricula.DispSalaId == null ? "Não ativo" : "Ativo")</span></p>
+                                                }
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>

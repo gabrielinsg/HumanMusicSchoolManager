@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HumanMusicSchoolManager.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin, Coordenacao")]
     public class ProfessorController : Controller
     {
         private readonly IProfessorService _professorService;

@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace HumanMusicSchoolManager.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin, Secretaria")]
     public class PacoteAulaController : Controller
     {
         private readonly IPacoteAulaService _pacoteAulaService;

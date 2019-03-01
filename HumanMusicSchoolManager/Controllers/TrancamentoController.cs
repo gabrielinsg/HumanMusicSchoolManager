@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HumanMusicSchoolManager.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin, Atendimento")]
     public class TrancamentoController : Controller
     {
         private readonly ITrancamentoService _trancamentoService;

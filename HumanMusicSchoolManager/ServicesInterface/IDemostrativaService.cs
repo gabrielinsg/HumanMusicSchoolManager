@@ -14,5 +14,6 @@ namespace HumanMusicSchoolManager.ServicesInterface
         void Excluir(int demostrativaId);
         void Alterar(Demostrativa demostrativa);
         List<Demostrativa> DemostrativasAbertas();
+        List<Demostrativa> DemostrativasNaoContrataram(DateTime inicial, DateTime final);
     }
 }

@@ -1,0 +1,92 @@
+﻿@model List<Demostrativa>
+@{
+    ViewData["Title"] = "NaoContratou";
+}
+
+<h2>Não contratou</h2>
+
+<form role="form" asp-action="NaoContratou" method="get">
+
+    <div class="row">
+        <div class="col-xl-3 col-md-4">
+            <label name="Inicial">Data Inicial</label>
+            <input name="Inicial" value="@ViewBag.Inicial.ToString("yyyy-MM-dd")" type="date" class="form-control" />
+        </div>
+        <div class="col-xl-3 col-md-4">
+            <label name="Final">Data Final</label>
+            <input name="Final" value="@ViewBag.Final.ToString("yyyy-MM-dd")" type="date" class="form-control" />
+        </div>
+        <div class="col-3" style="padding-top: 32px;">
+            <button type="submit" class="btn btn-success">Filtrar</button>
+        </div>
+    </div>
+</form>
+<br />
+<div class="card mb-3">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-xl-11 col-md-10">
+                <i class="fas fa-music"></i>
+                Demostrativas abertas
+            </div>
+        </div>
+
+    </div>
+    <div class="card-body">
+        <div class="table-responsive table table-sm table-hover small">
+            <table class="table table-bordered table-striped" id="dataTable" cellspacing="0">
+                <thead>
+                    <tr class="small">
+                        <th class="text-center">Data</th>
+                        <th>Nome</th>
+                        <th>Curso</th>
+                        <th>Confirmada</th>
+                        <th>Aula dada</th>
+                        <th>Presença</th>
+                        <th>Email</th>
+                        <th>Telefone</th>
+                        <th>Celular</th>
+                        <th class="text-center">Demostrativa</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr class="small">
+                        <th class="text-center">Data</th>
+                        <th>Nome</th>
+                        <th>Curso</th>
+                        <th>Confirmada</th>
+                        <th>Aula dada</th>
+                        <th>Presença</th>
+                        <th>Email</th>
+                        <th>Telefone</th>
+                        <th>Celular</th>
+                        <th class="text-center">Demostrativa</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var demostrativa in Model)
+                    {
+                        <tr>
+                            <td class="text-center">@demostrativa.Aula.Data.ToString("dd/MM/yyy - HH:mm'h'")</td>
+                            <td>@demostrativa.Candidato.Nome</td>
+                            <td>@demostrativa.Curso.Nome</td>
+                            <td>@Html.DisplayFor(d => demostrativa.Confirmado)</td>
+                            <td>@(demostrativa.Aula.AulaDada == true ? "Sim" : "Não")</td>
+                            <td>@(demostrativa.Presenca == null ? "" : demostrativa.Presenca == true ? "Presente" : "Faltou")</td>
+                            <td>@demostrativa.Candidato.Email</td>
+                            <td>@demostrativa.Candidato.Tel</td>
+                            <td>@demostrativa.Candidato.Cel</td>
+                            <td class="text-center"><a asp-controller="Candidato" asp-action="Candidato" asp-route-candidatoId="@demostrativa.CandidatoId"><i class="fas fa-music"></i></a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/vendor/datatables/jquery.dataTables.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.js"></script>
+    <script src="~/js/demo/datatables-demo.js"></script>
+}

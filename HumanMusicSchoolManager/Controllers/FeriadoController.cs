@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HumanMusicSchoolManager.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin, Coordenacao")]
     public class FeriadoController : Controller
     {
         private readonly IFeriadoService _feriadoService;

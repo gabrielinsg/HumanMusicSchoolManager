@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HumanMusicSchoolManager.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin, Atendimento, Financeiro")]
     public class FinanceiroController : Controller
     {
         private readonly IFinanceiroService _financeiroService;
@@ -25,6 +25,7 @@ namespace HumanMusicSchoolManager.Controllers
             this._pessoaService = pessoaService;
         }
 
+        [Authorize(Roles = "Admin, Atendimento, Financeiro, Aluno")]
         public IActionResult Financeiro(int? alunoId)
         {
             if (alunoId != null)

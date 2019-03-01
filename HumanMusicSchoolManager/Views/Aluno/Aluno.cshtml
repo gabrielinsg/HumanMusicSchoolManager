@@ -73,7 +73,7 @@
             {
                 <p>Matricula cancelada</p>
             }
-            <br /><br />
+            <p><b>Responsável financeiro: <a asp-controller="RespFinanceiro" asp-action="Form" asp-route-respFinanceiroId="@matricula.RespFinanceiroId">@matricula.RespFinanceiro.Nome</a></b> <b>Telefone:</b> @matricula.RespFinanceiro.Tel <b>Celular:</b> @matricula.RespFinanceiro.Cel</p>
             <div class="row">
                 <div class="col-md-8">
                     <ul class="list-group">

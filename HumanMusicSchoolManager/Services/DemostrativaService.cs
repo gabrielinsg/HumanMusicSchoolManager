@@ -72,5 +72,26 @@ namespace HumanMusicSchoolManager.Services
                 _context.SaveChanges();
             }
         }
+
+        public List<Demostrativa> DemostrativasNaoContrataram(DateTime inicial, DateTime final)
+        {
+            inicial = inicial.AddHours(-inicial.Hour);
+            inicial = inicial.AddMinutes(-inicial.Minute);
+            inicial = inicial.AddMilliseconds(-inicial.Millisecond);
+            final = final.AddHours(-final.Hour);
+            final = final.AddMinutes(-final.Minute);
+            final = final.AddMilliseconds(-final.Millisecond);
+            final = final.AddHours(23);
+
+            return _context.Demostrativas
+                .Where(d => d.Contratou == false && d.Aula.Data >= inicial && d.Aula.Data <= final)
+                .Include(d => d.Curso)
+                .Include(d => d.Candidato)
+                .Include(d => d.DispSala)
+                .ThenInclude(ds => ds.Professor)
+                .Include(d => d.Aula)
+                .OrderBy(d => d.Aula.Data)
+                .ToList();
+        }
     }
 }

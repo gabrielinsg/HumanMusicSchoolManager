@@ -25,6 +25,8 @@ namespace HumanMusicSchoolManager.Models.Models
         [Required(ErrorMessage = "o campo Órgão Expedidor é obrigatório")]
         [Display(Name = "Órgão Expedidor")]
         public string OrgaoExpedidor { get; set; }
+
+        public List<Matricula> Matriculas { get; set; }
     }
 
     public enum EstadoCivil

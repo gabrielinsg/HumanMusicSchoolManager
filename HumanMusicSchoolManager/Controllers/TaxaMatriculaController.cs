@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HumanMusicSchoolManager.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin, Secretaria")]
     public class TaxaMatriculaController : Controller
     {
         private readonly ITaxaMatriculaService _taxaMatriculaService;

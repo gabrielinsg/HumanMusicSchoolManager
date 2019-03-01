@@ -9,6 +9,7 @@ namespace HumanMusicSchoolManager.ServicesInterface
     public interface IDispSalaService
     {
         List<DispSala> BuscarTodos();
+        List<DispSala> BuscarTodosPorSala(int salaId);
         List<DispSala> HorariosDisponiveis();
         List<DispSala> HorariosDisponiveisPorSala(int salaId);
         DispSala BuscarPorId(int dispSalaId);

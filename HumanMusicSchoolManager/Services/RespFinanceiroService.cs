@@ -76,6 +76,10 @@ namespace HumanMusicSchoolManager.Services
         {
             return _context.RespsFinanceiro
                 .Include(rf => rf.Endereco)
+                .Include(rf => rf.Matriculas)
+                .ThenInclude(m => m.Aluno)
+                .Include(rf => rf.Matriculas)
+                .ThenInclude(m => m.Curso)
                 .OrderBy(rf => rf.Nome).ToList();
         }
 

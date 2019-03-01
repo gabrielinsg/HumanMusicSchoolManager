@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HumanMusicSchoolManager.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin, Vendas, Atendimento")]
     public class DemostrativaController : Controller
     {
         private readonly IDemostrativaService _demostrativaService;
@@ -226,6 +226,23 @@ namespace HumanMusicSchoolManager.Controllers
             _demostrativaService.Alterar(demo);
 
             return RedirectToAction("Candidato", "Candidato", new { candidatoId = demo.CandidatoId });
+        }
+
+        public IActionResult NaoContratou(DateTime? inicial, DateTime? final)
+        {
+            if (inicial == null)
+            {
+                inicial = NowHorarioBrasilia.GetNow().AddDays(-NowHorarioBrasilia.GetNow().Day + 1);
+            }
+
+            if (final == null)
+            {
+                final = NowHorarioBrasilia.GetNow().AddDays(-NowHorarioBrasilia.GetNow().Day + 1).AddMonths(1).AddDays(-1);
+            }
+
+            ViewBag.Inicial = inicial.Value.Date;
+            ViewBag.Final = final.Value.Date;
+            return View(_demostrativaService.DemostrativasNaoContrataram(inicial.Value, final.Value));
         }
     }
 }
