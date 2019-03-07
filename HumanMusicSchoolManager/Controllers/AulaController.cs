@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace HumanMusicSchoolManager.Controllers
 {
-    [Authorize(Roles = "Admin, Coordenacao")]
+    [Authorize(Roles = "Admin, Coordenacao, Professor")]
     public class AulaController : Controller
     {
         private readonly IAulaService _aulaService;

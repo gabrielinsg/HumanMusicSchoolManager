@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HumanMusicSchoolManager.Controllers
 {
-    [Authorize(Roles = "Admin, Coordenacao")]
+    [Authorize(Roles = "Coordenacao, Atendimento, Diretoria, Secretaria, Admin, Professor")]
     public class ProfessorController : Controller
     {
         private readonly IProfessorService _professorService;
@@ -175,6 +175,7 @@ namespace HumanMusicSchoolManager.Controllers
             return Json(professor);
         }
 
+        [Authorize(Roles = "Coordenacao, Atendimento, Diretoria, Secretaria, Admin, Professor")]
         public IActionResult Calendario(int? professorId)
         {
 
@@ -202,6 +203,7 @@ namespace HumanMusicSchoolManager.Controllers
             }
         }
 
+        [Authorize(Roles = "Coordenacao, Atendimento, Diretoria, Secretaria, Admin, Professor")]
         public JsonResult CalendarioJson(int professorId, int user)
         {
 
@@ -331,6 +333,7 @@ namespace HumanMusicSchoolManager.Controllers
             public string End { get; set; }
         }
 
+        [Authorize(Roles = "Coordenacao, Atendimento, Diretoria, Secretaria, Admin, Professor")]
         public IActionResult FolhaPontoProfessor(int? professorId, DateTime? inicial, DateTime? final)
         {
 
@@ -414,6 +417,7 @@ namespace HumanMusicSchoolManager.Controllers
             return title;
         }
 
+        [Authorize(Roles = "Coordenacao, Atendimento, Diretoria, Secretaria, Admin, Professor")]
         public IActionResult RelatorioProfessor(int? professorId, DateTime? inicial, DateTime? final)
         {
             var professorPorUsuario = _professorService.BuscarPorId(_pessoaService.BusacarPorUserName(User.Identity.Name).Id.Value);

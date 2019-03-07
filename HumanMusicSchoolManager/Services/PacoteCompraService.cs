@@ -77,6 +77,7 @@ namespace HumanMusicSchoolManager.Services
         public List<PacoteCompra> FaltasSeguidas()
         {
             var pacoteCompraFull = _context.PacoteCompras
+                .Where(pc => pc.Matricula.DispSalaId != null)
                 .Include(pc => pc.Chamadas)
                 .ThenInclude(c => c.Aula)
                 .Include(pc => pc.Matricula)

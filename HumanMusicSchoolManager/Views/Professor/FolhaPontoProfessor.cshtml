@@ -90,18 +90,18 @@
                             for (var i = 1; i <= r; i++)
                             {
                                 <tr>
-                                    @if (professor.Aulas.Where(a => a.Chamadas.Where(c => c.Reposicao == null || c.Reposicao.Remunerada == true).ToList().Count == i).ToList().Count > 0)
+                                    @if (professor.Aulas.Where(a => a.Chamadas.Any(c => c.Reposicao == null || c.Reposicao.Remunerada == true) && a.Chamadas.Count == i).ToList().Count > 0)
                                     {
-                                        <td>
-                                            @if (i == 1)
-                                            {
-                                                <b>Aulas com @i aluno: </b> @professor.Aulas.Where(a => a.Chamadas.Where(c => c.Reposicao == null || c.Reposicao.Remunerada == true).ToList().Count == i).ToList().Count
-                                            }
-                                            else
-                                            {
-                                                <b>Aulas com @i alunos: </b> @professor.Aulas.Where(a => a.Chamadas.Where(c => c.Reposicao == null || c.Reposicao.Remunerada == true).ToList().Count == i).ToList().Count
-                                            }
-                                        </td>
+                                    <td>
+                                        @if (i == 1)
+                                        {
+                                            <b>Aulas com @i aluno: </b> @professor.Aulas.Where(a => a.Chamadas.Where(c => c.Reposicao == null || c.Reposicao.Remunerada == true).ToList().Count == i).ToList().Count
+                                        }
+                                        else
+                                        {
+                                            <b>Aulas com @i alunos: </b> @professor.Aulas.Where(a => a.Chamadas.Where(c => c.Reposicao == null || c.Reposicao.Remunerada == true).ToList().Count == i).ToList().Count
+                                        }
+                                    </td>
                                     }
                                 </tr>
                             }
