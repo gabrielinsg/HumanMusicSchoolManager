@@ -63,11 +63,11 @@
         <div class="tab-pane fade" id="@matricula.Curso.Nome.ToString().Replace(' ','-')@matricula.Id" role="tabpanel" aria-labelledby="profile-tab">
             <br />
             <h2>@matricula.Curso.Nome @if (matricula.EncerramentoMatricula == null)
-            { <span> - </span> <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Cancelar Matrícula"><a id="cancelaMatricula" asp-controller="Matricula" asp-action="CancelaMatricula" asp-route-matriculaId="@matricula.Id" class="btn btn-outline-danger"><i class="far fa-times-circle"></i></a></span>}</h2>
+            { <span> - </span> <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Cancelar Matrícula"><a id="cancelaMatricula" asp-controller="Matricula" asp-action="CancelaMatricula" asp-route-matriculaId="@matricula.Id" class="btn btn-outline-danger"><i class="far fa-times-circle"></i> Cancelar Matrícula</a></span>}</h2>
 
             @if (matricula.DispSala != null)
             {
-                <span><b>@Html.DisplayFor(d => matricula.DispSala.Dia)</b> às <b>@matricula.DispSala.Hora.ToString("00:'00'h")</b> com <b>@matricula.DispSala.Professor.Nome</b> - <b>@matricula.DispSala.Sala.Nome</b> - <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Trocar horário"><a asp-controller="Matricula" asp-action="TrocaDispSala" asp-route-matriculaId="@matricula.Id" class="btn btn-outline-primary"><i class="fas fa-exchange-alt"></i></a></span></span>
+                <span><b>@Html.DisplayFor(d => matricula.DispSala.Dia)</b> às <b>@matricula.DispSala.Hora.ToString("00:'00'h")</b> com <b>@matricula.DispSala.Professor.Nome</b> - <b>@matricula.DispSala.Sala.Nome</b> - <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Trocar horário"><a asp-controller="Matricula" asp-action="TrocaDispSala" asp-route-matriculaId="@matricula.Id" class="btn btn-outline-primary"><i class="fas fa-exchange-alt"></i> Trocar Horário</a></span></span>
             }
             else
             {
@@ -78,8 +78,8 @@
                 <div class="col-md-8">
                     <ul class="list-group">
                         <li class="list-group-item active">
-                            Pacotes de Aula @if (matricula.DispSala != null)
-                            {<a asp-controller="PacoteCompra" asp-action="Form" asp-route-matriculaId="@matricula.Id" class="btn btn-success"><i class="fas fa-plus-circle"></i></a>}
+                            @if (matricula.DispSala != null)
+                            {<a asp-controller="PacoteCompra" asp-action="Form" asp-route-matriculaId="@matricula.Id" class="btn btn-success"><i class="fas fa-plus-circle"></i> Adicionar Pacote</a>}
                         </li>
                         <li class="list-group-item">
                             <table class="table table-sm table-hover">
