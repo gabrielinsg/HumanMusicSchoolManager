@@ -103,8 +103,8 @@ namespace HumanMusicSchoolManager.Controllers
                 foreach (var chamada in aula.Chamadas)
                 {
                     var matricula = _matriculaService.BuscarPorId(_chamadaService.BuscarPorId(chamada.Id.Value).PacoteCompra.MatriculaId);
-                    var modulo = matricula.Modulo;
-                    var estrelas = matricula.Estrelas;
+                    var modulo = chamada.PacoteCompra.Matricula.Modulo;
+                    var estrelas = chamada.PacoteCompra.Matricula.Estrelas;
                     chamada.PacoteCompra = null;
                     matricula.Modulo = modulo;
                     matricula.Estrelas = estrelas;
