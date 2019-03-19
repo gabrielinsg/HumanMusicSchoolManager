@@ -108,6 +108,8 @@
                     <input asp-for="Chamadas[i].AulaId" type="hidden" />
                     <input asp-for="Chamadas[i].PacoteCompraId" type="hidden" />
                     <input asp-for="Chamadas[i].Presenca" type="hidden">
+                    <input asp-for="Chamadas[i].PacoteCompra.Matricula.Modulo" type="hidden"/>
+                    <input asp-for="Chamadas[i].PacoteCompra.Matricula.Estrelas" type="hidden" />
                     <div class="col-md-4">
                         <div class="form-group">
                             <label asp-for="Chamadas[i].PacoteCompra.Matricula.Aluno"></label>

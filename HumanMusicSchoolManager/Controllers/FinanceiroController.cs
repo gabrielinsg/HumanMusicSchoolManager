@@ -62,47 +62,55 @@ namespace HumanMusicSchoolManager.Controllers
         [HttpPost]
         public IActionResult Form(Financeiro financeiro)
         {
-
-            if (financeiro.Id == null)
+            if ((financeiro.ValorPago != null || financeiro.ValorPago == ' ' ) && financeiro.DataPagamento == null)
             {
-                if (financeiro.AlunoId != null)
+                ModelState.AddModelError("DataPagamento", "Data de Pagamento obrigatório se Valor Pago for preenchido");
+            }
+            if (ModelState.IsValid)
+            {
+                if (financeiro.Id == null)
                 {
-                    ViewBag.Aluno = _alunoService.BuscarPorId(financeiro.AlunoId.Value);
-                }
+                    if (financeiro.AlunoId != null)
+                    {
+                        ViewBag.Aluno = _alunoService.BuscarPorId(financeiro.AlunoId.Value);
+                    }
 
-                financeiro.PessoaId = _pessoaService.BusacarPorUserName(User.Identity.Name).Id;
-                financeiro.UltimaAlteracao = NowHorarioBrasilia.GetNow();
-                if (ModelState.IsValid)
-                {
-                    _financeiroService.Cadastrar(financeiro);
-                    TempData["Success"] = "Lançamento cadastrado com sucesso";
-                    return RedirectToAction("Financeiro", new { alunoId = financeiro.AlunoId });
+                    financeiro.PessoaId = _pessoaService.BusacarPorUserName(User.Identity.Name).Id;
+                    financeiro.UltimaAlteracao = NowHorarioBrasilia.GetNow();
+                    if (ModelState.IsValid)
+                    {
+                        _financeiroService.Cadastrar(financeiro);
+                        TempData["Success"] = "Lançamento cadastrado com sucesso";
+                        return RedirectToAction("Financeiro", new { alunoId = financeiro.AlunoId });
+                    }
+                    else
+                    {
+                        return View(financeiro);
+                    }
                 }
                 else
                 {
-                    return View(financeiro);
-                }
-            }
-            else
-            {
-                if (financeiro.AlunoId != null)
-                {
-                    ViewBag.Aluno = _alunoService.BuscarPorId(financeiro.AlunoId.Value);
-                }
+                    if (financeiro.AlunoId != null)
+                    {
+                        ViewBag.Aluno = _alunoService.BuscarPorId(financeiro.AlunoId.Value);
+                    }
 
-                financeiro.PessoaId = _pessoaService.BusacarPorUserName(User.Identity.Name).Id;
-                financeiro.UltimaAlteracao = NowHorarioBrasilia.GetNow();
-                if (ModelState.IsValid)
-                {
-                    _financeiroService.Alterar(financeiro);
-                    TempData["Success"] = "Lançamento alterado com sucesso";
-                    return RedirectToAction("Financeiro", new { alunoId = financeiro.Aluno.Id });
-                }
-                else
-                {
-                    return View(financeiro);
+                    financeiro.PessoaId = _pessoaService.BusacarPorUserName(User.Identity.Name).Id;
+                    financeiro.UltimaAlteracao = NowHorarioBrasilia.GetNow();
+                    if (ModelState.IsValid)
+                    {
+                        _financeiroService.Alterar(financeiro);
+                        TempData["Success"] = "Lançamento alterado com sucesso";
+                        return RedirectToAction("Financeiro", new { alunoId = financeiro.Aluno.Id });
+                    }
+                    else
+                    {
+                        return View(financeiro);
+                    }
                 }
             }
+            ViewBag.Aluno = _alunoService.BuscarPorId(financeiro.AlunoId.Value);
+            return View(financeiro);
         }
 
         public IActionResult ParcelasEmAberto(DateTime? inicial, DateTime? final)

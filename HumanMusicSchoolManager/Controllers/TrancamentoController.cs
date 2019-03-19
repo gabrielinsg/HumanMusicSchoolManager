@@ -55,14 +55,7 @@ namespace HumanMusicSchoolManager.Controllers
                 var pacoteCompra = _pacoteCompraService.BuscarPorId(pacoteCompraId.Value);
                 if (pacoteCompra != null)
                 {
-
-                    if (pacoteCompra.Chamadas.FirstOrDefault(c => c.Presenca != null) != null)
-                    {
-                        return View(new TrancamentoViewModel(pacoteCompra));
-                    }
-
-                    TempData["Warning"] = "Para trancamento é preciso ter feito pelo menos uma aula";
-                    return RedirectToAction("Aluno", "Aluno", new { alunoId = pacoteCompra.Matricula.AlunoId });
+                    return View(new TrancamentoViewModel(pacoteCompra));
                 }
             }
             TempData["Error"] = "Não foi possível localizar o pacote";
@@ -73,9 +66,14 @@ namespace HumanMusicSchoolManager.Controllers
         public IActionResult Form(Trancamento trancamento)
         {
             var pacoteCompra = _pacoteCompraService.BuscarPorId(trancamento.PacoteCompraId);
-            if (trancamento.DataFinal > pacoteCompra.Chamadas.OrderByDescending(c => c.Aula.Data).FirstOrDefault().Aula.Data)
+            if (trancamento.DataInicial > pacoteCompra.Chamadas.OrderByDescending(c => c.Aula.Data).FirstOrDefault().Aula.Data)
             {
-                ModelState.AddModelError("DataFinal", "Data final não pode ser maior que a última aula do aluno que é dia " + pacoteCompra.Chamadas.OrderByDescending(c => c.Aula.Data).FirstOrDefault().Aula.Data.ToString("dd/MM/yyyy"));
+                ModelState.AddModelError("DataInicial", "Data inicial não pode ser maior que a última aula do aluno que é dia " + pacoteCompra.Chamadas.OrderByDescending(c => c.Aula.Data).FirstOrDefault().Aula.Data.ToString("dd/MM/yyyy"));
+            }
+
+            if (trancamento.DataInicial >= trancamento.DataFinal)
+            {
+                ModelState.AddModelError("DataInicial", "Data inicial não pode ser igual ou maior a data final");
             }
 
             if (trancamento.DataInicial.DayOfWeek != (DayOfWeek)pacoteCompra.Matricula.DispSala.Dia)
@@ -113,19 +111,27 @@ namespace HumanMusicSchoolManager.Controllers
                     }
                 }
 
+                DateTime? dataAula = null;
                 foreach (var chamada in chamadas)
                 {
-
-                    DateTime dataAula = pacoteCompra.Chamadas.OrderByDescending(c => c.Aula.Data).FirstOrDefault(c => c.Aula != null).Aula.Data;
+                    
+                    if (pacoteCompra.Chamadas.FirstOrDefault(c => c.Presenca != null) != null)
+                    {
+                        dataAula = pacoteCompra.Chamadas.OrderByDescending(c => c.Aula.Data).FirstOrDefault(c => c.Aula != null).Aula.Data;
+                    }
+                    if (dataAula == null || dataAula < trancamento.DataFinal)
+                    {
+                        dataAula = trancamento.DataFinal;
+                    }
                     Feriado feriado = null;
                     do
                     {
-                        dataAula = dataAula.AddDays(7);
-                        feriado = _feriadoService.BuscarPorData(dataAula);
+                        dataAula = dataAula.Value.AddDays(7);
+                        feriado = _feriadoService.BuscarPorData(dataAula.Value);
                     } while (feriado != null);
 
 
-                    var aula = _aulaService.BuscarPorDiaHora(dataAula, chamada.PacoteCompra.Matricula.DispSala);
+                    var aula = _aulaService.BuscarPorDiaHora(dataAula.Value, chamada.PacoteCompra.Matricula.DispSala);
 
                     if (aula == null)
                     {
@@ -135,15 +141,15 @@ namespace HumanMusicSchoolManager.Controllers
                             CursoId = chamada.PacoteCompra.Matricula.CursoId,
                             ProfessorId = chamada.PacoteCompra.Matricula.DispSala.Professor.Id.Value,
                             SalaId = chamada.PacoteCompra.Matricula.DispSala.Sala.Id.Value,
-                            Data = dataAula,
-                            DataLimite = dataAula.AddDays(3)
+                            Data = dataAula.Value,
+                            DataLimite = dataAula.Value.AddDays(3)
                         };
                         _aulaService.Cadastrar(aula);
                     }
 
                     chamada.AulaId = aula.Id.Value;
                     _chamadaService.Alterar(chamada);
-
+                    dataAula.Value.AddDays(7);                    
                 }
                 trancamento.Data = NowHorarioBrasilia.GetNow();
                 _trancamentoService.Cadastrar(trancamento);
@@ -176,7 +182,7 @@ namespace HumanMusicSchoolManager.Controllers
             }
             else
             {
-                
+
 
                 return View(new TrancamentoViewModel(trancamento, pacoteCompra));
             }
@@ -219,9 +225,10 @@ namespace HumanMusicSchoolManager.Controllers
         {
             if (pacoteCompra != null)
             {
-                var chamadas = pacoteCompra.Chamadas;
+                var chamadas = pacoteCompra.Chamadas.Where(c => c.Presenca == null).ToList();
 
-                foreach (var chamada in chamadas.Where(c => c.Presenca == null).ToList())
+                //tirar as aulas
+                foreach (var chamada in chamadas)
                 {
                     var aulaAntiga = chamada.Aula;
                     chamada.AulaId = null;
@@ -229,53 +236,48 @@ namespace HumanMusicSchoolManager.Controllers
                     aulaAntiga = _aulaService.BuscarPorId(aulaAntiga.Id.Value);
                     if (aulaAntiga.Chamadas.Count == 0 && aulaAntiga.Demostrativas.Count == 0)
                     {
-                        _aulaService.Excluir(aulaAntiga.Id.Value);
+                        _chamadaService.Excluir(aulaAntiga.Id.Value);
                     }
                 }
 
-                foreach (var chamada in chamadas.Where(c => c.AulaId == null).ToList())
+                DateTime aula = DateTime.Now.Date;
+                while(aula.DayOfWeek != (DayOfWeek)pacoteCompra.Matricula.DispSala.Dia)
                 {
-                    DateTime dataAula = pacoteCompra.Chamadas.OrderByDescending(c => c.Aula.Data).FirstOrDefault(c => c.Aula != null).Aula.Data;
-
-                    if (dataAula != null)
-                    {
-
-                        Feriado feriado = null;
-
-                        do
-                        {
-                            dataAula = dataAula.AddDays(7);
-                        } while (dataAula <= NowHorarioBrasilia.GetNow());
-
-                        do
-                        {
-                            feriado = _feriadoService.BuscarPorData(dataAula);
-                            if (feriado != null)
-                            {
-                                dataAula = dataAula.AddDays(7);
-                            }
-                        } while (feriado != null);
-
-                        var aula = _aulaService.BuscarPorDiaHora(dataAula, chamada.PacoteCompra.Matricula.DispSala);
-                        if (aula == null)
-                        {
-
-                            aula = new Aula()
-                            {
-                                CursoId = chamada.PacoteCompra.Matricula.CursoId,
-                                ProfessorId = chamada.PacoteCompra.Matricula.DispSala.Professor.Id.Value,
-                                SalaId = chamada.PacoteCompra.Matricula.DispSala.Sala.Id.Value,
-                                Data = dataAula,
-                                DataLimite = dataAula.AddDays(3)
-                            };
-                            _aulaService.Cadastrar(aula);
-                        }
-                        chamada.AulaId = aula.Id.Value;
-                        _chamadaService.Alterar(chamada);
-                        dataAula = dataAula.AddDays(7);
-                    }
-
+                    aula = aula.AddDays(1);
                 }
+                aula = aula.AddHours(pacoteCompra.Matricula.DispSala.Hora);
+                foreach (var chamada in chamadas)
+                {
+                    Feriado feriado = null;
+                    do
+                    {
+                        feriado = _feriadoService.BuscarPorData(aula);
+                        if (feriado != null)
+                        {
+                            aula = aula.AddDays(7);
+                        }
+                    } while (feriado != null);
+
+
+
+                    var novaAula = _aulaService.BuscarPorDiaHora(aula, chamada.PacoteCompra.Matricula.DispSala);
+
+                    if (novaAula == null)
+                    {
+                        novaAula = new Aula()
+                        {
+                            CursoId = chamada.PacoteCompra.Matricula.CursoId,
+                            ProfessorId = chamada.PacoteCompra.Matricula.DispSala.Professor.Id.Value,
+                            SalaId = chamada.PacoteCompra.Matricula.DispSala.Sala.Id.Value,
+                            Data = aula,
+                            DataLimite = aula.AddDays(3)
+                        };
+                        _aulaService.Cadastrar(novaAula);
+                    }
+                    chamada.AulaId = novaAula.Id.Value;
+                    _chamadaService.Alterar(chamada);
+                    aula = aula.AddDays(7);
+                }  
             }
         }
     }
