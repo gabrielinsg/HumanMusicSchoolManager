@@ -62,6 +62,10 @@ namespace HumanMusicSchoolManager.Controllers
         [HttpPost]
         public IActionResult Form(Curso curso)
         {
+            if (curso.QtdModulo <= 0)
+            {
+                ModelState.AddModelError("QtdModulo", "A quantidade de módulo não pode ser inferior a 1");
+            }
             if (curso.Id == null)
             {
                 if (ModelState.IsValid)

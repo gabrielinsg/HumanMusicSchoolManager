@@ -21,7 +21,7 @@
             @{ 
                 var i = 1;
             }
-            @foreach (var chamda in Model.Chamadas)
+            @foreach (var chamda in Model.Chamadas.OrderBy(c => c.Aula.Data).ToList())
             {
                 <tr>
                     <th scope="row">@chamda.Aula.Data.ToString("dd/MM/yyyy - HH:mm'h'")</th>
