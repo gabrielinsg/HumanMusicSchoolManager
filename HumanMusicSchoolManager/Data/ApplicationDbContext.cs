@@ -112,6 +112,11 @@ namespace HumanMusicSchoolManager.Data
                 .WithMany()
                 .OnDelete(DeleteBehavior.Restrict);
 
+            builder.Entity<Demostrativa>()
+                .HasOne(d => d.Professor)
+                .WithMany()
+                .OnDelete(DeleteBehavior.Restrict);
+
             builder.Entity<RelatorioMatricula>()
                 .HasOne(rm => rm.Pessoa)
                 .WithMany()

@@ -12,5 +12,6 @@ namespace HumanMusicSchoolManager.Models.Models
         public List<Financeiro> Financeiros { get; set; }
         [Display(Name = "Observação")]
         public string Observacao { get; set; }
+        public Sexo Sexo { get; set; }
     }
 }

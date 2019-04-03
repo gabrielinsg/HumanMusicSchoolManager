@@ -31,6 +31,8 @@ namespace HumanMusicSchoolManager.Models.Models
         [Display(Name = "Celular")]
         public string Cel { get; set; }
 
+        public Sexo Sexo { get; set; }
+
         public List<Demostrativa> Demostrativas { get; set; }
     }
 }

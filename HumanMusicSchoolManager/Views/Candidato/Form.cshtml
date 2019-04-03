@@ -52,7 +52,7 @@
                             <span asp-validation-for="CPF" class="text-danger"></span>
                         </div>
                     </div>
-                    
+
                     <div class="col-md-3">
                         <div class="form-group">
                             <label asp-for="Tel"></label>
@@ -67,15 +67,25 @@
                             <span asp-validation-for="Cel" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="col-xl-4 col-md-5">
+                    <div class="col-xl-3 col-md-3">
                         <div class="form-group">
                             <label asp-for="Email">E-mail</label>
                             <input asp-for="Email" class="form-control" />
                             <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
                     </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label asp-for="Sexo" class="col-md-4 control-label"></label>
+                            <div class="col-md-10">
+                                <select asp-for="Sexo" class="form-control" asp-items="Html.GetEnumSelectList<Sexo>()">
+                                    <option selected="selected" value=""></option>
+                                </select>
+                                <span asp-validation-for="Sexo" class="text-danger" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                
                 <button type="submit" class="btn btn-success">@(Model == null ? "Cadastrar" : Model.Id == null ? "Cadastrar" : "Alterar")</button>
                 <a asp-action="Index" class="btn btn-primary">Voltar</a>
             </form>

@@ -33,6 +33,7 @@
             <div class="col-xl-3 col-md-4"><b>E-Mail: </b>@Model.Candidato.Email</div>
             <div class="col-xl-3 col-md-4"><b>Telefone: </b>@Model.Candidato.Tel</div>
             <div class="col-xl-3 col-md-4"><b>Celular: </b>@Model.Candidato.Cel</div>
+            <div class="col-xl-3 col-md-3"><b>Sexo: </b>@Html.DisplayFor(d => d.Candidato.Sexo)</div>
         </div>
         <br />
         <a asp-action="Form" asp-route-candidatoId="@Model.Candidato.Id" class="btn btn-primary">Alterar</a>
