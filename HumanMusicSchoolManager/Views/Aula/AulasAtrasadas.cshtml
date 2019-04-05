@@ -1,0 +1,102 @@
+﻿@model List<Aula>
+@{
+    ViewData["Title"] = "AulasAtrasadas";
+}
+
+<div class="card mb-3">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-xl-11 col-md-10">
+                <i class="fas fa-exclamation-circle"></i>
+                Aulas atrasadas
+            </div>
+        </div>
+
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Professor</th>
+                        <th>Curso</th>
+                        <th>Alunos</th>
+                        <th>Candidatos</th>
+                        <th class="text-center">Data</th>
+                        <th class="text-center">Aula</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Professor</th>
+                        <th>Curso</th>
+                        <th>Alunos</th>
+                        <th>Candidatos</th>
+                        <th class="text-center">Data</th>
+                        <th class="text-center">Aula</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var aula in Model)
+                    {
+                        <tr>
+                            <td>@aula.Professor.Nome</td>
+                            <td>@aula.Curso.Nome</td>
+                            <td>
+                                @{
+                                    var i = 1;
+                                }
+                                @foreach (var chamada in aula.Chamadas)
+                                {
+                                    if (aula.Chamadas.Count == i)
+                                    {
+                                        @chamada.PacoteCompra.Matricula.Aluno.Nome.Split(' ')[0]
+                                    }
+                                    else
+                                    {
+                                        @chamada.PacoteCompra.Matricula.Aluno.Nome.Split(' ')[0]<span>, </span>
+                                    }
+                                    i++;
+                                }
+                            </td>
+                            <td>
+                                @{
+                                    var j = 1;
+                                }
+                                @foreach (var demostrativa in aula.Demostrativas)
+                                {
+                                    if (aula.Demostrativas.Count == j)
+                                    {
+                                        @demostrativa.Candidato.Nome.Split(' ')[0]
+                                    }
+                                    else
+                                    {
+                                        @demostrativa.Candidato.Nome.Split(' ')[0]<span>, </span>
+                                    }
+                                    i++;
+                                }
+                            </td>
+                            <td class="text-center">@aula.Data.ToString("dd/MM/yy - HH:mm")</td>
+                            <td class="text-center">
+                                @if (User.IsInRole("Professor"))
+                                {
+                                    <a asp-controller="Aula" asp-action="Form" asp-route-aulaId="@aula.Id"><i class="text-success fas fa-chalkboard-teacher"></i></a>
+                                }
+                                else
+                                {
+                                    <a asp-controller="Aula" asp-action="Aula" asp-route-aulaId="@aula.Id"><i class="text-success fas fa-chalkboard-teacher"></i></a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/vendor/datatables/jquery.dataTables.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.js"></script>
+    <script src="~/js/demo/datatables-demo.js"></script>
+}

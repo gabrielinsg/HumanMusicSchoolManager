@@ -15,5 +15,7 @@ namespace HumanMusicSchoolManager.ServicesInterface
         Aula BuscarPorDiaHora(DateTime data, DispSala dispSala);
         void Excluir(int aulaId);
         List<Aula> BuscarPorSala(int salaId);
+        List<Aula> Atrasadas();
+        List<Aula> AtrasadasPorProfessor(int professorId);
     }
 }

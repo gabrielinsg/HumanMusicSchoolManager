@@ -22,6 +22,7 @@ namespace HumanMusicSchoolManager.Controllers
         private readonly IMatriculaService _matriculaService;
         private readonly IReposicaoService _reposicaoService;
         private readonly IDemostrativaService _demostrativaService;
+        private readonly IPessoaService _pessoaService;
 
         public AulaController(IAulaService aulaService,
             IProfessorService professorService,
@@ -30,7 +31,8 @@ namespace HumanMusicSchoolManager.Controllers
             IChamadaService chamadaService,
             IMatriculaService matriculaService,
             IReposicaoService reposicaoService,
-            IDemostrativaService demostrativaService)
+            IDemostrativaService demostrativaService,
+            IPessoaService pessoaService)
         {
             this._aulaService = aulaService;
             this._professorService = professorService;
@@ -40,6 +42,7 @@ namespace HumanMusicSchoolManager.Controllers
             this._matriculaService = matriculaService;
             this._reposicaoService = reposicaoService;
             this._demostrativaService = demostrativaService;
+            this._pessoaService = pessoaService;
         }
 
         [HttpGet]
@@ -264,6 +267,19 @@ namespace HumanMusicSchoolManager.Controllers
 
                 ViewBag.professores = listProfessores;
                 return View(aula);
+            }
+        }
+
+        public IActionResult AulasAtrasadas()
+        {
+            var professorPorUsuario = _professorService.BuscarPorId(_pessoaService.BusacarPorUserName(User.Identity.Name).Id.Value);
+            if (professorPorUsuario == null)
+            {
+                return View(_aulaService.Atrasadas());
+            }
+            else
+            {
+                return View(_aulaService.AtrasadasPorProfessor(professorPorUsuario.Id.Value));
             }
         }
     }

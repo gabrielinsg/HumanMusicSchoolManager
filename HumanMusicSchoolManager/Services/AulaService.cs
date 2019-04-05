@@ -32,6 +32,36 @@ namespace HumanMusicSchoolManager.Services
             _context.SaveChanges();
         }
 
+        public List<Aula> Atrasadas()
+        {
+            return _context.Aulas
+                .Where(a => a.AulaDada == false && a.Data < DateTime.Now)
+                .Include(a => a.Professor)
+                .Include(a => a.Chamadas)
+                .ThenInclude(c => c.PacoteCompra)
+                .ThenInclude(pc => pc.Matricula)
+                .ThenInclude(m => m.Aluno)
+                .Include(a => a.Curso)
+                .Include(a => a.Demostrativas)
+                .ThenInclude(d => d.Candidato)
+                .ToList();
+        }
+
+        public List<Aula> AtrasadasPorProfessor(int professorId)
+        {
+            return _context.Aulas
+                .Where(a => a.AulaDada == false && a.Data < DateTime.Now && a.ProfessorId == professorId)
+                .Include(a => a.Professor)
+                .Include(a => a.Chamadas)
+                .ThenInclude(c => c.PacoteCompra)
+                .ThenInclude(pc => pc.Matricula)
+                .ThenInclude(m => m.Aluno)
+                .Include(a => a.Curso)
+                .Include(a => a.Demostrativas)
+                .ThenInclude(d => d.Candidato)
+                .ToList();
+        }
+
         public Aula BuscarPorDiaHora(DateTime data, DispSala dispSala)
         {
             dispSala = _context.DispSalas

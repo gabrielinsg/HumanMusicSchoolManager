@@ -33,7 +33,7 @@ namespace HumanMusicSchoolManager
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("EbrasilConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             //services.AddDbContext<ApplicationDbContext>(options =>
             //    options.UseMySql(Configuration.GetConnectionString("EbrasilConnection")));
@@ -51,7 +51,6 @@ namespace HumanMusicSchoolManager
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
-
 
 
             // Add application services.
@@ -81,6 +80,11 @@ namespace HumanMusicSchoolManager
             services.AddTransient<IRelatorioMatriculaService, RelatorioMatriculaService>();
             services.AddTransient<IEmailConfigService, EmailConfigService>();
             services.AddTransient<IEnderecoService, EnderecoService>();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.ExpireTimeSpan = TimeSpan.FromHours(2);
+            });
 
             services.AddMvc();
         }
@@ -112,6 +116,7 @@ namespace HumanMusicSchoolManager
                 // UI strings that we have localized.
                 SupportedUICultures = supportedCultures
             });
+
 
             app.UseStaticFiles();
             app.UseHttpsRedirection();
