@@ -81,11 +81,6 @@ namespace HumanMusicSchoolManager
             services.AddTransient<IEmailConfigService, EmailConfigService>();
             services.AddTransient<IEnderecoService, EnderecoService>();
 
-            services.ConfigureApplicationCookie(options =>
-            {
-                options.ExpireTimeSpan = TimeSpan.FromHours(2);
-            });
-
             services.AddMvc();
         }
 

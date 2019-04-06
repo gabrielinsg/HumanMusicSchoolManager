@@ -279,6 +279,35 @@ namespace HumanMusicSchoolManager.Services
                 }
             }
 
+            retirar = new List<DispSala>();
+            foreach (var dispSala in hr)
+            {
+                if (dispSala.Reposicoes != null)
+                {
+                    foreach (var reposicao in dispSala.Reposicoes)
+                    {
+                        if (reposicao.Chamada.PacoteCompra.Matricula.PacoteCompras != null)
+                        {
+                            foreach (var pacoteCompra in reposicao.Chamada.PacoteCompra.Matricula.PacoteCompras)
+                            {
+                                if (pacoteCompra.PacoteAula.TipoAula == TipoAula.INDIVIDUAL)
+                                {
+                                    retirar.Add(reposicao.DispSala);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (retirar != null)
+            {
+                foreach (var retira in retirar)
+                {
+                    hr.Remove(retira);
+                }
+            }
+
             return hr
                 .OrderBy(h => h.Professor.Nome)
                 .OrderBy(h => h.Hora)

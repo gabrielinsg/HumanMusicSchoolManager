@@ -118,6 +118,20 @@
                                         }
                                     }
                                 }
+                                foreach (var reposicao in dispSala.Reposicoes)
+                                {
+                                    if (reposicao.Chamada.PacoteCompra.Matricula.PacoteCompras != null)
+                                    {
+                                        foreach (var pacoteCompra in reposicao.Chamada.PacoteCompra.Matricula.PacoteCompras)
+                                        {
+                                            if (pacoteCompra.Chamadas != null && pacoteCompra.Chamadas.Any(c => c.Presenca == null) && pacoteCompra.PacoteAula.TipoAula == TipoAula.INDIVIDUAL)
+                                            {
+                                                individual = true;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
                             }
                             @if (individual)
                             {
