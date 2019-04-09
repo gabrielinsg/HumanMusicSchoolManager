@@ -41,6 +41,14 @@
             margin-left:15px;
             margin-right: 15px;
         }
+
+        .contatos {
+            border: 1px solid lightgray;
+            border-radius: 5px;
+            margin: 0 1.5px 10px 1.5px;
+            padding: 15px 0;
+        }
+
     </style>
 }
 
@@ -130,6 +138,28 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
+                                            <div class="row contatos">
+                                                <div class="col-md-12">
+                                                    @{
+                                                        if (Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Cel == null)
+                                                        {
+                                                            Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Cel = "";
+                                                        }
+                                                        var cel = string.Empty;
+                                                        for (int contCelular = 0; contCelular < Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Cel.Length; contCelular++)
+                                                        {
+                                                            if (Char.IsDigit(Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Cel[contCelular]))
+                                                            {
+                                                                cel += Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Cel[contCelular];
+                                                            }
+                                                        }
+                                                    }
+                                                    <i class="fab fa-whatsapp text-success"></i> <a target="_blank" href="http://api.whatsapp.com/send?1=pt_BR&phone=55@(cel)">@Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Cel</a>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <i class="far fa-envelope text-info"></i> @Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Email
+                                                </div>
+                                            </div>
                                             <div class="row">
                                                 <div class="col-md-3">
                                                     <div class="form-group">
@@ -252,6 +282,28 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
+                                            <div class="row contatos">
+                                                <div class="col-md-12">
+                                                    @{
+                                                        if (Model.Demostrativas[i].Candidato.Cel == null)
+                                                        {
+                                                            Model.Demostrativas[i].Candidato.Cel = "";
+                                                        }
+                                                        var cel = string.Empty;
+                                                        for (int contCelular = 0; contCelular < Model.Demostrativas[i].Candidato.Cel.Length; contCelular++)
+                                                        {
+                                                            if (Char.IsDigit(Model.Demostrativas[i].Candidato.Cel[contCelular]))
+                                                            {
+                                                                cel += Model.Demostrativas[i].Candidato.Cel[contCelular];
+                                                            }
+                                                        }
+                                                    }
+                                                    <i class="fab fa-whatsapp text-success"></i> <a target="_blank" href="http://api.whatsapp.com/send?1=pt_BR&phone=55@(cel)">@Model.Demostrativas[i].Candidato.Cel</a>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <i class="far fa-envelope text-info"></i> @Model.Demostrativas[i].Candidato.Email
+                                                </div>
+                                            </div>
                                             <div class="col-md-5">
                                                 <label style="padding-left:25px;">Nível do Candidato</label>
                                                 <div class="starrating risingstar d-flex justify-content-center flex-row-reverse">

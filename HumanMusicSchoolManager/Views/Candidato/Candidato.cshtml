@@ -32,7 +32,17 @@
             <div class="col-xl-3 col-md-4"><b>CPF: </b>@Model.Candidato.CPF</div>
             <div class="col-xl-3 col-md-4"><b>E-Mail: </b>@Model.Candidato.Email</div>
             <div class="col-xl-3 col-md-4"><b>Telefone: </b>@Model.Candidato.Tel</div>
-            <div class="col-xl-3 col-md-4"><b>Celular: </b>@Model.Candidato.Cel</div>
+            @{
+                var cel = string.Empty;
+                for (int i = 0; i < Model.Candidato.Cel.Length; i++)
+                {
+                    if (Char.IsDigit(Model.Candidato.Cel[i]))
+                    {
+                        cel += Model.Candidato.Cel[i];
+                    }
+                }
+            }
+            <div class="col-xl-3 col-md-4"><b>Celular: </b><a target="_blank" href="http://api.whatsapp.com/send?1=pt_BR&phone=55@(cel)">@Model.Candidato.Cel</a></div>
             <div class="col-xl-3 col-md-3"><b>Sexo: </b>@Html.DisplayFor(d => d.Candidato.Sexo)</div>
         </div>
         <br />
