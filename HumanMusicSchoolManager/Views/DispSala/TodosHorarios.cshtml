@@ -174,7 +174,11 @@
                                                         int dob = int.Parse(matricula.Aluno.DataNascimento.ToString("yyyyMMdd"));
                                                         int age = (now - dob) / 10000;
                                                         <tr>
-                                                            <td>@matricula.Aluno.Nome</td>
+                                                            <td>
+                                                                <a asp-controller="Aluno" asp-action="Aluno" asp-route-alunoId="@matricula.Aluno.Id">
+                                                                    @matricula.Aluno.Nome
+                                                                </a>
+                                                            </td>
                                                             <td class="text-center">@age @(age > 1 ? "anos" : "ano")</td>
                                                             <td class="text-center">@matricula.Modulo</td>
                                                             <td>
@@ -209,7 +213,11 @@
                                                             int dob = int.Parse(reposicao.Chamada.PacoteCompra.Matricula.Aluno.DataNascimento.ToString("yyyyMMdd"));
                                                             int age = (now - dob) / 10000;
                                                             <tr>
-                                                                <td>@reposicao.Chamada.PacoteCompra.Matricula.Aluno.Nome</td>
+                                                                <td>
+                                                                    <a asp-controller="Aluno" asp-action="Aluno" asp-route-alunoId="@reposicao.Chamada.PacoteCompra.Matricula.Aluno.Id">
+                                                                        @reposicao.Chamada.PacoteCompra.Matricula.Aluno.Nome
+                                                                    </a>
+                                                                </td>
                                                                 <td class="text-center">@age @(age > 1 ? "anos" : "ano")</td>
                                                                 <td class="text-center">@reposicao.Chamada.PacoteCompra.Matricula.Modulo</td>
                                                                 <td>
@@ -243,7 +251,11 @@
                                                             int dob = int.Parse(demostrativa.Candidato.DataNascimento.ToString("yyyyMMdd"));
                                                             int age = (now - dob) / 10000;
                                                             <tr>
-                                                                <td>@demostrativa.Candidato.Nome</td>
+                                                                <td>
+                                                                    <a asp-controller="Candidato" asp-action="Candidato" asp-route-candidatoId="@demostrativa.Candidato.Id">
+                                                                        @demostrativa.Candidato.Nome
+                                                                    </a>
+                                                                </td>
                                                                 <td class="text-center">@age @(age > 1 ? "anos" : "ano")</td>
                                                             </tr>
                                                         }

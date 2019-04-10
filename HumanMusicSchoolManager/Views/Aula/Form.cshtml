@@ -15,6 +15,8 @@
             margin: auto;
             padding: 0 20px 10px 20px;
             margin-bottom: 10px;
+            background-color: #e9ecef;
+            opacity: 1;
         }
 
             .class-mensage label {
@@ -184,8 +186,8 @@
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="form-group">
-                                                        <label asp-for="Chamadas[i].Observacao"></label>
-                                                        <input asp-for="Chamadas[i].Observacao" class="form-control" />
+                                                        <label asp-for="Chamadas[i].Observacao">Observação</label>
+                                                        <input asp-for="Chamadas[i].Observacao" placeholder="Digite a observação aqui!!!" class="form-control" />
                                                         <span asp-validation-for="Chamadas[i].Observacao" class="text-danger"></span>
                                                     </div>
                                                 </div>
@@ -199,21 +201,23 @@
                                                     <br />
                                                 }
                                                 @{
-                                                    var chamada = Model.Chamadas[i].PacoteCompra.Chamadas
-                                                    .OrderByDescending(c => c.Aula.Data)
-                                                    .FirstOrDefault(c => c.Presenca == true);
-                                                    if (chamada != null)
+                                                    var chamadas = Model.Chamadas[i].PacoteCompra.Chamadas
+                                                    .OrderByDescending(c => c.Aula.Data.Date)
+                                                    .Where(c => c.Presenca == true)
+                                                    .Take(3)
+                                                    .ToList();
+                                                    foreach (var chamada in chamadas.OrderByDescending(c => c.Aula.Data.Date))
                                                     {
+
                                                         <div class="class-mensage">
-                                                            <label>Histórico</label>
+                                                            <label>Histórico - @chamada.Aula.Data.ToString("dd/MM/yyyy")</label>
                                                             @Html.Raw(chamada.Aula.DescAtividades)
                                                             @if (chamada.Observacao != null)
                                                             {
                                                                 <hr />
-                                                                <div>@Html.Raw(Model.Chamadas[i].Observacao)</div>
+                                                                <div>@Html.Raw(chamada.Observacao)</div>
                                                             }
                                                         </div>
-
                                                     }
                                                 }
                                             </div>
