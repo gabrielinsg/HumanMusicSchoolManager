@@ -51,6 +51,10 @@
             padding: 15px 0;
         }
 
+        .progresso {
+            margin: 5px 1px 10px 1px;
+        }
+
     </style>
 }
 
@@ -160,6 +164,18 @@
                                                 </div>
                                                 <div class="col-md-12">
                                                     <i class="far fa-envelope text-info"></i> @Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Email
+                                                </div>
+                                            </div>
+                                            <div class="row progresso">
+                                                <div class="col-12">
+                                                    <div class="progress">
+                                                        @{ 
+                                                            var totalAulas = Model.Chamadas[i].PacoteCompra.Chamadas.Count;
+                                                            var aulasRealizadas = Model.Chamadas[i].PacoteCompra.Chamadas.Where(c => c.Presenca != null).ToList().Count;
+                                                            var porcentagem = aulasRealizadas * 100 / totalAulas;
+                                                        }
+                                                        <div class="progress-bar" role="progressbar" style="width: @(porcentagem)%;" aria-valuenow="@(porcentagem)" aria-valuemin="0" aria-valuemax="100">@aulasRealizadas de @totalAulas aulas</div>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="row">
