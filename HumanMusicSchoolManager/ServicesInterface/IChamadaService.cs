@@ -12,5 +12,6 @@ namespace HumanMusicSchoolManager.ServicesInterface
         void Alterar(Chamada chamada);
         Chamada BuscarPorId(int chamadaId);
         void Excluir(int chamadaId);
+        List<Chamada> HistoricoAlunoCurso(Matricula matricula);
     }
 }

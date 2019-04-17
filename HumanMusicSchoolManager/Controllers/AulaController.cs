@@ -57,6 +57,8 @@ namespace HumanMusicSchoolManager.Controllers
 
                     if (aula.DataLimite == null || aula.DataLimite > NowHorarioBrasilia.GetNow())
                     {
+
+                        ViewBag.Historico = Historico(aula);
                         return View(aula);
                     }
                     else
@@ -165,6 +167,7 @@ namespace HumanMusicSchoolManager.Controllers
                 aula.Sala = _salaService.BuscarPorId(aula.SalaId);
                 aula.Chamadas = _aulaService.BuscarPorId(aula.Id.Value).Chamadas;
                 aula.Demostrativas = _aulaService.BuscarPorId(aula.Id.Value).Demostrativas;
+                ViewBag.Historico = Historico(aula);
                 return View(aula);
             }
         }
@@ -281,6 +284,20 @@ namespace HumanMusicSchoolManager.Controllers
             {
                 return View(_aulaService.AtrasadasPorProfessor(professorPorUsuario.Id.Value));
             }
+        }
+
+        private List<Chamada> Historico(Aula aula)
+        {
+            var historico = new List<Chamada>();
+            foreach (var matricula in aula.Chamadas.Select(c => c.PacoteCompra.Matricula))
+            {
+                foreach (var chamada in _chamadaService.HistoricoAlunoCurso(matricula))
+                {
+                    historico.Add(chamada);
+                }
+            }
+
+            return historico;
         }
     }
 }

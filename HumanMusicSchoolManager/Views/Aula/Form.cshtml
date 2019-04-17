@@ -217,19 +217,18 @@
                                                     <br />
                                                 }
                                                 @{
-                                                    var chamadas = Model.Chamadas[i].PacoteCompra.Chamadas
-                                                    .OrderByDescending(c => c.Aula.Data.Date)
-                                                    .Where(c => c.Presenca == true)
-                                                    .Take(3)
-                                                    .ToList();
-                                                    foreach (var chamada in chamadas.OrderByDescending(c => c.Aula.Data.Date))
-                                                    {
+                                                        List<Chamada> historico = ViewBag.Historico;
+                                                        foreach (var chamada in historico
+                                                            .Where(c => c.PacoteCompra.Matricula.AlunoId == Model.Chamadas[i].PacoteCompra.Matricula.AlunoId 
+                                                            && c.PacoteCompra.Matricula.CursoId == Model.Chamadas[i].PacoteCompra.Matricula.CursoId)
+                                                            .OrderByDescending(c => c.Aula.Data).ToList())
+                                                        {
 
                                                         <div class="class-mensage">
                                                             <label>Histórico - @chamada.Aula.Data.ToString("dd/MM/yyyy")</label>
                                                             @Html.Raw(chamada.Aula.DescAtividades)
                                                             @if (chamada.Observacao != null)
-                                                            {
+                                                    {
                                                                 <hr />
                                                                 <div>@Html.Raw(chamada.Observacao)</div>
                                                             }
