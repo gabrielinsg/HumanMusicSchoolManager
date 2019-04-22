@@ -59,6 +59,7 @@ namespace HumanMusicSchoolManager.Services
                 .Include(d => d.DispSala)
                 .ThenInclude(ds => ds.Professor)
                 .Include(d => d.Aula)
+                .Include(d => d.Pessoa)
                 .OrderBy(d => d.Aula.Data)
                 .ToList();
         }

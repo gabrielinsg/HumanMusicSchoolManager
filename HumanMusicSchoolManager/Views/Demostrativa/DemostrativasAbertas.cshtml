@@ -22,6 +22,7 @@
                         <th>Nome</th>
                         <th>Curso</th>
                         <th>Professor</th>
+                        <th>Marcada por</th>
                         <th>Confirmada</th>
                         <th>Aula dada</th>
                         <th>Presença</th>
@@ -37,6 +38,7 @@
                         <th>Nome</th>
                         <th>Curso</th>
                         <th>Professor</th>
+                        <th>Marcada por</th>
                         <th>Confirmada</th>
                         <th>Aula dada</th>
                         <th>Presença</th>
@@ -54,6 +56,7 @@
                             <td>@demostrativa.Candidato.Nome</td>
                             <td>@demostrativa.Curso.Nome</td>
                             <td>@demostrativa.DispSala.Professor.Nome</td>
+                            <td>@demostrativa.Pessoa.Nome</td>
                             <td>@Html.DisplayFor(d => demostrativa.Confirmado)</td>
                             <td>@(demostrativa.Aula.AulaDada == true ? "Sim" : "Não")</td>
                             <td>@(demostrativa.Presenca == null ? "" : demostrativa.Presenca == true ? "Presente" : "Faltou")</td>

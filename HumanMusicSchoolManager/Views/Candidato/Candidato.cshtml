@@ -34,13 +34,18 @@
             <div class="col-xl-3 col-md-4"><b>Telefone: </b>@Model.Candidato.Tel</div>
             @{
                 var cel = string.Empty;
-                for (int i = 0; i < Model.Candidato.Cel.Length; i++)
+                if (Model.Candidato.Cel != null && Model.Candidato.Cel != "")
                 {
-                    if (Char.IsDigit(Model.Candidato.Cel[i]))
+                    
+                    for (int i = 0; i < Model.Candidato.Cel.Length; i++)
                     {
-                        cel += Model.Candidato.Cel[i];
+                        if (Char.IsDigit(Model.Candidato.Cel[i]))
+                        {
+                            cel += Model.Candidato.Cel[i];
+                        }
                     }
                 }
+
             }
             <div class="col-xl-3 col-md-4"><b>Celular: </b><a target="_blank" href="http://api.whatsapp.com/send?1=pt_BR&phone=55@(cel)">@Model.Candidato.Cel</a></div>
             <div class="col-xl-3 col-md-3"><b>Sexo: </b>@Html.DisplayFor(d => d.Candidato.Sexo)</div>
@@ -60,7 +65,7 @@
             <h2>@demostrativa.Curso.Nome</h2>
             @if (demostrativa.DispSala == null)
             {
-                <b>Demostrativa Finalizada</b>
+                <span><b>Demostrativa Finalizada - </b><b>@Html.DisplayFor(d => demostrativa.Dia)</b> às <b>@demostrativa.Hora.ToString("00:'00'h")</b> com <b>@(demostrativa.Professor == null ? "Professor não registrado" : demostrativa.Professor.Nome)</b> dia <b>@(demostrativa.Aula == null ? "Aula não foi dada" : demostrativa.Aula.Data.ToString("dd/MM/yyyy"))</b>. Marcado por <b>@demostrativa.Pessoa.Nome </b></span>
             }
             else
             {
@@ -145,6 +150,9 @@
                                     <input asp-for="Demostrativa.CursoId" value="@demostrativa.CursoId" type="hidden" />
                                     <input asp-for="Demostrativa.AulaId" value="@demostrativa.AulaId" type="hidden" />
                                     <input asp-for="Demostrativa.Observacao" value="@demostrativa.Observacao" type="hidden" />
+                                    <input asp-for="Demostrativa.ProfessorId" value="@demostrativa.ProfessorId" type="hidden" />
+                                    <input asp-for="Demostrativa.Hora" value="@demostrativa.Hora" type="hidden" />
+                                    <input asp-for="Demostrativa.Dia" value="@demostrativa.Dia" type="hidden" />
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
