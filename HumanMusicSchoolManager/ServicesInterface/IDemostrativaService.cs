@@ -15,5 +15,7 @@ namespace HumanMusicSchoolManager.ServicesInterface
         void Alterar(Demostrativa demostrativa);
         List<Demostrativa> DemostrativasAbertas();
         List<Demostrativa> DemostrativasNaoContrataram(DateTime inicial, DateTime final);
+        void AtualizarObservacao(int id, string conteudo);
+        void AtualizarConfirmado(int id, Confirmado confirmado);
     }
 }

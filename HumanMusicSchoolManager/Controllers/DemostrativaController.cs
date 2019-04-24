@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HumanMusicSchoolManager.Controllers
 {
-    [Authorize(Roles = "Admin, Vendas, Atendimento")]
+    [Authorize(Roles = "Admin, Vendas, Atendimento, Professor")]
     public class DemostrativaController : Controller
     {
         private readonly IDemostrativaService _demostrativaService;
@@ -246,6 +246,18 @@ namespace HumanMusicSchoolManager.Controllers
             ViewBag.Inicial = inicial.Value.Date;
             ViewBag.Final = final.Value.Date;
             return View(_demostrativaService.DemostrativasNaoContrataram(inicial.Value, final.Value));
+        }
+
+        [HttpPost]
+        public void AutoSaveObservacao(int id, string conteudo)
+        {
+            _demostrativaService.AtualizarObservacao(id, conteudo);
+        }
+
+        [HttpPost]
+        public void AutoSaveConfimado(int id, Confirmado confirmado)
+        {
+            _demostrativaService.AtualizarConfirmado(id, confirmado);
         }
     }
 }

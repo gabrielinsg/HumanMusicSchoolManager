@@ -17,5 +17,6 @@ namespace HumanMusicSchoolManager.ServicesInterface
         List<Aula> BuscarPorSala(int salaId);
         List<Aula> Atrasadas();
         List<Aula> AtrasadasPorProfessor(int professorId);
+        void AtualizarDescAtividades(int id, string descAtividades);
     }
 }

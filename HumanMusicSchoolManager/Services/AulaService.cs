@@ -62,6 +62,17 @@ namespace HumanMusicSchoolManager.Services
                 .ToList();
         }
 
+        public void AtualizarDescAtividades(int id, string descAtividades)
+        {
+            var aula = _context.Aulas.FirstOrDefault(a => a.Id == id);
+            if (aula != null)
+            {
+                aula.DescAtividades = descAtividades;
+                _context.Update(aula);
+                _context.SaveChanges();
+            }
+        }
+
         public Aula BuscarPorDiaHora(DateTime data, DispSala dispSala)
         {
             dispSala = _context.DispSalas

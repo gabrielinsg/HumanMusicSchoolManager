@@ -199,34 +199,27 @@
             </div>
             <div class="row">
 
-                <form asp-controller="Demostrativa" asp-action="AlterarDemostrativa" method="post">
-                    <input asp-for="Demostrativa.Id" value="@demostrativa.Id" type="hidden" />
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label asp-for="Demostrativa.Confirmado" class="col-md-2 control-label"></label>
-                            <div class="col-md-4">
-                                <select asp-for="Demostrativa.Confirmado" class="form-control" asp-items="Html.GetEnumSelectList<Confirmado>()">
-                                    <option selected="selected" value="@demostrativa.Confirmado">@Html.DisplayFor(d => demostrativa.Confirmado)</option>
-                                </select>
-                            </div>
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label asp-for="Demostrativa.Confirmado" class="col-md-2 control-label"></label>
+                        <div class="col-md-4">
+                            <select asp-for="Demostrativa.Confirmado" id="confirm@(demostrativa.Id)" onchange="Confimacao('confirm@(demostrativa.Id)',@demostrativa.Id)" class="form-control" asp-items="Html.GetEnumSelectList<Confirmado>()">
+                                <option selected="selected" value="@demostrativa.Confirmado">@Html.DisplayFor(d => demostrativa.Confirmado)</option>
+                            </select>
                         </div>
                     </div>
+                </div>
 
-                    <div class="col-md-12">
-                        <div class="form-group">
+                <div class="col-md-12">
+                    <div class="form-group">
 
-                            <label>Observação</label>
-                            <textarea name="Observacao" id="demostrativa.Observacao@(demostrativa.Id)" rows="10" cols="80">
+                        <label>Observação</label>
+                        <textarea name="Observacao" id="demostrativa.Observacao@(demostrativa.Id)" rows="10" cols="80">
                             @Html.Raw(demostrativa.Observacao)
                             </textarea>
-                        </div>
                     </div>
+                </div>
 
-                    <br />
-                    <div class="col-md-4">
-                        <button type="submit" class="btn btn-success">Alterar</button>
-                    </div>
-                </form>
             </div>
         </div>
     }
@@ -234,14 +227,15 @@
 <br />
 @section Scripts{
     <script src="~/ckeditor/ckeditor.js"></script>
+    <script src="~/js/Aula.js"></script>
+    <script src="~/js/Demostrativa.js"></script>
     @foreach (var demostrativa in Model.Candidato.Demostrativas)
     {
         <script>
             // Replace the <textarea id="editor1"> with a CKEditor
             // instance, using default configuration.
-            CKEDITOR.replace('demostrativa.Observacao@(demostrativa.Id)');
+            Demostrativas('demostrativa.Observacao@(demostrativa.Id)', @demostrativa.Id);
         </script>
     }
 
-    <script src="~/js/Aula.js"></script>
 }

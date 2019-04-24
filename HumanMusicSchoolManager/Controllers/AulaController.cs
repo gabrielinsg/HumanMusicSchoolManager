@@ -299,5 +299,16 @@ namespace HumanMusicSchoolManager.Controllers
 
             return historico;
         }
+        [HttpPost]
+        public void AutoSaveDescAtividades(int id, string conteudo)
+        {
+            _aulaService.AtualizarDescAtividades(id, conteudo);
+        }
+
+        [HttpPost]
+        public void AutoSaveObservacao(int id, string conteudo)
+        {
+            _chamadaService.AtualizarObservacao(id, conteudo);
+        }
     }
 }

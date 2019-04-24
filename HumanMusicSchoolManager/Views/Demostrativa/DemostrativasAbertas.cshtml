@@ -57,7 +57,11 @@
                             <td>@demostrativa.Curso.Nome</td>
                             <td>@demostrativa.DispSala.Professor.Nome</td>
                             <td>@demostrativa.Pessoa.Nome</td>
-                            <td>@Html.DisplayFor(d => demostrativa.Confirmado)</td>
+                            <td>
+                                <select asp-for="@demostrativa" id="confirm@(demostrativa.Id)" onchange="Confimacao('confirm@(demostrativa.Id)',@demostrativa.Id)" class="form-control" asp-items="Html.GetEnumSelectList<Confirmado>()" >
+                                    <option value="@demostrativa.Confirmado">@Html.DisplayFor(d => demostrativa.Confirmado)</option>
+                                </select>
+                            </td>
                             <td>@(demostrativa.Aula.AulaDada == true ? "Sim" : "Não")</td>
                             <td>@(demostrativa.Presenca == null ? "" : demostrativa.Presenca == true ? "Presente" : "Faltou")</td>
                             <td>@demostrativa.Candidato.Email</td>
@@ -76,5 +80,6 @@
     <script src="~/vendor/datatables/jquery.dataTables.js"></script>
     <script src="~/vendor/datatables/dataTables.bootstrap4.js"></script>
     <script src="~/js/demo/datatables-demo.js"></script>
+    <script src="~/js/Demostrativa.js"></script>
 }
 

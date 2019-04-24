@@ -62,5 +62,32 @@ function Dpresenca(i) {
 }
 
 
+function DescAtividades(campo) {
 
+    let editor = CKEDITOR.replace(campo);
 
+    // The "change" event is fired whenever a change is made in the editor.
+    editor.on('change', function (evt) {
+        // getData() returns CKEditor's HTML content.
+        let id = $("#Id").val();
+        let conteudo = evt.editor.getData();
+        $.post("/Aula/AutoSaveDescAtividades", { id: id, conteudo: conteudo });
+    });
+}
+
+function Demostrativas(campo, id) {
+
+    let editor = CKEDITOR.replace(campo);
+
+    // The "change" event is fired whenever a change is made in the editor.
+    editor.on('change', function (evt) {
+        // getData() returns CKEditor's HTML content.
+        let conteudo = evt.editor.getData();
+        $.post("/Demostrativa/AutoSaveObservacao", { id: id, conteudo: conteudo });
+    });
+}
+
+function Observacoes(i, id) {
+    let conteudo = $('#Chamadas_'+i+'__Observacao').val();
+    $.post("/Aula/AutoSaveObservacao", { id: id, conteudo: conteudo });
+}

@@ -24,6 +24,17 @@ namespace HumanMusicSchoolManager.Services
             _context.SaveChanges();
         }
 
+        public void AtualizarObservacao(int id, string conteudo)
+        {
+            var chamada = _context.Chamadas.FirstOrDefault(c => c.Id == id);
+            if (chamada != null)
+            {
+                chamada.Observacao = conteudo;
+                _context.Chamadas.Update(chamada);
+                _context.SaveChanges();
+            }
+        }
+
         public Chamada BuscarPorId(int chamadaId)
         {
             return _context.Chamadas

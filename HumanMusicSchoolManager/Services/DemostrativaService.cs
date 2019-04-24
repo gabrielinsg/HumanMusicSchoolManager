@@ -94,5 +94,27 @@ namespace HumanMusicSchoolManager.Services
                 .OrderBy(d => d.Aula.Data)
                 .ToList();
         }
+
+        public void AtualizarObservacao(int id, string conteudo)
+        {
+            var demostrativa = _context.Demostrativas.FirstOrDefault(d => d.Id == id);
+            if (demostrativa != null)
+            {
+                demostrativa.Observacao = conteudo;
+                _context.Demostrativas.Update(demostrativa);
+                _context.SaveChanges();
+            }
+        }
+
+        public void AtualizarConfirmado(int id, Confirmado confirmado)
+        {
+            var demostrativa = _context.Demostrativas.FirstOrDefault(d => d.Id == id);
+            if (demostrativa != null)
+            {
+                demostrativa.Confirmado = confirmado;
+                _context.Demostrativas.Update(demostrativa);
+                _context.SaveChanges();
+            }
+        }
     }
 }

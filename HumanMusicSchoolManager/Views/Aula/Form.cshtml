@@ -21,7 +21,7 @@
 
             .class-mensage label {
                 border-bottom: 1px solid lightgray;
-                width: 50%;
+                width: 100%;
                 margin: auto;
                 text-align: center;
                 display: block;
@@ -203,7 +203,7 @@
                                                 <div class="col-md-12">
                                                     <div class="form-group">
                                                         <label asp-for="Chamadas[i].Observacao">Observação</label>
-                                                        <input asp-for="Chamadas[i].Observacao" placeholder="Digite a observação aqui!!!" class="form-control" />
+                                                        <input asp-for="Chamadas[i].Observacao" onkeyup="Observacoes(@(i),@(Model.Chamadas[i].Id))" placeholder="Digite a observação aqui!!!" class="form-control" />
                                                         <span asp-validation-for="Chamadas[i].Observacao" class="text-danger"></span>
                                                     </div>
                                                 </div>
@@ -225,7 +225,7 @@
                                                         {
 
                                                         <div class="class-mensage">
-                                                            <label>Histórico - @chamada.Aula.Data.ToString("dd/MM/yyyy")</label>
+                                                            <label>Histórico - @chamada.Aula.Data.ToString("dd/MM/yy") - @(chamada.Presenca == true ? "Presente":"Faltou")</label>
                                                             @Html.Raw(chamada.Aula.DescAtividades)
                                                             @if (chamada.Observacao != null)
                                                     {
@@ -278,9 +278,18 @@
                         <div class="col-md-2 col-2">
                             <label id="DlabelSwitch@(i)">Presente</label>
                         </div>
+                        @{ 
+                            var confirmado = "";
+                            switch (@Model.Demostrativas[i].Confirmado)
+                            {
+                                case Confirmado.AGUARDANDO: confirmado = "A"; break;
+                                case Confirmado.NAO: confirmado = "N"; break;
+                                case Confirmado.SIM: confirmado = "S"; break;
+                            }
+                        }
                         <div class="col-md-5">
                             <div class="form-group">
-                                <input value="(D) @Model.Demostrativas[i].Candidato.Nome" class="form-control" disabled />
+                                <input value="(D@(confirmado)) @Model.Demostrativas[i].Candidato.Nome" class="form-control" disabled />
                             </div>
                         </div>
 
@@ -321,6 +330,18 @@
                                                 </div>
                                                 <div class="col-md-12">
                                                     <i class="far fa-envelope text-info"></i> @Model.Demostrativas[i].Candidato.Email
+                                                </div>
+                                                <div class="col-md-12">
+                                                    @{ 
+                                                        var confir = "";
+                                                        switch (Model.Demostrativas[i].Confirmado)
+                                                        {
+                                                            case Confirmado.AGUARDANDO: confir = "A"; break;
+                                                            case Confirmado.NAO: confir = "N"; break;
+                                                            case Confirmado.SIM: confir = "S"; break;
+                                                        }
+                                                    }
+                                                    D@(confir) - Demostrativa. Confimada: @Html.DisplayFor(d => Model.Demostrativas[i].Confirmado)
                                                 </div>
                                             </div>
                                             <div class="col-md-5">
@@ -368,7 +389,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <textarea asp-for="DescAtividades" rows="10" cols="80">
+                    <textarea asp-for="DescAtividades" rows="10" cols="80">zzz
                     </textarea>
                     <span asp-validation-for="DescAtividades" class="text-danger"></span>
                 </div>
@@ -388,14 +409,14 @@
 @section Scripts{
     <script src="~/js/mask.js"></script>
     <script src="~/ckeditor/ckeditor.js"></script>
+    <script src="~/js/Aula.js"></script>
     <script>
         // Replace the <textarea id="editor1"> with a CKEditor
         // instance, using default configuration.
-        CKEDITOR.replace('DescAtividades');
+        DescAtividades('DescAtividades');
         @for(var i = 0; i < Model.Demostrativas.Count; i++)
         {
-            <text>CKEDITOR.replace('Demostrativas_@(i)__Observacao');</Text>
+            <text>Demostrativas('Demostrativas_@(i)__Observacao', @(Model.Demostrativas[i].Id));</Text>
         }
     </script>
-    <script src="~/js/Aula.js"></script>
 }

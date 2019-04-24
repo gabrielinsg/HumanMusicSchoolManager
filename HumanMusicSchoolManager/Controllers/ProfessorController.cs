@@ -275,14 +275,29 @@ namespace HumanMusicSchoolManager.Controllers
 
                     foreach (var demo in aula.Demostrativas)
                     {
-                        nomes.Add("(D)"+demo.Candidato.Nome.Split(' ')[0]);
+                        var confirmado = "";
+                        switch (demo.Confirmado)
+                        {
+                            case Confirmado.AGUARDANDO: confirmado = "A"; break;
+                            case Confirmado.NAO: confirmado = "N"; break;
+                            case Confirmado.SIM: confirmado = "S"; break;
+                        }
+                        nomes.Add("(D"+confirmado+")"+demo.Candidato.Nome.Split(' ')[0]);
                     }
 
                     cal.Title += CarregarNomes(nomes);
                 }
                 else if (aula.Demostrativas.Count > 0)
                 {
-                    cal.Title += " (D)" + aula.Demostrativas.FirstOrDefault().Candidato.Nome.Split(' ')[0];
+                    var demostrativa = aula.Demostrativas.FirstOrDefault();
+                    var confirmado = "";
+                    switch (demostrativa.Confirmado)
+                    {
+                        case Confirmado.AGUARDANDO: confirmado = "A"; break;
+                        case Confirmado.NAO: confirmado = "N"; break;
+                        case Confirmado.SIM: confirmado = "S"; break;
+                    }
+                    cal.Title += " (D"+confirmado+")" + demostrativa.Candidato.Nome.Split(' ')[0];
                 }
 
                 calendar.Add(cal);
