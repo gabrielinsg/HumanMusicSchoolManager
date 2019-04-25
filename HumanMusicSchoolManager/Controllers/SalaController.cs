@@ -20,13 +20,15 @@ namespace HumanMusicSchoolManager.Controllers
         private readonly IFeriadoService _feriadoService;
         private readonly IEventoService _eventoService;
         private readonly IAulaService _aulaService;
+        private readonly IDispSalaService _dispSalaService;
 
         public SalaController(ISalaService salaService, 
             ICursoService cursoService, 
             IProfessorService professorService,
             IFeriadoService feriadoService,
             IEventoService eventoService,
-            IAulaService aulaService)
+            IAulaService aulaService,
+            IDispSalaService dispSalaService)
         {
             this._salaService = salaService;
             this._cursoService = cursoService;
@@ -34,6 +36,7 @@ namespace HumanMusicSchoolManager.Controllers
             this._feriadoService = feriadoService;
             this._eventoService = eventoService;
             this._aulaService = aulaService;
+            this._dispSalaService = dispSalaService;
         }
 
         public IActionResult Index()
@@ -67,6 +70,7 @@ namespace HumanMusicSchoolManager.Controllers
         {
             if (sala.Id == null)
             {
+
                 if (ModelState.IsValid)
                 {
                     _salaService.Cadastrar(sala);
@@ -138,10 +142,16 @@ namespace HumanMusicSchoolManager.Controllers
         }
 
         [HttpGet]
-        public IActionResult DispSala(int? salaId, int? dispSalaId)
+        public IActionResult DispSala(int? salaId, int? dispSalaId, bool comAlunos)
         {
             if (salaId != null)
             {
+                if (comAlunos)
+                {
+                    ViewBag.DS = _dispSalaService.BuscarPorId(dispSalaId.Value);
+                    dispSalaId = null;
+                }
+
                 var sala = _salaService.BuscarPorId(salaId.Value);
 
                 var cursos = sala.Cursos.Select(c => c.Curso).ToList();
@@ -190,6 +200,19 @@ namespace HumanMusicSchoolManager.Controllers
             }
             else
             {
+                var ds = _dispSalaService.BuscarPorId(dispSala.Id.Value);
+                if (ds.Matriculas.ToList().Count > 0 || ds.Demostrativas.ToList().Count > 0)
+                {
+                    if (
+                            ds.Dia != dispSala.Dia ||
+                            ds.Professor != dispSala.Professor ||
+                            ds.Hora != dispSala.Hora
+                        )
+                    {
+                        return RedirectToAction("DispSala", routeValues: new { salaid = sala.Id, dispSalaId = dispSala.Id.Value, comAlunos = true });
+                    }
+                }
+
                 if (dispSala.Professor.Id != null)
                 {
                     dispSala.Professor = _professorService.BuscarPorId(dispSala.Professor.Id.Value);
@@ -211,8 +234,14 @@ namespace HumanMusicSchoolManager.Controllers
         {
             if (dispSalaId != null && salaId != null)
             {
+                
                 var sala = _salaService.BuscarPorId(salaId.Value);
-                var dispSala = sala.DispSalas.SingleOrDefault(ds => ds.Id == dispSalaId);
+                var dispSala = sala.DispSalas.SingleOrDefault(dsala => dsala.Id == dispSalaId);
+                var ds = _dispSalaService.BuscarPorId(dispSala.Id.Value);
+                if (ds.Matriculas.ToList().Count > 0 || ds.Demostrativas.ToList().Count > 0)
+                {
+                    return RedirectToAction("DispSala", routeValues: new { salaid = sala.Id, dispSalaId = dispSala.Id.Value, comAlunos = true });
+                }
                 sala.DispSalas.Remove(dispSala);
                 _salaService.Alterar(sala);
                 TempData["Success"] = "Horário removido com sucesso!";

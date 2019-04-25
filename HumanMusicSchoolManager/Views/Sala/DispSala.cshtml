@@ -2,6 +2,63 @@
 @{
     ViewData["Title"] = "DispSala";
 }
+
+@if (ViewBag.DS != null)
+{
+    <div class="modal" id="myModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Atenção</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h6>Existem matriculas ou demostrativas neste horário</h6>
+                    <p>Para excluir ou alterar este horário primeiro troque o horário dos alunos abaixo:</p>
+                    @{
+                        List<Matricula> matriculas = ViewBag.DS.Matriculas;
+                        if (matriculas.Count > 0)
+                        {
+                            <ul>
+                                <li>Alunos</li>
+                                @foreach (Matricula matricula in matriculas)
+                                {
+                                    <li>
+                                        <a asp-controller="Aluno" asp-action="Aluno" asp-route-alunoId="@matricula.AlunoId" target="_blank">
+                                            @matricula.Aluno.Nome
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        }
+
+                        List<Demostrativa> demostrativas = ViewBag.DS.Demostrativas;
+                        if (demostrativas.Count > 0)
+                        {
+                            <ul>
+                                <li>Candidatos</li>
+                                @foreach (Demostrativa demostrativa in demostrativas)
+                                {
+                                    <li>
+                                        <a asp-controller="Aluno" asp-action="Aluno" asp-route-alunoId="@demostrativa.CandidatoId" target="_blank">
+                                            @demostrativa.Candidato.Nome
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        }
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
 <h2>Disponibilidade de Sala</h2>
 
 <hr />
@@ -100,11 +157,11 @@
 </div>
 <br />
 
-    <a tabindex="0" class="btn" data-placement="right"
-       data-toggle="popover" data-trigger="focus"
-       data-content="Para alterar as informações do horário, clique na hora desejada e escolha uma das opções.">
-        <i class="fas fa-question-circle"></i>
-    </a>
+<a tabindex="0" class="btn" data-placement="right"
+   data-toggle="popover" data-trigger="focus"
+   data-content="Para alterar as informações do horário, clique na hora desejada e escolha uma das opções.">
+    <i class="fas fa-question-circle"></i>
+</a>
 
 <div class="row" style="padding-left: 15px;">
     <ul class="list-group col-md-2">
@@ -483,6 +540,12 @@
             $('[data-toggle="popover"]').popover()
 
         });
+
+        @if(ViewBag.DS != null)
+        {
+            <text>$('#myModal').modal('show')</text>
+        }
+
 
     </script>
 }

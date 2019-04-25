@@ -263,7 +263,7 @@
                                             <input asp-for="DiaAula" type="date" class="form-control" />
                                             <span asp-validation-for="DiaAula" class="text-danger"></span>
                                         </div>
-                                        @if (Model.Chamada.Aula.AulaDada == true)
+                                        @if (Model.Chamada.Aula.AulaDada == true || (Model.Chamada.Reposicao != null && Model.Chamada.Reposicao.Remunerada == false))
                                         {
                                             <div class="checkbox">
                                                 <label asp-for="Reposicao.Remunerada">
