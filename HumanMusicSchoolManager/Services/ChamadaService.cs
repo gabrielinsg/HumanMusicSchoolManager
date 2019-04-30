@@ -83,5 +83,19 @@ namespace HumanMusicSchoolManager.Services
                 .ToList();
             return chamadas;
         }
+
+        public List<Chamada> HistoricoCompleto(int alunoId, int cursoId)
+        {
+            return _context.Chamadas
+                .Where(c => c.PacoteCompra.Matricula.AlunoId == alunoId && c.PacoteCompra.Matricula.CursoId == cursoId && c.Presenca != null)
+                .Include(c => c.Aula)
+                .Include(c => c.PacoteCompra)
+                .ThenInclude(pc => pc.Matricula)
+                .ThenInclude(m => m.Aluno)
+                .Include(c => c.PacoteCompra)
+                .ThenInclude(pc => pc.Matricula)
+                .ThenInclude(m => m.Curso)
+                .ToList();
+        }
     }
 }

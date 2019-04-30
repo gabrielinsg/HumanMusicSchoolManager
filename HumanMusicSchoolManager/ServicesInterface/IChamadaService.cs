@@ -14,5 +14,6 @@ namespace HumanMusicSchoolManager.ServicesInterface
         void Excluir(int chamadaId);
         List<Chamada> HistoricoAlunoCurso(Matricula matricula);
         void AtualizarObservacao(int id, string conteudo);
+        List<Chamada> HistoricoCompleto(int alunoId, int cursoId);
     }
 }

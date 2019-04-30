@@ -40,7 +40,7 @@
             }
 
         .btn-lanca {
-            margin-left:15px;
+            margin-left: 15px;
             margin-right: 15px;
         }
 
@@ -54,7 +54,6 @@
         .progresso {
             margin: 5px 1px 10px 1px;
         }
-
     </style>
 }
 
@@ -169,7 +168,7 @@
                                             <div class="row progresso">
                                                 <div class="col-12">
                                                     <div class="progress">
-                                                        @{ 
+                                                        @{
                                                             var totalAulas = Model.Chamadas[i].PacoteCompra.Chamadas.Count;
                                                             var aulasRealizadas = Model.Chamadas[i].PacoteCompra.Chamadas.Where(c => c.Presenca != null).ToList().Count;
                                                             var porcentagem = aulasRealizadas * 100 / totalAulas;
@@ -217,24 +216,30 @@
                                                     <br />
                                                 }
                                                 @{
-                                                        List<Chamada> historico = ViewBag.Historico;
-                                                        foreach (var chamada in historico
-                                                            .Where(c => c.PacoteCompra.Matricula.AlunoId == Model.Chamadas[i].PacoteCompra.Matricula.AlunoId 
-                                                            && c.PacoteCompra.Matricula.CursoId == Model.Chamadas[i].PacoteCompra.Matricula.CursoId)
-                                                            .OrderByDescending(c => c.Aula.Data).ToList())
-                                                        {
+                                                    List<Chamada> historico = ViewBag.Historico;
+                                                    foreach (var chamada in historico
+                                                        .Where(c => c.PacoteCompra.Matricula.AlunoId == Model.Chamadas[i].PacoteCompra.Matricula.AlunoId
+                                                        && c.PacoteCompra.Matricula.CursoId == Model.Chamadas[i].PacoteCompra.Matricula.CursoId)
+                                                        .OrderByDescending(c => c.Aula.Data).ToList())
+                                                    {
 
                                                         <div class="class-mensage">
-                                                            <label>Histórico - @chamada.Aula.Data.ToString("dd/MM/yy") - @(chamada.Presenca == true ? "Presente":"Faltou")</label>
+                                                            <label>Histórico - @chamada.Aula.Data.ToString("dd/MM/yy") - @(chamada.Presenca == true ? "Presente" : "Faltou")</label>
                                                             @Html.Raw(chamada.Aula.DescAtividades)
                                                             @if (chamada.Observacao != null)
-                                                    {
+                                                            {
                                                                 <hr />
                                                                 <div>@Html.Raw(chamada.Observacao)</div>
                                                             }
                                                         </div>
+
                                                     }
                                                 }
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12 text-center">
+                                                    <a asp-action="HistoricoCompleto" asp-route-alunoId="@Model.Chamadas[i].PacoteCompra.Matricula.AlunoId" asp-route-cursoId="@Model.Chamadas[i].PacoteCompra.Matricula.CursoId">Histórico Completo</a>
+                                                </div>
                                             </div>
 
                                         </div>
@@ -278,7 +283,7 @@
                         <div class="col-md-2 col-2">
                             <label id="DlabelSwitch@(i)">Presente</label>
                         </div>
-                        @{ 
+                        @{
                             var confirmado = "";
                             switch (@Model.Demostrativas[i].Confirmado)
                             {
@@ -332,7 +337,7 @@
                                                     <i class="far fa-envelope text-info"></i> @Model.Demostrativas[i].Candidato.Email
                                                 </div>
                                                 <div class="col-md-12">
-                                                    @{ 
+                                                    @{
                                                         var confir = "";
                                                         switch (Model.Demostrativas[i].Confirmado)
                                                         {

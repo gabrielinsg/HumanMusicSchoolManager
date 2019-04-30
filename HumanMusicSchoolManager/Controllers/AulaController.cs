@@ -332,5 +332,10 @@ namespace HumanMusicSchoolManager.Controllers
         {
             _chamadaService.AtualizarObservacao(id, conteudo);
         }
+
+        public IActionResult HistoricoCompleto(int alunoId, int cursoId)
+        {
+            return View(_chamadaService.HistoricoCompleto(alunoId, cursoId));
+        }
     }
 }

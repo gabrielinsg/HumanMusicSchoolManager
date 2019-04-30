@@ -82,15 +82,6 @@ namespace HumanMusicSchoolManager
             services.AddTransient<IEnderecoService, EnderecoService>();
             services.AddTransient<IAulaConfigService, AulaConfigService>();
 
-            services.ConfigureApplicationCookie(options =>
-            {
-                options.Cookie.HttpOnly = true;
-                options.Cookie.Expiration = TimeSpan.FromSeconds(15);
-                options.LoginPath = "/Account/Login";
-                options.LogoutPath = "/Account/Logout";
-                options.AccessDeniedPath = "/Account/AccessDenied";
-                options.SlidingExpiration = true;
-            });
 
             services.AddMvc();
         }
@@ -124,11 +115,10 @@ namespace HumanMusicSchoolManager
                 SupportedUICultures = supportedCultures
             });
 
-
             app.UseStaticFiles();
             app.UseHttpsRedirection();
             app.UseAuthentication();
-            app.UseCookiePolicy();
+
 
             app.UseMvc(routes =>
             {
