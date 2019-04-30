@@ -40,8 +40,15 @@
                 <div class="col-xl-2 col-md-3">
                     <div class="form-group">
                         <label asp-for="QtdModulo"></label>
-                        <input asp-for="QtdModulo" class="form-control" required />
+                        <input asp-for="QtdModulo" type="number" class="form-control" required />
                         <span asp-validation-for="QtdModulo" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-md-3">
+                    <div class="form-group">
+                        <label asp-for="DuracaoAula"></label>
+                        <input asp-for="DuracaoAula" type="number"  class="form-control" required />
+                        <span asp-validation-for="DuracaoAula" class="text-danger"></span>
                     </div>
                 </div>
             </div>

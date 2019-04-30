@@ -73,6 +73,19 @@ namespace HumanMusicSchoolManager.Services
             }
         }
 
+        public void AlterarTempoLimite(int TempoLancamento)
+        {
+            var aulas = _context.Aulas
+                .Where(a => a.AulaDada == false)
+                .ToList();
+            foreach (var aula in aulas)
+            {
+                aula.DataLimite = aula.Data;
+                aula.DataLimite = aula.DataLimite.AddHours(TempoLancamento);
+            }
+            _context.SaveChanges();
+        }
+
         public Aula BuscarPorDiaHora(DateTime data, DispSala dispSala)
         {
             dispSala = _context.DispSalas

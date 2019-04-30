@@ -297,7 +297,7 @@ namespace HumanMusicSchoolManager.Controllers
             foreach (var aula in aulas)
             {
                 var start = aula.Data;
-                var end = start.AddMinutes(55);
+                var end = start.AddMinutes(_cursoService.DucacaoAula(aula.CursoId));
                 var color = "";
                 if (aula.AulaDada == true)
                 {

@@ -28,6 +28,7 @@ namespace HumanMusicSchoolManager.Controllers
         private readonly IRelatorioMatriculaService _relatorioMatriculaService;
         private readonly IReposicaoService _reposicaoService;
         private readonly IEmailConfigService _emailConfigService;
+        private readonly IAulaConfigService _aulaConfigService;
 
         public PacoteCompraController(IPacoteCompraService pacoteCompraService,
             IMatriculaService matriculaService,
@@ -40,7 +41,8 @@ namespace HumanMusicSchoolManager.Controllers
             IChamadaService chamadaService,
             IRelatorioMatriculaService relatorioMatriculaService,
             IReposicaoService reposicaoService,
-            IEmailConfigService emailConfigService)
+            IEmailConfigService emailConfigService,
+            IAulaConfigService aulaConfigService)
         {
             this._pacoteCompraService = pacoteCompraService;
             this._matriculaService = matriculaService;
@@ -54,6 +56,7 @@ namespace HumanMusicSchoolManager.Controllers
             this._relatorioMatriculaService = relatorioMatriculaService;
             this._reposicaoService = reposicaoService;
             this._emailConfigService = emailConfigService;
+            this._aulaConfigService = aulaConfigService;
         }
 
         [HttpGet]
@@ -380,6 +383,12 @@ namespace HumanMusicSchoolManager.Controllers
             var qtdAulas = QtdAula;//pacoteCompraViewModel.PacoteAula.QtdAula;
             diaAula = diaAula.AddHours((double)Hora);//pacoteCompraViewModel.Matricula.DispSala.Hora);
 
+            var aulaConfig = _aulaConfigService.Buscar();
+            if (aulaConfig == null)
+            {
+                aulaConfig.TempoLimiteLancamento = 72;
+            }
+
             while (qtdAulas > 0)
             {
                 var feriado = _feriadoService.BuscarPorData(diaAula);
@@ -400,7 +409,7 @@ namespace HumanMusicSchoolManager.Controllers
                             ProfessorId = Matricula.DispSala.Professor.Id.Value,
                             SalaId = Matricula.DispSala.Sala.Id.Value,
                             Data = diaAula,
-                            DataLimite = diaAula.AddDays(3)
+                            DataLimite = diaAula.AddHours(aulaConfig.TempoLimiteLancamento)
                         };
                         _aulaService.Cadastrar(aula);
                     }

@@ -33,7 +33,7 @@ namespace HumanMusicSchoolManager
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("HomologacaoEbrasilConnection")));
 
             //services.AddDbContext<ApplicationDbContext>(options =>
             //    options.UseMySql(Configuration.GetConnectionString("EbrasilConnection")));
@@ -80,6 +80,17 @@ namespace HumanMusicSchoolManager
             services.AddTransient<IRelatorioMatriculaService, RelatorioMatriculaService>();
             services.AddTransient<IEmailConfigService, EmailConfigService>();
             services.AddTransient<IEnderecoService, EnderecoService>();
+            services.AddTransient<IAulaConfigService, AulaConfigService>();
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.HttpOnly = true;
+                options.Cookie.Expiration = TimeSpan.FromSeconds(15);
+                options.LoginPath = "/Account/Login";
+                options.LogoutPath = "/Account/Logout";
+                options.AccessDeniedPath = "/Account/AccessDenied";
+                options.SlidingExpiration = true;
+            });
 
             services.AddMvc();
         }
@@ -96,6 +107,7 @@ namespace HumanMusicSchoolManager
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+                app.UseHsts();
             }
 
             var supportedCultures = new[]
@@ -116,6 +128,7 @@ namespace HumanMusicSchoolManager
             app.UseStaticFiles();
             app.UseHttpsRedirection();
             app.UseAuthentication();
+            app.UseCookiePolicy();
 
             app.UseMvc(routes =>
             {

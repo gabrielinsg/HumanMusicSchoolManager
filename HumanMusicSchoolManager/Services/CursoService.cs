@@ -46,6 +46,11 @@ namespace HumanMusicSchoolManager.Services
             _context.SaveChanges();
         }
 
+        public int DucacaoAula(int cursoId)
+        {
+            return _context.Cursos.FirstOrDefault(c => c.Id == cursoId).DuracaoAula;
+        }
+
         public void Excluir(Curso curso)
         {
             _context.Remove(curso);

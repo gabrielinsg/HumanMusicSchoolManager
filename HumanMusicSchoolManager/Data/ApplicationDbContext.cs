@@ -37,6 +37,7 @@ namespace HumanMusicSchoolManager.Data
         public DbSet<Trancamento> Trancamentos { get; set; }
         public DbSet<RelatorioMatricula> RelatorioMatriculas { get; set; }
         public DbSet<EmailConfig> EmailConfig { get; set; }
+        public DbSet<AulaConfig> AulaConfig { get; set; }
 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)

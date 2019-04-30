@@ -23,6 +23,7 @@ namespace HumanMusicSchoolManager.Controllers
         private readonly IReposicaoService _reposicaoService;
         private readonly IDemostrativaService _demostrativaService;
         private readonly IPessoaService _pessoaService;
+        private readonly IAulaConfigService _aulaConfigService;
 
         public AulaController(IAulaService aulaService,
             IProfessorService professorService,
@@ -32,7 +33,8 @@ namespace HumanMusicSchoolManager.Controllers
             IMatriculaService matriculaService,
             IReposicaoService reposicaoService,
             IDemostrativaService demostrativaService,
-            IPessoaService pessoaService)
+            IPessoaService pessoaService,
+            IAulaConfigService aulaConfigService)
         {
             this._aulaService = aulaService;
             this._professorService = professorService;
@@ -43,6 +45,7 @@ namespace HumanMusicSchoolManager.Controllers
             this._reposicaoService = reposicaoService;
             this._demostrativaService = demostrativaService;
             this._pessoaService = pessoaService;
+            this._aulaConfigService = aulaConfigService;
         }
 
         [HttpGet]
@@ -54,10 +57,15 @@ namespace HumanMusicSchoolManager.Controllers
 
                 if (aula != null)
                 {
-
-                    if (aula.DataLimite == null || aula.DataLimite > NowHorarioBrasilia.GetNow())
+                    var aulaConfig = _aulaConfigService.Buscar();
+                    if (aulaConfig == null)
                     {
+                        TempData["Error"] = "Aula não configurada, favor entrar em contato com o admistrado do sistema!";
+                        return RedirectToAction("Calendario", "Professor");
+                    }
 
+                    if (aulaConfig.LancamentoAtrasado || aula.DataLimite == null || aula.DataLimite > NowHorarioBrasilia.GetNow())
+                    {
                         ViewBag.Historico = Historico(aula);
                         return View(aula);
                     }
@@ -90,14 +98,20 @@ namespace HumanMusicSchoolManager.Controllers
 
             if (aula.AulaDada)
             {
-                if (aula.DescAtividades == null)
+                var aulaConfig = _aulaConfigService.Buscar();
+
+                if (aulaConfig.DescAtividadesObrigatorio)
                 {
-                    ModelState.AddModelError("DescAtividades", "Descrição de atividades obrigatória");
+                    if (aula.DescAtividades == null)
+                    {
+                        ModelState.AddModelError("DescAtividades", "Descrição de atividades obrigatória");
+                    }
+                    else if (aula.DescAtividades.Length < aulaConfig.MinCaracteresDescAtividades + 9)
+                    {
+                        ModelState.AddModelError("DescAtividades", "Descrição não atingiu o mínimo de caracteres exigidos.");
+                    }
                 }
-                else if (aula.DescAtividades.Length < 15)
-                {
-                    ModelState.AddModelError("DescAtividades", "Descrição não atingiu o mínimo de caracteres exigidos.");
-                }
+
             }
 
             var matriculas = new List<Matricula>();
@@ -224,9 +238,17 @@ namespace HumanMusicSchoolManager.Controllers
 
             if (ModelState.IsValid)
             {
+                var aulaConfig = _aulaConfigService.Buscar();
+                if (aulaConfig == null)
+                {
+                    aulaConfig.TempoLimiteLancamento = 72;
+                }
+
                 aula.Data.AddHours(-aula.Data.Hour);
                 aula.Data.AddHours(Hora.Value);
-                aula.DataLimite.AddHours(23);
+                aula.DataLimite.AddHours(-aula.DataLimite.Hour);
+                aula.DataLimite = aula.Data;
+                aula.DataLimite.AddHours(aulaConfig.TempoLimiteLancamento);
 
                 foreach (var chamada in aula.Chamadas)
                 {

@@ -20,6 +20,9 @@ namespace HumanMusicSchoolManager.Models.Models
         public int QtdModulo { get; set; }
         public List<CursoSala> Salas { get; set; }
         public List<Demostrativa> Demostrativas { get; set; }
+        [Required(ErrorMessage = "Duração da aula obrigatório")]
+        [Display(Name = "Duração da aula (minutos)")]
+        public int DuracaoAula { get; set; }
 
         public Curso()
         {

@@ -14,5 +14,6 @@ namespace HumanMusicSchoolManager.Services
         void Alterar(Curso curso);
         void Excluir(Curso curso);
         List<Curso> BuscarPorNome(string nome);
+        int DucacaoAula(int cursoId);
     }
 }

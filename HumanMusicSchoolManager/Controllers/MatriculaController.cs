@@ -34,6 +34,7 @@ namespace HumanMusicSchoolManager.Controllers
         private readonly IAulaService _aulaService;
         private readonly IChamadaService _chamadaService;
         private readonly IFeriadoService _feriadoService;
+        private readonly IAulaConfigService _aulaConfigService;
 
         public MatriculaController(IMatriculaService matriculaService,
             IAlunoService alunoService,
@@ -49,7 +50,8 @@ namespace HumanMusicSchoolManager.Controllers
             IPacoteCompraService pacoteCompraService,
             IAulaService aulaService,
             IChamadaService chamadaService,
-            IFeriadoService feriadoService)
+            IFeriadoService feriadoService,
+            IAulaConfigService aulaConfigService)
         {
             this._matriculaService = matriculaService;
             this._alunoService = alunoService;
@@ -66,6 +68,7 @@ namespace HumanMusicSchoolManager.Controllers
             this._aulaService = aulaService;
             this._chamadaService = chamadaService;
             this._feriadoService = feriadoService;
+            this._aulaConfigService = aulaConfigService;
         }
 
         [HttpGet]
@@ -452,6 +455,11 @@ namespace HumanMusicSchoolManager.Controllers
                 trocaDispSalaViewModel.Matricula.DispSala = trocaDispSalaViewModel.DispSala;
                 _matriculaService.Alterar(trocaDispSalaViewModel.Matricula);
                 trocaDispSalaViewModel.DiaAula = trocaDispSalaViewModel.DiaAula.AddHours(trocaDispSalaViewModel.DispSala.Hora);
+                var aulaConfig = _aulaConfigService.Buscar();
+                if (aulaConfig == null)
+                {
+                    aulaConfig.TempoLimiteLancamento = 72;
+                }
 
                 if (trocaDispSalaViewModel.Matricula.PacoteCompras != null)
                 {
@@ -502,7 +510,7 @@ namespace HumanMusicSchoolManager.Controllers
                                         ProfessorId = trocaDispSalaViewModel.Matricula.DispSala.Professor.Id.Value,
                                         SalaId = trocaDispSalaViewModel.Matricula.DispSala.Sala.Id.Value,
                                         Data = trocaDispSalaViewModel.DiaAula,
-                                        DataLimite = trocaDispSalaViewModel.DiaAula.AddDays(3)
+                                        DataLimite = trocaDispSalaViewModel.DiaAula.AddHours(aulaConfig.TempoLimiteLancamento)
                                     };
                                     _aulaService.Cadastrar(aula);
                                 }
