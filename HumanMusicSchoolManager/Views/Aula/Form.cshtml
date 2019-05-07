@@ -210,7 +210,7 @@
                                                 {
 
                                                     <div class="class-mensage">
-                                                        <label>Reposição</label>
+                                                        <label>Reposição - @(Model.Chamadas[i].Reposicao.Remunerada == true ? "Remunerada" : "Não remunerada")</label>
                                                         <div>@Html.Raw(Model.Chamadas[i].Reposicao.Motivo)</div>
                                                     </div>
                                                     <br />
@@ -238,7 +238,7 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-12 text-center">
-                                                    <a asp-action="HistoricoCompleto" asp-route-alunoId="@Model.Chamadas[i].PacoteCompra.Matricula.AlunoId" asp-route-cursoId="@Model.Chamadas[i].PacoteCompra.Matricula.CursoId">Histórico Completo</a>
+                                                    <a asp-action="HistoricoCompleto" asp-route-alunoId="@Model.Chamadas[i].PacoteCompra.Matricula.AlunoId" asp-route-cursoId="@Model.Chamadas[i].PacoteCompra.Matricula.CursoId" target="_blank">Histórico Completo</a>
                                                 </div>
                                             </div>
 

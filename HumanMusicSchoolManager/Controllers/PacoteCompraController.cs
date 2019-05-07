@@ -125,9 +125,9 @@ namespace HumanMusicSchoolManager.Controllers
                 ModelState.AddModelError("Vencimento", "Escolha uma data de vencimento");
             }
 
-            if (pacoteCompraViewModel.PrimeiraAula == null || pacoteCompraViewModel.PrimeiraAula.Date < NowHorarioBrasilia.GetNow().Date)
+            if (pacoteCompraViewModel.PrimeiraAula == null)
             {
-                ModelState.AddModelError("PrimeiraAula", "Primeira aula deve ser selecionado a partir de hoje");
+                ModelState.AddModelError("PrimeiraAula", "Primeira aula deve ser selecionada");
             }
 
             if (pacoteCompraViewModel.PrimeiraAula != null)

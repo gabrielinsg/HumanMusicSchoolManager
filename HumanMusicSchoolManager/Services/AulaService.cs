@@ -35,7 +35,7 @@ namespace HumanMusicSchoolManager.Services
         public List<Aula> Atrasadas()
         {
             return _context.Aulas
-                .Where(a => a.AulaDada == false && a.Data < DateTime.Now)
+                .Where(a => a.AulaDada == false && a.Data < NowHorarioBrasilia.GetNow())
                 .Include(a => a.Professor)
                 .Include(a => a.Chamadas)
                 .ThenInclude(c => c.PacoteCompra)
@@ -50,7 +50,7 @@ namespace HumanMusicSchoolManager.Services
         public List<Aula> AtrasadasPorProfessor(int professorId)
         {
             return _context.Aulas
-                .Where(a => a.AulaDada == false && a.Data < DateTime.Now && a.ProfessorId == professorId)
+                .Where(a => a.AulaDada == false && a.Data < NowHorarioBrasilia.GetNow() && a.ProfessorId == professorId)
                 .Include(a => a.Professor)
                 .Include(a => a.Chamadas)
                 .ThenInclude(c => c.PacoteCompra)

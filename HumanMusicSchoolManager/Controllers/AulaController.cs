@@ -308,6 +308,21 @@ namespace HumanMusicSchoolManager.Controllers
             }
         }
 
+        public JsonResult AulasAtrasadasJoson()
+        {
+            var professor = _professorService.BuscarPorId(_pessoaService.BusacarPorUserName(User.Identity.Name).Id.Value);
+            var JsonTotal = new JsonAluasAtrasadas
+            {
+                Total = 0
+            };
+            if (professor != null)
+            {
+                JsonTotal.Total = _aulaService.AtrasadasPorProfessor(professor.Id.Value).Count;
+            }
+
+            return Json(JsonTotal);
+        }
+
         private List<Chamada> Historico(Aula aula)
         {
             var historico = new List<Chamada>();
@@ -338,4 +353,9 @@ namespace HumanMusicSchoolManager.Controllers
             return View(_chamadaService.HistoricoCompleto(alunoId, cursoId));
         }
     }
+}
+
+class JsonAluasAtrasadas
+{
+    public int Total { get; set; }
 }

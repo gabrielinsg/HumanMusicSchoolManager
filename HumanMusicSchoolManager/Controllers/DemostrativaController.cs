@@ -113,7 +113,7 @@ namespace HumanMusicSchoolManager.Controllers
                 ModelState.AddModelError("DiaAula", "Não é possível agendar para este dia - " + feriado.Nome);
             }
 
-            if (demostrativaViewModel.DiaAula < NowHorarioBrasilia.GetNow())
+            if (demostrativaViewModel.DiaAula.Date < NowHorarioBrasilia.GetNow().Date)
             {
                 ModelState.AddModelError("DiaAula", "Dia da aula não pode ser menor que hoje");
             }

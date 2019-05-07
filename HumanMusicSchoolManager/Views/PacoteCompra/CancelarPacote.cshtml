@@ -5,10 +5,18 @@
 
 <h2>Cancelar Pacote</h2>
 
+<h4>@Model.PacoteCompra.Matricula.Aluno.Nome - @Model.PacoteCompra.Matricula.Curso.Nome</h4>
+
 <br />
 
 @if (Model.PacoteCompra.Chamadas.Any(c => c.Presenca == null))
 {
+    var aulasAbertas = Model.PacoteCompra.Chamadas.Where(c => c.Aula.Data < NowHorarioBrasilia.GetNow() && c.Presenca == null).ToList();
+    if (aulasAbertas.Count > 0)
+    {
+        <h3 class="text-danger">Existem aulas atrasadas não lançadas para @(Model.PacoteCompra.Matricula.Aluno.Sexo == 0 ? "este aluno" : "esta aluna")!</h3>
+        <br />
+    }
     <div class="row">
         <div class="col-md-6">
             <form role="form" asp-action="CancelarPacote" method="post">
@@ -30,7 +38,7 @@
                     </select>
                 </div>
                 <hr />
-                @{ 
+                @{
                     var totalContratado = (decimal)Model.PacoteCompra.Financeiros.Sum(f => f.Valor);
                     var valorPorAula = (decimal)totalContratado / Model.PacoteCompra.Chamadas.Count(pc => pc.Reposicao == null);
                     var valorGasto = (decimal)valorPorAula * Model.PacoteCompra.Chamadas.Count(pc => pc.Presenca != null);
@@ -41,19 +49,20 @@
                 }
                 <input id="subTotal" value="@subTotal" type="hidden" />
 
-                
+
                 <p><b>Total Contratado: </b>@totalContratado.ToString(mask)</p>
                 <p><b>Total Gasto: </b>@valorGasto.ToString(mask)</p>
                 <p><b>Total Pago: </b>@totalPago.ToString(mask)</p>
                 <p><b>Total: </b><span id="total"></span></p>
                 <hr />
                 <button type="submit" class="btn btn-success">Cancelar Pacote</button>
+
             </form>
         </div>
     </div>
+    <br />
 
 
-    
 }
 else
 {

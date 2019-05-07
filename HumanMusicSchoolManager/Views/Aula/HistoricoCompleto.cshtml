@@ -24,30 +24,35 @@
                 text-align: center;
                 display: block;
             }
-
-
-
     </style>
 }
 
-<div class="text-center">
-    <h2>Histórico Completo</h2>
-    <h4>@Model.First().PacoteCompra.Matricula.Aluno.Nome - @Model.First().PacoteCompra.Matricula.Curso.Nome</h4>
-</div>
-<div class="container">
+@if (Model.Count > 0)
+{
+    <div class="text-center">
+        <h2>Histórico Completo</h2>
+        <h4>@Model.First().PacoteCompra.Matricula.Aluno.Nome - @Model.First().PacoteCompra.Matricula.Curso.Nome</h4>
+    </div>
+    <div class="container">
 
-    @foreach (var chamada in Model.OrderByDescending(c => c.Aula.Data))
-    {
+        @foreach (var chamada in Model.OrderByDescending(c => c.Aula.Data))
+        {
 
-        <div class="class-mensage">
-            <label>Histórico - @chamada.Aula.Data.ToString("dd/MM/yy") - @(chamada.Presenca == true ? "Presente" : "Faltou")</label>
-            @Html.Raw(chamada.Aula.DescAtividades)
-            @if (chamada.Observacao != null)
-            {
-                <hr />
-                <div>@Html.Raw(chamada.Observacao)</div>
-            }
-        </div>
+            <div class="class-mensage">
+                <label>Histórico - @chamada.Aula.Data.ToString("dd/MM/yy") - @(chamada.Presenca == true ? "Presente" : "Faltou")</label>
+                @Html.Raw(chamada.Aula.DescAtividades)
+                @if (chamada.Observacao != null)
+                {
+                    <hr />
+                    <div>@Html.Raw(chamada.Observacao)</div>
+                }
+            </div>
 
-    }
-</div>
+        }
+
+    </div>
+}
+else
+{
+    <h1>Aluno sem histórico neste curso!</h1>
+}
