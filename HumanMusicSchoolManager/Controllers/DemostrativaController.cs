@@ -130,6 +130,7 @@ namespace HumanMusicSchoolManager.Controllers
                 demostrativaViewModel.Demostrativa.CandidatoId = demostrativaViewModel.Candidato.Id.Value;
                 demostrativaViewModel.Demostrativa.PessoaId = _pessoaService.BusacarPorUserName(User.Identity.Name).Id.Value;
                 demostrativaViewModel.Demostrativa.Confirmado = Confirmado.NAO;
+                demostrativaViewModel.Demostrativa.Data = NowHorarioBrasilia.GetNow();
 
                 var aula = _aulaService.BuscarPorDiaHora(demostrativaViewModel.DiaAula, demostrativaViewModel.DispSala);
                 if (aula == null)

@@ -57,28 +57,26 @@
                 <li class="nav-item dropdown no-arrow mx-1">
                     <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-bell fa-fw"></i>
-                        <span class="badge badge-danger">9+</span>
+                        <span class="badge badge-danger" id="avisoCount"></span>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
+                    <div class="dropdown-menu dropdown-menu-right" id="conteudoCount" aria-labelledby="alertsDropdown">
+                        <a class="dropdown-item" href="#">Aulas atrasadas</a>
+                        <div class="dropdown-divider"></div>
+                    </div>
+                </li>
+            }
+            @*<li class="nav-item dropdown no-arrow mx-1 ">
+                    <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-envelope fa-fw"></i>
+                        <span class="badge badge-danger">7</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
                         <a class="dropdown-item" href="#">Action</a>
                         <a class="dropdown-item" href="#">Another action</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">Something else here</a>
                     </div>
-                </li>
-            }
-                @*<li class="nav-item dropdown no-arrow mx-1 ">
-                <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-envelope fa-fw"></i>
-                    <span class="badge badge-danger">7</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-            </li>*@
+                </li>*@
             @await Html.PartialAsync("_LoginPartial")
         </ul>
 
@@ -166,18 +164,22 @@
             <script src="~/js/jquery.quicksearch.js"></script>
         </environment>*@
 
-        <script src="~/vendor/jquery/jquery.min.js"></script>
-        <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="~/vendor/jquery-easing/jquery.easing.min.js"></script>
-        <script src="~/js/sb-admin.min.js"></script>
-        <script src="~/js/mask.js"></script>
-        <script src="~/js/jquery.mask.min.js"></script>
-        <script src="~/js/jquery-ui.min.js"></script>
-        <script src="~/js/pasta.js"></script>
+    <script src="~/vendor/jquery/jquery.min.js"></script>
+    <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="~/js/sb-admin.min.js"></script>
+    <script src="~/js/mask.js"></script>
+    <script src="~/js/jquery.mask.min.js"></script>
+    <script src="~/js/jquery-ui.min.js"></script>
+    <script src="~/js/pasta.js"></script>
+    @if (User.IsInRole("Professor"))
+    {
+        <script src="~/js/AvisoProfessore.js"></script>
+    }
 
-    <script>
-        $('#sidebarToggle').trigger('click')
-    </script>
-    @RenderSection("Scripts", required: false)
-</body>
+        <script>
+            $('#sidebarToggle').trigger('click')
+        </script>
+        @RenderSection("Scripts", required: false)
+    </body>
 </html>

@@ -16,6 +16,8 @@ namespace HumanMusicSchoolManager.Models.Models
         public int? DispSalaId { get; set; }
         public DispSala DispSala { get; set; }
 
+        public DateTime Data { get; set; }
+
         public Dia Dia { get; set; }
 
         public int Hora { get; set; }
