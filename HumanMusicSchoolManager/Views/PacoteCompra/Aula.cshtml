@@ -40,6 +40,7 @@
 </div>
 <br /><br />
 <a class="btn btn-outline-success" asp-controller="Reposicao" asp-action="Form" asp-route-chamadaId="@Model.Id" role="button">Reposição</a>
+<a class="btn btn-outline-warning" id="confirmar" asp-controller="PacoteCompra" asp-action="TranferirAulaParaFinalCalendario" asp-route-chamadaId="@Model.Id" onclick="confirmar()">Lançar para depois do calendário</a>
 <br /><br />
 <div class="row">
     <div class="col-md-10">
@@ -50,3 +51,19 @@
         </ul>
     </div>
 </div>
+
+@section Scripts
+    {
+    <script>
+        $("a#confirmar").click(function () {
+            var cf = confirm("Tem certeza que quer remanejar essa aula? Essa ação não pode ser desfeita!");
+            if (cf == true) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        });
+
+    </script>
+}

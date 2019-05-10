@@ -13,7 +13,7 @@
             }
             aulas.forEach(aula => {
                 let data = new Date(aula.data);
-                let link = $(`<a class="dropdown-item" href="/Aula/Form?AulaId=${aula.id}">${data.getDay()}/${data.getMonth()}/${data.getFullYear()} - ${data.getHours()}:00</a>`);
+                let link = $(`<a class="dropdown-item" href="/Aula/Form?AulaId=${aula.id}">${data.getUTCDate()}/${data.getUTCMonth()+1}/${data.getUTCFullYear()} - ${data.getHours()}:00</a>`);
                 $('#conteudoCount').append(link);
             });
             if (maiorQueDez) {

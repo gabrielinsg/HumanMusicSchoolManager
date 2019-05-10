@@ -281,16 +281,16 @@ namespace HumanMusicSchoolManager.Controllers
             public string[] Color { get; set; }
         }
 
-        public JsonResult Calendario(int pacoteCompraId)
+        public JsonResult Calendario(int pacoteCompraId, DateTime start, DateTime end)
         {
-            var pacoteCompra = _pacoteCompraService.BuscarPorId(pacoteCompraId);
+            var pacoteCompra = _pacoteCompraService.CalendarioAluno(pacoteCompraId, start, end);
             var feriados = _feriadoService.BuscarTodos();
             var calendar = new List<Calendar>();
             var cont = 1;
             foreach (var chamada in pacoteCompra.Chamadas)
             {
-                var start = chamada.Aula.Data;
-                var end = start.AddMinutes(55);
+                var aulaStart = chamada.Aula.Data;
+                var aulaEnd = aulaStart.AddMinutes(55);
                 var color = "";
                 if (chamada.Presenca == null)
                 {
@@ -307,8 +307,8 @@ namespace HumanMusicSchoolManager.Controllers
                 var cal = new Calendar()
                 {
                     Title = "Aula " + cont,
-                    Start = start.ToString("yyyy-MM-ddTHH:mm:ss"),
-                    End = end.ToString("yyyy-MM-ddTHH:mm:ss"),
+                    Start = aulaStart.ToString("yyyy-MM-ddTHH:mm:ss"),
+                    End = aulaEnd.ToString("yyyy-MM-ddTHH:mm:ss"),
                     Color = color,
                     Url = "/PacoteCompra/Aula?chamadaId=" + chamada.Id
                 };
@@ -547,6 +547,65 @@ namespace HumanMusicSchoolManager.Controllers
             ViewBag.Final = (DateTime)final;
 
             return View(_pacoteCompraService.UtimaAulaPorPeriodo((DateTime)inicial, (DateTime)final));
+        }
+
+        public IActionResult TranferirAulaParaFinalCalendario(int chamadaId)
+        {
+            var chamada = _chamadaService.BuscarPorId(chamadaId);
+
+            if (chamada != null)
+            {
+                var pacoteCompra = _pacoteCompraService.BuscarPorId(chamada.PacoteCompraId);
+                var aulaAntiga = _aulaService.BuscarPorId(chamada.AulaId.Value);
+                var dataAula = pacoteCompra.Chamadas.OrderByDescending(c => c.Aula.Data).FirstOrDefault().Aula.Data;
+                var matricula = _matriculaService.BuscarPorId(pacoteCompra.MatriculaId);
+                var aulaConfig = _aulaConfigService.Buscar();
+                var feriado = false;
+                do
+                {
+                    dataAula = dataAula.AddDays(7);
+                    var f = _feriadoService.BuscarPorData(dataAula);
+                    if (f == null)
+                    {
+                        feriado = false;
+                    }
+                    else
+                    {
+                        feriado = true;
+                    }
+                } while (feriado == true);
+
+                var aula = _aulaService.BuscarPorDiaHora(dataAula, matricula.DispSala);
+                if (aula == null)
+                {
+
+                    aula = new Aula()
+                    {
+                        CursoId = matricula.CursoId,
+                        ProfessorId = matricula.DispSala.Professor.Id.Value,
+                        SalaId = matricula.DispSala.Sala.Id.Value,
+                        Data = dataAula,
+                        DataLimite = dataAula.AddHours(aulaConfig.TempoLimiteLancamento)
+                    };
+                    _aulaService.Cadastrar(aula);
+                }
+
+                chamada.Aula = aula;
+                chamada.Presenca = null;
+                _chamadaService.Alterar(chamada);
+
+                aulaAntiga = _aulaService.BuscarPorId(aulaAntiga.Id.Value);
+                if (aulaAntiga.Chamadas.Count == 0 && aulaAntiga.Demostrativas.Count == 0)
+                {
+                    _aulaService.Excluir(aulaAntiga.Id.Value);
+                }
+
+                TempData["Success"] = "Aula remanejada com sucesso!";
+
+                return RedirectToAction("PacoteCompra", new { PacoteCompraId = pacoteCompra.Id.Value });
+            }
+            TempData["Error"] = "Aula não encontrada";
+            return RedirectToAction("Home", "Index");
         }
     }
 }

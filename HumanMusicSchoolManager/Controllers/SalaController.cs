@@ -285,10 +285,10 @@ namespace HumanMusicSchoolManager.Controllers
             }
         }
 
-        public JsonResult CalendarioJson(int salaId)
+        public JsonResult CalendarioJson(int salaId, DateTime start, DateTime end)
         {
 
-            var aulas = _aulaService.BuscarPorSala(salaId);
+            var aulas = _aulaService.CalendarioSala(salaId, start, end);
             var feriados = _feriadoService.BuscarTodos();
             var eventos = _eventoService.BuscarTodos();
             var calendar = new List<CalendarJson>();
@@ -296,8 +296,8 @@ namespace HumanMusicSchoolManager.Controllers
             //Aulas
             foreach (var aula in aulas)
             {
-                var start = aula.Data;
-                var end = start.AddMinutes(_cursoService.DucacaoAula(aula.CursoId));
+                var aulaStart = aula.Data;
+                var aulaEnd = aulaStart.AddMinutes(_cursoService.DucacaoAula(aula.CursoId));
                 var color = "";
                 if (aula.AulaDada == true)
                 {
@@ -313,8 +313,8 @@ namespace HumanMusicSchoolManager.Controllers
                 }
                 var cal = new CalendarJson()
                 {
-                    Start = start.ToString("yyyy-MM-ddTHH:mm:ss"),
-                    End = end.ToString("yyyy-MM-ddTHH:mm:ss"),
+                    Start = aulaStart.ToString("yyyy-MM-ddTHH:mm:ss"),
+                    End = aulaEnd.ToString("yyyy-MM-ddTHH:mm:ss"),
                     Color = color,
                     Title = "Aula - ",
                     Url = "/Aula/Aula?aulaId=" + aula.Id

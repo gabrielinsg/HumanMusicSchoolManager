@@ -150,5 +150,23 @@ namespace HumanMusicSchoolManager.Services
                 _context.SaveChanges();
             }
         }
+
+        public List<Aula> CalendarioSala(int salaId, DateTime inicial, DateTime final)
+        {
+            inicial = inicial.AddHours(-inicial.Hour);
+            inicial = inicial.AddMinutes(-inicial.Minute);
+            inicial = inicial.AddMilliseconds(-inicial.Millisecond);
+            final = final.AddHours(-final.Hour);
+            final = final.AddMinutes(-final.Minute);
+            final = final.AddMilliseconds(-final.Millisecond);
+            final = final.AddHours(23);
+
+            return _context.Aulas.Where(a => a.Sala.Id == salaId && (a.Data >= inicial && a.Data <= final))
+                .Include(a => a.Chamadas)
+                .ThenInclude(c => c.PacoteCompra)
+                .ThenInclude(pc => pc.Matricula)
+                .ThenInclude(m => m.Aluno)
+                .ToList();
+        }
     }
 }

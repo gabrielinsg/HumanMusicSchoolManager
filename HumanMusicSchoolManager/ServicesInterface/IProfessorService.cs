@@ -22,5 +22,6 @@ namespace HumanMusicSchoolManager.ServicesInterface
         Professor BuscarPorIdData(int professorId, DateTime inicial, DateTime final);
         List<Professor> BuscarTodosData(DateTime inicial, DateTime final);
         ProfessorCompletoViewModel RelatorioCompleto(int professorId, DateTime inicial, DateTime final);
+        Professor CalendarioProfessor(int professorId, DateTime inicial, DateTime final);
     }
 }

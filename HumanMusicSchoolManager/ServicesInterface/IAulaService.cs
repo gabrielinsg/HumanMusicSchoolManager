@@ -19,5 +19,6 @@ namespace HumanMusicSchoolManager.ServicesInterface
         List<Aula> AtrasadasPorProfessor(int professorId);
         void AtualizarDescAtividades(int id, string descAtividades);
         void AlterarTempoLimite(int TempoLancamento);
+        List<Aula> CalendarioSala(int salaId, DateTime inicial, DateTime final);
     }
 }

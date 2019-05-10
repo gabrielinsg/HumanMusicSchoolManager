@@ -15,5 +15,6 @@ namespace HumanMusicSchoolManager.ServicesInterface
         void Excluir(int pacoteCompraId);
         List<PacoteCompra> FaltasSeguidas();
         List<PacoteCompra> UtimaAulaPorPeriodo(DateTime inicial, DateTime final);
+        PacoteCompra CalendarioAluno(int pacoteCompraId, DateTime inicial, DateTime final);
     }
 }

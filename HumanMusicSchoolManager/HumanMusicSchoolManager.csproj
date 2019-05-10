@@ -74,6 +74,7 @@
     <Content Remove="wwwroot\js\Buscas\ProfessorPorNome.js" />
     <Content Remove="wwwroot\js\Buscas\SalaPorNome.js" />
     <Content Remove="wwwroot\js\JavaScript.js" />
+    <Content Remove="wwwroot\js\PacoteCompraAluno.js" />
     <Content Remove="wwwroot\lib\bootstrap\dist\css\bootstrap.css" />
   </ItemGroup>
 

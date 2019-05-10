@@ -204,10 +204,10 @@ namespace HumanMusicSchoolManager.Controllers
         }
 
         [Authorize(Roles = "Coordenacao, Atendimento, Diretoria, Secretaria, Admin, Professor")]
-        public JsonResult CalendarioJson(int professorId, int user)
+        public JsonResult CalendarioJson(int professorId, int user, DateTime start, DateTime end)
         {
 
-            var professor = _professorService.BuscarPorId(professorId);
+            var professor = _professorService.CalendarioProfessor(professorId, start, end);
             var feriados = _feriadoService.BuscarTodos();
             var eventos = _eventoService.BuscarTodos();
             var calendar = new List<CalendarJson>();
@@ -215,8 +215,8 @@ namespace HumanMusicSchoolManager.Controllers
             //Aulas
             foreach (var aula in professor.Aulas)
             {
-                var start = aula.Data;
-                var end = start.AddMinutes(_cursoService.DucacaoAula(aula.CursoId));
+                var aulaStart = aula.Data;
+                var aulaEnd = aulaStart.AddMinutes(_cursoService.DucacaoAula(aula.CursoId));
                 var color = "";
                 if (aula.AulaDada == true)
                 {
@@ -232,8 +232,8 @@ namespace HumanMusicSchoolManager.Controllers
                 }
                 var cal = new CalendarJson()
                 {
-                    Start = start.ToString("yyyy-MM-ddTHH:mm:ss"),
-                    End = end.ToString("yyyy-MM-ddTHH:mm:ss"),
+                    Start = aulaStart.ToString("yyyy-MM-ddTHH:mm:ss"),
+                    End = aulaEnd.ToString("yyyy-MM-ddTHH:mm:ss"),
                     Color = color,
                     Title = "Aula - "                    
                 };

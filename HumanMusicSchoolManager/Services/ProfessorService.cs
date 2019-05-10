@@ -205,5 +205,36 @@ namespace HumanMusicSchoolManager.Services
             };
             return relatorio;
         }
+
+        public Professor CalendarioProfessor(int professorId, DateTime inicial, DateTime final)
+        {
+            inicial = inicial.AddHours(-inicial.Hour);
+            inicial = inicial.AddMinutes(-inicial.Minute);
+            inicial = inicial.AddMilliseconds(-inicial.Millisecond);
+            final = final.AddHours(-final.Hour);
+            final = final.AddMinutes(-final.Minute);
+            final = final.AddMilliseconds(-final.Millisecond);
+            final = final.AddHours(23);
+
+            var professor = _context.Professores
+                .Include(c => c.Cursos)
+                .ThenInclude(c => c.Curso)
+                .Include(c => c.Endereco)
+                .Include(p => p.Aulas)
+                .ThenInclude(a => a.Demostrativas)
+                .ThenInclude(d => d.Candidato)
+                .FirstOrDefault(p => p.Id == professorId);
+            var aulas = _context.Aulas
+                .Where(a => a.ProfessorId == professorId && (a.Data >= inicial && a.Data <= final))
+                .Include(a => a.Chamadas)
+                .ThenInclude(c => c.PacoteCompra)
+                .ThenInclude(pc => pc.Matricula)
+                .ThenInclude(m => m.Aluno)
+                .ToList();
+
+            professor.Aulas = aulas;
+
+            return professor;
+        }
     }
 }
