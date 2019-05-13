@@ -16,7 +16,7 @@
     @foreach (var demostrativa in Model.Candidato.Demostrativas)
     {
         <li class="nav-item">
-            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#@demostrativa.Curso.Nome@demostrativa.Id" role="tab" aria-controls="@demostrativa.Curso.Nome@demostrativa.Id" aria-selected="false"><i class="fas fa-music text-success"></i> @demostrativa.Curso.Nome</a>
+            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#curso@(demostrativa.Id)" role="tab" aria-controls="curso@(demostrativa.Id)" aria-selected="false"><i class="fas fa-music text-success"></i> @demostrativa.Curso.Nome</a>
         </li>
     }
     <li class="nav-item">
@@ -60,7 +60,7 @@
 
     @foreach (var demostrativa in Model.Candidato.Demostrativas)
     {
-        <div class="tab-pane fade" id="@demostrativa.Curso.Nome@demostrativa.Id" role="tabpanel" aria-labelledby="profile-tab">
+        <div class="tab-pane fade" id="curso@(demostrativa.Id)" role="tabpanel" aria-labelledby="profile-tab">
             <br />
             <h2>@demostrativa.Curso.Nome</h2>
             @if (demostrativa.DispSala == null)
