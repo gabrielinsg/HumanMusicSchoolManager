@@ -426,9 +426,9 @@ namespace HumanMusicSchoolManager.Controllers
                 ModelState.Remove(model.Key);
             }
 
-            if (trocaDispSalaViewModel.DiaAula < NowHorarioBrasilia.GetNow().Date || trocaDispSalaViewModel.DiaAula == null)
+            if (trocaDispSalaViewModel.DiaAula == null)
             {
-                ModelState.AddModelError("DiaAula", "Primeira aula deve ser selecionado a partir de hoje");
+                ModelState.AddModelError("DiaAula", "Primeira aula deve ser selecionada");
             }
 
             if (trocaDispSalaViewModel.DispSala.Id == null)

@@ -19,7 +19,14 @@
     <div class="col-md-8">
         <ul class="list-group">
             <li class="list-group-item">
-                <p>Curso de <b>@Model.Matricula.Curso.Nome</b> com <b>@Model.Matricula.DispSala.Professor.Nome</b> na sala <b>@Model.Matricula.DispSala.Sala.Nome</b> - <b>@Html.DisplayFor(d => Model.Matricula.DispSala.Dia)</b> às <b>@Model.Matricula.DispSala.Hora.ToString("00:'00'h")</b></p>
+                @if(Model.Matricula.DispSala == null)
+                {
+                    <p>@Model.Matricula.Curso.Nome - Matrícula cancelada</p>
+                }
+                else
+                {
+                    <p>Curso de <b>@Model.Matricula.Curso.Nome</b> com <b>@Model.Matricula.DispSala.Professor.Nome</b> na sala <b>@Model.Matricula.DispSala.Sala.Nome</b> - <b>@Html.DisplayFor(d => Model.Matricula.DispSala.Dia)</b> às <b>@Model.Matricula.DispSala.Hora.ToString("00:'00'h")</b></p>
+                }
             </li>
         </ul>
     </div>

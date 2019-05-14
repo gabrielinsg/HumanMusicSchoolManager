@@ -165,6 +165,17 @@ namespace HumanMusicSchoolManager.Controllers
                 }
                 professores = professores.Distinct().ToList();
 
+                foreach (var professor in professores)
+                {
+                    foreach(var curso in professor.Cursos.ToList())
+                    {
+                        if (!cursos.Contains(curso.Curso))
+                        {
+                            professor.Cursos.Remove(curso);
+                        }
+                    }
+                }
+
                 if (dispSalaId == null)
                 {
                     return View(new DispSalaViewModel(sala, professores));
@@ -205,11 +216,11 @@ namespace HumanMusicSchoolManager.Controllers
                 {
                     if (
                             ds.Dia != dispSala.Dia ||
-                            ds.Professor != dispSala.Professor ||
+                            ds.Professor.Id.Value != dispSala.Professor.Id.Value ||
                             ds.Hora != dispSala.Hora
                         )
                     {
-                        return RedirectToAction("DispSala", routeValues: new { salaid = sala.Id, dispSalaId = dispSala.Id.Value, comAlunos = true });
+                        return RedirectToAction("DispSala", new { salaid = sala.Id, dispSalaId = dispSala.Id.Value, comAlunos = true });
                     }
                 }
 
