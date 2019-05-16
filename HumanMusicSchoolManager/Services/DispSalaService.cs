@@ -190,6 +190,9 @@ namespace HumanMusicSchoolManager.Services
                 .Include(ds => ds.Matriculas)
                 .ThenInclude(m => m.PacoteCompras)
                 .ThenInclude(pc => pc.PacoteAula)
+                .Include(ds => ds.Matriculas)
+                .ThenInclude(m => m.PacoteCompras)
+                .ThenInclude(pc => pc.Chamadas)
                 .ToList();
 
 
@@ -237,6 +240,9 @@ namespace HumanMusicSchoolManager.Services
                 .Include(ds => ds.Matriculas)
                 .ThenInclude(m => m.PacoteCompras)
                 .ThenInclude(pc => pc.PacoteAula)
+                .Include(ds => ds.Matriculas)
+                .ThenInclude(m => m.PacoteCompras)
+                .ThenInclude(pc => pc.Chamadas)
                 .ToList();
 
 
@@ -260,9 +266,15 @@ namespace HumanMusicSchoolManager.Services
                             {
                                 foreach (var pacoteCompra in matricula.PacoteCompras)
                                 {
-                                    if (pacoteCompra.PacoteAula.TipoAula == TipoAula.INDIVIDUAL)
+                                    if (pacoteCompra.Chamadas != null)
                                     {
-                                        retirar.Add(pacoteCompra.Matricula.DispSala);
+                                        if (pacoteCompra.Chamadas.Any(c => c.Presenca == null))
+                                        {
+                                            if (pacoteCompra.PacoteAula.TipoAula == TipoAula.INDIVIDUAL)
+                                            {
+                                                retirar.Add(pacoteCompra.Matricula.DispSala);
+                                            }
+                                        }
                                     }
                                 }
                             }
