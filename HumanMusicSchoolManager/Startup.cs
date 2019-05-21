@@ -17,6 +17,7 @@ using HumanMusicSchoolManager.Models.Models;
 using HumanMusicSchoolManager.ServicesInterface;
 using System.Globalization;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Http;
 
 namespace HumanMusicSchoolManager
 {
@@ -37,6 +38,12 @@ namespace HumanMusicSchoolManager
 
             //services.AddDbContext<ApplicationDbContext>(options =>
             //    options.UseMySql(Configuration.GetConnectionString("EbrasilConnection")));
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
 
             services.AddIdentity<ApplicationUser, IdentityRole>(
                 options =>
@@ -115,8 +122,10 @@ namespace HumanMusicSchoolManager
                 SupportedUICultures = supportedCultures
             });
 
-            app.UseStaticFiles();
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
+            app.UseCookiePolicy();
+
             app.UseAuthentication();
 
 

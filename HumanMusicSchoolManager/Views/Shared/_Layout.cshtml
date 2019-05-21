@@ -89,6 +89,7 @@
         <div id="content-wrapper">
 
             <div class="container-fluid">
+                <partial name="_CookieConsentPartial" />
                 @await Html.PartialAsync("_Message")
                 @RenderBody()
             </div>
