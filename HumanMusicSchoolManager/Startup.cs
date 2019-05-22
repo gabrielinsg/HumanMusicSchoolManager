@@ -34,7 +34,7 @@ namespace HumanMusicSchoolManager
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("HomologacaoConnection")));
 
             //services.AddDbContext<ApplicationDbContext>(options =>
             //    options.UseMySql(Configuration.GetConnectionString("EbrasilConnection")));
