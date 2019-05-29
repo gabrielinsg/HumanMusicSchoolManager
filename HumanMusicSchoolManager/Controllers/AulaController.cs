@@ -117,7 +117,7 @@ namespace HumanMusicSchoolManager.Controllers
             var matriculas = new List<Matricula>();
             var pacoteCompras = new List<PacoteCompra>();
 
-            if(aula.Chamadas != null)
+            if (aula.Chamadas != null)
             {
                 foreach (var chamada in aula.Chamadas)
                 {
@@ -130,7 +130,7 @@ namespace HumanMusicSchoolManager.Controllers
                     matriculas.Add(matricula);
                 }
             }
-                
+
             if (ModelState.IsValid)
             {
                 foreach (var matricula in matriculas)
@@ -356,6 +356,27 @@ namespace HumanMusicSchoolManager.Controllers
         public IActionResult HistoricoCompleto(int alunoId, int cursoId)
         {
             return View(_chamadaService.HistoricoCompleto(alunoId, cursoId));
+        }
+
+        public JsonResult AddPrazoLancamentoAula(int aulaId)
+        {
+            try
+            {
+                var config = _aulaConfigService.Buscar();
+                var aula = _aulaService.BuscarPorId(aulaId);
+                aula.DataLimite = NowHorarioBrasilia.GetNow().AddHours(config.TempoLimiteLancamento);
+                _aulaService.Alterar(aula);
+                Dictionary<String,String> result = new Dictionary<string, string>();
+                result.Add("status","Sucess");
+                result.Add("id",aula.Id.ToString());
+                return Json(result);
+            }
+            catch
+            {
+                Dictionary<String,String> result = new Dictionary<string, string>();
+                result.Add("status","fail");
+                return Json(result);
+            }
         }
     }
 }

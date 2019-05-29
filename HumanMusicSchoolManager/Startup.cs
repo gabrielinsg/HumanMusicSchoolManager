@@ -84,7 +84,23 @@ namespace HumanMusicSchoolManager
             services.AddTransient<IAulaConfigService, AulaConfigService>();
 
 
-            services.AddMvc();
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
+            services.AddDistributedMemoryCache();
+
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddSession(options =>
+            {
+                options.Cookie.Name = ".AdventureWorks.Session";
+                options.IdleTimeout = TimeSpan.FromDays(1);
+                options.Cookie.IsEssential = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -116,7 +132,7 @@ namespace HumanMusicSchoolManager
             });
 
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseAuthentication();
 
 

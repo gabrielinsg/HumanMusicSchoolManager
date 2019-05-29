@@ -22,13 +22,15 @@ namespace HumanMusicSchoolManager.Controllers
         private readonly ICursoService _cursoService;
         private readonly IAulaService _aulaService;
         private readonly IFeriadoService _feriadoService;
+        private readonly IAulaConfigService _aulaConfigService;
 
         public ReposicaoController(IReposicaoService reposicaoService,
             IChamadaService chamadaService,
             IDispSalaService dispSalaService,
             ICursoService cursoService,
             IAulaService aulaService,
-            IFeriadoService feriadoService)
+            IFeriadoService feriadoService,
+            IAulaConfigService aulaConfigService)
         {
             this._reposicaoService = reposicaoService;
             this._chamadaService = chamadaService;
@@ -36,6 +38,7 @@ namespace HumanMusicSchoolManager.Controllers
             this._cursoService = cursoService;
             this._aulaService = aulaService;
             this._feriadoService = feriadoService;
+            this._aulaConfigService = aulaConfigService;
         }
 
         [HttpGet]
@@ -128,8 +131,9 @@ namespace HumanMusicSchoolManager.Controllers
                         ProfessorId = reposicaoViewModel.DispSala.Professor.Id.Value,
                         SalaId = reposicaoViewModel.DispSala.Sala.Id.Value,
                         Data = reposicaoViewModel.DiaAula,
-                        DataLimite = reposicaoViewModel.DiaAula.AddDays(3)
                     };
+                    var config = _aulaConfigService.Buscar();
+                    aula.DataLimite = NowHorarioBrasilia.GetNow().AddHours(config.TempoLimiteLancamento);
                     _aulaService.Cadastrar(aula);
                 }
 

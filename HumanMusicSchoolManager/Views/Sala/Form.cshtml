@@ -68,6 +68,27 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="checkbox">
+                            @if (Model == null)
+                            {
+                                <label asp-for="ConsideraAtrasadas">
+                                    <input asp-for="ConsideraAtrasadas" checked="checked" />
+                                    @Html.DisplayNameFor(p => p.ConsideraAtrasadas)
+                                </label>
+                            }
+                            else
+                            {
+                                <label asp-for="ConsideraAtrasadas">
+                                    <input asp-for="ConsideraAtrasadas" />
+                                    @Html.DisplayNameFor(p => p.ConsideraAtrasadas)
+                                </label>
+                            }
+
+                        </div>
+                    </div>
+                </div>
             </div>
             <button type="submit" class="btn btn-success">@(Model == null ? "Cadastrar" : Model.Id == null ? "Cadastrar" : "Alterar")</button>
             <a asp-action="Index" class="btn btn-primary">Voltar</a>

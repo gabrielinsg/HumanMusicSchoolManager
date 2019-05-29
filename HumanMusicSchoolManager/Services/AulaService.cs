@@ -35,7 +35,7 @@ namespace HumanMusicSchoolManager.Services
         public List<Aula> Atrasadas()
         {
             return _context.Aulas
-                .Where(a => a.AulaDada == false && a.Data < NowHorarioBrasilia.GetNow())
+                .Where(a => a.AulaDada == false && a.DataLimite < NowHorarioBrasilia.GetNow() && a.Sala.ConsideraAtrasadas == true)
                 .Include(a => a.Professor)
                 .Include(a => a.Chamadas)
                 .ThenInclude(c => c.PacoteCompra)
@@ -44,13 +44,14 @@ namespace HumanMusicSchoolManager.Services
                 .Include(a => a.Curso)
                 .Include(a => a.Demostrativas)
                 .ThenInclude(d => d.Candidato)
+                .Include(a => a.Sala)
                 .ToList();
         }
 
         public List<Aula> AtrasadasPorProfessor(int professorId)
         {
             return _context.Aulas
-                .Where(a => a.AulaDada == false && a.Data < NowHorarioBrasilia.GetNow() && a.ProfessorId == professorId)
+                .Where(a => a.AulaDada == false && a.Data < NowHorarioBrasilia.GetNow() && a.ProfessorId == professorId && a.Sala.ConsideraAtrasadas == true)
                 .Include(a => a.Professor)
                 .Include(a => a.Chamadas)
                 .ThenInclude(c => c.PacoteCompra)
@@ -59,6 +60,7 @@ namespace HumanMusicSchoolManager.Services
                 .Include(a => a.Curso)
                 .Include(a => a.Demostrativas)
                 .ThenInclude(d => d.Candidato)
+                .Include(a => a.Sala)
                 .ToList();
         }
 

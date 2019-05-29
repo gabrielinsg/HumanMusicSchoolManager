@@ -22,6 +22,9 @@ namespace HumanMusicSchoolManager.Models.Models
 
         public List<DispSala> DispSalas { get; set; }
 
+        [Display(Name = "Considerar Aulas atrasadas nos relatórios")]
+        public bool ConsideraAtrasadas { get; set; }
+
         public Sala()
         {
             this.Cursos = new List<CursoSala>();
