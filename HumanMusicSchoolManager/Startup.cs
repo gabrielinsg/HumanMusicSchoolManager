@@ -34,16 +34,10 @@ namespace HumanMusicSchoolManager
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("HomologacaoConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("EbrasilConnection")));
 
             //services.AddDbContext<ApplicationDbContext>(options =>
             //    options.UseMySql(Configuration.GetConnectionString("EbrasilConnection")));
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
 
             services.AddIdentity<ApplicationUser, IdentityRole>(
                 options =>
@@ -105,7 +99,6 @@ namespace HumanMusicSchoolManager
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
             }
 
             var supportedCultures = new[]
@@ -122,9 +115,7 @@ namespace HumanMusicSchoolManager
                 SupportedUICultures = supportedCultures
             });
 
-            app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
 
             app.UseAuthentication();
 
