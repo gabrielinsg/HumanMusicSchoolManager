@@ -49,9 +49,33 @@ namespace HumanMusicSchoolManager
                     options.Password.RequireLowercase = false;
                     options.Password.RequireNonAlphanumeric = false;
                     options.Password.RequireUppercase = false;
+
+                    // User settings.
+                    options.User.AllowedUserNameCharacters =
+                    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                    options.User.RequireUniqueEmail = false;
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.ConfigureExternalCookie(options =>
+            {
+                // Other options
+                options.Cookie.SameSite = SameSiteMode.None;
+            });
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                // Cookie settings
+                options.Cookie.HttpOnly = false;
+                options.ExpireTimeSpan = TimeSpan.FromHours(8);
+
+                options.LoginPath = "/Account/Login";
+                options.AccessDeniedPath = "/Account/AccessDenied";
+                options.SlidingExpiration = false;
+            });
+
+            
 
 
             // Add application services.
@@ -90,17 +114,8 @@ namespace HumanMusicSchoolManager
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDistributedMemoryCache();
-
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
-            services.AddSession(options =>
-            {
-                options.Cookie.Name = ".AdventureWorks.Session";
-                options.IdleTimeout = TimeSpan.FromDays(1);
-                options.Cookie.IsEssential = true;
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -131,8 +146,14 @@ namespace HumanMusicSchoolManager
                 SupportedUICultures = supportedCultures
             });
 
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseSession();
+            app.UseCookiePolicy(new CookiePolicyOptions
+            {
+                MinimumSameSitePolicy = SameSiteMode.None,
+                
+            });
+
             app.UseAuthentication();
 
 
