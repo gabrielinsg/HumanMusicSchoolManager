@@ -58,21 +58,16 @@ namespace HumanMusicSchoolManager
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.ConfigureExternalCookie(options =>
-            {
-                // Other options
-                options.Cookie.SameSite = SameSiteMode.None;
-            });
 
             services.ConfigureApplicationCookie(options =>
             {
                 // Cookie settings
-                options.Cookie.HttpOnly = false;
-                options.ExpireTimeSpan = TimeSpan.FromHours(8);
-
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromHours(2);
+                options.Cookie.SameSite = SameSiteMode.None;
                 options.LoginPath = "/Account/Login";
                 options.AccessDeniedPath = "/Account/AccessDenied";
-                options.SlidingExpiration = false;
+                options.SlidingExpiration = true;
             });
 
             
