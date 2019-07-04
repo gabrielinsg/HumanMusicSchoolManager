@@ -90,6 +90,13 @@ namespace HumanMusicSchoolManager
             services.AddTransient<IEmailConfigService, EmailConfigService>();
             services.AddTransient<IEnderecoService, EnderecoService>();
             services.AddTransient<IAulaConfigService, AulaConfigService>();
+            services.AddTransient<IGraficoService, GraficoService>();
+
+
+            services.AddSession(opts =>
+            {
+                opts.Cookie.IsEssential = true; // make the session cookie Essential
+            });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

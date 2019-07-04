@@ -676,6 +676,16 @@
     <None Include="wwwroot\fullcalendar-3.9.0\locale\vi.js" />
     <None Include="wwwroot\fullcalendar-3.9.0\locale\zh-cn.js" />
     <None Include="wwwroot\fullcalendar-3.9.0\locale\zh-tw.js" />
+    <None Include="wwwroot\js\Chart\Chart.bundle.js" />
+    <None Include="wwwroot\js\Chart\Chart.bundle.min.js" />
+    <None Include="wwwroot\js\Chart\Chart.js" />
+    <None Include="wwwroot\js\Chart\Chart.min.js" />
+    <None Include="wwwroot\js\Chart\LICENSE.md" />
+    <None Include="wwwroot\js\Chart\samples\advanced\content-security-policy.js" />
+    <None Include="wwwroot\js\Chart\samples\charts\area\analyser.js" />
+    <None Include="wwwroot\js\Chart\samples\logo.svg" />
+    <None Include="wwwroot\js\Chart\samples\samples.js" />
+    <None Include="wwwroot\js\Chart\samples\utils.js" />
     <None Include="wwwroot\js\demo\chart-area-demo.js" />
     <None Include="wwwroot\js\demo\chart-bar-demo.js" />
     <None Include="wwwroot\js\demo\chart-pie-demo.js" />
