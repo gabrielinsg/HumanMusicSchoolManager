@@ -192,10 +192,12 @@ namespace HumanMusicSchoolManager.Services
                     .Include(a => a.Chamadas)
                     .ThenInclude(c => c.Reposicao)
                     .Include(a => a.Demostrativas)
+                    .Include(a => a.Sala)
                     .ToList(),
                 DispSalas = _context.DispSalas
                     .Where(ds => ds.Professor.Id == professorId)
                     .Include(ds => ds.Matriculas)
+                    .Include(ds => ds.Sala)
                     .ToList(),
                 Matriculas = _context.Matriculas
                 .Where(m => m.DispSala.Professor.Id == professorId && m.DispSalaId != null)

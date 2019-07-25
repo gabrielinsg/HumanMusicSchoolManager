@@ -2,12 +2,19 @@
     ViewData["Title"] = "Index";
 }
 
-    <div id="canvas-holder" style="width:40%">
-        <canvas id="chart-area"></canvas>
-    </div>
+    <ul class="list-group col-md-4">
+        <li class="list-group-item active text-center">Entradas e saídas</li>
+        <li class="list-group-item">
+            <div id="canvas-holder" style="width:100%">
+                <canvas id="entradas-saidas"></canvas>
+            </div>
+        </li>
+    </ul>
+    
 
 @section Scripts{
     <script src="~/js/Chart/Chart.min.js"></script>
     <script src="~/js/Chart/samples/utils.js"></script>
-    <script src="~/js/Gráficos/EntradaSaida.js"></script>
+    <script src="~/js/Gráficos/Grafico-utils.js"></script>
+    <script src="~/js/Gráficos/Graficos.js"></script>
 }

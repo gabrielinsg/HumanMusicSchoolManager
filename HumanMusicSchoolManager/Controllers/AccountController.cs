@@ -326,11 +326,12 @@ namespace HumanMusicSchoolManager.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeleteUser(string userId, string returnUrl = null)
+        public async Task<IActionResult> DeleteUser(string userName, string returnUrl = null)
         {
-            var user = await _userManager.FindByIdAsync(userId);
+            var user = await _userManager.FindByNameAsync(userName);
             var result = await _userManager.DeleteAsync(user);
             _logger.LogInformation("O usuário criou uma nova conta com senha.");
+            TempData["Success"] = "Usuário excluido com sucesso!";
             return RedirectToLocal(returnUrl);
         }
 

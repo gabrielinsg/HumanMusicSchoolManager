@@ -46,18 +46,18 @@
                     <tbody>
                         <tr>
                             <th scope="row">Previstas</th>
-                            <td class="text-center">@Model.Aulas.Where(a => a.Chamadas.Count > 0 && a.Chamadas.Any(c => c.Reposicao == null || c.Reposicao.Remunerada == true)).ToList().Count</td>
+                            <td class="text-center">@Model.Aulas.Where(a => a.Chamadas.Count > 0 && a.Chamadas.Any(c => (c.Reposicao == null || c.Reposicao.Remunerada) && c.Aula.Sala.ConsideraAtrasadas)).ToList().Count</td>
                         </tr>
                         <tr>
                             <th scope="row">Dadas</th>
-                            <td class="text-center">@Model.Aulas.Where(a => a.Chamadas.Count > 0 && a.Chamadas.Any(c => c.Reposicao == null || c.Reposicao.Remunerada == true) && a.AulaDada == true).ToList().Count</td>
+                            <td class="text-center">@Model.Aulas.Where(a => a.Chamadas.Count > 0 && a.Chamadas.Any(c => c.Reposicao == null) && a.AulaDada && a.Sala.ConsideraAtrasadas).ToList().Count</td>
                         </tr>
 
 
                         @{
-                            if (Model.Aulas.Where(a => a.Chamadas.Count > 0 && a.Chamadas.Any(c => c.Reposicao == null || c.Reposicao.Remunerada == true)).ToList().Count > 0)
+                            if (Model.Aulas.Where(a => a.Chamadas.Count > 0 && a.Chamadas.Any(c => c.Reposicao == null || c.Reposicao.Remunerada)).ToList().Count > 0)
                             {
-                                var r = Model.Aulas.Max(a => a.Chamadas.Where(c => c.Reposicao == null || c.Reposicao.Remunerada == true).ToList().Count);
+                                var r = Model.Aulas.Max(a => a.Chamadas.Where(c => c.Reposicao == null || c.Reposicao.Remunerada).ToList().Count);
                                 for (var i = 1; i <= r; i++)
                                 {
                                     <tr class="thead-light">
@@ -66,11 +66,11 @@
                                     </tr>
                                     <tr>
                                         <th scope="row">Previstas</th>
-                                        <td class="text-center">@Model.Aulas.Where(a => a.Chamadas.Count == i && a.Chamadas.Count > 0 && a.Chamadas.Any(c => c.Reposicao == null || c.Reposicao.Remunerada == true)).ToList().Count</td>
+                                        <td class="text-center">@Model.Aulas.Where(a => a.Chamadas.Count == i && a.Chamadas.Count > 0 && a.Chamadas.Any(c => (c.Reposicao == null || c.Reposicao.Remunerada) && c.Aula.Sala.ConsideraAtrasadas)).ToList().Count</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">Dadas</th>
-                                        <td class="text-center">@Model.Aulas.Where(a => a.Chamadas.Where(c => c.Reposicao == null || c.Reposicao.Remunerada == true).ToList().Count == i && a.AulaDada == true).ToList().Count</td>
+                                        <td class="text-center">@Model.Aulas.Where(a => a.Chamadas.Where(c => c.Reposicao == null || c.Reposicao.Remunerada).ToList().Count == i && a.AulaDada).ToList().Count</td>
                                     </tr>
                                 }
                             }
@@ -120,11 +120,11 @@
                     <tbody>
                         <tr>
                             <th scope="row">Abertos</th>
-                            <td class="text-center">@Model.DispSalas.Count</td>
+                            <td class="text-center">@Model.DispSalas.Where(ds => ds.Sala.ConsideraAtrasadas).ToList().Count</td>
                         </tr>
                         <tr class="thead-light">
                             <th scope="row">Preenchidos</th>
-                            <th class="text-center">@Model.DispSalas.Where(ds => ds.Matriculas.Any(m => m.Id != null)).ToList().Count</th>
+                            <th class="text-center">@Model.DispSalas.Where(ds => ds.Matriculas.Any(m => m.Id != null) && ds.Sala.ConsideraAtrasadas).ToList().Count</th>
                         </tr>
                         @{
                             var mt = Model.DispSalas.Max(ds => ds.Matriculas.ToList().Count);
@@ -132,7 +132,7 @@
                             {
                                 <tr>
                                     <th scope="row">Com @i  @(i > 1 ? "Alunos" : "Aluno")</th>
-                                    <td class="text-center">@Model.DispSalas.Where(d => d.Matriculas.Count == i).ToList().Count</td>
+                                    <td class="text-center">@Model.DispSalas.Where(d => d.Matriculas.Where(m => m.DispSala.Sala.ConsideraAtrasadas).ToList().Count == i).ToList().Count</td>
                                 </tr>
                             }
 
