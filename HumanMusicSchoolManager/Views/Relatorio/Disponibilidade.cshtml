@@ -1,0 +1,185 @@
+﻿@model List<Professor>
+@{
+    ViewData["Title"] = "Disponibilidade";
+}
+
+@section Styles{
+    <style>
+        .col-md-3 {
+            margin-bottom: 15px;
+        }
+    </style>
+}
+
+<h2>Relatório de Disponibilidade</h2>
+<br /><br />
+
+@{
+    var totalDispSala = new List<DispSala>();
+    foreach (var professor in Model)
+    {
+        foreach (var dispSala in professor.DispSalas.Where(ds => ds.Ativo == true).ToList())
+        {
+            totalDispSala.Add(dispSala);
+        }
+    }
+    var total = new RelatorioGeralProfessoresViewModel
+    {
+        DispSalas = totalDispSala
+    };
+}
+
+<div class="row">
+    <div class="col-md-3">
+        <ul class="list-group">
+            <li class="list-group-item active">Relatório Geral</li>
+            <li class="list-group-item">
+                <table class="table">
+                    <thead class="thead-light">
+                        <tr>
+                            <th colspan="2">Potencial</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Capacidade Total</th>
+                            <td>@total.Potencial</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Com aulas individuais</th>
+                            <td>@total.PotencialAtual</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Com alunos</th>
+                            <td>@total.Matriculas</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Disponível</th>
+                            <td>@(total.PotencialAtual - total.Matriculas)</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table">
+                    <thead class="thead-light">
+                        <tr>
+                            <th colspan="2">Horários</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Disponíveis</th>
+                            <td>@total.HorariosDisponiveis</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Ocupados</th>
+                            <td>@total.HorariosOcupados</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table">
+                    <thead class="thead-light">
+                        <tr>
+                            <th colspan="2">Horários Ocupados</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            var maximoAluno = total.DispSalasOcupados.Max(ds => ds.Matriculas.Count);
+                            for (var i = 1; i <= maximoAluno; i++)
+                            {
+                                <tr>
+                                    <th scope="row">Com @i alunos</th>
+                                    <td>@total.DispSalasOcupados.Where(ds => ds.Matriculas.Count == i).Count()</td>
+                                </tr>
+                            }
+                        }
+
+                    </tbody>
+                </table>
+            </li>
+        </ul>
+    </div>
+    @foreach (var professor in Model.Where(p => p.DispSalas.Count > 0).ToList())
+    {
+        Console.WriteLine(professor.Nome);
+        total = new RelatorioGeralProfessoresViewModel
+        {
+            DispSalas = professor.DispSalas.Where(ds => ds.Ativo == true).ToList()
+        };
+
+        <div class="col-md-3">
+            <ul class="list-group">
+                <li class="list-group-item active">Relatório @professor.Nome</li>
+                <li class="list-group-item">
+                    <table class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th colspan="2">Potencial</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Capacidade Total</th>
+                                <td>@total.Potencial</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Com aulas individuais</th>
+                                <td>@total.PotencialAtual</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Com alunos</th>
+                                <td>@total.Matriculas</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Disponível</th>
+                                <td>@(total.PotencialAtual - total.Matriculas)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th colspan="2">Horários</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Disponíveis</th>
+                                <td>@total.HorariosDisponiveis</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Ocupados</th>
+                                <td>@total.HorariosOcupados</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th colspan="2">Horários Ocupados</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                if (total.DispSalasOcupados.Count > 0)
+                                {
+                                    maximoAluno = total.DispSalasOcupados.Max(ds => ds.Matriculas.Count);
+
+                                    for (var i = 1; i <= maximoAluno; i++)
+                                    {
+                                        <tr>
+                                            <th scope="row">Com @i alunos</th>
+                                            <td>@total.DispSalasOcupados.Where(ds => ds.Matriculas.Count == i).Count()</td>
+                                        </tr>
+                                    }
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </li>
+            </ul>
+        </div>
+    }
+</div>
+<br /><br />

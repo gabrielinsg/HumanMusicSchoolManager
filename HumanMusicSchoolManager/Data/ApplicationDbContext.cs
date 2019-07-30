@@ -121,8 +121,7 @@ namespace HumanMusicSchoolManager.Data
             builder.Entity<RelatorioMatricula>()
                 .HasOne(rm => rm.Pessoa)
                 .WithMany()
-                .OnDelete(DeleteBehavior.Restrict);
-
+                .OnDelete(DeleteBehavior.Restrict);          
 
             base.OnModelCreating(builder);
             // Customize the ASP.NET Identity model and override the defaults if needed.

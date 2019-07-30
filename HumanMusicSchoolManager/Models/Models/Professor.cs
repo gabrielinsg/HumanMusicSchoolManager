@@ -10,6 +10,7 @@ namespace HumanMusicSchoolManager.Models.Models
     {
         public List<CursoProfessor> Cursos { get; set; }
         public List<Aula> Aulas { get; set; }
+        public List<DispSala> DispSalas { get; set; }
 
         public Professor()
         {

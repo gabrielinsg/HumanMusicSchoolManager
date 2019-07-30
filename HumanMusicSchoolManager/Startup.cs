@@ -59,7 +59,7 @@ namespace HumanMusicSchoolManager
                     options.User.RequireUniqueEmail = false;
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-            
+
 
 
             // Add application services.
