@@ -4,7 +4,15 @@
     ViewData.AddActivePage(ManageNavPages.ExternalLogins);
 }
 
-@Html.Partial("_StatusMessage", Model.StatusMessage)
+@if (Model.StatusMessage != null)
+{
+    <div class="alert alert-success alert-dismissible fade show col-md-6" role="alert">
+        @Model.StatusMessage
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
 @if (Model.CurrentLogins?.Count > 0)
 {
     <h4>Registered Logins</h4>

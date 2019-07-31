@@ -73,48 +73,9 @@ namespace HumanMusicSchoolManager.Controllers
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
-                    var user = await _userManager.FindByNameAsync(model.UserName);
-                    var claims = new List<Claim>
-{
-                        new Claim(ClaimTypes.Name, user.UserName),
-                        new Claim("Email", user.Email),
-                        new Claim(ClaimTypes.Role, _userManager.GetRolesAsync(user).Result.ToString()),
-                    };
-
-                    var claimsIdentity = new ClaimsIdentity(
-                        claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-                    var authProperties = new AuthenticationProperties
-                    {
-                        //AllowRefresh = <bool>,
-                        // Refreshing the authentication session should be allowed.
-
-                        ExpiresUtc = DateTimeOffset.UtcNow.AddHours(2),
-                        // The time at which the authentication ticket expires. A 
-                        // value set here overrides the ExpireTimeSpan option of 
-                        // CookieAuthenticationOptions set with AddCookie.
-
-                        IsPersistent = true,
-                        // Whether the authentication session is persisted across 
-                        // multiple requests. When used with cookies, controls
-                        // whether the cookie's lifetime is absolute (matching the
-                        // lifetime of the authentication ticket) or session-based.
-
-                        //IssuedUtc = <DateTimeOffset>,
-                        // The time at which the authentication ticket was issued.
-
-                        //RedirectUri = <string>
-                        // The full path or absolute URI to be used as an http 
-                        // redirect response value.
-                    };
-
-                    await HttpContext.SignInAsync(
-                        CookieAuthenticationDefaults.AuthenticationScheme,
-                        new ClaimsPrincipal(claimsIdentity),
-                        authProperties);
 
                     _logger.LogInformation("Usuário logado.");
                     return RedirectToLocal(returnUrl);
@@ -380,7 +341,6 @@ namespace HumanMusicSchoolManager.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             await _signInManager.SignOutAsync();
             _logger.LogInformation("Usuário desconectado.");
             return RedirectToAction(nameof(HomeController.Index), "Home");

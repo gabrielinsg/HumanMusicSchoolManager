@@ -91,11 +91,18 @@ namespace HumanMusicSchoolManager
             services.AddTransient<IEnderecoService, EnderecoService>();
             services.AddTransient<IAulaConfigService, AulaConfigService>();
             services.AddTransient<IGraficoService, GraficoService>();
+            services.AddTransient<IRelatorioService, RelatorioService>();
 
 
-            services.AddSession(opts =>
+            services.ConfigureApplicationCookie(options =>
             {
-                opts.Cookie.IsEssential = true; // make the session cookie Essential
+                // Cookie settings
+                options.Cookie.HttpOnly = false;
+                options.ExpireTimeSpan = TimeSpan.FromHours(2);
+
+                options.LoginPath = "/Account/Login";
+                options.AccessDeniedPath = "/Account/AccessDenied";
+                options.SlidingExpiration = false;
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

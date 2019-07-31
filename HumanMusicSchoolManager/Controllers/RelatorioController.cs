@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HumanMusicSchoolManager.Controllers
 {
+
     [Authorize]
     public class RelatorioController : Controller
     {
@@ -29,4 +30,5 @@ namespace HumanMusicSchoolManager.Controllers
             return View(new RelatorioAlunosViewModel { Alunos = _relatorioSerevice.Alunos() });
         }
     }
+ 
 }
