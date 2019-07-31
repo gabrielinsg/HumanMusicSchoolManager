@@ -58,8 +58,8 @@ namespace HumanMusicSchoolManager
                     options.Password.RequireUppercase = false;
                     options.User.RequireUniqueEmail = false;
                 })
-                .AddEntityFrameworkStores<ApplicationDbContext>();
-
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
 
             // Add application services.

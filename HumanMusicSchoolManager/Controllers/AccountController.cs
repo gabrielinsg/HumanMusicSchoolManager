@@ -263,7 +263,7 @@ namespace HumanMusicSchoolManager.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
+        public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = "Home")
         {
             
             ViewData["ReturnUrl"] = returnUrl;
@@ -278,14 +278,13 @@ namespace HumanMusicSchoolManager.Controllers
                     {
 
                         await _userManager.AddToRolesAsync(user, model.Permissao);
-                        _logger.LogInformation("O usuário criou uma nova conta com senha.");
 
-                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                        var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
-                        await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
+                        //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        //var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
+                        //await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
 
                         //await _signInManager.SignInAsync(user, isPersistent: false);
-                        _logger.LogInformation("O usuário criou uma nova conta com senha.");
+                        TempData["Success"] = "Usuário criado com sucesso";
                         return RedirectToLocal(returnUrl);
                     }
                     AddErrors(result);
