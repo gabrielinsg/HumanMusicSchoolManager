@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HumanMusicSchoolManager.Models.Models;
 using HumanMusicSchoolManager.Models.ViewModels;
 using HumanMusicSchoolManager.ServicesInterface;
 using Microsoft.AspNetCore.Authorization;
@@ -28,6 +29,38 @@ namespace HumanMusicSchoolManager.Controllers
         public IActionResult Alunos()
         {
             return View(new RelatorioAlunosViewModel { Alunos = _relatorioSerevice.Alunos() });
+        }
+
+        public IActionResult PacoteCompra(DateTime? inicial, DateTime? final)
+        {
+            if (inicial == null)
+            {
+                inicial = NowHorarioBrasilia.GetNow()
+                    .AddDays(-NowHorarioBrasilia.GetNow().Day + 1)
+                    .AddMonths(-NowHorarioBrasilia.GetNow().Month + 1);
+            }
+
+            if (final == null)
+            {
+                final = NowHorarioBrasilia.GetNow()
+                    .AddDays(-NowHorarioBrasilia.GetNow().Day + 1)
+                    .AddMonths(1)
+                    .AddDays(-1)
+                    .AddMonths(-NowHorarioBrasilia.GetNow().Month + 1)
+                    .AddYears(1)
+                    .AddMonths(-1);
+            }
+
+            var relatorioPacoteCompraViewModel = new RelatorioPacoteCompraViewModel()
+            {
+                PacoteComprasAtivos = _relatorioSerevice.PacotesAtivos(),
+                PacoteContratados = _relatorioSerevice.PacotesContratados(inicial.Value, final.Value),
+                Inicial = inicial.Value,
+                Final = final.Value
+            };
+
+
+            return View(relatorioPacoteCompraViewModel);
         }
     }
  

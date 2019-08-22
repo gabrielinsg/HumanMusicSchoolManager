@@ -6,55 +6,7 @@
 @section Styles{
     <link href="~/css/SwitchButton.css" rel="stylesheet" />
     <link href="~/css/Estrelas.css" rel="stylesheet" />
-    <style>
-        .class-mensage {
-            border: 1px solid;
-            border-color: lightgray;
-            border-radius: 3px;
-            width: 95%;
-            margin: auto;
-            padding: 0 20px 10px 20px;
-            margin-bottom: 10px;
-            background-color: #e9ecef;
-            opacity: 1;
-        }
-
-            .class-mensage label {
-                border-bottom: 1px solid lightgray;
-                width: 100%;
-                margin: auto;
-                text-align: center;
-                display: block;
-            }
-
-        .aluno {
-            border: 1px solid;
-            border-radius: 5px;
-            padding-top: 20px;
-            margin-bottom: 7px;
-            border-color: lightgray;
-        }
-
-            .aluno button {
-                margin-bottom: 10px;
-            }
-
-        .btn-lanca {
-            margin-left: 15px;
-            margin-right: 15px;
-        }
-
-        .contatos {
-            border: 1px solid lightgray;
-            border-radius: 5px;
-            margin: 0 1.5px 10px 1.5px;
-            padding: 15px 0;
-        }
-
-        .progresso {
-            margin: 5px 1px 10px 1px;
-        }
-    </style>
+    <link href="~/css/aula-form.css" rel="stylesheet" />
 }
 
 
@@ -262,6 +214,7 @@
 
 
 
+                        <span class="text-danger validation" asp-validation-for="Chamadas[i].PacoteCompra.Matricula.Estrelas"></span>
 
                     </div>
                 }

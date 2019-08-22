@@ -1,0 +1,114 @@
+﻿@model RelatorioPacoteCompraViewModel
+@{
+    ViewData["Title"] = "PacoteCompra";
+}
+
+@section Styles{
+    <style>
+        .list-group {
+            margin-bottom: 15px;
+        }
+    </style>
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form role="form" asp-controller="Relatorio" asp-action="PacoteCompra" method="get">
+
+            <div class="row">
+                <div class="col-xl-3 col-md-4">
+                    <label asp-for="Inicial">Data Inicial</label>
+                    <input asp-for="Inicial" type="date" class="form-control" />
+                    <span asp-validation-for="Inicial" class="text-danger"></span>
+                </div>
+                <div class="col-xl-3 col-md-4">
+                    <label asp-for="Final">Data Final</label>
+                    <input asp-for="Final" type="date" class="form-control" />
+                    <span asp-validation-for="Final" class="text-danger"></span>
+                </div>
+                <div class="col-3" style="padding-top: 32px;">
+                    <button type="submit" class="btn btn-success">Filtrar</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <ul class="list-group">
+            <li class="list-group-item active">Pacotes Ativos</li>
+            <li class="list-group-item">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Pacote</th>
+                            <th scope="col">Qtd</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var pacoteAula in Model.PacoteComprasAtivos.Select(pc => pc.PacoteAula).Distinct().ToList())
+                        {
+                            <tr>
+                                <td>@pacoteAula.Nome</td>
+                                <td>@Model.PacoteComprasAtivos.Where(pc => pc.PacoteAulaId == pacoteAula.Id).ToList().Count</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </li>
+        </ul>
+    </div>
+
+
+    @{
+        @foreach (var ano in Model.PacoteContratados.Select(pc => pc.DataCompra.Year).Distinct())
+        {
+
+
+            @foreach (var mes in Model.PacoteContratados
+           .Where(pc => pc.DataCompra.Year == ano)
+           .Select(pc => pc.DataCompra.Month)
+           .Distinct()
+           .OrderBy(pc => pc)
+            )
+            {
+                        <div class="col-md-4">
+                <ul class="list-group">
+                    <li class="list-group-item active">@ano/@mes</li>
+                    <li class="list-group-item">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Pacote</th>
+                                    <th scope="col">Qtd</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var pacoteAula in Model.PacoteContratados
+                                    .Where(pc => pc.DataCompra.Year == ano && pc.DataCompra.Month == mes)
+                                    .Select(pc => pc.PacoteAula).Distinct().ToList())
+                                {
+                                    <tr>
+                                        <td>@pacoteAula.Nome</td>
+                                        <td>
+                                            @(
+                                                Model.PacoteContratados.Where(pc => pc.PacoteAulaId == pacoteAula.Id)
+                                                .Where(pc => pc.DataCompra.Year == ano && pc.DataCompra.Month == mes)
+                                                .ToList().Count
+                                            )
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </li>
+                </ul>
+            </div>
+            }
+
+        }
+    }
+
+</div>

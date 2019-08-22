@@ -42,5 +42,31 @@ namespace HumanMusicSchoolManager.Services
                 .Include(a => a.Matriculas)
                 .ToList();
         }
+
+        public List<PacoteCompra> PacotesAtivos()
+        {
+            return _context.PacoteCompras
+                .Where(pc => pc.Chamadas.Any(c => c.Presenca == null))
+                .Include(pc => pc.PacoteAula)
+                .ToList();
+        }
+
+        public List<PacoteCompra> PacotesContratados(DateTime inicial, DateTime final)
+        {
+            inicial = inicial.AddHours(-inicial.Hour);
+            inicial = inicial.AddMinutes(-inicial.Minute);
+            inicial = inicial.AddMilliseconds(-inicial.Millisecond);
+            final = final.AddHours(-final.Hour);
+            final = final.AddMinutes(-final.Minute);
+            final = final.AddMilliseconds(-final.Millisecond);
+            final = final.AddHours(23);
+
+            var pcs = _context.PacoteCompras
+                .Where(pc => pc.DataCompra.Date >= inicial.Date && pc.DataCompra.Date <= final.Date)
+                .Include(pc => pc.PacoteAula)
+                .ToList();
+
+            return pcs;
+        }
     }
 }

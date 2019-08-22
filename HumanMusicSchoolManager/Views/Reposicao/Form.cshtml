@@ -76,80 +76,119 @@
 
                                             if (curso.Curso == Model.Chamada.Aula.Curso)
                                             {
-                                                <tr>
-                                                    <td c>@curso.Curso.Nome</td>
-                                                    <td class="text-center">@Html.DisplayFor(d => dispSala.Dia)</td>
-                                                    <td class="text-center">@dispSala.Hora.ToString("00:'00'h")</td>
-                                                    <td>
-                                                        @if (dispSala.Hora < 12)
-                                                        {
-                                                            <span>Manhã</span>
-                                                        }
-                                                        else if (dispSala.Hora < 19)
-                                                        {
-                                                            <span>Tarde</span>
-                                                        }
-                                                        else
-                                                        {
-                                                            <span>Noite</span>
-                                                        }
-                                                    </td>
-                                                    <td>@dispSala.Sala.Nome</td>
-                                                    <td>@dispSala.Professor.Nome</td>
-                                                    <td class="text-center">
-                                                        @(dispSala.Sala.Capacidade - dispSala.Matriculas.Count - dispSala.Reposicoes.Count - dispSala.Demostrativas.Count)
-                                                        <!-- Button trigger modal -->
-                                                        <a class="btn text-primary" data-toggle="modal" data-target="#exampleModalLong@(dispSala.Id)">
-                                                            <i class="fas fa-users text-info"></i>
-                                                        </a>
+                                                var cs = dispSala.Matriculas.FirstOrDefault();
+                                                Curso cursoCompara = null;
+                                                if (cs != null)
+                                                {
+                                                    cursoCompara = cs.Curso;
+                                                }
+                                                else if (dispSala.Demostrativas.FirstOrDefault() != null)
+                                                {
+                                                    var demostrativa = dispSala.Demostrativas.FirstOrDefault();
+                                                    cursoCompara = demostrativa.Curso;
+                                                }
+                                                else
+                                                {
+                                                    var reposicao = dispSala.Reposicoes.FirstOrDefault();
+                                                    if (reposicao != null)
+                                                    {
+                                                        cursoCompara = reposicao.Chamada.PacoteCompra.Matricula.Curso;
+                                                    }
+                                                }
 
-                                                        <!-- Modal -->
-                                                        <div class="modal fade" id="exampleModalLong@(dispSala.Id)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                                                            <div class="modal-dialog" style="max-width: 50%" role="document">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title" id="exampleModalLongTitle">Alunos matriculados neste horário</h5>
-                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                            <span aria-hidden="true">&times;</span>
-                                                                        </button>
-                                                                    </div>
-                                                                    <div class="modal-body text-left">
-                                                                        <h4>Alunos</h4>
-                                                                        <table class="table table-sm">
-                                                                            <thead>
-                                                                                <tr>
-                                                                                    <th scope="col">Aluno</th>
-                                                                                    <th scope="col" class="text-center">Idade</th>
-                                                                                    <th scope="col" class="text-center">Módulo</th>
-                                                                                    <th scope="col" class="text-center">Estrelas</th>
-                                                                                </tr>
-                                                                            </thead>
-                                                                            <tbody>
-                                                                                @foreach (var matricula in dispSala.Matriculas)
-                                                                                {
-                                                                                    int now = int.Parse(NowHorarioBrasilia.GetNow().ToString("yyyyMMdd"));
-                                                                                    int dob = int.Parse(matricula.Aluno.DataNascimento.ToString("yyyyMMdd"));
-                                                                                    int age = (now - dob) / 10000;
-                                                                                    <tr>
-                                                                                        <td>@matricula.Aluno.Nome</td>
-                                                                                        <td class="text-center">@age @(age > 1 ? "anos" : "ano")</td>
-                                                                                        <td class="text-center">@matricula.Modulo</td>
-                                                                                        <td>
-                                                                                            <div class="starrating risingstar d-flex justify-content-center flex-row-reverse">
-                                                                                                <input asp-for="@matricula.Estrelas" type="radio" id="star5" value="5" disabled /><label for="star5" title="5 star"></label>
-                                                                                                <input asp-for="@matricula.Estrelas" type="radio" id="star4" value="4" disabled /><label for="star4" title="4 star"></label>
-                                                                                                <input asp-for="@matricula.Estrelas" type="radio" id="star3" value="3" disabled /><label for="star3" title="3 star"></label>
-                                                                                                <input asp-for="@matricula.Estrelas" type="radio" id="star2" value="2" disabled /><label for="star2" title="2 star"></label>
-                                                                                                <input asp-for="@matricula.Estrelas" type="radio" id="star1" value="1" disabled /><label for="star1" title="1 star"></label>
-                                                                                            </div>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                }
-                                                                            </tbody>
-                                                                        </table>
-                                                                        @if (dispSala.Reposicoes.Count > 0)
+                                                if (curso.Curso == cursoCompara || cursoCompara == null)
+                                                {
+                                                    <tr>
+                                                        <td>@curso.Curso.Nome</td>
+                                                        <td class="text-center">@Html.DisplayFor(d => dispSala.Dia)</td>
+                                                        <td class="text-center">@dispSala.Hora.ToString("00:'00'h")</td>
+                                                        <td>
+                                                            @if (dispSala.Hora < 12)
+                                                            {
+                                                                <span>Manhã</span>
+                                                            }
+                                                            else if (dispSala.Hora < 19)
+                                                            {
+                                                                <span>Tarde</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span>Noite</span>
+                                                            }
+                                                        </td>
+                                                        <td>@dispSala.Sala.Nome</td>
+                                                        <td>@dispSala.Professor.Nome</td>
+                                                        <td class="text-center">@(dispSala.Ativo == true ? "Sim" : "Não")</td>
+                                                        <td class="text-center">
+                                                            @{
+                                                                var individual = false;
+                                                                var vagas = "info";
+                                                                foreach (var matricula in dispSala.Matriculas)
+                                                                {
+                                                                    if (matricula.PacoteCompras != null)
+                                                                    {
+                                                                        foreach (var pacoteCompra in matricula.PacoteCompras)
                                                                         {
-                                                                            <h4>Reposição</h4>
+                                                                            if (pacoteCompra.Chamadas != null && pacoteCompra.Chamadas.Any(c => c.Presenca == null) && pacoteCompra.PacoteAula.TipoAula == TipoAula.INDIVIDUAL)
+                                                                            {
+                                                                                individual = true;
+                                                                                break;
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                                foreach (var reposicao in dispSala.Reposicoes)
+                                                                {
+                                                                    if (reposicao.Chamada.PacoteCompra.Matricula.PacoteCompras != null)
+                                                                    {
+                                                                        foreach (var pacoteCompra in reposicao.Chamada.PacoteCompra.Matricula.PacoteCompras)
+                                                                        {
+                                                                            if (pacoteCompra.Chamadas != null && pacoteCompra.Chamadas.Any(c => c.Presenca == null) && pacoteCompra.PacoteAula.TipoAula == TipoAula.INDIVIDUAL)
+                                                                            {
+                                                                                individual = true;
+                                                                                break;
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                            <!-- Button trigger modal -->
+                                                            <a class="btn text-primary" data-toggle="modal" data-target="#exampleModalLong@(dispSala.Id)">
+                                                                @{
+
+                                                                    vagas = (dispSala.Matriculas.Count + dispSala.Reposicoes.Count + dispSala.Demostrativas.Count) == 0 ? "success" : vagas;
+                                                                    vagas = (dispSala.Matriculas.Count + dispSala.Reposicoes.Count + dispSala.Demostrativas.Count) >= dispSala.Sala.Capacidade ? "danger" : vagas;
+                                                                    vagas = individual ? "danger" : vagas;
+                                                                    vagas = dispSala.Demostrativas.Count > 0 ? "warning" : vagas;
+                                                                    vagas = dispSala.Ativo ? vagas : "danger";
+                                                                }
+                                                                <i class="fas fa-users text-@vagas"></i>
+                                                            </a>
+                                                            @if (individual)
+                                                            {
+                                                                <span class="badge badge-pill badge-@vagas">
+                                                                    <span style="display:none">0</span>I
+                                                                </span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="badge badge-pill badge-@vagas">
+                                                                    @(dispSala.Sala.Capacidade - dispSala.Matriculas.Count - dispSala.Reposicoes.Count - dispSala.Demostrativas.Count)
+                                                                </span>
+                                                            }
+
+                                                            <!-- Modal -->
+                                                            <div class="modal fade" id="exampleModalLong@(dispSala.Id)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                                                <div class="modal-dialog" style="max-width: 50%" role="document">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title" id="exampleModalLongTitle">Alunos matriculados neste horário</h5>
+                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                <span aria-hidden="true">&times;</span>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="modal-body text-left">
+                                                                            <h4>Alunos</h4>
                                                                             <table class="table table-sm">
                                                                                 <thead>
                                                                                     <tr>
@@ -160,60 +199,108 @@
                                                                                     </tr>
                                                                                 </thead>
                                                                                 <tbody>
-                                                                                    @foreach (var reposicao in dispSala.Reposicoes)
+                                                                                    @foreach (var matricula in dispSala.Matriculas)
                                                                                     {
                                                                                         int now = int.Parse(NowHorarioBrasilia.GetNow().ToString("yyyyMMdd"));
-                                                                                        int dob = int.Parse(reposicao.Chamada.PacoteCompra.Matricula.Aluno.DataNascimento.ToString("yyyyMMdd"));
+                                                                                        int dob = int.Parse(matricula.Aluno.DataNascimento.ToString("yyyyMMdd"));
                                                                                         int age = (now - dob) / 10000;
                                                                                         <tr>
-                                                                                            <td>@reposicao.Chamada.PacoteCompra.Matricula.Aluno.Nome</td>
+                                                                                            <td>
+                                                                                                <a asp-controller="Aluno" asp-action="Aluno" asp-route-alunoId="@matricula.Aluno.Id">
+                                                                                                    @matricula.Aluno.Nome
+                                                                                                </a>
+                                                                                            </td>
                                                                                             <td class="text-center">@age @(age > 1 ? "anos" : "ano")</td>
-                                                                                            <td class="text-center">@reposicao.Chamada.PacoteCompra.Matricula.Modulo</td>
+                                                                                            <td class="text-center">@matricula.Modulo</td>
                                                                                             <td>
                                                                                                 <div class="starrating risingstar d-flex justify-content-center flex-row-reverse">
-                                                                                                    <input asp-for="@reposicao.Chamada.PacoteCompra.Matricula.Estrelas" type="radio" id="star5" value="5" disabled /><label for="star5" title="5 star"></label>
-                                                                                                    <input asp-for="@reposicao.Chamada.PacoteCompra.Matricula.Estrelas" type="radio" id="star4" value="4" disabled /><label for="star4" title="4 star"></label>
-                                                                                                    <input asp-for="@reposicao.Chamada.PacoteCompra.Matricula.Estrelas" type="radio" id="star3" value="3" disabled /><label for="star3" title="3 star"></label>
-                                                                                                    <input asp-for="@reposicao.Chamada.PacoteCompra.Matricula.Estrelas" type="radio" id="star2" value="2" disabled /><label for="star2" title="2 star"></label>
-                                                                                                    <input asp-for="@reposicao.Chamada.PacoteCompra.Matricula.Estrelas" type="radio" id="star1" value="1" disabled /><label for="star1" title="1 star"></label>
+                                                                                                    <input name="matricula-@(matricula.Id)" asp-for="@(matricula.Estrelas)" disabled type="radio" id="star5" value="5" /><label for="star5" title="5 star"></label>
+                                                                                                    <input name="matricula-@(matricula.Id)" asp-for="@(matricula.Estrelas)" disabled type="radio" id="star4" value="4" /><label for="star4" title="4 star"></label>
+                                                                                                    <input name="matricula-@(matricula.Id)" asp-for="@(matricula.Estrelas)" disabled type="radio" id="star3" value="3" /><label for="star3" title="3 star"></label>
+                                                                                                    <input name="matricula-@(matricula.Id)" asp-for="@(matricula.Estrelas)" disabled type="radio" id="star2" value="2" /><label for="star2" title="2 star"></label>
+                                                                                                    <input name="matricula-@(matricula.Id)" asp-for="@(matricula.Estrelas)" disabled type="radio" id="star1" value="1" /><label for="star1" title="1 star"></label>
                                                                                                 </div>
                                                                                             </td>
                                                                                         </tr>
                                                                                     }
                                                                                 </tbody>
                                                                             </table>
-                                                                        }
-                                                                        @if (dispSala.Demostrativas.Count > 0)
-                                                                        {
-                                                                            <h4>Demostrativas</h4>
-                                                                            <table class="table table-sm">
-                                                                                <thead>
-                                                                                    <tr>
-                                                                                        <th scope="col">Candidato</th>
-                                                                                        <th scope="col" class="text-center">Idade</th>
-                                                                                    </tr>
-                                                                                </thead>
-                                                                                <tbody>
-                                                                                    @foreach (var demostrativa in dispSala.Demostrativas)
-                                                                                    {
-                                                                                        int now = int.Parse(NowHorarioBrasilia.GetNow().ToString("yyyyMMdd"));
-                                                                                        int dob = int.Parse(demostrativa.Candidato.DataNascimento.ToString("yyyyMMdd"));
-                                                                                        int age = (now - dob) / 10000;
+                                                                            @if (dispSala.Reposicoes.Count > 0)
+                                                                            {
+                                                                                <h4>Reposições</h4>
+                                                                                <table class="table table-sm">
+                                                                                    <thead>
                                                                                         <tr>
-                                                                                            <td>@demostrativa.Candidato.Nome</td>
-                                                                                            <td class="text-center">@age @(age > 1 ? "anos" : "ano")</td>
+                                                                                            <th scope="col">Aluno</th>
+                                                                                            <th scope="col" class="text-center">Idade</th>
+                                                                                            <th scope="col" class="text-center">Módulo</th>
+                                                                                            <th scope="col" class="text-center">Estrelas</th>
                                                                                         </tr>
-                                                                                    }
-                                                                                </tbody>
-                                                                            </table>
-                                                                        }
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        @foreach (var reposicao in dispSala.Reposicoes)
+                                                                                        {
+                                                                                            int now = int.Parse(NowHorarioBrasilia.GetNow().ToString("yyyyMMdd"));
+                                                                                            int dob = int.Parse(reposicao.Chamada.PacoteCompra.Matricula.Aluno.DataNascimento.ToString("yyyyMMdd"));
+                                                                                            int age = (now - dob) / 10000;
+                                                                                            <tr>
+                                                                                                <td>
+                                                                                                    <a asp-controller="Aluno" asp-action="Aluno" asp-route-alunoId="@reposicao.Chamada.PacoteCompra.Matricula.Aluno.Id">
+                                                                                                        @reposicao.Chamada.PacoteCompra.Matricula.Aluno.Nome
+                                                                                                    </a>
+                                                                                                </td>
+                                                                                                <td class="text-center">@age @(age > 1 ? "anos" : "ano")</td>
+                                                                                                <td class="text-center">@reposicao.Chamada.PacoteCompra.Matricula.Modulo</td>
+                                                                                                <td>
+                                                                                                    <div class="starrating risingstar d-flex justify-content-center flex-row-reverse">
+                                                                                                        <input asp-for="@reposicao.Chamada.PacoteCompra.Matricula.Estrelas" type="radio" id="star5" value="5" disabled /><label for="star5" title="5 star"></label>
+                                                                                                        <input asp-for="@reposicao.Chamada.PacoteCompra.Matricula.Estrelas" type="radio" id="star4" value="4" disabled /><label for="star4" title="4 star"></label>
+                                                                                                        <input asp-for="@reposicao.Chamada.PacoteCompra.Matricula.Estrelas" type="radio" id="star3" value="3" disabled /><label for="star3" title="3 star"></label>
+                                                                                                        <input asp-for="@reposicao.Chamada.PacoteCompra.Matricula.Estrelas" type="radio" id="star2" value="2" disabled /><label for="star2" title="2 star"></label>
+                                                                                                        <input asp-for="@reposicao.Chamada.PacoteCompra.Matricula.Estrelas" type="radio" id="star1" value="1" disabled /><label for="star1" title="1 star"></label>
+                                                                                                    </div>
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                        }
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            }
+                                                                            @if (dispSala.Demostrativas.Count > 0)
+                                                                            {
+                                                                                <h4>Demostrativas</h4>
+                                                                                <table class="table table-sm">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th scope="col">Candidato</th>
+                                                                                            <th scope="col" class="text-center">Idade</th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        @foreach (var demostrativa in dispSala.Demostrativas)
+                                                                                        {
+                                                                                            int now = int.Parse(NowHorarioBrasilia.GetNow().ToString("yyyyMMdd"));
+                                                                                            int dob = int.Parse(demostrativa.Candidato.DataNascimento.ToString("yyyyMMdd"));
+                                                                                            int age = (now - dob) / 10000;
+                                                                                            <tr>
+                                                                                                <td>
+                                                                                                    <a asp-controller="Candidato" asp-action="Candidato" asp-route-candidatoId="@demostrativa.Candidato.Id">
+                                                                                                        @demostrativa.Candidato.Nome @(demostrativa.Aula != null ? " - " + demostrativa.Aula.Data.ToString("dd/MM/yy") : "")
+                                                                                                    </a>
+                                                                                                </td>
+                                                                                                <td class="text-center">@age @(age > 1 ? "anos" : "ano")</td>
+                                                                                            </tr>
+                                                                                        }
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            }
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </td>
-                                                    <td><a asp-action="Form" class="btn btn-success" asp-route-chamadaId="@Model.Chamada.Id" asp-route-dispSalaId="@dispSala.Id">Selecionar</a></td>
-                                                </tr>
+                                                        </td>
+                                                        <td><a asp-action="Form" class="btn btn-success" asp-route-chamadaId="@Model.Chamada.Id" asp-route-dispSalaId="@dispSala.Id">Selecionar</a></td>
+                                                    </tr>
+                                                }
                                             }
                                         }
                                     }
@@ -274,7 +361,7 @@
                                         }
                                         else
                                         {
-                                            <input asp-for="Reposicao.Remunerada" value="true" type="hidden"/>
+                                            <input asp-for="Reposicao.Remunerada" value="true" type="hidden" />
                                         }
                                     </div>
                                     <div class="col-md-9">

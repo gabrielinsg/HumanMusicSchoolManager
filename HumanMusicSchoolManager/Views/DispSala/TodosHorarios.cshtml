@@ -142,6 +142,7 @@
                                     vagas = (dispSala.Matriculas.Count + dispSala.Reposicoes.Count + dispSala.Demostrativas.Count) >= dispSala.Sala.Capacidade ? "danger" : vagas;
                                     vagas = individual ? "danger" : vagas;
                                     vagas = dispSala.Demostrativas.Count > 0 ? "warning" : vagas;
+                                    vagas = dispSala.Ativo ? vagas : "danger";
                                 }
                                 <i class="fas fa-users text-@vagas"></i>
                             </a>

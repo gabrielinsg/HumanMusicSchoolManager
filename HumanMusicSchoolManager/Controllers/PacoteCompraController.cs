@@ -153,6 +153,7 @@ namespace HumanMusicSchoolManager.Controllers
                 }
                 //var valor = (pacoteCompraViewModel.PacoteCompra.PacoteAula.Valor - desconto) / pacoteCompraViewModel.PacoteCompra.QtdParcela;
                 var valor = (pacoteCompraViewModel.Valor - desconto) / pacoteCompraViewModel.PacoteCompra.QtdParcela;
+                pacoteCompraViewModel.PacoteCompra.DataCompra = NowHorarioBrasilia.GetNow();
                 pacoteCompraViewModel.PacoteCompra = _pacoteCompraService.Cadastrar(pacoteCompraViewModel.PacoteCompra);
 
                 //Gerar Financeiros

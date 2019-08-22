@@ -119,6 +119,7 @@ namespace HumanMusicSchoolManager.Controllers
 
             if (aula.Chamadas != null)
             {
+                var i = 0;
                 foreach (var chamada in aula.Chamadas)
                 {
                     var matricula = _matriculaService.BuscarPorId(_chamadaService.BuscarPorId(chamada.Id.Value).PacoteCompra.MatriculaId);
@@ -128,8 +129,16 @@ namespace HumanMusicSchoolManager.Controllers
                     matricula.Modulo = modulo;
                     matricula.Estrelas = estrelas;
                     matriculas.Add(matricula);
+
+                    if (estrelas == null)
+                    {
+                        ModelState.AddModelError("Chamadas["+i+"].PacoteCompra.Matricula.Estrelas", "Obrigatório colocar o níve do aluno");
+                    }
                 }
             }
+
+            
+            
 
             if (ModelState.IsValid)
             {

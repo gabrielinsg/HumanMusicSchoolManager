@@ -53,7 +53,11 @@ namespace HumanMusicSchoolManager.Services
 
         public List<PacoteCompra> BuscarTodos()
         {
-            return _context.PacoteCompras.ToList();
+            return _context.PacoteCompras
+            .Include(pc => pc.Financeiros)
+            .Include(pc => pc.Matricula)
+            .ThenInclude(m => m.PacoteCompras)
+            .ToList();
         }
 
         public PacoteCompra Cadastrar(PacoteCompra pacoteCompra)
@@ -116,7 +120,7 @@ namespace HumanMusicSchoolManager.Services
         public List<PacoteCompra> FaltasSeguidas()
         {
             var pacoteCompraFull = _context.PacoteCompras
-                .Where(pc => pc.Matricula.DispSalaId != null)
+                .Where(pc => pc.Matricula.DispSalaId != null && pc.Chamadas.Any(c => c.Presenca == null))
                 .Include(pc => pc.Chamadas)
                 .ThenInclude(c => c.Aula)
                 .Include(pc => pc.Matricula)

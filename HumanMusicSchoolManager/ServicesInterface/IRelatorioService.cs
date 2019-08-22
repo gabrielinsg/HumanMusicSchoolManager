@@ -10,5 +10,7 @@ namespace HumanMusicSchoolManager.ServicesInterface
     {
         List<Professor> Professores();
         List<Aluno> Alunos();
+        List<PacoteCompra> PacotesAtivos();
+        List<PacoteCompra> PacotesContratados(DateTime inicial, DateTime final);
     }
 }
