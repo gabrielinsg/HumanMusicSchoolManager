@@ -134,6 +134,7 @@ namespace HumanMusicSchoolManager.Controllers
                     {
                         ModelState.AddModelError("Chamadas["+i+"].PacoteCompra.Matricula.Estrelas", "Obrigatório colocar o níve do aluno");
                     }
+                    i++;
                 }
             }
 
