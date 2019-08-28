@@ -1,33 +1,37 @@
 function liberar(aulaId) {
-    var alert = $('.alert');
-    alert.find('#msg').text('Aguarde')
-    alert.removeClass('alert-success')
-    alert.removeClass('alert-danger')
-    alert.addClass('alert-secondary')
-    alert.removeClass('alert-none');
+    let isAlert = $('.alert');
+    let btn = $('.btnLiberar');
+    isAlert.find('#msg').text('Aguarde');
+    btn.addClass('disabled');
+    isAlert.removeClass('alert-success');
+    isAlert.removeClass('alert-danger');
+    isAlert.addClass('alert-secondary');
+    isAlert.removeClass('alert-none');
     $.ajax({
         url: '/Aula/AddPrazoLancamentoAula',
         type: 'POST',
         data: { aulaId: aulaId },
         success: result => {
-            console.log(result)
-            if (result.status == 'Sucess') {
-                var alert = $('.alert');
-                alert.find('#msg').text('Aula liberada para lançamento')
-                alert.removeClass('alert-danger')
-                alert.removeClass('alert-secondary')
-                alert.addClass('alert-success')
-                alert.removeClass("alert-none");
+            console.log(result);
+            if (result.status === 'Sucess') {
+                var I=isAlert = $('.alert');
+                isAlert.find('#msg').text('Aula liberada para lançamento');
+                btn.removeClass('disabled');
+                isAlert.removeClass('alert-danger');
+                isAlert.removeClass('alert-secondary');
+                isAlert.addClass('alert-success');
+                isAlert.removeClass("alert-none");
                 var td = $('#' + aulaId);
                 td.remove();
             }
             else {
-                var alert = $('.alert');
-                alert.find('#msg').text('Não foi possível liberar o lnaçamento para essa aula')
-                alert.removeClass('alert-success')
-                alert.removeClass('alert-secondary')
-                alert.addClass('alert-danger')
-                alert.removeClass("alert-none");
+                var isAlert = $('.alert');
+                isAlert.find('#msg').text('Não foi possível liberar o lnaçamento para essa aula');
+                isAlert.removeClass('alert-success');
+                isAlert.removeClass('alert-secondary');
+                isAlert.addClass('alert-danger');
+                isAlert.removeClass("alert-none");
+                btn.removeClass('disabled');
             }
         }
     });

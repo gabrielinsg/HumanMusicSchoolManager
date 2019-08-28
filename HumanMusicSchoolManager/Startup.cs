@@ -92,6 +92,7 @@ namespace HumanMusicSchoolManager
             services.AddTransient<IAulaConfigService, AulaConfigService>();
             services.AddTransient<IGraficoService, GraficoService>();
             services.AddTransient<IRelatorioService, RelatorioService>();
+            services.AddTransient<ICaixaService, CaixaService>();
 
 
             services.ConfigureApplicationCookie(options =>

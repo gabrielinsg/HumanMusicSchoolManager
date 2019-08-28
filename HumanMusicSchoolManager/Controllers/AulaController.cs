@@ -130,9 +130,12 @@ namespace HumanMusicSchoolManager.Controllers
                     matricula.Estrelas = estrelas;
                     matriculas.Add(matricula);
 
-                    if (estrelas == null)
+                    if (User.IsInRole("Professor"))
                     {
-                        ModelState.AddModelError("Chamadas["+i+"].PacoteCompra.Matricula.Estrelas", "Obrigatório colocar o níve do aluno");
+                        if (estrelas == null)
+                        {
+                            ModelState.AddModelError("Chamadas["+i+"].PacoteCompra.Matricula.Estrelas", "Obrigatório colocar o níve do aluno");
+                        }
                     }
                     i++;
                 }

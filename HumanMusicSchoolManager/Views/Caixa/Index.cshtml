@@ -1,0 +1,106 @@
+﻿@model CaixaViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+    <div class="card mb-3">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-xl-11 col-md-10">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    Caixa
+                </div>
+                <div class="col-xl-1 col-md-2">
+                    <a asp-action="Form" class="btn btn-primary">Abrir Caixa</a>
+                </div>
+            </div>
+        </div>
+        <div class="card-header">
+            <form asp-action="Index" method="get">
+                <div class="row">
+                    <div class="col-xl-3 col-md-4">
+                        <label asp-for="Inicial">Data Inicial</label>
+                        <input asp-for="Inicial" type="date" class="form-control" />
+                        <span asp-validation-for="Inicial" class="text-danger"></span>
+                    </div>
+                    <div class="col-xl-3 col-md-4">
+                        <label asp-for="Final">Data Final</label>
+                        <input asp-for="Final" type="date" class="form-control" />
+                        <span asp-validation-for="Final" class="text-danger"></span>
+                    </div>
+                    <div class="col-3" style="padding-top: 32px;">
+                        <button type="submit" class="btn btn-success">Filtrar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped" id="dataTable" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Nº</th>
+                            <th>Data Aberto</th>
+                            <th>Aberto por</th>
+                            <th>Valor aberto</th>
+                            <th>Data Fechado</th>
+                            <th>Fechado Por</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th class="text-center">Caixa</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th class="text-center">Nº</th>
+                            <th>Data Aberto</th>
+                            <th>Aberto por</th>
+                            <th>Valor aberto</th>
+                            <th>Data Fechado</th>
+                            <th>Fechado Por</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th class="text-center">Caixa</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @foreach (var caixa in Model.Caixas)
+                        {
+                            <tr>
+                                <td class="text-center">@caixa.Id</td>
+                                <td>@caixa.DataAberto</td>
+                                <td>@caixa.FuncionarioAberto.Nome</td>
+                                <td>@caixa.ValorAberto.ToString("R$ #,##0.00")</td>
+                                <td>@caixa.DataFechado</td>
+                                <td>@(caixa.FuncionarioFechado != null ? caixa.FuncionarioFechado.Nome : "")</td>
+                                <td>@caixa.Total().ToString("R$ #,##0.00")</td>
+                                <td>@(caixa.DataFechado == null ? "Aberto" : "Fechado")</td>
+                                <td class="text-center">
+                                    <a class="btn btn-success" asp-action="Caixa" asp-route-caixaId="@caixa.Id"><i class="fas fa-file-invoice-dollar"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+@section Scripts{
+    <script src="~/vendor/datatables/jquery.dataTables.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.js"></script>
+    <script>
+
+        $('#dataTable').DataTable({
+            "order": [[0, 'desc']]
+        });
+
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+}

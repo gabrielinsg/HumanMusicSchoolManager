@@ -110,7 +110,7 @@
                             </td>
                             @if (User.IsInRole("Coordenacao") || User.IsInRole("Admin")){
                                 <td>
-                                    <a class="btn btn-primary text-center" role="button" href="#" onclick="liberar(@(aula.Id.Value))">Liberar</a>
+                                    <a class="btn btn-primary text-center btnLiberar" role="button" href="#" onclick="liberar(@(aula.Id.Value))">Liberar</a>
                                 </td>
                             }
                         </tr>

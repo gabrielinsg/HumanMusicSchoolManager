@@ -38,6 +38,8 @@ namespace HumanMusicSchoolManager.Data
         public DbSet<RelatorioMatricula> RelatorioMatriculas { get; set; }
         public DbSet<EmailConfig> EmailConfig { get; set; }
         public DbSet<AulaConfig> AulaConfig { get; set; }
+        public DbSet<Caixa> Caixas { get; set; }
+        public DbSet<TransacaoCaixa> TransacoesCaixa { get; set; }
 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
@@ -47,6 +49,20 @@ namespace HumanMusicSchoolManager.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<Caixa>()
+                .HasOne(c => c.FuncionarioAberto)
+                .WithMany()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Caixa>()
+                .HasOne(c => c.FuncionarioFechado)
+                .WithMany()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<TransacaoCaixa>()
+                .HasOne(t => t.Funcionario)
+                .WithMany()
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<CursoProfessor>()
                 .HasKey(cp => new { cp.ProfessorId, cp.CursoId });

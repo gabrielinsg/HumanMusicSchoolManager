@@ -1,0 +1,162 @@
+﻿@model Caixa
+
+@{
+    ViewData["Title"] = "Caixa";
+}
+
+@section Styles{
+    <style>
+        .card-text{
+            margin: 0px;
+        }
+    </style>
+}
+
+<div class="card mb-3">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-xl-2 col-md-">
+                <i class="fas fa-file-invoice-dollar"></i>
+                Movimento do caixa
+            </div>
+            <div class="col-xl-8 col-md-8">
+                <a asp-action="Index" class="btn btn-primary">Voltar</a>
+            </div>
+            @if (@Model.DataFechado == null)
+            {
+                <form asp-action="Fechar" method="post">
+                    <div class="col-xl-2 col-md-2">
+                        <button class="btn btn-danger" id="fecharCaixa">Fechar caixa</button>
+                    </div>
+                </form>
+            }
+
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Aberto</h5>
+                        <p class="card-text"><strong>Funcionário:</strong> @Model.FuncionarioAberto.Nome</p>
+                        <p class="card-text"><strong>Data:</strong> @Model.DataAberto.ToString("dd/MM/yy")</p>
+                        <p class="card-text"><strong>Hora:</strong> @Model.DataAberto.ToString("HH:mm")</p>
+                        <p class="card-text"><strong>Valor:</strong> @Model.ValorAberto.ToString("R$ #,##0.00")</p>
+                    </div>
+                </div>
+            </div>
+            @if (@Model.DataFechado != null)
+            {
+
+                <div class="col-sm-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Fechado</h5>
+                            <p class="card-text"><strong>Funcionário:</strong> @Model.FuncionarioFechado.Nome</p>
+                            <p class="card-text"><strong>Data:</strong> @Model.DataFechado.Value.ToString("dd/MM/yy")</p>
+                            <p class="card-text"><strong>Hora:</strong> @Model.DataFechado.Value.ToString("HH:mm")</p>
+                            <p class="card-text"><strong>Valor:</strong> @Model.Total().ToString("R$ #,##0.00")</p>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="col-sm-4">
+                <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">@Model.Total().ToString("R$ #,##0.00")</h5>
+                    <div class="row">
+                        <div class="col-6">
+                            <p class="card-text"><strong>Entradas:</strong> @Model.TotalEntrada().ToString("R$ #,##0.00")</p>
+                            <p class="card-text"><strong>Dinheiro:</strong> @Model.TotalEntradaDinheiro().ToString("R$ #,##0.00")</p>
+                            <p class="card-text"><strong>Débito:</strong> @Model.TotalEntradaDebito().ToString("R$ #,##0.00")</p>
+                            <p class="card-text"><strong>Crédito:</strong> @Model.TotalEntradaCredito().ToString("R$ #,##0.00")</p>
+                            <p class="card-text"><strong>Cheque:</strong> @Model.TotalEntradaCheque().ToString("R$ #,##0.00")</p>
+                        </div>
+                        <div class="col-6">
+                            <p class="card-text"><strong>Saídas:</strong> @Model.TotalSaida().ToString("R$ #,##0.00")</p>
+                            <p class="card-text"><strong>Dinheiro:</strong> @Model.TotalSaidaDinheiro().ToString("R$ #,##0.00")</p>
+                            <p class="card-text"><strong>Débito:</strong> @Model.TotalSaidaDebito().ToString("R$ #,##0.00")</p>
+                            <p class="card-text"><strong>Crédito:</strong> @Model.TotalSaidaCredito().ToString("R$ #,##0.00")</p>
+                            <p class="card-text"><strong>Cheque:</strong> @Model.TotalSaidaCheque().ToString("R$ #,##0.00")</p>
+                        </div>
+                    </div>
+                    
+                </div>
+                </div>
+            </div>
+        </div>                  
+    </div>
+    
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped" id="dataTable" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Funcionário</th>
+                        <th>Descrição</th>
+                        <th>Data</th>
+                        <th>Hora</th>
+                        <th>Entrada</th>
+                        <th>Saída</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Id</th>
+                        <th>Funcionário</th>
+                        <th>Descrição</th>
+                        <th>Data</th>
+                        <th>Hora</th>
+                        <th>Entrada</th>
+                        <th>Saída</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var transacaoCaixa in Model.TransacoesCaixa)
+                    {
+                        <tr>
+                            <td>@transacaoCaixa.Id</td>
+                            <td>@transacaoCaixa.Funcionario.Nome</td>
+                            <td>@transacaoCaixa.Descricao</td>
+                            <td>@transacaoCaixa.Data.ToString("dd/MM/aa")</td>
+                            <td>@transacaoCaixa.Data.ToString("HH:mm")</td>
+                            <td>@(transacaoCaixa.Entrada ? transacaoCaixa.Valor.ToString("R$ ##,###,00") : "")</td>
+                            <td>@(!transacaoCaixa.Entrada ? transacaoCaixa.Valor.ToString("R$ ##,###,00") : "")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/vendor/datatables/jquery.dataTables.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.js"></script>
+    <script src="~/js/demo/datatables-demo.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+    <script>
+        $("#fecharCaixa").click(function () {
+            var cf = confirm("Tem certeza que deseja fechar o caixa?");
+            if (cf == true) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        });
+
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+
+        });
+
+    </script>
+}
