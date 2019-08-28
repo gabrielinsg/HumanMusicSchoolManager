@@ -133,7 +133,7 @@ namespace HumanMusicSchoolManager.Controllers
                         Data = reposicaoViewModel.DiaAula,
                     };
                     var config = _aulaConfigService.Buscar();
-                    aula.DataLimite = NowHorarioBrasilia.GetNow().AddHours(config.TempoLimiteLancamento);
+                    aula.DataLimite = aula.Data.AddHours(config.TempoLimiteLancamento);
                     _aulaService.Cadastrar(aula);
                 }
 
