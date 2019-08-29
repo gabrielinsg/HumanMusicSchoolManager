@@ -59,6 +59,12 @@ namespace HumanMusicSchoolManager.Services
             _context.SaveChanges();
         }
 
+        public void IncluirTransacao(TransacaoCaixa transacaoCaixa)
+        {
+            _context.TransacoesCaixa.Add(transacaoCaixa);
+            _context.SaveChanges();
+        }
+
         public List<Caixa> ListarCaixas(DateTime inicial, DateTime final)
         {
             inicial = DateTimeEntradaSaida.Inicial(inicial);
@@ -69,6 +75,16 @@ namespace HumanMusicSchoolManager.Services
                 .Include(c => c.FuncionarioAberto)
                 .Include(c => c.FuncionarioFechado)
                 .ToList();
+        }
+
+        public Caixa BuscarCaixaAberto()
+        {
+            return _context.Caixas
+                .Include(c => c.TransacoesCaixa)
+                .ThenInclude(t => t.Funcionario)
+                .Include(c => c.FuncionarioAberto)
+                .Include(c => c.FuncionarioFechado)
+                .FirstOrDefault(c => c.DataFechado == null);
         }
     }
 }

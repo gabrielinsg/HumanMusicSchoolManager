@@ -1,4 +1,4 @@
-﻿@model Caixa
+﻿@model CaixaViewModel
 
 @{
     ViewData["Title"] = "Caixa";
@@ -9,20 +9,23 @@
         .card-text{
             margin: 0px;
         }
+        .lancar{
+            margin-top: 25px;
+        }
     </style>
 }
 
 <div class="card mb-3">
     <div class="card-header">
         <div class="row">
-            <div class="col-xl-2 col-md-">
+            <div class="col-xl-2 col-md-2">
                 <i class="fas fa-file-invoice-dollar"></i>
                 Movimento do caixa
             </div>
             <div class="col-xl-8 col-md-8">
                 <a asp-action="Index" class="btn btn-primary">Voltar</a>
             </div>
-            @if (@Model.DataFechado == null)
+            @if (@Model.Caixa.DataFechado == null)
             {
                 <form asp-action="Fechar" method="post">
                     <div class="col-xl-2 col-md-2">
@@ -39,55 +42,111 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Aberto</h5>
-                        <p class="card-text"><strong>Funcionário:</strong> @Model.FuncionarioAberto.Nome</p>
-                        <p class="card-text"><strong>Data:</strong> @Model.DataAberto.ToString("dd/MM/yy")</p>
-                        <p class="card-text"><strong>Hora:</strong> @Model.DataAberto.ToString("HH:mm")</p>
-                        <p class="card-text"><strong>Valor:</strong> @Model.ValorAberto.ToString("R$ #,##0.00")</p>
+                        <p class="card-text"><strong>Funcionário:</strong> @Model.Caixa.FuncionarioAberto.Nome</p>
+                        <p class="card-text"><strong>Data:</strong> @Model.Caixa.DataAberto.ToString("dd/MM/yy")</p>
+                        <p class="card-text"><strong>Hora:</strong> @Model.Caixa.DataAberto.ToString("HH:mm")</p>
+                        <p class="card-text"><strong>Valor:</strong> @Model.Caixa.ValorAberto.ToString("R$ #,##0.00")</p>
                     </div>
                 </div>
             </div>
-            @if (@Model.DataFechado != null)
+            @if (@Model.Caixa.DataFechado != null)
             {
 
                 <div class="col-sm-4">
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Fechado</h5>
-                            <p class="card-text"><strong>Funcionário:</strong> @Model.FuncionarioFechado.Nome</p>
-                            <p class="card-text"><strong>Data:</strong> @Model.DataFechado.Value.ToString("dd/MM/yy")</p>
-                            <p class="card-text"><strong>Hora:</strong> @Model.DataFechado.Value.ToString("HH:mm")</p>
-                            <p class="card-text"><strong>Valor:</strong> @Model.Total().ToString("R$ #,##0.00")</p>
+                            <p class="card-text"><strong>Funcionário:</strong> @Model.Caixa.FuncionarioFechado.Nome</p>
+                            <p class="card-text"><strong>Data:</strong> @Model.Caixa.DataFechado.Value.ToString("dd/MM/yy")</p>
+                            <p class="card-text"><strong>Hora:</strong> @Model.Caixa.DataFechado.Value.ToString("HH:mm")</p>
+                            <p class="card-text"><strong>Valor:</strong> @Model.Caixa.Total().ToString("R$ #,##0.00")</p>
                         </div>
                     </div>
                 </div>
             }
             <div class="col-sm-4">
                 <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">@Model.Total().ToString("R$ #,##0.00")</h5>
-                    <div class="row">
-                        <div class="col-6">
-                            <p class="card-text"><strong>Entradas:</strong> @Model.TotalEntrada().ToString("R$ #,##0.00")</p>
-                            <p class="card-text"><strong>Dinheiro:</strong> @Model.TotalEntradaDinheiro().ToString("R$ #,##0.00")</p>
-                            <p class="card-text"><strong>Débito:</strong> @Model.TotalEntradaDebito().ToString("R$ #,##0.00")</p>
-                            <p class="card-text"><strong>Crédito:</strong> @Model.TotalEntradaCredito().ToString("R$ #,##0.00")</p>
-                            <p class="card-text"><strong>Cheque:</strong> @Model.TotalEntradaCheque().ToString("R$ #,##0.00")</p>
+                    <div class="card-body">
+                        <h5 class="card-title"><strong>Total:</strong> @Model.Caixa.Total().ToString("R$ #,##0.00")</h5>
+                        <div class="row">
+                            <div class="col-6">
+                                <p class="card-text"><strong>Entradas:</strong> @Model.Caixa.TotalEntrada().ToString("R$ #,##0.00")</p>
+                                <p class="card-text"><strong>Dinheiro:</strong> @Model.Caixa.TotalEntradaDinheiro().ToString("R$ #,##0.00")</p>
+                                <p class="card-text"><strong>Débito:</strong> @Model.Caixa.TotalEntradaDebito().ToString("R$ #,##0.00")</p>
+                                <p class="card-text"><strong>Crédito:</strong> @Model.Caixa.TotalEntradaCredito().ToString("R$ #,##0.00")</p>
+                                <p class="card-text"><strong>Cheque:</strong> @Model.Caixa.TotalEntradaCheque().ToString("R$ #,##0.00")</p>
+                            </div>
+                            <div class="col-6">
+                                <p class="card-text"><strong>Saídas:</strong> @Model.Caixa.TotalSaida().ToString("R$ #,##0.00")</p>
+                                <p class="card-text"><strong>Dinheiro:</strong> @Model.Caixa.TotalSaidaDinheiro().ToString("R$ #,##0.00")</p>
+                                <p class="card-text"><strong>Débito:</strong> @Model.Caixa.TotalSaidaDebito().ToString("R$ #,##0.00")</p>
+                                <p class="card-text"><strong>Crédito:</strong> @Model.Caixa.TotalSaidaCredito().ToString("R$ #,##0.00")</p>
+                                <p class="card-text"><strong>Cheque:</strong> @Model.Caixa.TotalSaidaCheque().ToString("R$ #,##0.00")</p>
+                            </div>
                         </div>
-                        <div class="col-6">
-                            <p class="card-text"><strong>Saídas:</strong> @Model.TotalSaida().ToString("R$ #,##0.00")</p>
-                            <p class="card-text"><strong>Dinheiro:</strong> @Model.TotalSaidaDinheiro().ToString("R$ #,##0.00")</p>
-                            <p class="card-text"><strong>Débito:</strong> @Model.TotalSaidaDebito().ToString("R$ #,##0.00")</p>
-                            <p class="card-text"><strong>Crédito:</strong> @Model.TotalSaidaCredito().ToString("R$ #,##0.00")</p>
-                            <p class="card-text"><strong>Cheque:</strong> @Model.TotalSaidaCheque().ToString("R$ #,##0.00")</p>
-                        </div>
+
                     </div>
-                    
-                </div>
                 </div>
             </div>
-        </div>                  
+        </div>
     </div>
-    
+
+    <div class="card-body">
+        <div class="row list-group">
+            <div class="col-md-12 list-group-item">
+                <form asp-action="LancarTransacao" method="post">
+                    <input type="hidden" asp-for="Caixa.Id" />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="TransacaoCaixa.Descricao"></label>
+                                <input class="form-control" asp-for="TransacaoCaixa.Descricao" required  oninvalid="this.setCustomValidity('Descrição obrigatória')" />
+                                <span asp-validation-for="TransacaoCaixa.Descricao" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label asp-for="TransacaoCaixa.Valor"></label>
+                                <input class="form-control" type="number" required  oninvalid="this.setCustomValidity('Valor obrigatório')" asp-for="TransacaoCaixa.Valor" />
+                                <span asp-validation-for="TransacaoCaixa.Valor" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label asp-for="TransacaoCaixa.FormaPagamento">Forma pagamento</label>
+                                <select asp-for="TransacaoCaixa.FormaPagamento" class="form-control" required  oninvalid="this.setCustomValidity('Forma de pagamento obrigatório ')" asp-items='Html.GetEnumSelectList<FormaPagamento>().Where(f => f.Value != "0")'>
+                                    <option selected="selected" value=""></option>
+                                </select>
+                                <span asp-validation-for="TransacaoCaixa.FormaPagamento" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="form-group">
+
+                                <label>Operação</label>
+                                <div class="form-check">
+                                    <input asp-for="TransacaoCaixa.Entrada" class="form-check-input" type="radio" value="true" checked>
+                                    <label class="form-check-label" asp-for="TransacaoCaixa.Entrada">
+                                        Entrada
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input asp-for="TransacaoCaixa.Entrada" class="form-check-input" type="radio" value="false">
+                                    <label class="form-check-label" asp-for="TransacaoCaixa.Entrada">
+                                        Saída
+                                    </label>
+                                </div>
+                                <span asp-validation-for="TransacaoCaixa.Entrada" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <button class="btn btn-success lancar">Lançar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <div class="card-body">
         <div class="table-responsive">
@@ -99,6 +158,7 @@
                         <th>Descrição</th>
                         <th>Data</th>
                         <th>Hora</th>
+                        <th>Forma</th>
                         <th>Entrada</th>
                         <th>Saída</th>
                     </tr>
@@ -110,21 +170,23 @@
                         <th>Descrição</th>
                         <th>Data</th>
                         <th>Hora</th>
+                        <th>Forma</th>
                         <th>Entrada</th>
                         <th>Saída</th>
                     </tr>
                 </tfoot>
                 <tbody>
-                    @foreach (var transacaoCaixa in Model.TransacoesCaixa)
+                    @foreach (var transacaoCaixa in Model.Caixa.TransacoesCaixa)
                     {
                         <tr>
                             <td>@transacaoCaixa.Id</td>
                             <td>@transacaoCaixa.Funcionario.Nome</td>
                             <td>@transacaoCaixa.Descricao</td>
-                            <td>@transacaoCaixa.Data.ToString("dd/MM/aa")</td>
+                            <td>@transacaoCaixa.Data.ToString("dd/MM/yy")</td>
                             <td>@transacaoCaixa.Data.ToString("HH:mm")</td>
-                            <td>@(transacaoCaixa.Entrada ? transacaoCaixa.Valor.ToString("R$ ##,###,00") : "")</td>
-                            <td>@(!transacaoCaixa.Entrada ? transacaoCaixa.Valor.ToString("R$ ##,###,00") : "")</td>
+                            <td>@Html.DisplayFor(d => transacaoCaixa.FormaPagamento)</td>
+                            <td>@(transacaoCaixa.Entrada ? transacaoCaixa.Valor.ToString("R$ #,##0.00") : "")</td>
+                            <td>@(!transacaoCaixa.Entrada ? transacaoCaixa.Valor.ToString("R$ #,##0.00") : "")</td>
                         </tr>
                     }
                 </tbody>

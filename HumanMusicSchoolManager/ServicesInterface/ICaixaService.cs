@@ -13,5 +13,7 @@ namespace HumanMusicSchoolManager.ServicesInterface
         List<Caixa> ListarCaixas(DateTime inical, DateTime final);
         Caixa BuscarCaixa(int caixaId);
         bool CaixaAberto();
+        void IncluirTransacao(TransacaoCaixa transacaoCaixa);
+        Caixa BuscarCaixaAberto();
     }
 }

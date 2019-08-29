@@ -14,12 +14,14 @@ namespace HumanMusicSchoolManager.Models.Models
         [Required]
         public DateTime Data { get; set; }
         [Required(ErrorMessage = "A descrição deve ser preenchida")]
+        [Display(Name = "Descrição")]
         public string Descricao { get; set; }
         [Required(ErrorMessage = "O valor deve ser informado")]
         public decimal Valor { get; set; }
         public bool Entrada { get; set; }
         public int FuncionarioId { get; set; }
         public Funcionario Funcionario { get; set; }
+        [Required(ErrorMessage = "A forma de pagamento deve ser informada")]
         public FormaPagamento FormaPagamento { get; set; }
     }
 }

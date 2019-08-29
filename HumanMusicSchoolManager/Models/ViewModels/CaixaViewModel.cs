@@ -8,8 +8,7 @@ namespace HumanMusicSchoolManager.Models.ViewModels
 {
     public class CaixaViewModel
     {
-        public List<Caixa> Caixas { get; set; }
-        public DateTime? Inicial { get; set; }
-        public DateTime? Final { get; set; }
+        public Caixa Caixa { get; set; }
+        public TransacaoCaixa TransacaoCaixa { get; set; }
     }
 }

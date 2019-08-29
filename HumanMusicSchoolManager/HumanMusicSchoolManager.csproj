@@ -68,6 +68,8 @@
     <Compile Remove="Migrations\20190429213410_AulaConfig.Designer.cs" />
     <Compile Remove="Migrations\20190727145921_teste.cs" />
     <Compile Remove="Migrations\20190727145921_teste.Designer.cs" />
+    <Compile Remove="Migrations\20190829030929_TransacaoCaixaFormaPagamentoNotNull.cs" />
+    <Compile Remove="Migrations\20190829030929_TransacaoCaixaFormaPagamentoNotNull.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

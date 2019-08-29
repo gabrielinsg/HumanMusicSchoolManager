@@ -21,7 +21,7 @@ namespace HumanMusicSchoolManager.Models.Models
 
         public decimal Total()
         {
-            decimal total = 0;
+            decimal total = ValorAberto;
             foreach (var transacaoCaixa in TransacoesCaixa)
             {
                 if (transacaoCaixa.Entrada)

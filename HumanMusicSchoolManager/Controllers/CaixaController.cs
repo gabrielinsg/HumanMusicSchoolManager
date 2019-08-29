@@ -40,7 +40,7 @@ namespace HumanMusicSchoolManager.Controllers
                 final = NowHorarioBrasilia.GetNow().AddDays(-NowHorarioBrasilia.GetNow().Day + 1).AddMonths(1).AddDays(-1);
             }
 
-            var caixaViewModel = new CaixaViewModel()
+            var caixaViewModel = new CaixaIndexViewModel()
             {
                 Caixas = _caixaService.ListarCaixas(inicial.Value, final.Value),
                 Inicial = inicial,
@@ -69,9 +69,28 @@ namespace HumanMusicSchoolManager.Controllers
             }
         }
 
-        public IActionResult Caixa(int caixaId)
+        public IActionResult Caixa(int? caixaId)
         {
-            return View(_caixaService.BuscarCaixa(caixaId));
+            var caixaViewModel = new CaixaViewModel();
+            if (caixaId != null)
+            {
+                caixaViewModel.Caixa = _caixaService.BuscarCaixa(caixaId.Value);
+            }
+            else
+            {
+                var caixa = _caixaService.BuscarCaixaAberto();
+                if (caixa == null)
+                {
+                    TempData["Warning"] = "Não existe caixa aberto para realizar essa operação";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    caixaViewModel.Caixa = caixa;
+                }
+            }
+
+            return View(caixaViewModel);
         }
 
         [HttpPost]
@@ -80,6 +99,27 @@ namespace HumanMusicSchoolManager.Controllers
             var funcionario = _funcionarioService.BuscarPorId(_pessoaService.BusacarPorUserName(User.Identity.Name).Id.Value);
             _caixaService.FecharCaixa(funcionario);
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult LancarTransacao(CaixaViewModel caixaViewModel)
+        {
+            caixaViewModel.TransacaoCaixa.Data = NowHorarioBrasilia.GetNow();
+            caixaViewModel.TransacaoCaixa.Funcionario = _funcionarioService.BuscarPorId(_pessoaService.BusacarPorUserName(User.Identity.Name).Id.Value);            
+            caixaViewModel.Caixa = _caixaService.BuscarCaixa(caixaViewModel.Caixa.Id);
+            caixaViewModel.TransacaoCaixa.Caixa = caixaViewModel.Caixa;
+
+            if (ModelState.IsValid)
+            {
+                _caixaService.IncluirTransacao(caixaViewModel.TransacaoCaixa);
+                caixaViewModel.TransacaoCaixa = new TransacaoCaixa();
+                TempData["Success"] = "Transação lançada com sucesso";
+                return RedirectToAction("Caixa", new { caixaId = caixaViewModel.Caixa.Id});
+            }
+
+            
+            return View("Caixa", caixaViewModel);
+
         }
     }
 }

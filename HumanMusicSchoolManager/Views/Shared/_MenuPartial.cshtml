@@ -4,135 +4,148 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 <!-- Sidebar -->
-<ul class="sidebar navbar-nav">
-    <li class="nav-item">
-        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span>
-        </a>
-    </li>
-    @if (SignInManager.IsSignedIn(User))
-    {
+    <ul class="sidebar navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+        @if (SignInManager.IsSignedIn(User))
+        {
 
-        @if (User.IsInRole("Professor"))
-        {
-            <li class="nav-item">
-                <a class="nav-link" asp-controller="Professor" asp-action="Calendario">
-                    <i class="far fa-calendar-alt"></i>
-                    <span>Calendário</span>
-                </a>
-                <a class="nav-link" asp-controller="Aula" asp-action="AulasAtrasadas">
-                    <i class="fas fa-exclamation-circle"></i> 
-                    <span>Aulas Atrasadas</span>
-                </a>
+            @if (User.IsInRole("Professor"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Professor" asp-action="Calendario">
+                        <i class="far fa-calendar-alt"></i>
+                        <span>Calendário</span>
+                    </a>
+                    <a class="nav-link" asp-controller="Aula" asp-action="AulasAtrasadas">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span>Aulas Atrasadas</span>
+                    </a>
 
-                <a class="nav-link" target="_blank" asp-controller="Professor" asp-action="FolhaPontoProfessor">
-                    <i class="far fa-file-alt"></i>
-                    <span>Folha de ponto</span>
-                </a>
-                <a class="nav-link" asp-controller="Professor" asp-action="RelatorioProfessor">
-                    <i class="far fa-file-alt"></i>
-                    <span>Relatório Professor</span>
-                </a>
-            </li>
-        }
+                    <a class="nav-link" target="_blank" asp-controller="Professor" asp-action="FolhaPontoProfessor">
+                        <i class="far fa-file-alt"></i>
+                        <span>Folha de ponto</span>
+                    </a>
+                    <a class="nav-link" asp-controller="Professor" asp-action="RelatorioProfessor">
+                        <i class="far fa-file-alt"></i>
+                        <span>Relatório Professor</span>
+                    </a>
+                </li>
+            }
 
-        @if (User.IsInRole("Coordenacao") || User.IsInRole("Admin"))
-        {
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle folders" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-folder"></i>
-                    <span>Coordenação</span>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                    <a class="dropdown-item" asp-controller="Professor" asp-action="Index"><i class="fas fa-chalkboard-teacher"></i> Professores</a>
-                    <a class="dropdown-item" asp-controller="Professor" target="_blank" asp-action="FolhaPontoProfessor"><i class="far fa-file-alt"></i> Folha de Ponto</a>
-                    <a class="dropdown-item" asp-controller="Aula" asp-action="AulasAtrasadas"><i class="fas fa-exclamation-circle"></i> Aulas Atrasadas</a>
-                    <a class="dropdown-item" asp-controller="Curso" asp-action="Index"><i class="fas fa-music"></i> Cursos</a>
-                    <a class="dropdown-item" asp-controller="Sala" asp-action="Index"><i class="fas fa-chalkboard"></i> Salas</a>
-                    <a class="dropdown-item" asp-controller="Feriado" asp-action="Index"><i class="far fa-calendar-alt"></i> Feriados</a>
-                    <a class="dropdown-item" asp-controller="Evento" asp-action="Index"><i class="far fa-calendar-check"></i> Eventos</a>
-                </div>
-            </li>
-        }
+            @if (User.IsInRole("Coordenacao") || User.IsInRole("Admin"))
+            {
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle folders" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-folder"></i>
+                        <span>Coordenação</span>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                        <a class="dropdown-item" asp-controller="Professor" asp-action="Index"><i class="fas fa-chalkboard-teacher"></i> Professores</a>
+                        <a class="dropdown-item" asp-controller="Professor" target="_blank" asp-action="FolhaPontoProfessor"><i class="far fa-file-alt"></i> Folha de Ponto</a>
+                        <a class="dropdown-item" asp-controller="Aula" asp-action="AulasAtrasadas"><i class="fas fa-exclamation-circle"></i> Aulas Atrasadas</a>
+                        <a class="dropdown-item" asp-controller="Curso" asp-action="Index"><i class="fas fa-music"></i> Cursos</a>
+                        <a class="dropdown-item" asp-controller="Sala" asp-action="Index"><i class="fas fa-chalkboard"></i> Salas</a>
+                        <a class="dropdown-item" asp-controller="Feriado" asp-action="Index"><i class="far fa-calendar-alt"></i> Feriados</a>
+                        <a class="dropdown-item" asp-controller="Evento" asp-action="Index"><i class="far fa-calendar-check"></i> Eventos</a>
+                    </div>
+                </li>
+            }
 
-        @if (User.IsInRole("Secretaria") || User.IsInRole("Admin"))
-        {
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle folders" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-folder"></i>
-                    <span>Secretaria</span>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                    <a class="dropdown-item" asp-controller="Funcionario" asp-action="Index"><i class="far fa-address-card"></i> Funcionários</a>
-                    <a class="dropdown-item" asp-controller="PacoteAula" asp-action="Index"><i class="fas fa-box-open"></i> Pacotes de Aula</a>
-                    <a class="dropdown-item" asp-controller="TaxaMatricula" asp-action="Index"><i class="fas fa-dollar-sign"></i> Taxas de Matricula</a>
-                    <a class="dropdown-item" asp-controller="Contrato" asp-action="Index"><i class="far fa-file-alt"></i> Contratos</a>
-                </div>
-            </li>
-        }
+            @if (User.IsInRole("Secretaria") || User.IsInRole("Admin"))
+            {
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle folders" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-folder"></i>
+                        <span>Secretaria</span>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                        <a class="dropdown-item" asp-controller="Funcionario" asp-action="Index"><i class="far fa-address-card"></i> Funcionários</a>
+                        <a class="dropdown-item" asp-controller="PacoteAula" asp-action="Index"><i class="fas fa-box-open"></i> Pacotes de Aula</a>
+                        <a class="dropdown-item" asp-controller="TaxaMatricula" asp-action="Index"><i class="fas fa-dollar-sign"></i> Taxas de Matricula</a>
+                        <a class="dropdown-item" asp-controller="Contrato" asp-action="Index"><i class="far fa-file-alt"></i> Contratos</a>
+                    </div>
+                </li>
+            }
 
-        @if (User.IsInRole("Atendimento") || User.IsInRole("Admin"))
-        {
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle folders" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-folder"></i>
-                    <span>Atendimento</span>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                    <a class="dropdown-item" asp-controller="Aluno" asp-action="Index"><i class="fas fa-user-graduate"></i> Alunos</a>
-                    <a class="dropdown-item" asp-controller="RespFinanceiro" asp-action="Index"><i class="fas fa-money-check-alt"></i> Resp financeiros</a>
-                    <a class="dropdown-item" asp-controller="Financeiro" asp-action="ParcelasEmAberto"><i class="fas fa-dollar-sign"></i> Parcelas em aberto</a>
-                    <a class="dropdown-item" asp-controller="Financeiro" asp-action="ParcelasVencidas"><i class="fas fa-dollar-sign"></i> Parcelas vencidas</a>
-                    <a class="dropdown-item" asp-controller="PacoteCompra" asp-action="FaltasSeguidas"><i class="far fa-file-alt"></i> Faltas Seguidas</a>
-                    <a class="dropdown-item" asp-controller="PacoteCompra" asp-action="UtimaAula"><i class="far fa-file-alt"></i> Utima Aula</a>
-                </div>
-            </li>
-        }
-        @if (User.IsInRole("Atendimento") || User.IsInRole("Vendas") || User.IsInRole("Admin"))
-        {
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle folders" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-folder"></i>
-                    <span>Vendas</span>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                    <a class="dropdown-item" asp-controller="Candidato" asp-action="Index"><i class="fas fa-user"></i> Candidatos</a>
-                    <a class="dropdown-item" asp-controller="Demostrativa" asp-action="DemostrativasAbertas"><i class="fas fa-music"></i> Abertas</a>
-                    <a class="dropdown-item" asp-controller="DispSala" asp-action="HorariosDisponiveis"><i class="far fa-calendar-alt"></i> Horários Disponíveis</a>
-                    <a class="dropdown-item" asp-controller="DispSala" asp-action="TodosHorarios"><i class="far fa-calendar-alt"></i> Quadro Horário</a>
-                    <a class="dropdown-item" asp-controller="Demostrativa" asp-action="NaoContratou"><i class="far fa-file-alt"></i> Não contratou</a>
-                </div>
-            </li>
-        }
-        @if (User.IsInRole("Admin"))
-        {
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle folders" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-folder"></i>
-                    <span>Configurações</span>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                    <a class="dropdown-item" asp-controller="EmailConfig" asp-action="Form"><i class="far fa-envelope"></i> E-Mail</a>
-                    <a class="dropdown-item" asp-controller="AulaConfig" asp-action="Form"><i class="fas fa-chalkboard-teacher"></i> Aula</a>
-                </div>
-            </li>
-        }
-        @if (User.IsInRole("Admin") || User.IsInRole("Coordenacao") || User.IsInRole("Secretaria") || User.IsInRole("Atendimento"))
-        {
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle folders" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-folder"></i>
-                    <span>Relatórios</span>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                    <a class="dropdown-item" asp-controller="Relatorio" asp-action="Disponibilidade"><i class="far fa-file-alt"></i> Disponibilidade</a>
-                    <a class="dropdown-item" asp-controller="Relatorio" asp-action="Alunos"><i class="far fa-file-alt"></i> Alunos</a>
-                    <a class="dropdown-item" asp-controller="Relatorio" asp-action="PacoteCompra"><i class="far fa-file-alt"></i> Pacotes Vendidos</a>
-                </div>
-            </li>
-        }
+            @if (User.IsInRole("Atendimento") || User.IsInRole("Admin"))
+            {
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle folders" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-folder"></i>
+                        <span>Atendimento</span>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                        <a class="dropdown-item" asp-controller="Aluno" asp-action="Index"><i class="fas fa-user-graduate"></i> Alunos</a>
+                        <a class="dropdown-item" asp-controller="RespFinanceiro" asp-action="Index"><i class="fas fa-money-check-alt"></i> Resp financeiros</a>
+                        <a class="dropdown-item" asp-controller="Financeiro" asp-action="ParcelasEmAberto"><i class="fas fa-dollar-sign"></i> Parcelas em aberto</a>
+                        <a class="dropdown-item" asp-controller="Financeiro" asp-action="ParcelasVencidas"><i class="fas fa-dollar-sign"></i> Parcelas vencidas</a>
+                        <a class="dropdown-item" asp-controller="PacoteCompra" asp-action="FaltasSeguidas"><i class="far fa-file-alt"></i> Faltas Seguidas</a>
+                        <a class="dropdown-item" asp-controller="PacoteCompra" asp-action="UtimaAula"><i class="far fa-file-alt"></i> Utima Aula</a>
+                    </div>
+                </li>
+            }
+            @if (User.IsInRole("Atendimento") || User.IsInRole("Admin"))
+            {
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle folders" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-folder"></i>
+                        <span>Caixa</span>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                        <a class="dropdown-item" asp-controller="Caixa" asp-action="Index"><i class="fas fa-cash-register"></i> Caixas</a>
+                        <a class="dropdown-item" asp-controller="Caixa" asp-action="Caixa"><i class="fas fa-file-invoice-dollar"></i> Lançar</a>
+                    </div>
+                </li>
+            }
+            @if (User.IsInRole("Atendimento") || User.IsInRole("Vendas") || User.IsInRole("Admin"))
+            {
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle folders" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-folder"></i>
+                        <span>Vendas</span>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                        <a class="dropdown-item" asp-controller="Candidato" asp-action="Index"><i class="fas fa-user"></i> Candidatos</a>
+                        <a class="dropdown-item" asp-controller="Demostrativa" asp-action="DemostrativasAbertas"><i class="fas fa-music"></i> Abertas</a>
+                        <a class="dropdown-item" asp-controller="DispSala" asp-action="HorariosDisponiveis"><i class="far fa-calendar-alt"></i> Horários Disponíveis</a>
+                        <a class="dropdown-item" asp-controller="DispSala" asp-action="TodosHorarios"><i class="far fa-calendar-alt"></i> Quadro Horário</a>
+                        <a class="dropdown-item" asp-controller="Demostrativa" asp-action="NaoContratou"><i class="far fa-file-alt"></i> Não contratou</a>
+                    </div>
+                </li>
+            }
+            @if (User.IsInRole("Admin"))
+            {
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle folders" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-folder"></i>
+                        <span>Configurações</span>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                        <a class="dropdown-item" asp-controller="EmailConfig" asp-action="Form"><i class="far fa-envelope"></i> E-Mail</a>
+                        <a class="dropdown-item" asp-controller="AulaConfig" asp-action="Form"><i class="fas fa-chalkboard-teacher"></i> Aula</a>
+                    </div>
+                </li>
+            }
+            @if (User.IsInRole("Admin") || User.IsInRole("Coordenacao") || User.IsInRole("Secretaria") || User.IsInRole("Atendimento"))
+            {
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle folders" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-folder"></i>
+                        <span>Relatórios</span>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                        <a class="dropdown-item" asp-controller="Relatorio" asp-action="Disponibilidade"><i class="far fa-file-alt"></i> Disponibilidade</a>
+                        <a class="dropdown-item" asp-controller="Relatorio" asp-action="Alunos"><i class="far fa-file-alt"></i> Alunos</a>
+                        <a class="dropdown-item" asp-controller="Relatorio" asp-action="PacoteCompra"><i class="far fa-file-alt"></i> Pacotes Vendidos</a>
+                    </div>
+                </li>
+            }
 
-    }
-</ul>
+        }
+    </ul>
 
