@@ -24,7 +24,7 @@ namespace HumanMusicSchoolManager.Services
             var caixa = new Caixa(){
                 DataAberto = NowHorarioBrasilia.GetNow(),
                 FuncionarioAberto = funcionario,
-                CaixaAnterior = caixaAnterior
+                TotalAnterior = caixaAnterior == null ? 0 : caixaAnterior.TotalDinheiro()
             };
             
             _context.Caixas.Add(caixa);
@@ -38,8 +38,6 @@ namespace HumanMusicSchoolManager.Services
                 .ThenInclude(t => t.Funcionario)
                 .Include(c => c.FuncionarioAberto)
                 .Include(c => c.FuncionarioFechado)
-                .Include(c => c.CaixaAnterior)
-                .ThenInclude(ca => ca.TransacoesCaixa)
                 .FirstOrDefault(c => c.Id == caixaId);
         }
 
@@ -76,8 +74,6 @@ namespace HumanMusicSchoolManager.Services
                 .Include(c => c.TransacoesCaixa)
                 .Include(c => c.FuncionarioAberto)
                 .Include(c => c.FuncionarioFechado)
-                .Include(c => c.CaixaAnterior)
-                .ThenInclude(ca => ca.TransacoesCaixa)
                 .ToList();
         }
 
@@ -88,8 +84,6 @@ namespace HumanMusicSchoolManager.Services
                 .ThenInclude(t => t.Funcionario)
                 .Include(c => c.FuncionarioAberto)
                 .Include(c => c.FuncionarioFechado)
-                .Include(c => c.CaixaAnterior)
-                .ThenInclude(ca => ca.TransacoesCaixa)
                 .FirstOrDefault(c => c.DataFechado == null);
         }
     }

@@ -16,13 +16,14 @@ namespace HumanMusicSchoolManager.Models.Models
         public int FuncionarioAbertoId { get; set; }
         public Funcionario FuncionarioAberto { get; set; }
         public Funcionario FuncionarioFechado { get; set; }
-        [ForeignKey("CaixaAnteriorId")]
-        public Caixa CaixaAnterior { get; set; }
+
         public List<TransacaoCaixa> TransacoesCaixa { get; set; }
+
+        public decimal? TotalAnterior { get; set; }
 
         public decimal Total()
         {
-            decimal total = CaixaAnterior == null ? 0 : CaixaAnterior.Total();
+            decimal total = TotalAnterior == null ? 0 : TotalAnterior.Value;
             foreach (var transacaoCaixa in TransacoesCaixa)
             {
                 if (transacaoCaixa.Entrada)
@@ -39,7 +40,7 @@ namespace HumanMusicSchoolManager.Models.Models
 
         public decimal TotalEntradaDinheiro()
         {
-            return TransacoesCaixa.Where(tc => tc.FormaPagamento == FormaPagamento.DINHEIRO && tc.Entrada).Sum(tc => tc.Valor);
+            return (TransacoesCaixa.Where(tc => tc.FormaPagamento == FormaPagamento.DINHEIRO && tc.Entrada).Sum(tc => tc.Valor)) + (TotalAnterior == null ? 0 : TotalAnterior.Value);
         }
         
         public decimal TotalEntradaDebito()

@@ -70,6 +70,8 @@
     <Compile Remove="Migrations\20190727145921_teste.Designer.cs" />
     <Compile Remove="Migrations\20190829030929_TransacaoCaixaFormaPagamentoNotNull.cs" />
     <Compile Remove="Migrations\20190829030929_TransacaoCaixaFormaPagamentoNotNull.Designer.cs" />
+    <Compile Remove="Migrations\20190830153156_ValorCaixaAnterior.cs" />
+    <Compile Remove="Migrations\20190830153156_ValorCaixaAnterior.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -45,11 +45,7 @@
                         <p class="card-text"><strong>Funcionário:</strong> @Model.Caixa.FuncionarioAberto.Nome</p>
                         <p class="card-text"><strong>Data:</strong> @Model.Caixa.DataAberto.ToString("dd/MM/yy")</p>
                         <p class="card-text"><strong>Hora:</strong> @Model.Caixa.DataAberto.ToString("HH:mm")</p>
-                        <p class="card-text"><strong>Total:</strong> @(Model.Caixa.CaixaAnterior == null ? "R$ 0,00" : Model.Caixa.CaixaAnterior.Total().ToString("R$ #,##0.00"))</p>
-                        <p class="card-text"><strong>Dinheiro:</strong> @(Model.Caixa.CaixaAnterior == null ? "R$ 0,00" : Model.Caixa.CaixaAnterior.TotalDinheiro().ToString("R$ #,##0.00"))</p>
-                        <p class="card-text"><strong>Débito:</strong> @(Model.Caixa.CaixaAnterior == null ? "R$ 0,00" : Model.Caixa.CaixaAnterior.TotalDebito().ToString("R$ #,##0.00"))</p>
-                        <p class="card-text"><strong>Crédito:</strong> @(Model.Caixa.CaixaAnterior == null ? "R$ 0,00" : Model.Caixa.CaixaAnterior.TotalCredito().ToString("R$ #,##0.00"))</p>
-                        <p class="card-text"><strong>Cheque:</strong> @(Model.Caixa.CaixaAnterior == null ? "R$ 0,00" : Model.Caixa.CaixaAnterior.TotalCredito().ToString("R$ #,##0.00"))</p>                        
+                        <p class="card-text"><strong>Total:</strong> @(Model.Caixa.TotalAnterior == null ? "R$ 0,00" : Model.Caixa.TotalAnterior.Value.ToString("R$ #,##0.00"))</p>
                     </div>
                 </div>
             </div>
@@ -78,11 +74,9 @@
                         <h5 class="card-title"><strong>Total:</strong> @Model.Caixa.Total().ToString("R$ #,##0.00")</h5>
                         <div class="row">
                             <div class="col-4">
-                                @{ 
-                                    var totalDinheiro = Model.Caixa.CaixaAnterior == null ? 0 : Model.Caixa.CaixaAnterior.TotalDinheiro();
-                                }
+
                                 <p class="card-text"><strong>Entradas:</strong> @Model.Caixa.TotalEntrada().ToString("R$ #,##0.00")</p>
-                                <p class="card-text"><strong>Dinheiro:</strong> @((totalDinheiro + Model.Caixa.TotalEntradaDinheiro()).ToString("R$ #,##0.00"))</p>
+                                <p class="card-text"><strong>Dinheiro:</strong> @Model.Caixa.TotalEntradaDinheiro().ToString("R$ #,##0.00")</p>
                                 <p class="card-text"><strong>Débito:</strong> @Model.Caixa.TotalEntradaDebito().ToString("R$ #,##0.00")</p>
                                 <p class="card-text"><strong>Crédito:</strong> @Model.Caixa.TotalEntradaCredito().ToString("R$ #,##0.00")</p>
                                 <p class="card-text"><strong>Cheque:</strong> @Model.Caixa.TotalEntradaCheque().ToString("R$ #,##0.00")</p>
@@ -96,7 +90,7 @@
                             </div>
                             <div class="col-4">
                                 <p class="card-text"><strong>Total:</strong> @Model.Caixa.Total().ToString("R$ #,##0.00")</p>
-                                <p class="card-text"><strong>Dinheiro:</strong> @((totalDinheiro + Model.Caixa.TotalDinheiro()).ToString("R$ #,##0.00"))</p>
+                                <p class="card-text"><strong>Dinheiro:</strong> @Model.Caixa.TotalDinheiro().ToString("R$ #,##0.00")</p>
                                 <p class="card-text"><strong>Débito:</strong> @Model.Caixa.TotalDebito().ToString("R$ #,##0.00")</p>
                                 <p class="card-text"><strong>Crédito:</strong> @Model.Caixa.TotalCredito().ToString("R$ #,##0.00")</p>
                                 <p class="card-text"><strong>Cheque:</strong> @Model.Caixa.TotalCheque().ToString("R$ #,##0.00")</p>
@@ -108,64 +102,67 @@
             </div>
         </div>
     </div>
+    @if (Model.Caixa.DataFechado == null)
+    {
 
-    <div class="card-body">
-        <div class="row list-group">
-            <div class="col-md-12 list-group-item">
-                <form asp-action="LancarTransacao" method="post">
-                    <input type="hidden" asp-for="Caixa.Id" />
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label asp-for="TransacaoCaixa.Descricao"></label>
-                                <input class="form-control" asp-for="TransacaoCaixa.Descricao" />
-                                <span asp-validation-for="TransacaoCaixa.Descricao" class="text-danger"></span>
+        <div class="card-body">
+            <div class="row list-group">
+                <div class="col-md-12 list-group-item">
+                    <form asp-action="LancarTransacao" method="post">
+                        <input type="hidden" asp-for="Caixa.Id" />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="TransacaoCaixa.Descricao"></label>
+                                    <input class="form-control" asp-for="TransacaoCaixa.Descricao" />
+                                    <span asp-validation-for="TransacaoCaixa.Descricao" class="text-danger"></span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label asp-for="TransacaoCaixa.Valor"></label>
-                                <input class="form-control" type="text" asp-for="TransacaoCaixa.Valor" />
-                                <span asp-validation-for="TransacaoCaixa.Valor" class="text-danger"></span>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label asp-for="TransacaoCaixa.Valor"></label>
+                                    <input class="form-control" type="text" asp-for="TransacaoCaixa.Valor" />
+                                    <span asp-validation-for="TransacaoCaixa.Valor" class="text-danger"></span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label asp-for="TransacaoCaixa.FormaPagamento">Forma pagamento</label>
-                                <select asp-for="TransacaoCaixa.FormaPagamento" class="form-control" asp-items='Html.GetEnumSelectList<FormaPagamento>().Where(f => f.Value != "0")'>
-                                    <option selected="selected" value=""></option>
-                                </select>
-                                <span asp-validation-for="TransacaoCaixa.FormaPagamento" class="text-danger"></span>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label asp-for="TransacaoCaixa.FormaPagamento">Forma pagamento</label>
+                                    <select asp-for="TransacaoCaixa.FormaPagamento" class="form-control" asp-items='Html.GetEnumSelectList<FormaPagamento>().Where(f => f.Value != "0")'>
+                                        <option selected="selected" value=""></option>
+                                    </select>
+                                    <span asp-validation-for="TransacaoCaixa.FormaPagamento" class="text-danger"></span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-1">
-                            <div class="form-group">
+                            <div class="col-md-1">
+                                <div class="form-group">
 
-                                <label>Operação</label>
-                                <div class="form-check">
-                                    <input asp-for="TransacaoCaixa.Entrada" class="form-check-input" type="radio" value="true" checked>
-                                    <label class="form-check-label" asp-for="TransacaoCaixa.Entrada">
-                                        Entrada
-                                    </label>
+                                    <label>Operação</label>
+                                    <div class="form-check">
+                                        <input asp-for="TransacaoCaixa.Entrada" class="form-check-input" type="radio" value="true" checked>
+                                        <label class="form-check-label" asp-for="TransacaoCaixa.Entrada">
+                                            Entrada
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input asp-for="TransacaoCaixa.Entrada" class="form-check-input" type="radio" value="false">
+                                        <label class="form-check-label" asp-for="TransacaoCaixa.Entrada">
+                                            Saída
+                                        </label>
+                                    </div>
+                                    <span asp-validation-for="TransacaoCaixa.Entrada" class="text-danger"></span>
                                 </div>
-                                <div class="form-check">
-                                    <input asp-for="TransacaoCaixa.Entrada" class="form-check-input" type="radio" value="false">
-                                    <label class="form-check-label" asp-for="TransacaoCaixa.Entrada">
-                                        Saída
-                                    </label>
-                                </div>
-                                <span asp-validation-for="TransacaoCaixa.Entrada" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-1">
+                                <button class="btn btn-success lancar">Lançar</button>
                             </div>
                         </div>
-                        <div class="col-md-1">
-                            <button class="btn btn-success lancar">Lançar</button>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-
+    
+    }
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-bordered table-striped" id="dataTable" cellspacing="0">
