@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,13 +16,13 @@ namespace HumanMusicSchoolManager.Models.Models
         public int FuncionarioAbertoId { get; set; }
         public Funcionario FuncionarioAberto { get; set; }
         public Funcionario FuncionarioFechado { get; set; }
-        [Required(ErrorMessage = "Valor do caixa a ser aberto deve ser informado")]
-        public decimal ValorAberto { get; set; }
+        [ForeignKey("CaixaAnteriorId")]
+        public Caixa CaixaAnterior { get; set; }
         public List<TransacaoCaixa> TransacoesCaixa { get; set; }
 
         public decimal Total()
         {
-            decimal total = ValorAberto;
+            decimal total = CaixaAnterior == null ? 0 : CaixaAnterior.Total();
             foreach (var transacaoCaixa in TransacoesCaixa)
             {
                 if (transacaoCaixa.Entrada)
@@ -84,6 +85,26 @@ namespace HumanMusicSchoolManager.Models.Models
         public decimal TotalSaida()
         {
             return TransacoesCaixa.Where(tc => !tc.Entrada).Sum(tc => tc.Valor);
+        }
+
+        public decimal TotalDinheiro()
+        {
+            return TotalEntradaDinheiro() - TotalSaidaDinheiro();
+        }
+
+        public decimal TotalDebito()
+        {
+            return TotalEntradaDebito() - TotalSaidaDebito();
+        }
+
+        public decimal TotalCredito()
+        {
+            return TotalEntradaCredito() - TotalSaidaCredito();
+        }
+
+        public decimal TotalCheque()
+        {
+            return TotalEntradaCheque() - TotalSaidaCheque();
         }
 
     }

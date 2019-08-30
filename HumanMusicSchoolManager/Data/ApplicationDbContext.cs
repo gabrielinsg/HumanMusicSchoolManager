@@ -49,6 +49,7 @@ namespace HumanMusicSchoolManager.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+
             builder.Entity<Caixa>()
                 .HasOne(c => c.FuncionarioAberto)
                 .WithMany()

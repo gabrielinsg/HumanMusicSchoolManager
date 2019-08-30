@@ -72,7 +72,7 @@
                                 <td class="text-center">@caixa.Id</td>
                                 <td>@caixa.DataAberto</td>
                                 <td>@caixa.FuncionarioAberto.Nome</td>
-                                <td>@caixa.ValorAberto.ToString("R$ #,##0.00")</td>
+                                <td>@(caixa.CaixaAnterior == null ? "R$ 0,00" : caixa.CaixaAnterior.Total().ToString("R$ #,##0.00"))</td>
                                 <td>@caixa.DataFechado</td>
                                 <td>@(caixa.FuncionarioFechado != null ? caixa.FuncionarioFechado.Nome : "")</td>
                                 <td>@caixa.Total().ToString("R$ #,##0.00")</td>

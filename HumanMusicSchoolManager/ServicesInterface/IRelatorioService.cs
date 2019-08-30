@@ -12,5 +12,8 @@ namespace HumanMusicSchoolManager.ServicesInterface
         List<Aluno> Alunos();
         List<PacoteCompra> PacotesAtivos();
         List<PacoteCompra> PacotesContratados(DateTime inicial, DateTime final);
+        List<Matricula> MatriculasCanceladas(DateTime inicial, DateTime final);
+        List<Matricula> MatriculasNovas(DateTime inicial, DateTime final);
+        List<Aluno> AlunosAniversariantes(int mes);
     }
 }

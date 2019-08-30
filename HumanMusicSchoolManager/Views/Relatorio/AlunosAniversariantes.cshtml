@@ -1,0 +1,100 @@
+﻿@model List<Aluno>
+@{
+    ViewData["Title"] = "Alunos Aniversariantes";
+}
+
+<div class="card mb-3">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-2">
+                <i class="far fa-file-alt"></i>
+                Alunos Aniversariantes
+            </div>
+            <div class="col-md-8">
+                <form role="form" asp-controller="Relatorio" asp-action="AlunosAniversariantes" method="get">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <label>Mês</label>
+                            <select id="mes" class="form-control" name="mes">
+                                <option value="1">Janeiro</option>
+                                <option value="2">Feveiro</option>
+                                <option value="3">Março</option>
+                                <option value="4">Abril</option>
+                                <option value="5">Mario</option>
+                                <option value="6">Junho</option>
+                                <option value="7">Julho</option>
+                                <option value="8">Agosto</option>
+                                <option value="9">Setempo</option>
+                                <option value="10">Outubro</option>
+                                <option value="11">Novembro</option>
+                                <option value="12">Desembro</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2" style="padding-top: 32px;">
+                            <button type="submit" class="btn btn-success">Filtrar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-2 text-center">
+                <h4>Total:</h4>
+                <h5>@Model.Count</h5>
+            </div>
+
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped" id="dataTable" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Aluno</th>
+                        <th>Data</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Aluno</th>
+                        <th>Data</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var aluno in Model)
+                    {
+                        <tr>
+                            <td>@aluno.Nome</td>
+                            <td class="text-center">@aluno.DataNascimento.ToString("dd/MM")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/vendor/datatables/jquery.dataTables.js"></script>
+    <script src="~/vendor/datatables/dataTables.bootstrap4.js"></script>
+    <script>
+
+        $('#dataTable').DataTable({
+            "order": [[0, 'asc']]
+        });
+
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+    <script>
+        var mes = @ViewBag.mes;
+        var select = $("#mes")[0];
+        for (let i = 0; i < select.length; i++) {
+            if (mes == select[i].value) {
+                select[i].selected = true;
+            }
+        }
+
+    </script>
+}

@@ -68,5 +68,37 @@ namespace HumanMusicSchoolManager.Services
 
             return pcs;
         }
+
+        public List<Matricula> MatriculasCanceladas(DateTime inicial, DateTime final)
+        {
+            inicial = DateTimeEntradaSaida.Inicial(inicial);
+            final = DateTimeEntradaSaida.Final(final);
+            return _context.Matriculas
+                .Where(m => m.EncerramentoMatricula >= inicial && m.EncerramentoMatricula <= final)
+                .Include(m => m.Aluno)
+                .Include(m => m.Curso)
+                .ToList();
+        }
+
+        public List<Matricula> MatriculasNovas(DateTime inicial, DateTime final)
+        {
+            inicial = DateTimeEntradaSaida.Inicial(inicial);
+            final = DateTimeEntradaSaida.Final(final);
+            return _context.Matriculas
+                .Where(m => m.DataMatricula >= inicial && m.DataMatricula <= final)
+                .Include(m => m.Aluno)
+                .Include(m => m.Curso)
+                .ToList();
+        }
+
+        public List<Aluno> AlunosAniversariantes(int mes)
+        {
+            return _context.Alunos
+                .Where(a => 
+                    a.Matriculas.Any(m => m.EncerramentoMatricula == null) 
+                    && (a.DataNascimento.Month == mes)
+                )
+                .ToList();
+        }
     }
 }
