@@ -1,4 +1,4 @@
-﻿@model List<Matricula>
+﻿@model List<Demostrativa>
 @{
     ViewData["Title"] = "Matrículas Canceladas";
 }
@@ -11,7 +11,7 @@
                 Matrículas Canceladas
             </div>
             <div class="col-md-8">
-                <form role="form" asp-controller="Relatorio" asp-action="MatriculasCanceladas" method="get">
+                <form role="form" asp-controller="Relatorio" asp-action="Demostrativas" method="get">
                     <div class="row">
                         <div class="col-md-5">
                             <label name="Inicial">Data Inicial</label>
@@ -28,10 +28,10 @@
                 </form>
             </div>
             <div class="col-md-2 text-center">
-                <h4>Total:</h4> 
+                <h4>Total:</h4>
                 <h5>@Model.Count</h5>
             </div>
-            
+
         </div>
     </div>
     <div class="card-body">
@@ -42,26 +42,37 @@
                         <th>Candidato</th>
                         <th>Curso</th>
                         <th>Professor</th>
+                        <th>Data</th>
+                        <th>Confirmado</th>
                         <th class="text-center">Presente</th>
-                        <th></th>
+                        <th class="text-center">Contratou</th>
+                        <th>Motivo</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
-                        <th>Aluno</th>
+                        <th>Candidato</th>
                         <th>Curso</th>
-                        <th class="text-center">Matrícula</th>
-                        <th class="text-center">Cancelado</th>
+                        <th>Professor</th>
+                        <th>Data</th>
+                        <th>Confirmado</th>
+                        <th class="text-center">Presente</th>
+                        <th class="text-center">Contratou</th>
+                        <th>Motivo</th>
                     </tr>
                 </tfoot>
                 <tbody>
-                    @foreach (var matricula in Model)
+                    @foreach (var demostrativa in Model)
                     {
                         <tr>
-                            <td>@matricula.Aluno.Nome</td>
-                            <td>@matricula.Curso.Nome</td>
-                            <td class="text-center">@matricula.DataMatricula.ToString("dd/MM/yyyy")</td>
-                            <td class="text-center">@matricula.EncerramentoMatricula.Value.ToString("dd/MM/yyyy")</td>
+                           <td>@demostrativa.Candidato.Nome</td>
+                            <td>@demostrativa.Curso.Nome</td>
+                            <td>@(demostrativa.Professor == null ? "Professor não registrado" : demostrativa.Professor.Nome)</td>
+                            <td>@demostrativa.Data.ToString("dd/MM/yy")</td>
+                            <td>@Html.DisplayFor(d => demostrativa.Confirmado)</td>
+                            <td>@(demostrativa.Presenca == null ? "Não registrado" : demostrativa.Presenca.Value ? "Presente" : "Faltou")</td>
+                            <td>@(demostrativa.Contratou == null ? "Não finalizado" : demostrativa.Contratou.Value ? "Sim" : "Não")</td>
+                            <td>@Html.DisplayFor(d => demostrativa.Motivo)</td>
                         </tr>
                     }
                 </tbody>
@@ -72,7 +83,6 @@
 
 @section Scripts{
     <script src="~/vendor/datatables/jquery.dataTables.js"></script>
-
     <script src="~/vendor/datatables/dataTables.bootstrap4.js"></script>
     <script>
 

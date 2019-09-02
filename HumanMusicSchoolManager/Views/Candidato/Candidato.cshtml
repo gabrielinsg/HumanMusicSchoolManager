@@ -65,7 +65,7 @@
             <h2>@demostrativa.Curso.Nome</h2>
             @if (demostrativa.DispSala == null)
             {
-                <span><b>Demostrativa Finalizada - </b><b>@Html.DisplayFor(d => demostrativa.Dia)</b> às <b>@demostrativa.Hora.ToString("00:'00'h")</b> com <b>@(demostrativa.Professor == null ? "Professor não registrado" : demostrativa.Professor.Nome)</b> dia <b>@(demostrativa.Aula == null ? "Aula não foi dada" : demostrativa.Aula.Data.ToString("dd/MM/yyyy"))</b>. Marcado por <b>@demostrativa.Pessoa.Nome </b></span>
+                <span><b>Demostrativa Finalizada - </b><b>@Html.DisplayFor(d => demostrativa.Dia)</b> às <b>@demostrativa.Hora.ToString("00:'00'h")</b> com <b>@(demostrativa.Professor == null ? "Professor não registrado" : demostrativa.Professor.Nome)</b> dia <b>@(demostrativa.Data.ToString("dd/MM/yyyy"))</b>. Marcado por <b>@demostrativa.Pessoa.Nome </b></span>
             }
             else
             {

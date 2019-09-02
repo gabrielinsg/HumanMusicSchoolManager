@@ -100,5 +100,17 @@ namespace HumanMusicSchoolManager.Services
                 )
                 .ToList();
         }
+
+        public List<Demostrativa> Demonstrativas(DateTime inicial, DateTime final)
+        {
+            inicial = DateTimeEntradaSaida.Inicial(inicial);
+            final = DateTimeEntradaSaida.Final(final);
+
+            return _context.Demostrativas.Where(d => d.Data >= inicial && d.Data <= final)
+                .Include(d => d.Professor)
+                .Include(d => d.Candidato)
+                .Include(d => d.Curso)
+                .ToList();
+        }
     }
 }

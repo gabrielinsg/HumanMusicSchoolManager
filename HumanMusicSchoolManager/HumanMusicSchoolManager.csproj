@@ -72,6 +72,8 @@
     <Compile Remove="Migrations\20190829030929_TransacaoCaixaFormaPagamentoNotNull.Designer.cs" />
     <Compile Remove="Migrations\20190830153156_ValorCaixaAnterior.cs" />
     <Compile Remove="Migrations\20190830153156_ValorCaixaAnterior.Designer.cs" />
+    <Compile Remove="Migrations\20190902234204_CandidatoCPFNaoObrigatorio.cs" />
+    <Compile Remove="Migrations\20190902234204_CandidatoCPFNaoObrigatorio.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

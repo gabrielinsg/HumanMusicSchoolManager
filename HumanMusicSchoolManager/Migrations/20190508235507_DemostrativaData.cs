@@ -9,7 +9,7 @@ namespace HumanMusicSchoolManager.Migrations
         {
             migrationBuilder.AddColumn<DateTime>(
                 name: "Data",
-                table: "Demostrativas",
+                table: "Demonstrativas",
                 nullable: false,
                 defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
         }
@@ -18,7 +18,7 @@ namespace HumanMusicSchoolManager.Migrations
         {
             migrationBuilder.DropColumn(
                 name: "Data",
-                table: "Demostrativas");
+                table: "Demonstrativas");
         }
     }
 }

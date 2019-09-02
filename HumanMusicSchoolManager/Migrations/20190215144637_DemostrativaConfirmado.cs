@@ -8,7 +8,7 @@ namespace HumanMusicSchoolManager.Migrations
         {
             migrationBuilder.AddColumn<int>(
                 name: "Confirmado",
-                table: "Demostrativas",
+                table: "Demonstrativas",
                 nullable: false,
                 defaultValue: 0);
         }
@@ -17,7 +17,7 @@ namespace HumanMusicSchoolManager.Migrations
         {
             migrationBuilder.DropColumn(
                 name: "Confirmado",
-                table: "Demostrativas");
+                table: "Demonstrativas");
         }
     }
 }

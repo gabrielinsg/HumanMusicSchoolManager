@@ -26,6 +26,7 @@ namespace HumanMusicSchoolManager.Controllers
         private readonly ICandidatoService _candidatoService;
         private readonly IPessoaService _pessoaService;
         private readonly IEmailConfigService _emailConfigService;
+        private readonly IAulaConfigService _aulaConfigService;
 
         public DemostrativaController(IDemostrativaService demostrativaService,
             IChamadaService chamadaService,
@@ -35,7 +36,8 @@ namespace HumanMusicSchoolManager.Controllers
             IFeriadoService feriadoService,
             ICandidatoService candidatoService,
             IPessoaService pessoaService,
-            IEmailConfigService emailConfigService)
+            IEmailConfigService emailConfigService,
+            IAulaConfigService aulaConfigService)
         {
             this._demostrativaService = demostrativaService;
             this._chamadaService = chamadaService;
@@ -46,6 +48,7 @@ namespace HumanMusicSchoolManager.Controllers
             this._candidatoService = candidatoService;
             this._pessoaService = pessoaService;
             this._emailConfigService = emailConfigService;
+            this._aulaConfigService = aulaConfigService;
         }
 
         [HttpGet]
@@ -130,7 +133,7 @@ namespace HumanMusicSchoolManager.Controllers
                 demostrativaViewModel.Demostrativa.CandidatoId = demostrativaViewModel.Candidato.Id.Value;
                 demostrativaViewModel.Demostrativa.PessoaId = _pessoaService.BusacarPorUserName(User.Identity.Name).Id.Value;
                 demostrativaViewModel.Demostrativa.Confirmado = Confirmado.NAO;
-                demostrativaViewModel.Demostrativa.Data = NowHorarioBrasilia.GetNow();
+                demostrativaViewModel.Demostrativa.Data = demostrativaViewModel.DiaAula;
 
                 var aula = _aulaService.BuscarPorDiaHora(demostrativaViewModel.DiaAula, demostrativaViewModel.DispSala);
                 if (aula == null)
@@ -142,7 +145,7 @@ namespace HumanMusicSchoolManager.Controllers
                         ProfessorId = demostrativaViewModel.DispSala.Professor.Id.Value,
                         SalaId = demostrativaViewModel.DispSala.Sala.Id.Value,
                         Data = demostrativaViewModel.DiaAula,
-                        DataLimite = demostrativaViewModel.DiaAula.AddDays(3)
+                        DataLimite = demostrativaViewModel.DiaAula.AddDays(_aulaConfigService.Buscar().TempoLimiteLancamento)
                     };
                     _aulaService.Cadastrar(aula);
                 }
@@ -185,7 +188,6 @@ namespace HumanMusicSchoolManager.Controllers
         [HttpPost]
         public IActionResult FinalizarDemostrativa(Demostrativa demostrativa, bool Contratou)
         {
-
             demostrativa.DispSalaId = null;
             demostrativa.Contratou = Contratou;
             if (demostrativa.AulaId != null)

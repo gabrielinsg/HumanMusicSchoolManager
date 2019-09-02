@@ -108,6 +108,23 @@ namespace HumanMusicSchoolManager.Controllers
             ViewBag.Mes = mes.Value;
             return View(_relatorioSerevice.AlunosAniversariantes(mes.Value));
         }
+
+        public IActionResult Demonstrativas(DateTime? inicial, DateTime? final)
+        {
+            if (inicial == null)
+            {
+                inicial = NowHorarioBrasilia.GetNow().AddDays(-NowHorarioBrasilia.GetNow().Day + 1);
+            }
+
+            if (final == null)
+            {
+                final = NowHorarioBrasilia.GetNow().AddDays(-NowHorarioBrasilia.GetNow().Day + 1).AddMonths(1).AddDays(-1);
+            }
+
+            ViewBag.Inicial = inicial.Value;
+            ViewBag.Final = final.Value;
+            return View(_relatorioSerevice.Demonstrativas(inicial.Value, final.Value));
+        }
     }
  
 }

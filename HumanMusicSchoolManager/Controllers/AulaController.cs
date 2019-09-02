@@ -173,12 +173,17 @@ namespace HumanMusicSchoolManager.Controllers
                     var i = 0;
                     foreach (var demostrativa in aula.Demostrativas)
                     {
+                        var demons = _demostrativaService.BuscarPorId(demostrativa.Id.Value);
+                        demons.Observacao = demostrativa.Observacao;
+                        demons.Presenca = demostrativa.Presenca;
+                        
                         if (!aula.AulaDada) demostrativa.Presenca = null;
                         if (Estrelas.Count > 0)
                         {
-                            demostrativa.Estrelas = Estrelas[i];
+                            demons.Estrelas = Estrelas[i];
                         }
-                        _demostrativaService.Alterar(demostrativa);
+
+                        _demostrativaService.Alterar(demons);
                         i++;
                     }
                 }

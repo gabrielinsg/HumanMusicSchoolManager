@@ -15,5 +15,6 @@ namespace HumanMusicSchoolManager.ServicesInterface
         List<Matricula> MatriculasCanceladas(DateTime inicial, DateTime final);
         List<Matricula> MatriculasNovas(DateTime inicial, DateTime final);
         List<Aluno> AlunosAniversariantes(int mes);
+        List<Demostrativa> Demonstrativas(DateTime inicial, DateTime final);
     }
 }

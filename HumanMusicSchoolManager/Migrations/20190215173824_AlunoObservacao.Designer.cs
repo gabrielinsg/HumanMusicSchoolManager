@@ -261,7 +261,7 @@ namespace HumanMusicSchoolManager.Migrations
 
                     b.HasIndex("PessoaId");
 
-                    b.ToTable("Demostrativas");
+                    b.ToTable("Demonstrativas");
                 });
 
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.DispSala", b =>
@@ -888,21 +888,21 @@ namespace HumanMusicSchoolManager.Migrations
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Demostrativa", b =>
                 {
                     b.HasOne("HumanMusicSchoolManager.Models.Models.Aula", "Aula")
-                        .WithMany("Demostrativas")
+                        .WithMany("Demonstrativas")
                         .HasForeignKey("AulaId");
 
                     b.HasOne("HumanMusicSchoolManager.Models.Models.Candidato", "Candidato")
-                        .WithMany("Demostrativas")
+                        .WithMany("Demonstrativas")
                         .HasForeignKey("CandidatoId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("HumanMusicSchoolManager.Models.Models.Curso", "Curso")
-                        .WithMany("Demostrativas")
+                        .WithMany("Demonstrativas")
                         .HasForeignKey("CursoId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("HumanMusicSchoolManager.Models.Models.DispSala", "DispSala")
-                        .WithMany("Demostrativas")
+                        .WithMany("Demonstrativas")
                         .HasForeignKey("DispSalaId")
                         .OnDelete(DeleteBehavior.Restrict);
 
