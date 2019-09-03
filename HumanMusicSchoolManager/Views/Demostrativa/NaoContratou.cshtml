@@ -64,19 +64,19 @@
                     </tr>
                 </tfoot>
                 <tbody>
-                    @foreach (var demostrativa in Model)
+                    @foreach (var Demostrativa in Model)
                     {
                         <tr>
-                            <td class="text-center">@demostrativa.Aula.Data.ToString("dd/MM/yyy - HH:mm'h'")</td>
-                            <td>@demostrativa.Candidato.Nome</td>
-                            <td>@demostrativa.Curso.Nome</td>
-                            <td>@Html.DisplayFor(d => demostrativa.Confirmado)</td>
-                            <td>@(demostrativa.Aula.AulaDada == true ? "Sim" : "Não")</td>
-                            <td>@(demostrativa.Presenca == null ? "" : demostrativa.Presenca == true ? "Presente" : "Faltou")</td>
-                            <td>@demostrativa.Candidato.Email</td>
-                            <td>@demostrativa.Candidato.Tel</td>
-                            <td>@demostrativa.Candidato.Cel</td>
-                            <td class="text-center"><a asp-controller="Candidato" asp-action="Candidato" asp-route-candidatoId="@demostrativa.CandidatoId"><i class="fas fa-music"></i></a></td>
+                            <td class="text-center">@Demostrativa.Aula.Data.ToString("dd/MM/yyy - HH:mm'h'")</td>
+                            <td>@Demostrativa.Candidato.Nome</td>
+                            <td>@Demostrativa.Curso.Nome</td>
+                            <td>@Html.DisplayFor(d => Demostrativa.Confirmado)</td>
+                            <td>@(Demostrativa.Aula.AulaDada == true ? "Sim" : "Não")</td>
+                            <td>@(Demostrativa.Presenca == null ? "" : Demostrativa.Presenca == true ? "Presente" : "Faltou")</td>
+                            <td>@Demostrativa.Candidato.Email</td>
+                            <td>@Demostrativa.Candidato.Tel</td>
+                            <td>@Demostrativa.Candidato.Cel</td>
+                            <td class="text-center"><a asp-controller="Candidato" asp-action="Candidato" asp-route-candidatoId="@Demostrativa.CandidatoId"><i class="fas fa-music"></i></a></td>
                         </tr>
                     }
                 </tbody>

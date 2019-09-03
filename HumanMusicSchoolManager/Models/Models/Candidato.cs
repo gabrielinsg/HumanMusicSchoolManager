@@ -17,17 +17,15 @@ namespace HumanMusicSchoolManager.Models.Models
         [Display(Name = "Data de Nascimento")]
         public DateTime DataNascimento { get; set; }
 
-        [EmailAddress(ErrorMessage = "Email inválido")]
-        [Required(ErrorMessage = "Email obrigatório!")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "O Campo CPF é obrigatório")]
         [CPF(ErrorMessage = "CPF inválido")]
         public string CPF { get; set; }
 
         [Display(Name = "Telefone")]
         public string Tel { get; set; }
 
+        [Required(ErrorMessage = "O Campo celular é obrigatório!")]
         [Display(Name = "Celular")]
         public string Cel { get; set; }
 

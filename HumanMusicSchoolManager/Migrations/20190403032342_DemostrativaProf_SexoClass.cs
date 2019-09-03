@@ -13,19 +13,19 @@ namespace HumanMusicSchoolManager.Migrations
 
             migrationBuilder.AddColumn<int>(
                 name: "Dia",
-                table: "Demonstrativas",
+                table: "Demostrativas",
                 nullable: false,
                 defaultValue: 0);
 
             migrationBuilder.AddColumn<int>(
                 name: "Hora",
-                table: "Demonstrativas",
+                table: "Demostrativas",
                 nullable: false,
                 defaultValue: 0);
 
             migrationBuilder.AddColumn<int>(
                 name: "ProfessorId",
-                table: "Demonstrativas",
+                table: "Demostrativas",
                 nullable: true);
 
             migrationBuilder.AddColumn<int>(
@@ -36,12 +36,12 @@ namespace HumanMusicSchoolManager.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Demostrativas_ProfessorId",
-                table: "Demonstrativas",
+                table: "Demostrativas",
                 column: "ProfessorId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Demostrativas_Pessoas_ProfessorId",
-                table: "Demonstrativas",
+                table: "Demostrativas",
                 column: "ProfessorId",
                 principalTable: "Pessoas",
                 principalColumn: "Id",
@@ -52,11 +52,11 @@ namespace HumanMusicSchoolManager.Migrations
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_Demostrativas_Pessoas_ProfessorId",
-                table: "Demonstrativas");
+                table: "Demostrativas");
 
             migrationBuilder.DropIndex(
                 name: "IX_Demostrativas_ProfessorId",
-                table: "Demonstrativas");
+                table: "Demostrativas");
 
             migrationBuilder.DropColumn(
                 name: "Sexo",
@@ -64,15 +64,15 @@ namespace HumanMusicSchoolManager.Migrations
 
             migrationBuilder.DropColumn(
                 name: "Dia",
-                table: "Demonstrativas");
+                table: "Demostrativas");
 
             migrationBuilder.DropColumn(
                 name: "Hora",
-                table: "Demonstrativas");
+                table: "Demostrativas");
 
             migrationBuilder.DropColumn(
                 name: "ProfessorId",
-                table: "Demonstrativas");
+                table: "Demostrativas");
 
             migrationBuilder.DropColumn(
                 name: "Sexo",

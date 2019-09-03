@@ -17,7 +17,7 @@ namespace HumanMusicSchoolManager.Controllers
     [Authorize(Roles = "Admin, Vendas, Atendimento, Professor")]
     public class DemostrativaController : Controller
     {
-        private readonly IDemostrativaService _demostrativaService;
+        private readonly IDemostrativaService _DemostrativaService;
         private readonly IChamadaService _chamadaService;
         private readonly IDispSalaService _dispSalaService;
         private readonly ICursoService _cursoService;
@@ -28,7 +28,7 @@ namespace HumanMusicSchoolManager.Controllers
         private readonly IEmailConfigService _emailConfigService;
         private readonly IAulaConfigService _aulaConfigService;
 
-        public DemostrativaController(IDemostrativaService demostrativaService,
+        public DemostrativaController(IDemostrativaService DemostrativaService,
             IChamadaService chamadaService,
             IDispSalaService dispSalaService,
             ICursoService cursoService,
@@ -39,7 +39,7 @@ namespace HumanMusicSchoolManager.Controllers
             IEmailConfigService emailConfigService,
             IAulaConfigService aulaConfigService)
         {
-            this._demostrativaService = demostrativaService;
+            this._DemostrativaService = DemostrativaService;
             this._chamadaService = chamadaService;
             this._dispSalaService = dispSalaService;
             this._cursoService = cursoService;
@@ -56,7 +56,7 @@ namespace HumanMusicSchoolManager.Controllers
         {
             if (candidatoId != null)
             {
-                var demostrativaViewModel = new DemostrativaViewModel
+                var DemostrativaViewModel = new DemostrativaViewModel
                 {
                     Candidato = _candidatoService.BuscarPorId(candidatoId.Value),
                     Cursos = _cursoService.BuscarTodos(),
@@ -65,16 +65,16 @@ namespace HumanMusicSchoolManager.Controllers
 
                 if (dispSalaId != null)
                 {
-                    demostrativaViewModel.DispSala = _dispSalaService.BuscarPorId(dispSalaId.Value);
+                    DemostrativaViewModel.DispSala = _dispSalaService.BuscarPorId(dispSalaId.Value);
                 }
                 if (cursoId != null)
                 {
-                    demostrativaViewModel.Curso = _cursoService.BuscarPorId(cursoId.Value);
+                    DemostrativaViewModel.Curso = _cursoService.BuscarPorId(cursoId.Value);
                 }
 
-                demostrativaViewModel.DiaAula = NowHorarioBrasilia.GetNow();
+                DemostrativaViewModel.DiaAula = NowHorarioBrasilia.GetNow();
 
-                return View(demostrativaViewModel);
+                return View(DemostrativaViewModel);
             }
             else
             {
@@ -84,39 +84,39 @@ namespace HumanMusicSchoolManager.Controllers
         }
 
         [HttpPost]
-        public IActionResult Form(DemostrativaViewModel demostrativaViewModel)
+        public IActionResult Form(DemostrativaViewModel DemostrativaViewModel)
         {
             foreach (var model in ModelState)
             {
                 ModelState.Remove(model.Key);
             }
-            demostrativaViewModel.DispSala = _dispSalaService.BuscarPorId(demostrativaViewModel.DispSala.Id.Value);
-            demostrativaViewModel.Candidato = _candidatoService.BuscarPorId(demostrativaViewModel.Candidato.Id.Value);
-            if ((DayOfWeek)demostrativaViewModel.DispSala.Dia != demostrativaViewModel.DiaAula.DayOfWeek)
+            DemostrativaViewModel.DispSala = _dispSalaService.BuscarPorId(DemostrativaViewModel.DispSala.Id.Value);
+            DemostrativaViewModel.Candidato = _candidatoService.BuscarPorId(DemostrativaViewModel.Candidato.Id.Value);
+            if ((DayOfWeek)DemostrativaViewModel.DispSala.Dia != DemostrativaViewModel.DiaAula.DayOfWeek)
             {
-                var dia = demostrativaViewModel.DispSala.Dia.GetType()
-                    .GetMember(demostrativaViewModel.DispSala.Dia.ToString())
+                var dia = DemostrativaViewModel.DispSala.Dia.GetType()
+                    .GetMember(DemostrativaViewModel.DispSala.Dia.ToString())
                     .First()
                     .GetCustomAttribute<DisplayAttribute>()
                     .Name;
                 ModelState.AddModelError("DiaAula", "A aula deve ser em uma " + dia);
             }
 
-            if (demostrativaViewModel.DiaAula == null)
+            if (DemostrativaViewModel.DiaAula == null)
             {
                 ModelState.AddModelError("DiaAula", "Dia de aula deve ser preenchido");
             }
 
-            demostrativaViewModel.DiaAula = demostrativaViewModel.DiaAula.AddHours((double)demostrativaViewModel.DispSala.Hora);
+            DemostrativaViewModel.DiaAula = DemostrativaViewModel.DiaAula.AddHours((double)DemostrativaViewModel.DispSala.Hora);
 
-            var feriado = _feriadoService.BuscarPorData(demostrativaViewModel.DiaAula);
+            var feriado = _feriadoService.BuscarPorData(DemostrativaViewModel.DiaAula);
 
             if (feriado != null)
             {
                 ModelState.AddModelError("DiaAula", "Não é possível agendar para este dia - " + feriado.Nome);
             }
 
-            if (demostrativaViewModel.DiaAula.Date < NowHorarioBrasilia.GetNow().Date)
+            if (DemostrativaViewModel.DiaAula.Date < NowHorarioBrasilia.GetNow().Date)
             {
                 ModelState.AddModelError("DiaAula", "Dia da aula não pode ser menor que hoje");
             }
@@ -125,111 +125,111 @@ namespace HumanMusicSchoolManager.Controllers
             if (ModelState.IsValid)
             {
 
-                demostrativaViewModel.Demostrativa.DispSalaId = demostrativaViewModel.DispSala.Id.Value;
-                demostrativaViewModel.Demostrativa.CursoId = demostrativaViewModel.Curso.Id.Value;
-                demostrativaViewModel.Demostrativa.ProfessorId = demostrativaViewModel.DispSala.Professor.Id;
-                demostrativaViewModel.Demostrativa.Dia = demostrativaViewModel.DispSala.Dia;
-                demostrativaViewModel.Demostrativa.Hora = demostrativaViewModel.DispSala.Hora;
-                demostrativaViewModel.Demostrativa.CandidatoId = demostrativaViewModel.Candidato.Id.Value;
-                demostrativaViewModel.Demostrativa.PessoaId = _pessoaService.BusacarPorUserName(User.Identity.Name).Id.Value;
-                demostrativaViewModel.Demostrativa.Confirmado = Confirmado.NAO;
-                demostrativaViewModel.Demostrativa.Data = demostrativaViewModel.DiaAula;
+                DemostrativaViewModel.Demostrativa.DispSalaId = DemostrativaViewModel.DispSala.Id.Value;
+                DemostrativaViewModel.Demostrativa.CursoId = DemostrativaViewModel.Curso.Id.Value;
+                DemostrativaViewModel.Demostrativa.ProfessorId = DemostrativaViewModel.DispSala.Professor.Id;
+                DemostrativaViewModel.Demostrativa.Dia = DemostrativaViewModel.DispSala.Dia;
+                DemostrativaViewModel.Demostrativa.Hora = DemostrativaViewModel.DispSala.Hora;
+                DemostrativaViewModel.Demostrativa.CandidatoId = DemostrativaViewModel.Candidato.Id.Value;
+                DemostrativaViewModel.Demostrativa.PessoaId = _pessoaService.BusacarPorUserName(User.Identity.Name).Id.Value;
+                DemostrativaViewModel.Demostrativa.Confirmado = Confirmado.NAO;
+                DemostrativaViewModel.Demostrativa.Data = DemostrativaViewModel.DiaAula;
 
-                var aula = _aulaService.BuscarPorDiaHora(demostrativaViewModel.DiaAula, demostrativaViewModel.DispSala);
+                var aula = _aulaService.BuscarPorDiaHora(DemostrativaViewModel.DiaAula, DemostrativaViewModel.DispSala);
                 if (aula == null)
                 {
 
                     aula = new Aula()
                     {
-                        CursoId = demostrativaViewModel.Curso.Id.Value,
-                        ProfessorId = demostrativaViewModel.DispSala.Professor.Id.Value,
-                        SalaId = demostrativaViewModel.DispSala.Sala.Id.Value,
-                        Data = demostrativaViewModel.DiaAula,
-                        DataLimite = demostrativaViewModel.DiaAula.AddDays(_aulaConfigService.Buscar().TempoLimiteLancamento)
+                        CursoId = DemostrativaViewModel.Curso.Id.Value,
+                        ProfessorId = DemostrativaViewModel.DispSala.Professor.Id.Value,
+                        SalaId = DemostrativaViewModel.DispSala.Sala.Id.Value,
+                        Data = DemostrativaViewModel.DiaAula,
+                        DataLimite = DemostrativaViewModel.DiaAula.AddDays(_aulaConfigService.Buscar().TempoLimiteLancamento)
                     };
                     _aulaService.Cadastrar(aula);
                 }
 
 
-                demostrativaViewModel.Demostrativa.Aula = aula;
-                _demostrativaService.Cadastrar(demostrativaViewModel.Demostrativa);
+                DemostrativaViewModel.Demostrativa.Aula = aula;
+                _DemostrativaService.Cadastrar(DemostrativaViewModel.Demostrativa);
 
                 //Enviar email professor
                 string corpo = "Adicionado uma desmonstrativa " +
-                    " - " + demostrativaViewModel.Demostrativa.DispSala.Dia.GetType()
-                            .GetMember(demostrativaViewModel.Demostrativa.DispSala.Dia.ToString())
+                    " - " + DemostrativaViewModel.Demostrativa.DispSala.Dia.GetType()
+                            .GetMember(DemostrativaViewModel.Demostrativa.DispSala.Dia.ToString())
                             .First()
                             .GetCustomAttribute<DisplayAttribute>()
-                            .GetName() + " às " + demostrativaViewModel.Demostrativa.DispSala.Hora.ToString("00h'00'") + " para " + demostrativaViewModel.Demostrativa.Candidato.Nome;
+                            .GetName() + " às " + DemostrativaViewModel.Demostrativa.DispSala.Hora.ToString("00h'00'") + " para " + DemostrativaViewModel.Demostrativa.Candidato.Nome;
 
                 var email = new EnvioEmailExtencions(_emailConfigService);
 
-                email.EnviarEmail("Atualização na Agenda", corpo, demostrativaViewModel.Demostrativa.DispSala.Professor.Email);
+                email.EnviarEmail("Atualização na Agenda", corpo, DemostrativaViewModel.Demostrativa.DispSala.Professor.Email);
 
-                return RedirectToAction("Candidato", "Candidato", new { candidatoId = demostrativaViewModel.Candidato.Id.Value });
+                return RedirectToAction("Candidato", "Candidato", new { candidatoId = DemostrativaViewModel.Candidato.Id.Value });
             }
             else
             {
-                demostrativaViewModel.DispSalas = _dispSalaService.HorariosDisponiveis();
-                demostrativaViewModel.Cursos = _cursoService.BuscarTodos();
-                demostrativaViewModel.Candidato = _candidatoService.BuscarPorId(demostrativaViewModel.Candidato.Id.Value);
-                if (demostrativaViewModel.Demostrativa.Id != null)
+                DemostrativaViewModel.DispSalas = _dispSalaService.HorariosDisponiveis();
+                DemostrativaViewModel.Cursos = _cursoService.BuscarTodos();
+                DemostrativaViewModel.Candidato = _candidatoService.BuscarPorId(DemostrativaViewModel.Candidato.Id.Value);
+                if (DemostrativaViewModel.Demostrativa.Id != null)
                 {
-                    demostrativaViewModel.Demostrativa = _demostrativaService.BuscarPorId(demostrativaViewModel.Demostrativa.Id.Value);
+                    DemostrativaViewModel.Demostrativa = _DemostrativaService.BuscarPorId(DemostrativaViewModel.Demostrativa.Id.Value);
                 }
-                if (demostrativaViewModel.DispSala.Id != null)
+                if (DemostrativaViewModel.DispSala.Id != null)
                 {
-                    demostrativaViewModel.DispSala = _dispSalaService.BuscarPorId(demostrativaViewModel.DispSala.Id.Value);
+                    DemostrativaViewModel.DispSala = _dispSalaService.BuscarPorId(DemostrativaViewModel.DispSala.Id.Value);
                 }
-                return View(demostrativaViewModel);
+                return View(DemostrativaViewModel);
             }
         }
 
         [HttpPost]
-        public IActionResult FinalizarDemostrativa(Demostrativa demostrativa, bool Contratou)
+        public IActionResult FinalizarDemostrativa(Demostrativa Demostrativa, bool Contratou)
         {
-            demostrativa.DispSalaId = null;
-            demostrativa.Contratou = Contratou;
-            if (demostrativa.AulaId != null)
+            Demostrativa.DispSalaId = null;
+            Demostrativa.Contratou = Contratou;
+            if (Demostrativa.AulaId != null)
             {
-                var aula = _aulaService.BuscarPorId(demostrativa.AulaId.Value);
+                var aula = _aulaService.BuscarPorId(Demostrativa.AulaId.Value);
                 if (aula.AulaDada == false)
                 {
-                    demostrativa.AulaId = null;
-                    aula.Demostrativas.Remove(demostrativa);
+                    Demostrativa.AulaId = null;
+                    aula.Demostrativas.Remove(Demostrativa);
                     if (aula.Demostrativas.Count <= 1 && aula.Chamadas.Count == 0)
                     {
                         _aulaService.Excluir(aula.Id.Value);
                     }
                 }
             }
-            _demostrativaService.Alterar(demostrativa);
+            _DemostrativaService.Alterar(Demostrativa);
 
             TempData["Success"] = "Demostrativa alterada com sucesso";
-            if (demostrativa.Contratou == true)
+            if (Demostrativa.Contratou == true)
             {
 
-                return RedirectToAction("Candidato", "Aluno", new { candidatoId = demostrativa.CandidatoId });
+                return RedirectToAction("Candidato", "Aluno", new { candidatoId = Demostrativa.CandidatoId });
             }
             else
             {
-                return RedirectToAction("Candidato", "Candidato", new { candidatoId = demostrativa.CandidatoId });
+                return RedirectToAction("Candidato", "Candidato", new { candidatoId = Demostrativa.CandidatoId });
             }
 
         }
 
         public IActionResult DemostrativasAbertas()
         {
-            return View(_demostrativaService.DemostrativasAbertas());
+            return View(_DemostrativaService.DemostrativasAbertas());
         }
 
-        public IActionResult AlterarDemostrativa(Demostrativa demostrativa, string Observacao)
+        public IActionResult AlterarDemostrativa(Demostrativa Demostrativa, string Observacao)
         {
 
-            var demo = _demostrativaService.BuscarPorId(demostrativa.Id.Value);
-            demo.Confirmado = demostrativa.Confirmado;
+            var demo = _DemostrativaService.BuscarPorId(Demostrativa.Id.Value);
+            demo.Confirmado = Demostrativa.Confirmado;
             demo.Observacao = Observacao;
-            _demostrativaService.Alterar(demo);
+            _DemostrativaService.Alterar(demo);
 
             return RedirectToAction("Candidato", "Candidato", new { candidatoId = demo.CandidatoId });
         }
@@ -248,19 +248,19 @@ namespace HumanMusicSchoolManager.Controllers
 
             ViewBag.Inicial = inicial.Value.Date;
             ViewBag.Final = final.Value.Date;
-            return View(_demostrativaService.DemostrativasNaoContrataram(inicial.Value, final.Value));
+            return View(_DemostrativaService.DemostrativasNaoContrataram(inicial.Value, final.Value));
         }
 
         [HttpPost]
         public void AutoSaveObservacao(int id, string conteudo)
         {
-            _demostrativaService.AtualizarObservacao(id, conteudo);
+            _DemostrativaService.AtualizarObservacao(id, conteudo);
         }
 
         [HttpPost]
         public void AutoSaveConfimado(int id, Confirmado confirmado)
         {
-            _demostrativaService.AtualizarConfirmado(id, confirmado);
+            _DemostrativaService.AtualizarConfirmado(id, confirmado);
         }
     }
 }

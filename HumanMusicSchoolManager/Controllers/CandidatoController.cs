@@ -50,6 +50,11 @@ namespace HumanMusicSchoolManager.Controllers
         [HttpPost]
         public IActionResult Form(Candidato candidato)
         {
+            if (candidato.CPF == null)
+            {
+                ModelState.Remove(ModelState.Keys.FirstOrDefault(k => k.Contains("CPF")))   ;
+            }
+
             if (ModelState.IsValid)
             {
                 if (candidato.Id == null)

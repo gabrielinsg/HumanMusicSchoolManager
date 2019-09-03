@@ -84,15 +84,15 @@
                                 @{
                                     var j = 1;
                                 }
-                                @foreach (var demostrativa in aula.Demostrativas)
+                                @foreach (var Demostrativa in aula.Demostrativas)
                                 {
                                     if (aula.Demostrativas.Count == j)
                                     {
-                                        @demostrativa.Candidato.Nome.Split(' ')[0]
+                                        @Demostrativa.Candidato.Nome.Split(' ')[0]
                                     }
                                     else
                                     {
-                                        @demostrativa.Candidato.Nome.Split(' ')[0]<span>, </span>
+                                        @Demostrativa.Candidato.Nome.Split(' ')[0]<span>, </span>
                                     }
                                     i++;
                                 }

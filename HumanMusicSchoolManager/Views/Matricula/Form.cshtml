@@ -93,8 +93,8 @@
                                             }
                                             else if (dispSala.Demostrativas.FirstOrDefault() != null)
                                             {
-                                                var demostrativa = dispSala.Demostrativas.FirstOrDefault();
-                                                cursoCompara = demostrativa.Curso;
+                                                var Demostrativa = dispSala.Demostrativas.FirstOrDefault();
+                                                cursoCompara = Demostrativa.Curso;
                                             }
                                             else
                                             {
@@ -284,15 +284,15 @@
                                                                                     </tr>
                                                                                 </thead>
                                                                                 <tbody>
-                                                                                    @foreach (var demostrativa in dispSala.Demostrativas)
+                                                                                    @foreach (var Demostrativa in dispSala.Demostrativas)
                                                                                     {
                                                                                         int now = int.Parse(NowHorarioBrasilia.GetNow().ToString("yyyyMMdd"));
-                                                                                        int dob = int.Parse(demostrativa.Candidato.DataNascimento.ToString("yyyyMMdd"));
+                                                                                        int dob = int.Parse(Demostrativa.Candidato.DataNascimento.ToString("yyyyMMdd"));
                                                                                         int age = (now - dob) / 10000;
                                                                                         <tr>
                                                                                             <td>
-                                                                                                <a asp-controller="Candidato" asp-action="Candidato" asp-route-candidatoId="@demostrativa.Candidato.Id">
-                                                                                                    @demostrativa.Candidato.Nome @(demostrativa.Aula != null ? " - " + demostrativa.Aula.Data.ToString("dd/MM/yy") : "")
+                                                                                                <a asp-controller="Candidato" asp-action="Candidato" asp-route-candidatoId="@Demostrativa.Candidato.Id">
+                                                                                                    @Demostrativa.Candidato.Nome @(Demostrativa.Aula != null ? " - " + Demostrativa.Aula.Data.ToString("dd/MM/yy") : "")
                                                                                                 </a>
                                                                                             </td>
                                                                                             <td class="text-center">@age @(age > 1 ? "anos" : "ano")</td>

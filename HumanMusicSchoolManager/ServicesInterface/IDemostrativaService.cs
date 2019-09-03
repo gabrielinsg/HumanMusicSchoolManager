@@ -8,11 +8,11 @@ namespace HumanMusicSchoolManager.ServicesInterface
 {
     public interface IDemostrativaService
     {
-        void Cadastrar(Demostrativa demostrativa);
+        void Cadastrar(Demostrativa Demostrativa);
         List<Demostrativa> BuscarTodos();
-        Demostrativa BuscarPorId(int demostrativaId);
-        void Excluir(int demostrativaId);
-        void Alterar(Demostrativa demostrativa);
+        Demostrativa BuscarPorId(int DemostrativaId);
+        void Excluir(int DemostrativaId);
+        void Alterar(Demostrativa Demostrativa);
         List<Demostrativa> DemostrativasAbertas();
         List<Demostrativa> DemostrativasNaoContrataram(DateTime inicial, DateTime final);
         void AtualizarObservacao(int id, string conteudo);

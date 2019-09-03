@@ -21,7 +21,7 @@ namespace HumanMusicSchoolManager.Controllers
         private readonly IChamadaService _chamadaService;
         private readonly IMatriculaService _matriculaService;
         private readonly IReposicaoService _reposicaoService;
-        private readonly IDemostrativaService _demostrativaService;
+        private readonly IDemostrativaService _DemostrativaService;
         private readonly IPessoaService _pessoaService;
         private readonly IAulaConfigService _aulaConfigService;
 
@@ -32,7 +32,7 @@ namespace HumanMusicSchoolManager.Controllers
             IChamadaService chamadaService,
             IMatriculaService matriculaService,
             IReposicaoService reposicaoService,
-            IDemostrativaService demostrativaService,
+            IDemostrativaService DemostrativaService,
             IPessoaService pessoaService,
             IAulaConfigService aulaConfigService)
         {
@@ -43,7 +43,7 @@ namespace HumanMusicSchoolManager.Controllers
             this._chamadaService = chamadaService;
             this._matriculaService = matriculaService;
             this._reposicaoService = reposicaoService;
-            this._demostrativaService = demostrativaService;
+            this._DemostrativaService = DemostrativaService;
             this._pessoaService = pessoaService;
             this._aulaConfigService = aulaConfigService;
         }
@@ -171,19 +171,19 @@ namespace HumanMusicSchoolManager.Controllers
                 if (aula.Demostrativas != null)
                 {
                     var i = 0;
-                    foreach (var demostrativa in aula.Demostrativas)
+                    foreach (var Demostrativa in aula.Demostrativas)
                     {
-                        var demons = _demostrativaService.BuscarPorId(demostrativa.Id.Value);
-                        demons.Observacao = demostrativa.Observacao;
-                        demons.Presenca = demostrativa.Presenca;
+                        var demons = _DemostrativaService.BuscarPorId(Demostrativa.Id.Value);
+                        demons.Observacao = Demostrativa.Observacao;
+                        demons.Presenca = Demostrativa.Presenca;
                         
-                        if (!aula.AulaDada) demostrativa.Presenca = null;
+                        if (!aula.AulaDada) Demostrativa.Presenca = null;
                         if (Estrelas.Count > 0)
                         {
                             demons.Estrelas = Estrelas[i];
                         }
 
-                        _demostrativaService.Alterar(demons);
+                        _DemostrativaService.Alterar(demons);
                         i++;
                     }
                 }

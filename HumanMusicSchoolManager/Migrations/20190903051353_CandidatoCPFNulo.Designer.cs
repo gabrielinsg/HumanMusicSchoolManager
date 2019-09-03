@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HumanMusicSchoolManager.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190827213811_Caixa")]
-    partial class Caixa
+    [Migration("20190903051353_CandidatoCPFNulo")]
+    partial class CandidatoCPFNulo
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -140,7 +140,7 @@ namespace HumanMusicSchoolManager.Migrations
 
                     b.Property<int?>("FuncionarioFechadoId");
 
-                    b.Property<decimal>("ValorAberto");
+                    b.Property<decimal?>("TotalAnterior");
 
                     b.HasKey("Id");
 
@@ -157,15 +157,14 @@ namespace HumanMusicSchoolManager.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CPF")
-                        .IsRequired();
+                    b.Property<string>("CPF");
 
-                    b.Property<string>("Cel");
+                    b.Property<string>("Cel")
+                        .IsRequired();
 
                     b.Property<DateTime>("DataNascimento");
 
-                    b.Property<string>("Email")
-                        .IsRequired();
+                    b.Property<string>("Email");
 
                     b.Property<string>("Nome")
                         .IsRequired();

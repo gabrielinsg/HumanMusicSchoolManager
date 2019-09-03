@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-md-2">
                 <i class="far fa-file-alt"></i>
-                Matrículas Canceladas
+                Demonstrativas
             </div>
             <div class="col-md-8">
                 <form role="form" asp-controller="Relatorio" asp-action="Demostrativas" method="get">
@@ -65,7 +65,7 @@
                     @foreach (var demostrativa in Model)
                     {
                         <tr>
-                           <td>@demostrativa.Candidato.Nome</td>
+                            <td>@demostrativa.Candidato.Nome</td>
                             <td>@demostrativa.Curso.Nome</td>
                             <td>@(demostrativa.Professor == null ? "Professor não registrado" : demostrativa.Professor.Nome)</td>
                             <td>@demostrativa.Data.ToString("dd/MM/yy")</td>

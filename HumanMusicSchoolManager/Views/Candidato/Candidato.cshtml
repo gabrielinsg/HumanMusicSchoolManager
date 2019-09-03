@@ -13,10 +13,10 @@
         <a class="nav-link active" id="dados-tab" data-toggle="tab" href="#dados" role="tab" aria-controls="dados" aria-selected="true">Dados</a>
     </li>
 
-    @foreach (var demostrativa in Model.Candidato.Demostrativas)
+    @foreach (var Demostrativa in Model.Candidato.Demostrativas)
     {
         <li class="nav-item">
-            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#curso@(demostrativa.Id)" role="tab" aria-controls="curso@(demostrativa.Id)" aria-selected="false"><i class="fas fa-music text-success"></i> @demostrativa.Curso.Nome</a>
+            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#curso@(Demostrativa.Id)" role="tab" aria-controls="curso@(Demostrativa.Id)" aria-selected="false"><i class="fas fa-music text-success"></i> @Demostrativa.Curso.Nome</a>
         </li>
     }
     <li class="nav-item">
@@ -29,7 +29,7 @@
         <div class="row">
             <div class="col-xl-3 col-md-4"><b>Nome: </b>@Model.Candidato.Nome</div>
             <div class="col-xl-3 col-md-4"><b>Data de Nascimento: </b>@Model.Candidato.DataNascimento.ToString("dd/MM/yyyy")</div>
-            <div class="col-xl-3 col-md-4"><b>CPF: </b>@Model.Candidato.CPF</div>
+            <div class="col-xl-3 col-md-4"><b>CPF: </b>@(Model.Candidato.CPF == null ? "" : Model.Candidato.CPF)</div>
             <div class="col-xl-3 col-md-4"><b>E-Mail: </b>@Model.Candidato.Email</div>
             <div class="col-xl-3 col-md-4"><b>Telefone: </b>@Model.Candidato.Tel</div>
             @{
@@ -58,18 +58,18 @@
         }
     </div>
 
-    @foreach (var demostrativa in Model.Candidato.Demostrativas)
+    @foreach (var Demostrativa in Model.Candidato.Demostrativas)
     {
-        <div class="tab-pane fade" id="curso@(demostrativa.Id)" role="tabpanel" aria-labelledby="profile-tab">
+        <div class="tab-pane fade" id="curso@(Demostrativa.Id)" role="tabpanel" aria-labelledby="profile-tab">
             <br />
-            <h2>@demostrativa.Curso.Nome</h2>
-            @if (demostrativa.DispSala == null)
+            <h2>@Demostrativa.Curso.Nome</h2>
+            @if (Demostrativa.DispSala == null)
             {
-                <span><b>Demostrativa Finalizada - </b><b>@Html.DisplayFor(d => demostrativa.Dia)</b> às <b>@demostrativa.Hora.ToString("00:'00'h")</b> com <b>@(demostrativa.Professor == null ? "Professor não registrado" : demostrativa.Professor.Nome)</b> dia <b>@(demostrativa.Data.ToString("dd/MM/yyyy"))</b>. Marcado por <b>@demostrativa.Pessoa.Nome </b></span>
+                <span><b>Demostrativa Finalizada - </b><b>@Html.DisplayFor(d => Demostrativa.Dia)</b> às <b>@Demostrativa.Hora.ToString("00:'00'h")</b> com <b>@(Demostrativa.Professor == null ? "Professor não registrado" : Demostrativa.Professor.Nome)</b> dia <b>@(Demostrativa.Data.ToString("dd/MM/yyyy"))</b>. Marcado por <b>@Demostrativa.Pessoa.Nome </b></span>
             }
             else
             {
-                <span><b>@Html.DisplayFor(d => demostrativa.DispSala.Dia)</b> às <b>@demostrativa.DispSala.Hora.ToString("00:'00'h")</b> com <b>@demostrativa.DispSala.Professor.Nome</b> - <b>@demostrativa.DispSala.Sala.Nome</b> dia <b>@demostrativa.Aula.Data.ToString("dd/MM/yyyy")</b>. Marcado por <b>@demostrativa.Pessoa.Nome </b></span>
+                <span><b>@Html.DisplayFor(d => Demostrativa.DispSala.Dia)</b> às <b>@Demostrativa.DispSala.Hora.ToString("00:'00'h")</b> com <b>@Demostrativa.DispSala.Professor.Nome</b> - <b>@Demostrativa.DispSala.Sala.Nome</b> dia <b>@Demostrativa.Aula.Data.ToString("dd/MM/yyyy")</b>. Marcado por <b>@Demostrativa.Pessoa.Nome </b></span>
             }
 
             <br /><br />
@@ -78,21 +78,21 @@
                     <div class="form-group text-center">
                         <label><b>Estrelas:</b></label>
                         <div class="starrating risingstar d-flex justify-content-center flex-row-reverse">
-                            <input asp-for="@demostrativa.Estrelas" disabled type="radio" id="star5" value="5" /><label for="star5" title="5 star"></label>
-                            <input asp-for="@demostrativa.Estrelas" disabled type="radio" id="star4" value="4" /><label for="star4" title="4 star"></label>
-                            <input asp-for="@demostrativa.Estrelas" disabled type="radio" id="star3" value="3" /><label for="star3" title="3 star"></label>
-                            <input asp-for="@demostrativa.Estrelas" disabled type="radio" id="star2" value="2" /><label for="star2" title="2 star"></label>
-                            <input asp-for="@demostrativa.Estrelas" disabled type="radio" id="star1" value="1" /><label for="star1" title="1 star"></label>
+                            <input asp-for="@Demostrativa.Estrelas" disabled type="radio" id="star5" value="5" /><label for="star5" title="5 star"></label>
+                            <input asp-for="@Demostrativa.Estrelas" disabled type="radio" id="star4" value="4" /><label for="star4" title="4 star"></label>
+                            <input asp-for="@Demostrativa.Estrelas" disabled type="radio" id="star3" value="3" /><label for="star3" title="3 star"></label>
+                            <input asp-for="@Demostrativa.Estrelas" disabled type="radio" id="star2" value="2" /><label for="star2" title="2 star"></label>
+                            <input asp-for="@Demostrativa.Estrelas" disabled type="radio" id="star1" value="1" /><label for="star1" title="1 star"></label>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-2">
                     <label><b>Presença:</b></label>
-                    @if (demostrativa.Presenca == null)
+                    @if (Demostrativa.Presenca == null)
                     {
                         <p>Presença não lançada</p>
                     }
-                    else if (demostrativa.Presenca == true)
+                    else if (Demostrativa.Presenca == true)
                     {
                         <p>Candidato presente</p>
                     }
@@ -104,11 +104,11 @@
                 <div class="col-md-2">
                     <label><b>Aula:</b></label>
 
-                    @if (demostrativa.Aula == null)
+                    @if (Demostrativa.Aula == null)
                     {
                         <p>Aula cancelada</p>
                     }
-                    else if (demostrativa.Aula.AulaDada == true)
+                    else if (Demostrativa.Aula.AulaDada == true)
                     {
                         <p>Aula dada</p>
                     }
@@ -118,41 +118,42 @@
                     }
                 </div>
                 <div class="col-md-2">
-                    @if (demostrativa.Contratou == true)
+                    @if (Demostrativa.Contratou == true)
                     {
                         <p>Contratou</p>
                     }
-                    else if (demostrativa.Contratou == false)
+                    else if (Demostrativa.Contratou == false)
                     {
                         <p>Não contratou</p>
-                        <p>@Html.DisplayFor(d => demostrativa.Motivo)</p>
-                        <p>@demostrativa.Outros</p>
+                        <p>@Html.DisplayFor(d => Demostrativa.Motivo)</p>
+                        <p>@Demostrativa.Outros</p>
                     }
                 </div>
 
                 <div class="col-md-2">
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal@(demostrativa.Id)">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal@(Demostrativa.Id)">
                         Finalizar Demostrativa
                     </button>
 
                     <!-- Modal -->
-                    <div class="modal fade" id="exampleModal@(demostrativa.Id)" tabindex="-1" role="dialog" aria-labelledby="exampleModal@(demostrativa.Id)" aria-hidden="true">
+                    <div class="modal fade" id="exampleModal@(Demostrativa.Id)" tabindex="-1" role="dialog" aria-labelledby="exampleModal@(Demostrativa.Id)" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <form role="form" asp-action="FinalizarDemostrativa" asp-controller="Demostrativa" method="post">
-                                    <input asp-for="Demostrativa.Id" value="@demostrativa.Id" type="hidden" />
-                                    <input asp-for="Demostrativa.PessoaId" value="@demostrativa.PessoaId" type="hidden" />
-                                    <input asp-for="Demostrativa.Presenca" value="@demostrativa.Presenca" type="hidden" />
-                                    <input asp-for="Demostrativa.Estrelas" value="@demostrativa.Estrelas" type="hidden" />
-                                    <input asp-for="Demostrativa.CandidatoId" value="@demostrativa.CandidatoId" type="hidden" />
-                                    <input asp-for="Demostrativa.DispSalaId" value="@demostrativa.DispSalaId" type="hidden" />
-                                    <input asp-for="Demostrativa.CursoId" value="@demostrativa.CursoId" type="hidden" />
-                                    <input asp-for="Demostrativa.AulaId" value="@demostrativa.AulaId" type="hidden" />
-                                    <input asp-for="Demostrativa.Observacao" value="@demostrativa.Observacao" type="hidden" />
-                                    <input asp-for="Demostrativa.ProfessorId" value="@demostrativa.ProfessorId" type="hidden" />
-                                    <input asp-for="Demostrativa.Hora" value="@demostrativa.Hora" type="hidden" />
-                                    <input asp-for="Demostrativa.Dia" value="@demostrativa.Dia" type="hidden" />
+                                    <input asp-for="Demostrativa.Id" value="@Demostrativa.Id" type="hidden" />
+                                    <input asp-for="Demostrativa.PessoaId" value="@Demostrativa.PessoaId" type="hidden" />
+                                    <input asp-for="Demostrativa.Presenca" value="@Demostrativa.Presenca" type="hidden" />
+                                    <input asp-for="Demostrativa.Estrelas" value="@Demostrativa.Estrelas" type="hidden" />
+                                    <input asp-for="Demostrativa.CandidatoId" value="@Demostrativa.CandidatoId" type="hidden" />
+                                    <input asp-for="Demostrativa.DispSalaId" value="@Demostrativa.DispSalaId" type="hidden" />
+                                    <input asp-for="Demostrativa.CursoId" value="@Demostrativa.CursoId" type="hidden" />
+                                    <input asp-for="Demostrativa.AulaId" value="@Demostrativa.AulaId" type="hidden" />
+                                    <input asp-for="Demostrativa.Observacao" value="@Demostrativa.Observacao" type="hidden" />
+                                    <input asp-for="Demostrativa.ProfessorId" value="@Demostrativa.ProfessorId" type="hidden" />
+                                    <input asp-for="Demostrativa.Hora" value="@Demostrativa.Hora" type="hidden" />
+                                    <input asp-for="Demostrativa.Dia" value="@Demostrativa.Dia" type="hidden" />
+                                    <input asp-for="Demostrativa.Data" value="@Demostrativa.Data" type="hidden" />
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -164,7 +165,14 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label asp-for="Contratou"></label>
-                                                    <input asp-for="Contratou" type="checkbox" />
+                                                    @if (Demostrativa.Contratou!= null && Demostrativa.Contratou.Value)
+                                                    {
+                                                        <input asp-for="Contratou" checked type="checkbox" />
+                                                    }
+                                                    else
+                                                    {
+                                                        <input asp-for="Contratou" type="checkbox" />
+                                                    }
                                                 </div>
                                             </div>
                                             <div class="com-md-12">
@@ -203,8 +211,8 @@
                     <div class="form-group">
                         <label asp-for="Demostrativa.Confirmado" class="col-md-2 control-label"></label>
                         <div class="col-md-4">
-                            <select asp-for="Demostrativa.Confirmado" id="confirm@(demostrativa.Id)" onchange="Confimacao('confirm@(demostrativa.Id)',@demostrativa.Id)" class="form-control" asp-items="Html.GetEnumSelectList<Confirmado>()">
-                                <option selected="selected" value="@demostrativa.Confirmado">@Html.DisplayFor(d => demostrativa.Confirmado)</option>
+                            <select asp-for="Demostrativa.Confirmado" id="confirm@(Demostrativa.Id)" onchange="Confimacao('confirm@(Demostrativa.Id)',@Demostrativa.Id)" class="form-control" asp-items="Html.GetEnumSelectList<Confirmado>()">
+                                <option selected="selected" value="@Demostrativa.Confirmado">@Html.DisplayFor(d => Demostrativa.Confirmado)</option>
                             </select>
                         </div>
                     </div>
@@ -214,8 +222,8 @@
                     <div class="form-group">
 
                         <label>Observação</label>
-                        <textarea name="Observacao" id="demostrativa.Observacao@(demostrativa.Id)" rows="10" cols="80">
-                            @Html.Raw(demostrativa.Observacao)
+                        <textarea name="Observacao" id="Demostrativa.Observacao@(Demostrativa.Id)" rows="10" cols="80">
+                            @Html.Raw(Demostrativa.Observacao)
                             </textarea>
                     </div>
                 </div>
@@ -229,12 +237,12 @@
     <script src="~/ckeditor/ckeditor.js"></script>
     <script src="~/js/Aula.js"></script>
     <script src="~/js/Demostrativa.js"></script>
-    @foreach (var demostrativa in Model.Candidato.Demostrativas)
+    @foreach (var Demostrativa in Model.Candidato.Demostrativas)
     {
         <script>
             // Replace the <textarea id="editor1"> with a CKEditor
             // instance, using default configuration.
-            Demostrativas('demostrativa.Observacao@(demostrativa.Id)', @demostrativa.Id);
+            Demostrativas('Demostrativa.Observacao@(Demostrativa.Id)', @Demostrativa.Id);
         </script>
     }
 

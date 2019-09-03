@@ -473,7 +473,7 @@ namespace HumanMusicSchoolManager.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Demonstrativas",
+                name: "Demostrativas",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -827,27 +827,27 @@ namespace HumanMusicSchoolManager.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_Demostrativas_AulaId",
-                table: "Demonstrativas",
+                table: "Demostrativas",
                 column: "AulaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Demostrativas_CandidatoId",
-                table: "Demonstrativas",
+                table: "Demostrativas",
                 column: "CandidatoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Demostrativas_CursoId",
-                table: "Demonstrativas",
+                table: "Demostrativas",
                 column: "CursoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Demostrativas_DispSalaId",
-                table: "Demonstrativas",
+                table: "Demostrativas",
                 column: "DispSalaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Demostrativas_PessoaId",
-                table: "Demonstrativas",
+                table: "Demostrativas",
                 column: "PessoaId");
 
             migrationBuilder.CreateIndex(
@@ -967,7 +967,7 @@ namespace HumanMusicSchoolManager.Migrations
                 name: "CursoSala");
 
             migrationBuilder.DropTable(
-                name: "Demonstrativas");
+                name: "Demostrativas");
 
             migrationBuilder.DropTable(
                 name: "EmailConfig");

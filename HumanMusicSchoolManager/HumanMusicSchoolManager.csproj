@@ -34,8 +34,8 @@
     <Compile Remove="Migrations\20181121180536_Contrato.Designer.cs" />
     <Compile Remove="Migrations\20181122165450_Teste.cs" />
     <Compile Remove="Migrations\20181122165450_Teste.Designer.cs" />
-    <Compile Remove="Migrations\20181126163049_DemonstrativaFuncionario.cs" />
-    <Compile Remove="Migrations\20181126163049_DemonstrativaFuncionario.Designer.cs" />
+    <Compile Remove="Migrations\20181126163049_DemostrativaFuncionario.cs" />
+    <Compile Remove="Migrations\20181126163049_DemostrativaFuncionario.Designer.cs" />
     <Compile Remove="Migrations\20181202231847_FinanceiroDataPagamento.cs" />
     <Compile Remove="Migrations\20181202231847_FinanceiroDataPagamento.Designer.cs" />
     <Compile Remove="Migrations\20181203222541_Trancamento.cs" />
@@ -74,6 +74,20 @@
     <Compile Remove="Migrations\20190830153156_ValorCaixaAnterior.Designer.cs" />
     <Compile Remove="Migrations\20190902234204_CandidatoCPFNaoObrigatorio.cs" />
     <Compile Remove="Migrations\20190902234204_CandidatoCPFNaoObrigatorio.Designer.cs" />
+    <Compile Remove="Migrations\20190903042003_teste.cs" />
+    <Compile Remove="Migrations\20190903042003_teste.Designer.cs" />
+    <Compile Remove="Migrations\20190903043856_CandidatoCPFNulo.cs" />
+    <Compile Remove="Migrations\20190903043856_CandidatoCPFNulo.Designer.cs" />
+    <Compile Remove="Migrations\20190903044219_Update.cs" />
+    <Compile Remove="Migrations\20190903044219_Update.Designer.cs" />
+    <Compile Remove="Migrations\20190903044401_CandidatoCPFNulo.cs" />
+    <Compile Remove="Migrations\20190903044401_CandidatoCPFNulo.Designer.cs" />
+    <Compile Remove="Migrations\20190903044838_tese.cs" />
+    <Compile Remove="Migrations\20190903044838_tese.Designer.cs" />
+    <Compile Remove="Migrations\20190903050046_Demostrativa.cs" />
+    <Compile Remove="Migrations\20190903050046_Demostrativa.Designer.cs" />
+    <Compile Remove="Migrations\20190903051048_CandidatoCPFNulo.cs" />
+    <Compile Remove="Migrations\20190903051048_CandidatoCPFNulo.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

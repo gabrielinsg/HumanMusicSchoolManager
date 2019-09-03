@@ -15,7 +15,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <h6>Existem matriculas ou demostrativas neste horário</h6>
+                    <h6>Existem matriculas ou Demostrativas neste horário</h6>
                     <p>Para excluir ou alterar este horário primeiro troque o horário dos alunos abaixo:</p>
                     @{
                         List<Matricula> matriculas = ViewBag.DS.Matriculas;
@@ -34,16 +34,16 @@
                             </ul>
                         }
 
-                        List<Demostrativa> demostrativas = ViewBag.DS.Demostrativas;
-                        if (demostrativas.Count > 0)
+                        List<Demostrativa> Demostrativas = ViewBag.DS.Demostrativas;
+                        if (Demostrativas.Count > 0)
                         {
                             <ul>
                                 <li>Candidatos</li>
-                                @foreach (Demostrativa demostrativa in demostrativas)
+                                @foreach (Demostrativa Demostrativa in Demostrativas)
                                 {
                                     <li>
-                                        <a asp-controller="Aluno" asp-action="Aluno" asp-route-alunoId="@demostrativa.CandidatoId" target="_blank">
-                                            @demostrativa.Candidato.Nome
+                                        <a asp-controller="Aluno" asp-action="Aluno" asp-route-alunoId="@Demostrativa.CandidatoId" target="_blank">
+                                            @Demostrativa.Candidato.Nome
                                         </a>
                                     </li>
                                 }

@@ -289,15 +289,15 @@ namespace HumanMusicSchoolManager.Controllers
                 }
                 else if (aula.Demostrativas.Count > 0)
                 {
-                    var demostrativa = aula.Demostrativas.FirstOrDefault();
+                    var Demostrativa = aula.Demostrativas.FirstOrDefault();
                     var confirmado = "";
-                    switch (demostrativa.Confirmado)
+                    switch (Demostrativa.Confirmado)
                     {
                         case Confirmado.AGUARDANDO: confirmado = "A"; break;
                         case Confirmado.NAO: confirmado = "N"; break;
                         case Confirmado.SIM: confirmado = "S"; break;
                     }
-                    cal.Title += " (D"+confirmado+")" + demostrativa.Candidato.Nome.Split(' ')[0];
+                    cal.Title += " (D"+confirmado+")" + Demostrativa.Candidato.Nome.Split(' ')[0];
                 }
 
                 calendar.Add(cal);

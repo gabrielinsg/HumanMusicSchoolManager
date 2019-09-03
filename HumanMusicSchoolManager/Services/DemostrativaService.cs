@@ -18,12 +18,12 @@ namespace HumanMusicSchoolManager.Services
             this._context = context;
         }
 
-        public void Alterar(Demostrativa demostrativa)
+        public void Alterar(Demostrativa Demostrativa)
         {
-            var entry = _context.Entry<Demostrativa>(demostrativa);
+            var entry = _context.Entry<Demostrativa>(Demostrativa);
             if (entry.State == EntityState.Detached)
             {
-                var fin = _context.Demostrativas.FirstOrDefault(f => f.Id == demostrativa.Id);
+                var fin = _context.Demostrativas.FirstOrDefault(f => f.Id == Demostrativa.Id);
                 var ent = _context.Entry<Demostrativa>(fin);
                 ent.State = EntityState.Detached;
                 entry.State = EntityState.Modified;
@@ -31,12 +31,12 @@ namespace HumanMusicSchoolManager.Services
             _context.SaveChanges();
         }
 
-        public Demostrativa BuscarPorId(int demostrativaId)
+        public Demostrativa BuscarPorId(int DemostrativaId)
         {
            return _context.Demostrativas
                 .Include(d => d.Aula)
                 .Include(d => d.Pessoa)
-                .FirstOrDefault(d => d.Id == demostrativaId);
+                .FirstOrDefault(d => d.Id == DemostrativaId);
         }
 
         public List<Demostrativa> BuscarTodos()
@@ -44,9 +44,9 @@ namespace HumanMusicSchoolManager.Services
             return _context.Demostrativas.ToList();
         }
 
-        public void Cadastrar(Demostrativa demostrativa)
+        public void Cadastrar(Demostrativa Demostrativa)
         {
-            _context.Demostrativas.Add(demostrativa);
+            _context.Demostrativas.Add(Demostrativa);
             _context.SaveChanges();
         }
 
@@ -64,12 +64,12 @@ namespace HumanMusicSchoolManager.Services
                 .ToList();
         }
 
-        public void Excluir(int demostrativaId)
+        public void Excluir(int DemostrativaId)
         {
-            var demostrativa = _context.Demostrativas.FirstOrDefault(d => d.Id == demostrativaId);
-            if (demostrativa != null)
+            var Demostrativa = _context.Demostrativas.FirstOrDefault(d => d.Id == DemostrativaId);
+            if (Demostrativa != null)
             {
-                _context.Demostrativas.Remove(demostrativa);
+                _context.Demostrativas.Remove(Demostrativa);
                 _context.SaveChanges();
             }
         }
@@ -97,22 +97,22 @@ namespace HumanMusicSchoolManager.Services
 
         public void AtualizarObservacao(int id, string conteudo)
         {
-            var demostrativa = _context.Demostrativas.FirstOrDefault(d => d.Id == id);
-            if (demostrativa != null)
+            var Demostrativa = _context.Demostrativas.FirstOrDefault(d => d.Id == id);
+            if (Demostrativa != null)
             {
-                demostrativa.Observacao = conteudo;
-                _context.Demostrativas.Update(demostrativa);
+                Demostrativa.Observacao = conteudo;
+                _context.Demostrativas.Update(Demostrativa);
                 _context.SaveChanges();
             }
         }
 
         public void AtualizarConfirmado(int id, Confirmado confirmado)
         {
-            var demostrativa = _context.Demostrativas.FirstOrDefault(d => d.Id == id);
-            if (demostrativa != null)
+            var Demostrativa = _context.Demostrativas.FirstOrDefault(d => d.Id == id);
+            if (Demostrativa != null)
             {
-                demostrativa.Confirmado = confirmado;
-                _context.Demostrativas.Update(demostrativa);
+                Demostrativa.Confirmado = confirmado;
+                _context.Demostrativas.Update(Demostrativa);
                 _context.SaveChanges();
             }
         }

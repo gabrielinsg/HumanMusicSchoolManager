@@ -155,15 +155,14 @@ namespace HumanMusicSchoolManager.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CPF")
-                        .IsRequired();
+                    b.Property<string>("CPF");
 
-                    b.Property<string>("Cel");
+                    b.Property<string>("Cel")
+                        .IsRequired();
 
                     b.Property<DateTime>("DataNascimento");
 
-                    b.Property<string>("Email")
-                        .IsRequired();
+                    b.Property<string>("Email");
 
                     b.Property<string>("Nome")
                         .IsRequired();
@@ -317,7 +316,7 @@ namespace HumanMusicSchoolManager.Migrations
 
                     b.HasIndex("ProfessorId");
 
-                    b.ToTable("Demonstrativas");
+                    b.ToTable("Demostrativas");
                 });
 
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.DispSala", b =>
@@ -981,21 +980,21 @@ namespace HumanMusicSchoolManager.Migrations
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.Demostrativa", b =>
                 {
                     b.HasOne("HumanMusicSchoolManager.Models.Models.Aula", "Aula")
-                        .WithMany("Demonstrativas")
+                        .WithMany("Demostrativas")
                         .HasForeignKey("AulaId");
 
                     b.HasOne("HumanMusicSchoolManager.Models.Models.Candidato", "Candidato")
-                        .WithMany("Demonstrativas")
+                        .WithMany("Demostrativas")
                         .HasForeignKey("CandidatoId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("HumanMusicSchoolManager.Models.Models.Curso", "Curso")
-                        .WithMany("Demonstrativas")
+                        .WithMany("Demostrativas")
                         .HasForeignKey("CursoId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("HumanMusicSchoolManager.Models.Models.DispSala", "DispSala")
-                        .WithMany("Demonstrativas")
+                        .WithMany("Demostrativas")
                         .HasForeignKey("DispSalaId")
                         .OnDelete(DeleteBehavior.Restrict);
 

@@ -101,7 +101,7 @@ namespace HumanMusicSchoolManager.Services
                 .ToList();
         }
 
-        public List<Demostrativa> Demonstrativas(DateTime inicial, DateTime final)
+        public List<Demostrativa> Demostrativas(DateTime inicial, DateTime final)
         {
             inicial = DateTimeEntradaSaida.Inicial(inicial);
             final = DateTimeEntradaSaida.Final(final);

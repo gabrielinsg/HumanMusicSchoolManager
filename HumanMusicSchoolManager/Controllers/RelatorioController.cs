@@ -123,7 +123,7 @@ namespace HumanMusicSchoolManager.Controllers
 
             ViewBag.Inicial = inicial.Value;
             ViewBag.Final = final.Value;
-            return View(_relatorioSerevice.Demonstrativas(inicial.Value, final.Value));
+            return View(_relatorioSerevice.Demostrativas(inicial.Value, final.Value));
         }
     }
  
