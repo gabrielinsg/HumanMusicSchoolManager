@@ -41,5 +41,6 @@ namespace HumanMusicSchoolManager.Models.Models
 
         [Display(Name = "Módulo")]
         public int Modulo { get; set; }
+       
     }
 }

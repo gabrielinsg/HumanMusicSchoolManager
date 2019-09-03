@@ -51,23 +51,7 @@ namespace HumanMusicSchoolManager.Models.Models
         public Confirmado Confirmado { get; set; }
     }
 
-    public enum Motivo
-    {
-        [Display(Name = "Financeiro")]
-        FINANCEIRO,
-        [Display(Name = "Falta de tempo")]
-        TEMPO,
-        [Display(Name = "Não gostou do professor")]
-        PROFESSOR,
-        [Display(Name = "Não gostou da aula")]
-        AULA,
-        [Display(Name = "Não gostou da escola")]
-        ESCOLA,
-        [Display(Name = "Não retornou o contato")]
-        RETORNO,
-        [Display(Name = "Outros")]
-        OUTROS
-    }
+   
 
     public enum Confirmado
     {

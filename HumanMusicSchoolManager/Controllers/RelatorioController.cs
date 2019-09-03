@@ -142,7 +142,7 @@ namespace HumanMusicSchoolManager.Controllers
             {
                 cursos.Add(curso.Nome, matriculas.Where(m => m.CursoId == curso.Id).ToList().Count);
             }
-            cursos.Add("total", matriculas.Count);
+            cursos.Add("Total", matriculas.Count);
 
             cursos.OrderBy(c => c.Value);
             return View(cursos);
