@@ -1,0 +1,31 @@
+﻿@model Dictionary<string, int>
+@{
+    ViewData["Title"] = "MatriculasAtivas";
+}
+
+<h2>Matriculas Ativas</h2>
+<hr />
+<p><strong>Total:</strong> @Model.First(c => c.Key == "total").Value</p>
+
+   
+
+    @foreach (var curso in Model.Where(m => m.Key != "total").OrderByDescending(m => m.Value))
+    {
+        <div class="row">
+            <div class="col-md-1">
+                <p>@curso.Key</p>
+            </div>
+            <div class="col-md-1">
+                @{
+                    var porcentagem = curso.Value * 100 / Model.First(m => m.Key == "total").Value;
+                }
+                <p>@curso.Value</p>
+            </div>
+            <div class="col-md-6">
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: @porcentagem%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">@porcentagem%</div>
+                </div>
+            </div>
+        </div>
+    }
+

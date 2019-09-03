@@ -36,7 +36,25 @@
                     </a>
                 </li>
             }
-
+            @if (User.IsInRole("Admin") || User.IsInRole("Coordenacao") || User.IsInRole("Secretaria") || User.IsInRole("Atendimento"))
+            {
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle folders" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-folder"></i>
+                        <span>Relatórios</span>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                        <a class="dropdown-item" asp-controller="Relatorio" asp-action="Disponibilidade"><i class="far fa-file-alt"></i> Disponibilidade</a>
+                        <a class="dropdown-item" asp-controller="Relatorio" asp-action="Alunos"><i class="far fa-file-alt"></i> Alunos</a>
+                        <a class="dropdown-item" asp-controller="Relatorio" asp-action="PacoteCompra"><i class="far fa-file-alt"></i> Pacotes Vendidos</a>
+                        <a class="dropdown-item" asp-controller="Relatorio" asp-action="MatriculasNovas"><i class="far fa-file-alt"></i> Novas Matrículas</a>
+                        <a class="dropdown-item" asp-controller="Relatorio" asp-action="MatriculasCanceladas"><i class="far fa-file-alt"></i> Matrículas Canceladas</a>
+                        <a class="dropdown-item" asp-controller="Relatorio" asp-action="AlunosAniversariantes"><i class="far fa-file-alt"></i> Alunos Aniversáriantes</a>
+                        <a class="dropdown-item" asp-controller="Relatorio" asp-action="Demonstrativas"><i class="far fa-file-alt"></i> Demonstrativas</a>
+                        <a class="dropdown-item" asp-controller="Relatorio" asp-action="MatriculasAtivas"><i class="far fa-file-alt"></i> Demostrativas Ativas</a>
+                    </div>
+                </li>
+            }
             @if (User.IsInRole("Coordenacao") || User.IsInRole("Admin"))
             {
                 <li class="nav-item dropdown">
@@ -131,24 +149,7 @@
                     </div>
                 </li>
             }
-            @if (User.IsInRole("Admin") || User.IsInRole("Coordenacao") || User.IsInRole("Secretaria") || User.IsInRole("Atendimento"))
-            {
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle folders" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-folder"></i>
-                        <span>Relatórios</span>
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                        <a class="dropdown-item" asp-controller="Relatorio" asp-action="Disponibilidade"><i class="far fa-file-alt"></i> Disponibilidade</a>
-                        <a class="dropdown-item" asp-controller="Relatorio" asp-action="Alunos"><i class="far fa-file-alt"></i> Alunos</a>
-                        <a class="dropdown-item" asp-controller="Relatorio" asp-action="PacoteCompra"><i class="far fa-file-alt"></i> Pacotes Vendidos</a>
-                        <a class="dropdown-item" asp-controller="Relatorio" asp-action="MatriculasNovas"><i class="far fa-file-alt"></i> Novas Matrículas</a>
-                        <a class="dropdown-item" asp-controller="Relatorio" asp-action="MatriculasCanceladas"><i class="far fa-file-alt"></i> Matrículas Canceladas</a>
-                        <a class="dropdown-item" asp-controller="Relatorio" asp-action="AlunosAniversariantes"><i class="far fa-file-alt"></i> Alunos Aniversáriantes</a>
-                        <a class="dropdown-item" asp-controller="Relatorio" asp-action="Demonstrativas"><i class="far fa-file-alt"></i> Demonstrativas</a>
-                    </div>
-                </li>
-            }
+
 
         }
     </ul>

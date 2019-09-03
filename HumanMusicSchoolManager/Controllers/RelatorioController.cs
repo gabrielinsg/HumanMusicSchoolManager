@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HumanMusicSchoolManager.Data;
 using HumanMusicSchoolManager.Models.Models;
 using HumanMusicSchoolManager.Models.ViewModels;
 using HumanMusicSchoolManager.ServicesInterface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace HumanMusicSchoolManager.Controllers
 {
@@ -15,10 +17,12 @@ namespace HumanMusicSchoolManager.Controllers
     public class RelatorioController : Controller
     {
         private readonly IRelatorioService _relatorioSerevice;
+        private readonly ApplicationDbContext _context;
 
-        public RelatorioController(IRelatorioService relatorioService)
+        public RelatorioController(IRelatorioService relatorioService, ApplicationDbContext context)
         {
             this._relatorioSerevice = relatorioService;
+            this._context = context;
         }
 
         public IActionResult Disponibilidade()
@@ -124,6 +128,24 @@ namespace HumanMusicSchoolManager.Controllers
             ViewBag.Inicial = inicial.Value;
             ViewBag.Final = final.Value;
             return View(_relatorioSerevice.Demostrativas(inicial.Value, final.Value));
+        }
+
+        public IActionResult MatriculasAtivas()
+        {
+
+            var matriculas = _context.Matriculas.Where(m => m.DispSalaId != null)
+            .Include(m => m.Curso)
+            .ToList();
+
+            var cursos = new Dictionary<string, int>();
+            foreach (var curso in matriculas.Select(m => m.Curso).Distinct().ToList())
+            {
+                cursos.Add(curso.Nome, matriculas.Where(m => m.CursoId == curso.Id).ToList().Count);
+            }
+            cursos.Add("total", matriculas.Count);
+
+            cursos.OrderBy(c => c.Value);
+            return View(cursos);
         }
     }
  
