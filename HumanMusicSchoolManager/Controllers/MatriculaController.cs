@@ -558,41 +558,40 @@ namespace HumanMusicSchoolManager.Controllers
             }
         }
 
-        [HttpGet]
-        public IActionResult CancelaMatricula(int? matriculaId)
+        [HttpPost]
+        public IActionResult CancelaMatricula(Matricula matriculaPost)
         {
-            if (matriculaId != null)
+            var matricula = _matriculaService.BuscarPorId(matriculaPost.Id.Value);
+            if (matricula != null)
             {
-                var matricula = _matriculaService.BuscarPorId(matriculaId.Value);
-                if (matricula != null)
+                matricula.Motivo = matriculaPost.Motivo;
+                matricula.Outros = matriculaPost.Outros;
+                bool verifica = true;
+                if (matricula.PacoteCompras != null)
                 {
-                    bool verifica = true;
-                    if (matricula.PacoteCompras != null)
+                    foreach (var pc in matricula.PacoteCompras)
                     {
-                        foreach (var pc in matricula.PacoteCompras)
+                        var pacoteCompra = _pacoteCompraService.BuscarPorId(pc.Id.Value);
+                        if (pacoteCompra.Chamadas.Any(c => c.Presenca == null))
                         {
-                            var pacoteCompra = _pacoteCompraService.BuscarPorId(pc.Id.Value);
-                            if (pacoteCompra.Chamadas.Any(c => c.Presenca == null))
-                            {
-                                verifica = false;
-                                break;
-                            }
+                            verifica = false;
+                            break;
                         }
                     }
+                }
 
-                    if (verifica)
-                    {
-                        matricula.DispSalaId = null;
-                        matricula.EncerramentoMatricula = NowHorarioBrasilia.GetNow();
-                        _matriculaService.Alterar(matricula);
-                        TempData["Success"] = "Matricula Cancelada com sucesso!";
-                        return RedirectToAction("Aluno", "Aluno", new { alunoId = matricula.AlunoId });
-                    }
-                    else
-                    {
-                        TempData["Warning"] = "Não é possível fazer o cancelamento pois existem aulas em aberto para essa matrícula!";
-                        return RedirectToAction("Aluno", "Aluno", new { alunoId = matricula.AlunoId });
-                    }
+                if (verifica)
+                {
+                    matricula.DispSalaId = null;
+                    matricula.EncerramentoMatricula = NowHorarioBrasilia.GetNow();
+                    _matriculaService.Alterar(matricula);
+                    TempData["Success"] = "Matricula Cancelada com sucesso!";
+                    return RedirectToAction("Aluno", "Aluno", new { alunoId = matricula.AlunoId });
+                }
+                else
+                {
+                    TempData["Warning"] = "Não é possível fazer o cancelamento pois existem aulas em aberto para essa matrícula!";
+                    return RedirectToAction("Aluno", "Aluno", new { alunoId = matricula.AlunoId });
                 }
             }
             TempData["Error"] = "Matricula não encontrada!";

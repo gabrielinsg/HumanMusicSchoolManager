@@ -88,6 +88,8 @@
     <Compile Remove="Migrations\20190903050046_Demostrativa.Designer.cs" />
     <Compile Remove="Migrations\20190903051048_CandidatoCPFNulo.cs" />
     <Compile Remove="Migrations\20190903051048_CandidatoCPFNulo.Designer.cs" />
+    <Compile Remove="Migrations\20190903194056_MatriculaMotivoCancelamento.cs" />
+    <Compile Remove="Migrations\20190903194056_MatriculaMotivoCancelamento.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

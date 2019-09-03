@@ -42,16 +42,19 @@
                         <th>Candidato</th>
                         <th>Curso</th>
                         <th>Professor</th>
+                        <th>Motivo</th>
+                        <th>Observação</th>
                         <th class="text-center">Presente</th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
-                        <th>Aluno</th>
+                        <th>Candidato</th>
                         <th>Curso</th>
-                        <th class="text-center">Matrícula</th>
-                        <th class="text-center">Cancelado</th>
+                        <th>Professor</th>
+                        <th>Motivo</th>
+                        <th>Observação</th>
+                        <th class="text-center">Presente</th>
                     </tr>
                 </tfoot>
                 <tbody>
@@ -60,6 +63,8 @@
                         <tr>
                             <td>@matricula.Aluno.Nome</td>
                             <td>@matricula.Curso.Nome</td>
+                            <td>@Html.DisplayFor(d => matricula.Motivo)</td>
+                            <td>@matricula.Outros</td>
                             <td class="text-center">@matricula.DataMatricula.ToString("dd/MM/yyyy")</td>
                             <td class="text-center">@matricula.EncerramentoMatricula.Value.ToString("dd/MM/yyyy")</td>
                         </tr>
