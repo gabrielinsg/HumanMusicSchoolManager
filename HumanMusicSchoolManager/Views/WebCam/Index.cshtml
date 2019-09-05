@@ -1,0 +1,100 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+@section Styles{
+
+    <style type="text/css">
+        body {
+            font-family: Helvetica, sans-serif;
+        }
+
+        h2, h3 {
+            margin-top: 0;
+        }
+
+        form {
+            margin-top: 15px;
+        }
+
+            form > input {
+                margin-right: 15px;
+            }
+
+        #buttonhide {
+            background: transparent;
+            border: none !important;
+            font-size: 0;
+        }
+
+    </style>
+
+}
+
+<div class="container">
+    <br />
+
+    <div class="row">
+        <div class="col-md-6">
+            <ul class="list-group">
+                <li class="list-group-item active"></li>
+                <li class="list-group-item">
+                    <center>
+                        <div id="mac_camera"></div>                        
+                    </center>
+                </li>
+                <li class="list-group-item">
+                    <!-- botão para tirar foto -->
+                    <form>
+                        <input type="button" class="btn btn-success col-md-12" value="Capturar Imagem" onClick="captura_imagem()">
+                    </form>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <ul class="list-group">
+                <li class="list-group-item active"></li>
+                <li class="list-group-item">
+                    <div id="resultado"></div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-4">
+            <a href="/@ViewBag.Rota/@ViewBag.Rota?@(ViewBag.Rota)Id=@ViewBag.PessoaId" class="btn btn-primary">Voltar</a>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts{
+    <script src="~/lib/webcamjs/webcam.js"></script>
+
+    <script>
+        Webcam.set({
+            width: 400,
+            height: 400,
+            image_format: 'jpeg',
+            jpeg_quality: 81
+        });
+        Webcam.attach('#mac_camera');
+    </script>
+    <!-- Codigo para tirar a foto e exibir localmente -->
+    <script>
+        function captura_imagem() {
+            // tira a foto e obtem os dados da imagem
+            Webcam.snap(function (data_uri) {
+                // exibe o resultado na pagina
+                document.getElementById('resultado').innerHTML =
+                    '<img src="' + data_uri + '"/>';
+                Webcam.upload(data_uri, @ViewBag.PessoaId,'/WebCam/CapturaImagemPost',function (code, text) {
+                        
+                    });
+            });
+        }
+    </script>
+
+}

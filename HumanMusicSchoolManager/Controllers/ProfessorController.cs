@@ -33,7 +33,6 @@ namespace HumanMusicSchoolManager.Controllers
             this._eventoService = eventoService;
         }
 
-        [Authorize(Roles = "Coordenacao, Atendimento, Diretoria, Secretaria, Admin")]
         public IActionResult Index()
         {            
             return View(_professorService.BuscarTodos());
@@ -117,7 +116,6 @@ namespace HumanMusicSchoolManager.Controllers
             return RedirectToAction("Index");
         }
 
-        [Authorize(Roles = "Coordenacao, Atendimento, Diretoria, Secretaria, Admin")]
         public IActionResult Professor(int? professorId)
         {
             if (professorId != null)
@@ -175,7 +173,6 @@ namespace HumanMusicSchoolManager.Controllers
             return Json(professor);
         }
 
-        [Authorize(Roles = "Coordenacao, Atendimento, Diretoria, Secretaria, Admin, Professor")]
         public IActionResult Calendario(int? professorId)
         {
 
@@ -203,7 +200,6 @@ namespace HumanMusicSchoolManager.Controllers
             }
         }
 
-        [Authorize(Roles = "Coordenacao, Atendimento, Diretoria, Secretaria, Admin, Professor")]
         public JsonResult CalendarioJson(int professorId, int user, DateTime start, DateTime end)
         {
 
@@ -348,7 +344,6 @@ namespace HumanMusicSchoolManager.Controllers
             public string End { get; set; }
         }
 
-        [Authorize(Roles = "Coordenacao, Atendimento, Diretoria, Secretaria, Admin, Professor")]
         public IActionResult FolhaPontoProfessor(int? professorId, DateTime? inicial, DateTime? final)
         {
 
@@ -432,7 +427,6 @@ namespace HumanMusicSchoolManager.Controllers
             return title;
         }
 
-        [Authorize(Roles = "Coordenacao, Atendimento, Diretoria, Secretaria, Admin, Professor")]
         public IActionResult RelatorioProfessor(int? professorId, DateTime? inicial, DateTime? final)
         {
             var professorPorUsuario = _professorService.BuscarPorId(_pessoaService.BusacarPorUserName(User.Identity.Name).Id.Value);
@@ -469,6 +463,5 @@ namespace HumanMusicSchoolManager.Controllers
             TempData["Error"] = "Professor não encontrado";
             return RedirectToAction("Index", "Professor");
         }
-
     }
 }
