@@ -61,27 +61,53 @@
                     <div class="row aluno">
                         <div class="col-md-2 col-4">
                             <div class="col-2">
-                                <div class="form-group">
-                                    <label class="switch">
-                                        <input id="switch@(i)" onclick="presenca(@i)" type="checkbox">
-                                        <span class="slider round"></span>
-                                    </label>
-                                    <span asp-validation-for="Chamadas[i].Presenca" class="text-danger"></span>
-                                </div>
+                                @if (Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Foto == null)
+                                {
+                                    <div style="width: 50px; height: 50px; margin-top: 15px;" class="shadow-sm p-3 mb-5 bg-white text-center rounded-circle"><i style="font-size: 20px;" class="fas fa-user-alt"></i></div>
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn" style="background:none;" data-toggle="modal" data-target="#modal-chamada-foto@(i)">
+                                        <img src="@Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Foto" style="width: 55px;" alt="Foto do professor" class="shadow-sm bg-white rounded-circle">
+                                    </button>
+
+                                    <div class="modal fade" id="modal-chamada-foto@(i)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">@(Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Nome)</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body text-center">
+                                                    <img src="@(Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Foto)" alt="Foto Aluno" />
+                                                </div>                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
                             </div>
                         </div>
                         <div class="col-md-2 col-3">
                             <span id="labelSwitch@(i)">Presente</span><br />
+                            <div class="form-group">
+                                <label class="switch">
+                                    <input id="switch@(i)" onclick="presenca(@i)" type="checkbox">
+                                    <span class="slider round"></span>
+                                </label>
+                                <span asp-validation-for="Chamadas[i].Presenca" class="text-danger"></span>
+                            </div>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-5" style="padding-top: 20px;">
                             <div class="form-group">
                                 <input value="@Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Nome" class="form-control" disabled />
                             </div>
                         </div>
-                        <div class="col-3">
+                        <div class="col-3" style="padding-top: 20px;">
                             <!-- Button trigger modal -->
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-chamada@(i)">
-                                <i class="@(Model.Chamadas[i].Reposicao != null ? "fas fa-exclamation-circle text-warning" : "")"></i> Extras
+                                <i class="@(Model.Chamadas[i].Reposicao != null ? "fas fa-exclamation-circle text-warning" : "")"></i> Histórico
                             </button>
 
                             <!-- Modal -->

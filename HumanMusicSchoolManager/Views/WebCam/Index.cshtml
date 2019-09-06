@@ -67,7 +67,7 @@
             <a href="/@ViewBag.Rota/@ViewBag.Rota?@(ViewBag.Rota)Id=@ViewBag.PessoaId" class="btn btn-primary">Voltar</a>
         </div>
     </div>
-
+    <br />
 </div>
 
 @section Scripts{
@@ -91,7 +91,7 @@
                 document.getElementById('resultado').innerHTML =
                     '<img src="' + data_uri + '"/>';
                 Webcam.upload(data_uri, @ViewBag.PessoaId,'/WebCam/CapturaImagemPost',function (code, text) {
-                        
+                    alert("Imagem capturada com sucesso");
                     });
             });
         }

@@ -68,7 +68,7 @@ namespace HumanMusicSchoolManager.Controllers
                             }
                             if (!string.IsNullOrEmpty(caminhoArquivo))
                             {
-                                // Excluir a imagem
+                                //excluir arquivo
                             }
                         }
                     }
@@ -95,6 +95,8 @@ namespace HumanMusicSchoolManager.Controllers
                 fs.Flush();
             }
         }
+
+       
 
         private void SalvaImagemDatabase(byte[] imagemBytes, int pessoaId)
         {
