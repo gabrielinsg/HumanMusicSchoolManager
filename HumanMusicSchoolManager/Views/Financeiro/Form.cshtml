@@ -78,7 +78,28 @@
                         <span asp-validation-for="DataPagamento" class="text-danger"></span>
                     </div>
                 </div>
+                
             </div>
+            <div class="row">
+                <div class="col-md-4" >
+                    <label>Caixa</label>
+                    <div class="form-control">
+                        <div class="form-group form-check">
+                            @if (ViewBag.LancarCaixa != null && ViewBag.LancarCaixa)
+                            {
+                                <input type="checkbox" checked class="form-check-input" value="true" name="lancarCaixa" id="lancarCaixa">
+                            }
+                            else
+                            {
+                                <input type="checkbox" class="form-check-input" value="true" name="lancarCaixa" id="lancarCaixa">
+                            }
+                            <label class="form-check-label" for="exampleCheck1">Lançar no caixa</label>
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+            <hr />
             <div class="row">
                 <div class="col-md-12">
                     <b>Total: <span class="" id="total"></span></b>

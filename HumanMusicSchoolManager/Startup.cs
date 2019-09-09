@@ -141,6 +141,7 @@ namespace HumanMusicSchoolManager
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseHttpsRedirection();
 
             app.UseAuthentication();
 

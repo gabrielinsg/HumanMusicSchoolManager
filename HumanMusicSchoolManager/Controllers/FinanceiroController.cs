@@ -15,14 +15,17 @@ namespace HumanMusicSchoolManager.Controllers
         private readonly IFinanceiroService _financeiroService;
         private readonly IAlunoService _alunoService;
         private readonly IPessoaService _pessoaService;
+        private readonly ICaixaService _caixaService;
 
         public FinanceiroController(IFinanceiroService financeiroService,
             IAlunoService alunoService,
-            IPessoaService pessoaService)
+            IPessoaService pessoaService,
+            ICaixaService caixaService)
         {
             this._financeiroService = financeiroService;
             this._alunoService = alunoService;
             this._pessoaService = pessoaService;
+            this._caixaService = caixaService;
         }
 
         [Authorize(Roles = "Admin, Atendimento, Financeiro, Aluno")]
@@ -60,12 +63,26 @@ namespace HumanMusicSchoolManager.Controllers
         }
 
         [HttpPost]
-        public IActionResult Form(Financeiro financeiro)
+        public IActionResult Form(Financeiro financeiro, bool lancarCaixa)
         {
+            
             if ((financeiro.ValorPago != null || financeiro.ValorPago == ' ' ) && financeiro.DataPagamento == null)
             {
                 ModelState.AddModelError("DataPagamento", "Data de Pagamento obrigatório se Valor Pago for preenchido");
             }
+
+            if (lancarCaixa && _caixaService.CaixaAberto())
+            {
+                ModelState.AddModelError("CaixaAberto", "Não existe caixa aberto");
+                TempData["Error"] = "Não existe caixa aberto para o lançamento!";
+            }
+
+            if (lancarCaixa && (financeiro.ValorPago == null || financeiro.ValorPago <= 0))
+            {
+                ModelState.AddModelError("ValorPago", "Não é possível lançar um valor nulo ou menos que 0 no caixa");
+                TempData["Error"] = "Não é possível lançar um valor nulo ou menos que 0 no caixa";
+            }
+
             if (ModelState.IsValid)
             {
                 if (financeiro.Id == null)
@@ -80,6 +97,25 @@ namespace HumanMusicSchoolManager.Controllers
                     if (ModelState.IsValid)
                     {
                         _financeiroService.Cadastrar(financeiro);
+
+                        if (lancarCaixa)
+                        {
+                            var transacaoCaixa = new TransacaoCaixa()
+                            {
+                                Data = NowHorarioBrasilia.GetNow(),
+                                FuncionarioId = _pessoaService.BusacarPorUserName(User.Identity.Name).Id.Value,
+                                CaixaId = _caixaService.BuscarCaixaAberto().Id,
+                                Valor = financeiro.ValorPago.Value,
+                                Entrada = true,
+                                Descricao = financeiro.Nome + ". Aluno: " + _alunoService.BuscarPorId(financeiro.AlunoId.Value).Nome,
+                                FormaPagamento = financeiro.FormaPagamento
+                            };
+
+                            _caixaService.IncluirTransacao(transacaoCaixa);
+                        }
+
+                        
+
                         TempData["Success"] = "Lançamento cadastrado com sucesso";
                         return RedirectToAction("Financeiro", new { alunoId = financeiro.AlunoId });
                     }
@@ -100,6 +136,23 @@ namespace HumanMusicSchoolManager.Controllers
                     if (ModelState.IsValid)
                     {
                         _financeiroService.Alterar(financeiro);
+
+                        if (lancarCaixa)
+                        {
+                            var transacaoCaixa = new TransacaoCaixa()
+                            {
+                                Data = NowHorarioBrasilia.GetNow(),
+                                FuncionarioId = _pessoaService.BusacarPorUserName(User.Identity.Name).Id.Value,
+                                CaixaId = _caixaService.BuscarCaixaAberto().Id,
+                                Valor = financeiro.ValorPago.Value,
+                                Entrada = true,
+                                Descricao = financeiro.Nome + ". Aluno: " + _alunoService.BuscarPorId(financeiro.AlunoId.Value).Nome,
+                                FormaPagamento = financeiro.FormaPagamento
+                            };
+
+                            _caixaService.IncluirTransacao(transacaoCaixa);
+                        }
+
                         TempData["Success"] = "Lançamento alterado com sucesso";
                         return RedirectToAction("Financeiro", new { alunoId = financeiro.Aluno.Id });
                     }
@@ -109,6 +162,7 @@ namespace HumanMusicSchoolManager.Controllers
                     }
                 }
             }
+            ViewBag.LancarCaixa = lancarCaixa;
             ViewBag.Aluno = _alunoService.BuscarPorId(financeiro.AlunoId.Value);
             return View(financeiro);
         }
