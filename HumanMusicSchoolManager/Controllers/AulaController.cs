@@ -180,7 +180,14 @@ namespace HumanMusicSchoolManager.Controllers
                         if (!aula.AulaDada) Demostrativa.Presenca = null;
                         if (Estrelas.Count > 0)
                         {
-                            demons.Estrelas = Estrelas[i];
+                            try
+                            {
+                                demons.Estrelas = Estrelas[i];
+                            }
+                            catch
+                            {
+                                demons.Estrelas = 0;
+                            }
                         }
 
                         _DemostrativaService.Alterar(demons);

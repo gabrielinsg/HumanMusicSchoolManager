@@ -1,0 +1,87 @@
+﻿@model List<Vale>
+@{
+    ViewData["Title"] = "Matrículas Canceladas";
+}
+
+<div class="card mb-3">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-2">
+                <i class="far fa-file-alt"></i>
+                Vales
+            </div>
+            <div class="col-md-8 ">
+                <form role="form" asp-controller="Vale" asp-action="Index" method="get">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <label name="Inicial">Data Inicial</label>
+                            <input name="Inicial" value="@ViewBag.Inicial.ToString("yyyy-MM-dd")" type="date" class="form-control" />
+                        </div>
+                        <div class="col-md-5">
+                            <label name="Final">Data Final</label>
+                            <input name="Final" value='@ViewBag.Final.ToString("yyyy-MM-dd")' type="date" class="form-control" />
+                        </div>
+                        <div class="col-md-2" style="padding-top: 32px;">
+                            <button type="submit" class="btn btn-dark">Filtrar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-2" style="padding-top: 32px;">
+                <a asp-action="LancarVale" class="btn btn-success">Novo</a>
+            </div>
+
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped" id="dataTable" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th class="text-center">Data</th>
+                        <th class="text-center">Valor</th>
+                        <th>Observação</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Nome</th>
+                        <th class="text-center">Data</th>
+                        <th class="text-center">Valor</th>
+                        <th>Observação</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var vale in Model)
+                    {
+                        <tr>
+                            <td>@vale.Pessoa.Nome</td>
+                            <td class="text-center">@vale.Data.ToString("dd/MM/yy")</td>
+                            <td class="text-center">@vale.Valor.ToString("R$ #,##0.00")</td>
+                            <td>@vale.Observacao</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/vendor/datatables/jquery.dataTables.js"></script>
+
+    <script src="~/vendor/datatables/dataTables.bootstrap4.js"></script>
+    <script>
+
+        $('#dataTable').DataTable({
+            "order": [[0, 'asc']]
+        });
+
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+}

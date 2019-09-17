@@ -1,0 +1,107 @@
+﻿@model Vale
+
+@{
+    ViewData["Title"] = "Form";
+}
+
+
+
+<input id="rota" type="hidden" value="Professor" />
+<div class="row">
+    <div class="col-xl-11 col-md-10">
+        <h2 class="col-md-10">Vale</h2>
+    </div>
+    
+</div>
+<br />
+<div class="list-group">
+    <div class="list-group-item">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Tipo</label>
+                    <select id="tipo" class="form-control">
+                        <option value="Professor">Professor</option>
+                        <option value="Funcionario">Funcionário</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label><i class="fas fa-search"></i> Buscar Por Nome</label>
+                    <input id="BuscaNome" class="form-control">
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+<br />
+<div class="list-group">
+    <div class="list-group-item">
+        <form role="form" method="post" asp-action="form">
+
+            <input asp-for="Id" type="hidden" />
+
+            <div class="row">
+                <div class="col-md-4">
+                    <input asp-for="PessoaId" type="hidden" />
+                    <div class="form-group">
+                        <label asp-for="Pessoa.Nome"></label>
+                        <input asp-for="Pessoa.Nome" disabled class="form-control" />
+                        <span asp-validation-for="Pessoa.Nome" class="text-danger"></span>
+                    </div>
+                </div>
+                             
+                
+            </div>
+            <button type="submit" class="btn btn-success">Lançar</button>
+            <a asp-action="Index" class="btn btn-primary">Voltar</a>
+        </form>
+    </div>
+</div>
+<br />
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#BuscaNome").autocomplete({
+                source: function (request, response)
+                {
+                    const tipo = $("#tipo")[0].value;
+                    console.log(tipo);
+                    $.ajax({
+                        url: "/Vale/BuscarPorNome",
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            nome: request.term,
+                            tipo: tipo
+                        },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return { label: item.nome, value: item.nome, id: item.id };
+                            }));
+
+                        }
+                    });
+                },
+                select: function (event, ui) {
+                    //window.location.href = "/" + rota.value + "/Form?" + rota.value + "Id=" + ui.item.id;
+                    let pessoaId = $("#PessoaId")[0];
+                    let pessoaNome = $("#Pessoa_Nome")[0];
+                    pessoaId.value = ui.item.id;
+                    pessoaNome.value = ui.item.value;
+                },
+                messages: {
+                    noResults: "", results: ""
+                }
+            });
+            $("#BuscaNome").on('focusout', function () {
+                let buscaNome = $("#BuscaNome")[0];
+                buscaNome.value = "";   
+            });
+        });
+    </script>
+}

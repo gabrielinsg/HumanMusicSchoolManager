@@ -40,6 +40,7 @@ namespace HumanMusicSchoolManager.Data
         public DbSet<AulaConfig> AulaConfig { get; set; }
         public DbSet<Caixa> Caixas { get; set; }
         public DbSet<TransacaoCaixa> TransacoesCaixa { get; set; }
+        public DbSet<Vale> Vales { get; set; }
 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
@@ -49,6 +50,10 @@ namespace HumanMusicSchoolManager.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<Vale>()
+                .HasOne(v => v.Pessoa)
+                .WithMany()
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Caixa>()
                 .HasOne(c => c.FuncionarioAberto)
