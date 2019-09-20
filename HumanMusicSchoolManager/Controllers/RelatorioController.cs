@@ -25,9 +25,37 @@ namespace HumanMusicSchoolManager.Controllers
             this._context = context;
         }
 
-        public IActionResult Disponibilidade()
+        public IActionResult Disponibilidade(int? professorId)
         {
-            return View(_relatorioSerevice.Professores());
+            var professores = _relatorioSerevice.Professores();
+            var dispSalas = new List<DispSala>();
+            if (professorId == null)
+            {
+                var totalDispSala = new List<DispSala>();
+                foreach (var professor in professores)
+                {
+                    foreach (var dispSala in professor.DispSalas.Where(ds => ds.Ativo == true).ToList())
+                    {
+                        totalDispSala.Add(dispSala);
+                    }
+                }
+
+                dispSalas = totalDispSala;
+            }
+            else
+            {
+                dispSalas = professores.First(p => p.Id == professorId.Value).DispSalas;
+            }
+
+            var total = new RelatorioGeralProfessoresViewModel
+            {
+                DispSalas = dispSalas
+            };
+
+            ViewBag.Professores = professores.OrderBy(p => p.Nome);
+            ViewBag.Professor = professorId == null ? "Total" : professores.First(p => p.Id == professorId).Nome;
+
+            return View(total);
         }
 
         public IActionResult Alunos()
@@ -124,11 +152,12 @@ namespace HumanMusicSchoolManager.Controllers
             {
                 final = NowHorarioBrasilia.GetNow().AddDays(-NowHorarioBrasilia.GetNow().Day + 1).AddMonths(1).AddDays(-1);
             }
-
+            var inicialAnterior = inicial.Value.AddMonths(-1).AddDays(-inicial.Value.Day + 1);
+            var finalAnterior = final.Value.AddMonths(-1).AddDays(-final.Value.Day + 1).AddMonths(1).AddDays(-1);
             var demonstrativas = _relatorioSerevice.Demostrativas(inicial.Value, final.Value);
-            var totalAnterior = _relatorioSerevice.Demostrativas(inicial.Value.AddMonths(-1), final.Value.AddHours(-1)).Count; ;
+            var totalAnterior = _relatorioSerevice.Demostrativas(inicialAnterior, finalAnterior).Count;
             var positivo = demonstrativas.Count >= totalAnterior ? true : false;
-            var porcentagem = 0f;
+            float porcentagem = 0f;
 
             if (positivo)
             {

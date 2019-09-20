@@ -21,7 +21,7 @@ namespace HumanMusicSchoolManager.Services
         public List<Professor> Professores()
         {
             return _context.Professores
-                .Where(p => p.DispSalas.Count > 0)
+                .Where(p => p.DispSalas.Count > 0 && p.Ativo)
                 .Include(p => p.DispSalas)
                 .ThenInclude(ds => ds.Matriculas)
                 .ThenInclude(m => m.PacoteCompras)
