@@ -14,7 +14,7 @@
         </a>
         <!-- User -->
         <ul class="nav align-items-center d-md-none">
-            <li class="nav-item dropdown">
+            @*<li class="nav-item dropdown">
                 <a class="nav-link nav-link-icon" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="ni ni-bell-55"></i>
                 </a>
@@ -24,12 +24,13 @@
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">Something else here</a>
                 </div>
-            </li>
+            </li>*@
             <li class="nav-item dropdown">
                 <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <div class="media align-items-center">
                         <span class="avatar avatar-sm rounded-circle">
-                            <img alt="Image placeholder" src="~/img/theme/team-1-800x800.jpg">
+                            @*<img alt="Image placeholder" src="~/img/theme/team-1-800x800.jpg">*@
+                            <i class="far fa-user"></i>
                         </span>
                     </div>
                 </a>
@@ -43,7 +44,7 @@
                 <div class="row">
                     <div class="col-6 collapse-brand">
                         <a href="./index">
-                            <img src="~/img/brand/blue.png">
+                            <img src="~/img/logo_transparent_horizontal.png">
                         </a>
                     </div>
                     <div class="col-6 collapse-close">
@@ -55,7 +56,7 @@
                 </div>
             </div>
             <!-- Form -->
-            <form class="mt-4 mb-3 d-md-none">
+            @*<form class="mt-4 mb-3 d-md-none">
                 <div class="input-group input-group-rounded input-group-merge">
                     <input type="search" class="form-control form-control-rounded form-control-prepended" placeholder="Search" aria-label="Search">
                     <div class="input-group-prepend">
@@ -64,71 +65,166 @@
                         </div>
                     </div>
                 </div>
-            </form>
+            </form>*@
             <!-- Navigation -->
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Index")">
+                    <a class="nav-link" asp-controller="Home" asp-action="Index">
                         <i class="ni ni-tv-2 text-primary"></i> Dashboard
                     </a>
-                    
+
                 </li>
-                <li class="nav-item">
-                    
-                    <a class="nav-link" data-toggle="collapse" href="#relatorios"  aria-expanded="false" aria-controls="collapseExample">
-                        <i class="ni ni-single-02 text-yellow"></i> Relatórios
-                    </a>
-                    <div class="collapse" id="relatorios">
-                        <div class="card card-body">
-                            <a href="#" class="nav-link">Teste</a>
+                @if (User.IsInRole("Professor"))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Professor" asp-action="Calendario">
+                            <i class="ni ni-calendar-grid-58 text-blue"></i> Calendário
+                        </a>
+                        <a class="nav-link" asp-controller="Aula" asp-action="AulasAtrasadas">
+                            <i class="ni ni-tag text-red"></i> Aulas Atrasadas
+                        </a>
+
+                        <a class="nav-link" target="_blank" asp-controller="Professor" asp-action="FolhaPontoProfessor">
+                            <i class="ni ni-single-copy-04 text-yellow" ></i> Folha de ponto
+                        </a>
+                        <a class="nav-link" asp-controller="Professor" asp-action="RelatorioProfessor">
+                            <i class="ni ni-chart-pie-35 text-info"></i>
+                            <span>Relatório Professor</span>
+                        </a>
+
+                    </li>
+                }
+                @if (User.IsInRole("Admin") || User.IsInRole("Coordenacao") || User.IsInRole("Secretaria") || User.IsInRole("Atendimento"))
+                {
+                    <li class="nav-item">
+
+                        <a class="nav-link" data-toggle="collapse" href="#relatorios" aria-expanded="false" aria-controls="collapseExample">
+                            <i class="ni ni-single-copy-04 text-yellow"></i> Relatórios
+                        </a>
+                        <div class="collapse" id="relatorios">
+                            <div class="card card-body">
+                                <a class="nav-link" asp-controller="Relatorio" asp-action="Alunos">Alunos</a>
+                                <a class="nav-link" asp-controller="Relatorio" asp-action="AlunosAniversariantes">Alunos Aniversáriantes</a>
+                                <a class="nav-link" asp-controller="Relatorio" asp-action="Demonstrativas">Demonstrativas</a>
+                                <a class="nav-link" asp-controller="Relatorio" asp-action="Disponibilidade">Disponibilidade</a>
+                                <a class="nav-link" asp-controller="Relatorio" asp-action="MatriculasAtivas">Demostrativas Ativas</a>
+                                <a class="nav-link" asp-controller="Relatorio" asp-action="MatriculasCanceladas">Matrículas Canceladas</a>
+                                <a class="nav-link" asp-controller="Relatorio" asp-action="MatriculasNovas">Novas Matrículas</a>
+                                <a class="nav-link" asp-controller="Relatorio" asp-action="PacoteCompra">Pacotes Vendidos</a>
+                            </div>
                         </div>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Icons")">
-                        <i class="ni ni-planet text-blue"></i> Icons
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Maps")">
-                        <i class="ni ni-pin-3 text-orange"></i> Maps
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="@Url.Action("Tables")">
-                        <i class="ni ni-bullet-list-67 text-red"></i> Tables
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="ni ni-key-25 text-info"></i> Login
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="ni ni-circle-08 text-pink"></i> Register
-                    </a>
-                </li>
+                    </li>
+                }
+                @if (User.IsInRole("Coordenacao") || User.IsInRole("Admin"))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#coordenacao" aria-expanded="false" aria-controls="collapseExample">
+                            <i class="ni ni-ruler-pencil text-blue"></i> Coordenação
+                        </a>
+                        <div class="collapse" id="coordenacao">
+                            <div class="card card-body">
+                                <a class="nav-link" asp-controller="Aula" asp-action="AulasAtrasadas">Aulas Atrasadas</a>
+                                <a class="nav-link" asp-controller="Curso" asp-action="Index">Cursos</a>
+                                <a class="nav-link" asp-controller="Evento" asp-action="Index">Eventos</a>
+                                <a class="nav-link" asp-controller="Feriado" asp-action="Index">Feriados</a>
+                                <a class="nav-link" asp-controller="Professor" asp-action="Index">Professores</a>
+                                <a class="nav-link" asp-controller="Professor" target="_blank" asp-action="FolhaPontoProfessor">Folha de Ponto</a>
+                                <a class="nav-link" asp-controller="Sala" asp-action="Index">Salas</a>
+                            </div>
+                        </div>
+                    </li>
+
+                }
+                @if (User.IsInRole("Secretaria") || User.IsInRole("Admin"))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#secretaria" aria-expanded="false" aria-controls="collapseExample">
+                            <i class="ni ni-books text-orange"></i> Secretaria
+                        </a>
+                        <div class="collapse" id="secretaria">
+                            <div class="card card-body">
+                                <a class="nav-link" asp-controller="Contrato" asp-action="Index">Contratos</a>
+                                <a class="nav-link" asp-controller="Funcionario" asp-action="Index">Funcionários</a>
+                                <a class="nav-link" asp-controller="PacoteAula" asp-action="Index">Pacotes de Aula</a>
+                                <a class="nav-link" asp-controller="TaxaMatricula" asp-action="Index">Taxas de Matricula</a>
+                            </div>
+                        </div>
+                    </li>
+                }
+                @if (User.IsInRole("Atendimento") || User.IsInRole("Admin"))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#atendimento" aria-expanded="false" aria-controls="collapseExample">
+                            <i class="ni ni-bullet-list-67 text-red"></i> Atendimento
+                        </a>
+                        <div class="collapse" id="atendimento">
+                            <div class="card card-body">
+                                <a class="nav-link" asp-controller="Aluno" asp-action="Index">Alunos</a>
+                                <a class="nav-link" asp-controller="Financeiro" asp-action="ParcelasEmAberto">Parcelas em aberto</a>
+                                <a class="nav-link" asp-controller="Financeiro" asp-action="ParcelasVencidas">Parcelas vencidas</a>
+                                <a class="nav-link" asp-controller="PacoteCompra" asp-action="FaltasSeguidas">Faltas Seguidas</a>
+                                <a class="nav-link" asp-controller="PacoteCompra" asp-action="UtimaAula">Utima Aula</a>
+                                <a class="nav-link" asp-controller="RespFinanceiro" asp-action="Index">Resp financeiros</a>
+                            </div>
+                        </div>
+                    </li>
+                }
+                @if (User.IsInRole("Atendimento") || User.IsInRole("Admin"))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#caixa" aria-expanded="false" aria-controls="collapseExample">
+                            <i class="ni ni-money-coins text-success"></i> Caixa
+                        </a>
+                        <div class="collapse" id="caixa">
+                            <div class="card card-body">
+                                <a class="nav-link" asp-controller="Caixa" asp-action="Caixa">Lançar</a>
+                                <a class="nav-link" asp-controller="Caixa" asp-action="Index">Caixas</a>
+                            </div>
+                        </div>
+                    </li>
+                }
+                @if (User.IsInRole("Atendimento") || User.IsInRole("Vendas") || User.IsInRole("Admin"))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#vendas" aria-expanded="false" aria-controls="collapseExample">
+                            <i class="ni ni-bag-17 text-pink"></i> Vendas
+                        </a>
+                        <div class="collapse" id="vendas">
+                            <div class="card card-body">
+                                <a class="nav-link" asp-controller="Candidato" asp-action="Index">Candidatos</a>
+                                <a class="nav-link" asp-controller="Demostrativa" asp-action="DemostrativasAbertas">Abertas</a>
+                                <a class="nav-link" asp-controller="Demostrativa" asp-action="NaoContratou">Não contratou</a>
+                                <a class="nav-link" asp-controller="DispSala" asp-action="HorariosDisponiveis">Horários Disponíveis</a>
+                                <a class="nav-link" asp-controller="DispSala" asp-action="TodosHorarios">Quadro Horário</a>
+                            </div>
+                        </div>
+                    </li>
+                }
+                @if (User.IsInRole("Admin"))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#configuracoes" aria-expanded="false" aria-controls="collapseExample">
+                            <i class="ni ni-settings-gear-65 text-gray-dark"></i> Configurações
+                        </a>
+                        <div class="collapse" id="configuracoes">
+                            <div class="card card-body">
+                                <a class="nav-link" asp-controller="AulaConfig" asp-action="Form">Aula</a>
+                                <a class="nav-link" asp-controller="EmailConfig" asp-action="Form">E-Mail</a>
+                            </div>
+                        </div>
+                    </li>
+                }
             </ul>
+            
             <!-- Divider -->
             <hr class="my-3">
             <!-- Heading -->
-            <h6 class="navbar-heading text-muted">Documentation</h6>
+            <h6 class="navbar-heading text-muted">Suporte</h6>
             <!-- Navigation -->
             <ul class="navbar-nav mb-md-3">
                 <li class="nav-item">
-                    <a class="nav-link" href="/docs/getting-started/overview">
-                        <i class="ni ni-spaceship"></i> Getting started
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/docs/foundation/colors">
-                        <i class="ni ni-palette"></i> Foundation
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/docs/components/alerts">
-                        <i class="ni ni-ui-04"></i> Components
+                    <a class="nav-link" href="#">
+                        <i class="ni ni-email-83"></i> Contato
                     </a>
                 </li>
             </ul>

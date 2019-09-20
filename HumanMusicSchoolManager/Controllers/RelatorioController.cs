@@ -125,9 +125,28 @@ namespace HumanMusicSchoolManager.Controllers
                 final = NowHorarioBrasilia.GetNow().AddDays(-NowHorarioBrasilia.GetNow().Day + 1).AddMonths(1).AddDays(-1);
             }
 
+            var demonstrativas = _relatorioSerevice.Demostrativas(inicial.Value, final.Value);
+            var totalAnterior = _relatorioSerevice.Demostrativas(inicial.Value.AddMonths(-1), final.Value.AddHours(-1)).Count; ;
+            var positivo = demonstrativas.Count >= totalAnterior ? true : false;
+            var porcentagem = 0f;
+
+            if (positivo)
+            {
+                var diferenca = demonstrativas.Count - totalAnterior;
+                porcentagem = diferenca * 100 / demonstrativas.Count;
+            }
+            else
+            {
+                var diferenca = totalAnterior - demonstrativas.Count;
+                porcentagem = diferenca * 100 / demonstrativas.Count;
+            }
+
             ViewBag.Inicial = inicial.Value;
             ViewBag.Final = final.Value;
-            return View(_relatorioSerevice.Demostrativas(inicial.Value, final.Value));
+            ViewBag.Anterior = totalAnterior;
+            ViewBag.Positivo = positivo;
+            ViewBag.Porcentagem = porcentagem;
+            return View(demonstrativas);
         }
 
         public IActionResult MatriculasAtivas()

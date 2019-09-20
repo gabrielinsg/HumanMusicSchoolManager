@@ -1,0 +1,25 @@
+﻿#dataTable_length label{
+    display: inline-flex;
+    border: 12px;
+}
+
+#dataTable_length select {
+    margin: 0 1rem 0 1rem;
+}
+
+#dataTable_filter {
+    text-align: right;
+}
+
+#dataTable_filter label {
+    display: inline-flex;
+    border: 12px;
+}
+
+#dataTable_filter input {
+    margin: 0 1rem 0 1rem;
+}
+
+.card .table {
+    margin-bottom: 2rem;
+}
