@@ -1,146 +1,221 @@
 ﻿@model ProfessorCompletoViewModel
 @{
-    ViewData["Title"] = "RelatorioProfessor";
+    ViewData["Title"] = "Relatório";
 }
 
-<h2>Relatório Professor</h2>
-<br />
-<h3>@Model.Professor.Nome</h3>
-<br />
 
-<form role="form" asp-action="RelatorioProfessor" method="get">
-    @if (Model.Professor != null)
-    {
-        <input name="professorId" value="@Model.Professor.Id" type="hidden" />
-    }
 
+
+
+<div class="container-fluid mt--7">
     <div class="row">
-        <div class="col-xl-3 col-md-4">
-            <label asp-for="Inicial">Data Inicial</label>
-            <input asp-for="Inicial" type="date" class="form-control" />
-            <span asp-validation-for="Inicial" class="text-danger"></span>
+        <div class="col-xl-7 mb-5 mb-xl-0">
+            <div class="card bg-gradient-default shadow">
+                <div class="card-header bg-transparent">
+                    <div class="row align-items-center">
+                        <div class="col-md-2">
+                            <h6 class="text-uppercase text-light ls-1 mb-1">@Model.Professor.Nome</h6>
+                            <h2 class="text-white mb-0">Aulas</h2>
+                        </div>
+                        <form role="form" asp-action="RelatorioProfessor" method="get" class="col-md-9">
+                            @if (Model.Professor != null)
+                            {
+                                <input name="professorId" value="@Model.Professor.Id" type="hidden" />
+                            }
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <label asp-for="Inicial">Data Inicial</label>
+                                    <input asp-for="Inicial" type="date" class="form-control" />
+                                    <span asp-validation-for="Inicial" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-5">
+                                    <label asp-for="Final">Data Final</label>
+                                    <input asp-for="Final" type="date" class="form-control" />
+                                    <span asp-validation-for="Final" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-2" style="padding-top: 32px;">
+                                    <button type="submit" class="btn btn-success">Filtrar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Chart -->
+                    <div class="chart">
+                        <div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+                        <!-- Chart wrapper -->
+                        <canvas id="aulas" class="chart-canvas chartjs-render-monitor" width="822" height="437" style="display: block; height: 350px; width: 658px;"></canvas>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-xl-3 col-md-4">
-            <label asp-for="Final">Data Final</label>
-            <input asp-for="Final" type="date" class="form-control" />
-            <span asp-validation-for="Final" class="text-danger"></span>
-        </div>
-        <div class="col-3" style="padding-top: 32px;">
-            <button type="submit" class="btn btn-success">Filtrar</button>
+
+        <div class="col-xl-5 mb-5 mb-xl-0 ">
+            <div class="card shadow">
+                <div class="card-header bg-transparent">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h6 class="text-uppercase text-muted ls-1 mb-1">@Model.Professor.Nome</h6>
+                            <h2 class="mb-0">Horários</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Chart -->
+                    <div class="chart">
+                        <div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+                        <canvas id="horarios" class="chart-canvas chartjs-render-monitor" width="822" height="437" style="display: block; height: 350px; width: 658px;"></canvas>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</form>
-<br /><br />
-<div class="row">
-    <div class="col-md-3">
-        <ul class="list-group">
-            <li class="list-group-item active">Aulas</li>
-            <li class="list-group-item">
-                <table class="table">
-                    <thead>
-                        <tr class="thead-light">
-                            <th scope="col">#</th>
-                            <th class="text-center" scope="col">Totais</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">Previstas</th>
-                            <td class="text-center">@Model.Aulas.Where(a => a.Chamadas.Count > 0 && a.Chamadas.Any(c => (c.Reposicao == null || c.Reposicao.Remunerada) && c.Aula.Sala.ConsideraAtrasadas)).ToList().Count</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Dadas</th>
-                            <td class="text-center">@Model.Aulas.Where(a => a.Chamadas.Count > 0 && a.Chamadas.Any(c => c.Reposicao == null) && a.AulaDada && a.Sala.ConsideraAtrasadas).ToList().Count</td>
-                        </tr>
+</div>
 
 
-                        @{
-                            if (Model.Aulas.Where(a => a.Chamadas.Count > 0 && a.Chamadas.Any(c => c.Reposicao == null || c.Reposicao.Remunerada)).ToList().Count > 0)
+
+@section Scripts
+{
+
+    <script>
+        var OrdersChart = (function() {
+
+	        //
+	        // Variables
+	        //
+
+	        var $chart = $('#aulas');
+	        var $ordersSelect = $('[name="ordersSelect"]');
+
+	        //
+	        // Methods
+	        //
+
+	        // Init chart
+	        function initChart($chart) {
+
+		        // Create chart
+		        var ordersChart = new Chart($chart, {
+			        type: 'horizontalBar',
+
+			        data: {
+                        labels: [
+                            'Total',
+                            @if (Model.Aulas.Where(a => a.Chamadas.Count > 0 && a.Chamadas.Any(c => c.Reposicao == null || c.Reposicao.Remunerada)).ToList().Count > 0)
                             {
                                 var r = Model.Aulas.Max(a => a.Chamadas.Where(c => c.Reposicao == null || c.Reposicao.Remunerada).ToList().Count);
                                 for (var i = 1; i <= r; i++)
-                                {
-                                    <tr class="thead-light">
-                                        <th scope="row">#</th>
-                                        <th class="text-center" scope="row">@i @(i > 1 ? "Alunos" : "Aluno")</th>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Previstas</th>
-                                        <td class="text-center">@Model.Aulas.Where(a => a.Chamadas.Count == i && a.Chamadas.Count > 0 && a.Chamadas.Any(c => (c.Reposicao == null || c.Reposicao.Remunerada) && c.Aula.Sala.ConsideraAtrasadas)).ToList().Count</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Dadas</th>
-                                        <td class="text-center">@Model.Aulas.Where(a => a.Chamadas.Where(c => c.Reposicao == null || c.Reposicao.Remunerada).ToList().Count == i && a.AulaDada).ToList().Count</td>
-                                    </tr>
+                                {      
+                                    <text>'@i @(i > 1 ? "Alunos" : "Aluno")',</text>                                    
                                 }
                             }
+                        ],
+                       
+				        datasets: [{
+					        label: 'Previstas',
+                            data: [
+                                @Model.Aulas.Where(a => a.Chamadas.Count > 0 && a.Chamadas.Any(c => (c.Reposicao == null || c.Reposicao.Remunerada) && c.Aula.Sala.ConsideraAtrasadas)).ToList().Count,
+                                @if (Model.Aulas.Where(a => a.Chamadas.Count > 0 && a.Chamadas.Any(c => c.Reposicao == null || c.Reposicao.Remunerada)).ToList().Count > 0)
+                                {
+                                    var r = Model.Aulas.Max(a => a.Chamadas.Where(c => c.Reposicao == null || c.Reposicao.Remunerada).ToList().Count);
+                                    for (var i = 1; i <= r; i++)
+                                    {
 
-                        }
-                    </tbody>
-                </table>
-            </li>
-        </ul>
-    </div>
-    <div class="col-md-3">
-        <ul class="list-group">
-            <li class="list-group-item active">Matriculas</li>
-            <li class="list-group-item">
-                <table class="table">
-                    <thead>
-                        <tr class="thead-light">
-                            <th scope="col">#</th>
-                            <th class="text-center" scope="col">Totais</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">Ativas</th>
-                            <td class="text-center">@Model.Matriculas.Count</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Novas</th>
-                            <td class="text-center">@Model.Matriculas.Where(m => m.DataMatricula >= Model.Inicial && m.DataMatricula <= Model.Final).ToList().Count</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </li>
-        </ul>
-    </div>
-    <div class="col-md-3">
-        <ul class="list-group">
-            <li class="list-group-item active">Horários</li>
-            <li class="list-group-item">
-                <table class="table">
-                    <thead>
-                        <tr class="thead-light">
-                            <th scope="col">#</th>
-                            <th class="text-center" scope="col">Totais</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">Abertos</th>
-                            <td class="text-center">@Model.DispSalas.Where(ds => ds.Sala.ConsideraAtrasadas).ToList().Count</td>
-                        </tr>
-                        <tr class="thead-light">
-                            <th scope="row">Preenchidos</th>
-                            <th class="text-center">@Model.DispSalas.Where(ds => ds.Matriculas.Any(m => m.Id != null) && ds.Sala.ConsideraAtrasadas).ToList().Count</th>
-                        </tr>
-                        @{
-                            var mt = Model.DispSalas.Max(ds => ds.Matriculas.ToList().Count);
-                            for (var i = 1; i <= mt; i++)
-                            {
-                                <tr>
-                                    <th scope="row">Com @i  @(i > 1 ? "Alunos" : "Aluno")</th>
-                                    <td class="text-center">@Model.DispSalas.Where(d => d.Matriculas.Where(m => m.DispSala.Sala.ConsideraAtrasadas).ToList().Count == i).ToList().Count</td>
-                                </tr>
+                                        <text>@Model.Aulas.Where(a => a.Chamadas.Count == i && a.Chamadas.Count > 0 && a.Chamadas.Any(c => (c.Reposicao == null || c.Reposicao.Remunerada) && c.Aula.Sala.ConsideraAtrasadas)).ToList().Count,</text>
+                                    }
+                                }
+                            ]
+                        },
+                        {
+					        label: 'Feitas',
+                            data: [
+                                @Model.Aulas.Where(a => a.Chamadas.Count > 0 && a.Chamadas.Any(c => c.Reposicao == null) && a.AulaDada && a.Sala.ConsideraAtrasadas).ToList().Count,
+                                @if (Model.Aulas.Where(a => a.Chamadas.Count > 0 && a.Chamadas.Any(c => c.Reposicao == null || c.Reposicao.Remunerada)).ToList().Count > 0)
+                                {
+                                    var r = Model.Aulas.Max(a => a.Chamadas.Where(c => c.Reposicao == null || c.Reposicao.Remunerada).ToList().Count);
+                                    for (var i = 1; i <= r; i++)
+                                    {
+                                        <text>@Model.Aulas.Where(a => a.Chamadas.Where(c => c.Reposicao == null || c.Reposicao.Remunerada).ToList().Count == i && a.AulaDada).ToList().Count,</text>
+                                    }
+                                }
+                            ]
+				        }]
+			        }
+		        });
+
+		        // Save to jQuery object
+		        $chart.data('chart', ordersChart);
+	        }
+
+
+	        // Init chart
+	        if ($chart.length) {
+		        initChart($chart);
+	        }
+
+        })();
+    </script>
+    <script>
+        var OrdersChart = (function() {
+
+	        //
+	        // Variables
+	        //
+
+	        var $chart = $('#horarios');
+	        var $ordersSelect = $('[name="ordersSelect"]');
+
+	        //
+	        // Methods
+	        //
+
+	        // Init chart
+	        function initChart($chart) {
+
+		        // Create chart
+		        var ordersChart = new Chart($chart, {
+			        type: 'horizontalBar',
+
+			        data: {
+                        labels: [
+                            'Abertos', 'Preenchidos',
+                            @{
+                                var mt = Model.DispSalas.Max(ds => ds.Matriculas.ToList().Count);
+                                for (var i = 1; i <= mt; i++)
+                                {
+                                    <text>'Com @i  @(i > 1 ? "Alunos" : "Aluno")',</text>
+                                }
                             }
+                        ],
 
-                        }
-                    </tbody>
-                </table>
-            </li>
-        </ul>
-    </div>
-</div>
-<br />
+				        datasets: [{
+					        label: 'Previstas',
+                            data: [
+                                @Model.DispSalas.Where(ds => ds.Sala.ConsideraAtrasadas).ToList().Count,
+                                @Model.DispSalas.Where(ds => ds.Matriculas.Any(m => m.Id != null) && ds.Sala.ConsideraAtrasadas).ToList().Count,
+                                @{
+                                    mt = Model.DispSalas.Max(ds => ds.Matriculas.ToList().Count);
+                                    for (var i = 1; i <= mt; i++)
+                                    {
+                                        <text>@Model.DispSalas.Where(d => d.Matriculas.Where(m => m.DispSala.Sala.ConsideraAtrasadas).ToList().Count == i).ToList().Count,</text>
+                                    }
+                                }
+                            ]
+                        }]
+			        }
+		        });
+
+		        // Save to jQuery object
+		        $chart.data('chart', ordersChart);
+	        }
+
+
+	        // Init chart
+	        if ($chart.length) {
+		        initChart($chart);
+	        }
+
+        })();
+    </script>
+}
