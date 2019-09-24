@@ -4,49 +4,75 @@
     ViewData["Title"] = "Professor";
 }
 
-<h2>Professor</h2>
 
-<div  class="card shadow p-3 mb-5 bg-white rounded">
-    <div class="card-body">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="row">
-                    <div class="col-md-12">
-                        @if (Model.Foto == null)
-                        {                           
-                            <div style="width: 150px; height: 150px;" class="shadow-sm p-3 mb-5 bg-white text-center rounded-circle"><i style="font-size: 100px;" class="fas fa-user-alt"></i></div>
+<div class="container-fluid mt--7">
+
+    <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+        <div class="card card-profile shadow">
+            <div class="row justify-content-center">
+                <div class="col-lg-3 order-lg-2">
+                    <div class="card-profile-image">
+                        @if (Model.Foto != null)
+                        {
+                            <a href="#">
+                                <img src="@Model.Foto" class="rounded-circle">
+                            </a>
                         }
                         else
                         {
-                            <img src="@Model.Foto" style="width: 250px;" alt="Foto do professor" class="shadow-sm p-3 bg-white rounded-circle">
+                            <a href="#">
+                                <img src="~/img/user.png" class="rounded-circle">
+                            </a>
                         }
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <a asp-controller="WebCam" style="width: 250px; margin-top: 10px; margin-bottom: 15px;" asp-action="Index" class="btn btn-success" asp-route-pessoaId="@Model.Id" asp-route-rota="professor"><i class="fas fa-camera"></i> Alterar Foto</a>
-                        <p><a asp-action="Form" style="width: 250px;" asp-route-alunoId="@Model.Id" class="btn btn-primary"><i class="far fa-file-alt"></i> Alterar Dados</a></p>
+
                     </div>
                 </div>
             </div>
-            <div class="col-md-8">
+            <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+                <div class="d-flex justify-content-between">
+                    <a asp-action="Form" asp-route-professorId="@Model.Id" class="btn btn-sm btn-info mr-4"><i class="fas fa-user"></i> Dados</a>
+                    <a asp-controller="WebCam" asp-action="Index" class="btn btn-sm btn-default float-right"  asp-route-pessoaId="@Model.Id" asp-route-rota="professor"><i class="fas fa-camera"></i> Foto</a>
+                </div>
+            </div>
+            <div class="card-body pt-0 pt-md-4">
                 <div class="row">
-                    <div class="col-md-6">
-                        <p><b>Nome: </b>@Model.Nome</p>
-                        <p><b>Data de Nascimento: </b>@Model.DataNascimento.ToString("dd/MM/yyyy")</p>
-                        <p><b>CPF: </b>@Model.CPF</p>
-                        <p><b>RG: </b>@Model.RG</p>
-                        <p><b>Logradouro: </b>@Model.Endereco.Logradouro</p>
-                        <p><b>Número: </b>@Model.Endereco.Numero</p>
-                        <p><b>Bairro: </b>@Model.Endereco.Bairro</p>
+                    <div class="col">
+                        <div class="card-profile-stats d-flex justify-content-center mt-md-5">
+                            <div>
+                                <span class="heading">@Model.Cursos.Count</span>
+                                <span class="description">@(Model.Cursos.Count == 1 ? "Curso" : "Cursos")</span>
+                            </div>
+                            <div>
+                                <span class="heading">@Model.DispSalas.Count</span>
+                                <span class="description">Horários</span>
+                            </div>
+                            <div>
+                                @{ 
+                                    var matriculas = 0;
+                                    @foreach (var ds in Model.DispSalas)
+                                    {
+                                        matriculas += ds.Matriculas.Count;
+                                    }
+                                }
+                                <span class="heading">@matriculas</span>
+                                <span class="description">Matrículas</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-6">
-                        <p><b>Complemento: </b>@Model.Endereco.Complemento</p>
-                        <p><b>Cidade: </b>@Model.Endereco.Cidade</p>
-                        <p><b>UF: </b>@Model.Endereco.UF</p>
-                        <p><b>CEP: </b>@Model.Endereco.CEP</p>
-                        <p><b>E-Mail: </b>@Model.Email</p>
-
+                </div>
+                <div class="text-center">
+                    <h3>
+                        @Model.Nome                        <span class="font-weight-light">, @Model.Idade()</span>
+                    </h3>
+                    <div class="h5 font-weight-300">
+                        <i class="fas fa-home"></i> @Model.Endereco.Logradouro, @Model.Endereco.Numero - @Model.Endereco.Bairro - @Model.Endereco.Cidade / @Html.DisplayFor(d => Model.Endereco.UF) - @Model.Endereco.CEP
+                    </div>
+                    <div class="h5 mt-4">
+                        <i class="far fa-envelope text-primary"></i> <a href="mailto:@Model.Email">@Model.Email</a>
+                    </div>
+                    <div>
+                        @if (Model.Tel != null)
+                        {<p><i class="fas fa-phone-alt"></i> @Model.Tel</p>}
                         @{
                             if (Model.Cel == null)
                             {
@@ -61,21 +87,18 @@
                                 }
                             }
                         }
-
-                        <p><b>Telefone: </b>@Model.Tel</p>
-                        <p><b>Celular: </b><a target="_blank" href="http://api.whatsapp.com/send?1=pt_BR&phone=55@(cel)">@Model.Cel</a></p>
-                        <p><b>Ativo: </b><input asp-for="@Model.Ativo" onclick="return false" /></p>
-
-                        
+                        @if (Model.Cel != null)
+                        {<p><i class="fab fa-whatsapp text-success"></i> <a target="_blank" href="https://wa.me/@cel">@Model.Cel</a></p>}
                     </div>
+                    <hr class="my-4">
+                    <p>CPF: @Model.CPF</p>
+                    <p>RG: @Model.RG</p>
                 </div>
-                
-                
             </div>
-
         </div>
     </div>
 </div>
+
 
 
 

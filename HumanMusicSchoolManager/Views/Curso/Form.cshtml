@@ -4,21 +4,18 @@
 }
 
 <input id="rota" type="hidden" value="Curso" />
-<div class="row">
-    <div class="col-xl-11 col-md-10">
-        <h2 class="col-md-10">Curso</h2>
-    </div>
-    <div class="col-xl-1 col-md-2">
-        <a asp-action="Form" class="btn btn-primary">Novo</a>
-    </div>
-</div>
-<br />
 <div class="list-group">
     <div class="list-group-item">
-        <div class="col-xl-4 col-md-5">
-            <div class="form-group">
-                <label><i class="fas fa-search"></i> Buscar Por Nome</label>
-                <input id="BuscaNome" class="form-control">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label><i class="fas fa-search"></i> Buscar Por Nome</label>
+                    <input id="BuscaNome" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-5"></div>
+            <div class="col-md-2">
+                <a asp-action="Form" class="btn btn-primary">Novo</a>
             </div>
         </div>
     </div>
@@ -30,21 +27,21 @@
 
             <input asp-for="Id" type="hidden" />
             <div class="row">
-                <div class="col-xl-4 col-md-5">
+                <div class="col-md-5">
                     <div class="form-group">
                         <label asp-for="Nome"></label>
                         <input asp-for="Nome" class="form-control">
                         <span asp-validation-for="Nome" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="col-xl-2 col-md-3">
+                <div class="col-md-3">
                     <div class="form-group">
                         <label asp-for="QtdModulo"></label>
                         <input asp-for="QtdModulo" type="number" class="form-control" required />
                         <span asp-validation-for="QtdModulo" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="col-xl-2 col-md-3">
+                <div class="col-md-3">
                     <div class="form-group">
                         <label asp-for="DuracaoAula"></label>
                         <input asp-for="DuracaoAula" type="number"  class="form-control" required />

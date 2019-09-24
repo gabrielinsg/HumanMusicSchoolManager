@@ -1,70 +1,76 @@
 ﻿@model ProfessorCursoViewModel
 @{
-    ViewData["Title"] = "ProfessorCurso";
+    ViewData["Title"] = "Professor Curso";
 }
 
-<h2>@Model.Professor.Nome</h2>
-<hr />
-
-<div class="row">
-    <div class="col-md-6">
-        <ul class="list-group">
-            <li class="list-group-item active">Cursos Disponíveis</li>
-            <li class="list-group-item">
-                <table id="tabela" class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Curso</th>
-                            <th class="text-center">Adicionar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var curso in Model.Cursos)
-                        {
-                            <tr>
-                                <td>@curso.Nome</td>
-                                <td class="text-center">
-                                    <a asp-action="AdicionarCurso" asp-route-cursoId="@curso.Id" asp-route-professorId="@Model.Professor.Id">
-                                        <i class="fas fa-plus-circle text-success"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </li>
-        </ul>
-
+<div class="card">
+    <div class="card-header">
+        <h2>@Model.Professor.Nome</h2>
     </div>
-    <div class="col-md-6">
-        <ul class="list-group">
-            <li class="list-group-item active">Cursos Ministrados</li>
-            <li class="list-group-item">
-                <table id="tabela" class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Curso</th>
-                            <th class="text-center">Remover</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var curso in Model.Professor.Cursos)
-                        {
-                            <tr>
-                                <td>@curso.Curso.Nome</td>
-                                <td class="text-center">
-                                    <a asp-action="RemoverCurso" asp-route-cursoId="@curso.Curso.Id" asp-route-professorId="@Model.Professor.Id">
-                                        <i class="fas fa-minus-circle text-danger"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </li>
-        </ul>        
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <ul class="list-group">
+                    <li class="list-group-item active">Cursos Disponíveis</li>
+                    <li class="list-group-item">
+                        <table id="tabela" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Curso</th>
+                                    <th class="text-center">Adicionar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var curso in Model.Cursos)
+                                {
+                                    <tr>
+                                        <td>@curso.Nome</td>
+                                        <td class="text-center">
+                                            <a asp-action="AdicionarCurso" asp-route-cursoId="@curso.Id" asp-route-professorId="@Model.Professor.Id">
+                                                <i class="fas fa-plus-circle text-success"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </li>
+                </ul>
+
+            </div>
+            <div class="col-md-6">
+                <ul class="list-group">
+                    <li class="list-group-item active">Cursos Ministrados</li>
+                    <li class="list-group-item">
+                        <table id="tabela" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Curso</th>
+                                    <th class="text-center">Remover</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var curso in Model.Professor.Cursos)
+                                {
+                                    <tr>
+                                        <td>@curso.Curso.Nome</td>
+                                        <td class="text-center">
+                                            <a asp-action="RemoverCurso" asp-route-cursoId="@curso.Curso.Id" asp-route-professorId="@Model.Professor.Id">
+                                                <i class="fas fa-minus-circle text-danger"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <a asp-action="Index" class="btn btn-primary">Voltar</a>
     </div>
 </div>
-<br />
-<a asp-action="Index" class="btn btn-primary">Voltar</a>
+
 

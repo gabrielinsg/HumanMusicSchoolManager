@@ -42,5 +42,13 @@ namespace HumanMusicSchoolManager.Models.Models
         public int EnderecoId { get; set; }
         public Endereco Endereco { get; set; }
         public string Foto { get; set; }
+
+        public int Idade()
+        {
+            int now = int.Parse(NowHorarioBrasilia.GetNow().ToString("yyyyMMdd"));
+            int dob = int.Parse(DataNascimento.ToString("yyyyMMdd"));
+            int age = (now - dob) / 10000;
+            return age;
+        }
     }
 }

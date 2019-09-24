@@ -8,30 +8,29 @@
     <link href="~/css/Estrelas.css" rel="stylesheet" />
 }
 
+
 <input id="rota" type="hidden" value="Professor" />
-<div class="row">
-    <div class="col-xl-11 col-md-10">
-        <h2 class="col-md-10">Professor</h2>
-    </div>
-    <div class="col-xl-1 col-md-2">
-        <a asp-action="Form" class="btn btn-primary">Novo</a>
-    </div>
-</div>
-<br />
-<div class="list-group">
-    <div class="list-group-item">
-        <div class="col-md-4">
-            <div class="form-group">
-                <label><i class="fas fa-search"></i> Buscar Por Nome</label>
-                <input id="BuscaNome" class="form-control">
+
+
+
+<div class="card mt-5 card bg-secondary shadow">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label><i class="fas fa-search"></i> Buscar Por Nome</label>
+                    <input id="BuscaNome" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-2">
+                <a asp-action="Form" class="btn btn-primary">Novo</a>
             </div>
         </div>
     </div>
-</div>
-<br />
-<div class="list-group">
-    <div class="list-group-item">
-        <form role="form" method="post" asp-action="form">
+    <form role="form" method="post" asp-action="form">
+        <div class="card-body">
+
 
             <input asp-for="Id" type="hidden" />
 
@@ -162,12 +161,15 @@
                     </div>
                 </div>
             </div>
+
+
+        </div>
+        <div class="card-footer">
             <button type="submit" class="btn btn-success">@(Model == null ? "Cadastrar" : Model.Id == null ? "Cadastrar" : "Alterar")</button>
             <a asp-action="Index" class="btn btn-primary">Voltar</a>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>
-<br />
 
 
 @section Scripts{
