@@ -165,7 +165,7 @@
 
 		        // Create chart
 		        var ordersChart = new Chart($chart, {
-			        type: 'bar',
+			        type: 'horizontalBar',
 
 			        data: {
                         labels: [
@@ -175,7 +175,8 @@
                                }
                         ],
 				        datasets: [{
-					        label: 'Sales',
+                            label: 'Sales',
+                            
                             data: [
                                 @foreach (var curso in Model.Where(m => m.Key != "Total").OrderByDescending(m => m.Value).ToList())
                                 {
