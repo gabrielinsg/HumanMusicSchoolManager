@@ -20,37 +20,18 @@
             </div>
         </div>
     </div>
-    <div class="card-body">
+    <div class="card-body" id="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered table-striped" id="dataTable" cellspacing="0">
-                <thead>
+            <table class="table table-sm align-items-center table-hover table-flush dataTable no-footer" id="dataTable" cellspacing="0">
+                <thead class="thead-light">
                     <tr>
                         <th>Nome</th>
                         <th class="text-center">CPF</th>
                         <th class="text-center">Cursos</th>
                         <th class="text-center">Ativo</th>
-                        <th class="text-center">Informações</th>
-                        <th class="text-center">Calendário</th>
-                        <th class="text-center">Folha Ponto</th>
-                        <th class="text-center">Relatório</th>
-                        <th class="text-center">Usuário</th>
-                        <th class="text-center">Alterar</th>
+                        <th class="text-center"></th>
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr>
-                        <th>Nome</th>
-                        <th class="text-center">CPF</th>
-                        <th class="text-center">Cursos</th>
-                        <th class="text-center">Ativo</th>
-                        <th class="text-center">Informações</th>
-                        <th class="text-center">Calendário</th>
-                        <th class="text-center">Folha Ponto</th>
-                        <th class="text-center">Relatório</th>
-                        <th class="text-center">Usuário</th>
-                        <th class="text-center">Alterar</th>
-                    </tr>
-                </tfoot>
                 <tbody>
                     @foreach (var professor in Model)
                     {
@@ -58,50 +39,41 @@
                             <td>@professor.Nome</td>
                             <td class="text-center">@professor.CPF</td>
                             <td class="text-center">
-                                <div class="dropdown">
-                                    <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Cursos
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <div class="list-group" style="width: 200px; height: 150px; overflow-y: scroll;">
-                                            <a asp-action="ProfessorCurso" asp-route-professorId="@(professor.Id)" class="list-group-item list-group-item-action active">
-                                                Alterar
-                                            </a>
-                                            @foreach (var curso in professor.Cursos)
-                                            {
-                                                <a href="#" class="list-group-item list-group-item-action">@curso.Curso.Nome</a>
-                                            }
-                                        </div>
-                                    </div>
+                                <div class="avatar-group">
+                                    <a data-toggle="tooltip" data-placement="top" title="Cursos" class="avatar avatar-sm bg-default" asp-action="ProfessorCurso" asp-route-professorId="@(professor.Id)"><i class="fas fa-chalkboard-teacher"></i></a>
                                 </div>
                             </td>
                             <td class="text-center">
-                                <input asp-for="@professor.Ativo" onclick="return false" />
+                                <div class="custom-control custom-checkbox mb-3">
+                                    <input class="custom-control-input" asp-for="@professor.Ativo" onclick="return false" />
+                                    <label class="custom-control-label" for="customCheck1"></label>
+                                </div>
                             </td>
                             <td class="text-center">
 
-                                <!-- Button trigger modal -->
-                                <a asp-action="Professor" asp-route-professorId="@professor.Id">
-                                    <i class="fas fa-info-circle"></i>
-                                </a>
+                                <div class="avatar-group">
+                                    <a data-toggle="tooltip" data-placement="top" title="Informções" class="avatar avatar-sm" asp-action="Professor" asp-route-professorId="@professor.Id">
+                                        @if (professor.Foto == null)
+                                        {
+                                            <img alt="Image placeholder" src="~/img/user.png" class="rounded-circle">
+                                        }
+                                        else
+                                        {
+                                            <img alt="Image placeholder" src="@professor.Foto" class="rounded-circle">
+                                        }
 
+                                    </a>
+                                    <a data-toggle="tooltip" data-placement="top" title="Calendário" class="avatar avatar-sm bg-default" asp-controller="Professor" asp-action="Calendario" asp-route-professorId="@(professor.Id)"><i class="far fa-calendar-alt text-xl"></i></a>
+                                    <a data-toggle="tooltip" data-placement="top" title="Folha de ponto" class="avatar avatar-sm bg-primary" asp-action="FolhaPontoProfessor" target="_blank" asp-route-professorId="@professor.Id"><i class="far fa-file-alt text-xl"></i></a>
+                                    <a data-toggle="tooltip" data-placement="top" title="Relatório" class="avatar avatar-sm bg-info" asp-action="RelatorioProfessor" asp-route-professorId="@professor.Id"><i class="far fa-file-alt text-xl"></i></a>
+                                    <a data-toggle="tooltip" data-placement="top" title="Usuário" class="avatar avatar-sm bg-success" asp-controller="Account" asp-action="Register" asp-route-pessoaId="@professor.Id"><i class="far fa-user text-xl"></i></a>
+                                    <a data-toggle="tooltip" data-placement="top" title="Dados" class="avatar avatar-sm bg-warning" asp-action="Form" asp-route-professorId="@(professor.Id)"><i class="fas fa-pencil-alt text-xl"></i></a>
+                                </div>
+                                <!-- Button trigger modal -->
+                                
                                 
                             </td>
-                            <td class="text-center">
-                                <a asp-controller="Professor" asp-action="Calendario" asp-route-professorId="@(professor.Id)"><i class="far fa-calendar-alt"></i></a>
-                            </td>
-                            <td class="text-center">
-                                <a asp-action="FolhaPontoProfessor" target="_blank" asp-route-professorId="@professor.Id"><i class="far fa-file-alt"></i></a>
-                            </td>
-                            <td class="text-center">
-                                <a asp-action="RelatorioProfessor" asp-route-professorId="@professor.Id"><i class="far fa-file-alt"></i></a>
-                            </td>
-                            <td class="text-center">
-                                <a asp-controller="Account" asp-action="Register" asp-route-pessoaId="@professor.Id"><i class="fas fa-user"></i></a>
-                            </td>
-                            <td class="text-center">
-                                <a asp-action="Form" asp-route-professorId="@(professor.Id)"><i class="fas fa-pencil-alt text-primary"></i></a>
-                            </td>
+                                
                         </tr>
                     }
                 </tbody>

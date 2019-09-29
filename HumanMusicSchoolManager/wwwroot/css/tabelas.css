@@ -7,6 +7,14 @@
     margin: 0 1rem 0 1rem;
 }
 
+.dataTables_info {
+    padding-left: 1rem;
+}
+
+.dataTables_length {
+    padding-left: 1rem;
+}
+
 #dataTable_filter {
     text-align: right;
 }
@@ -23,3 +31,9 @@
 .card .table {
     margin-bottom: 2rem;
 }
+
+#card-body {
+    padding-left: 0; 
+    padding-right: 0;
+}
+

@@ -1,6 +1,6 @@
 ﻿@model Sala
 @{
-    ViewData["Title"] = "Calendario";
+    ViewData["Title"] = "Calendario de Sala";
 }
 
 @section Styles{
@@ -8,30 +8,27 @@
     <link href="~/fullcalendar-3.9.0/fullcalendar.print.min.css" rel="stylesheet" media="print" />
     <link href="~/css/FullCalendarSite.css" rel="stylesheet" />
 }
-<h2>@Model.Nome</h2>
+
+
 <input id="salaId" value="@Model.Id" type="hidden" />
-@await Html.PartialAsync("_Message")
-<div class="row">
-    <div class="col-md-12">
-        <ul class="list-group">
-            <li class="list-group-item active">
-                <div class="row">
-                    <div>
-                        <i class="fas fa-circle text-info"></i>Agendada
-                        <i class="fas fa-circle text-success" style="padding-left: 10px"></i>Ministrada
-                        <i class="fas fa-circle text-danger" style="padding-left: 10px"></i>Atrasada
-                        <i class="fas fa-circle text-warning" style="padding-left: 10px"></i>Férias e feriado
-                        <i class="fas fa-circle text-secondary" style="padding-left: 10px"></i>Eventos
-                    </div>
-                </div>
-            </li>
-            <li class="list-group-item">
-                <div id='calendar'></div>
-            </li>
-        </ul>
+
+<div class="card bg-secondary shadow">
+    <div class="card-header">
+        <div class="row">
+            <div>
+                <i class="fas fa-circle text-info"></i>Agendada
+                <i class="fas fa-circle text-success"></i>Ministrada
+                <i class="fas fa-circle text-danger"></i>Atrasada
+                <i class="fas fa-circle text-warning"></i>Férias e feriado
+                <i class="fas fa-circle text-secondary"></i>Eventos
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div id='calendar'></div>
     </div>
 </div>
-<br />
+
 
 @section Scripts{
     <script src="~/fullcalendar-3.9.0/lib/moment.min.js"></script>

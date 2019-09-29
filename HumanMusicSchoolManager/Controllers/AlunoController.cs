@@ -18,19 +18,22 @@ namespace HumanMusicSchoolManager.Controllers
         private readonly IAlunoService _alunoService;
         private readonly ICursoService _cursoService;
         private readonly ICandidatoService _candidatoService;
+        private readonly IFinanceiroService _financeiroService;
 
         public AlunoController(IAlunoService alunoService, 
             ICursoService cursoService,
-            ICandidatoService candidatoService)
+            ICandidatoService candidatoService,
+            IFinanceiroService financeiroService)
         {
             this._alunoService = alunoService;
             this._cursoService = cursoService;
             this._candidatoService = candidatoService;
+            this._financeiroService = financeiroService;
         }
 
         public IActionResult Index()
         {
-            return View(new List<Aluno>());
+            return View("Index",_alunoService.BuscarTodos());
         }
 
         public IActionResult CarregarTodos()
@@ -119,6 +122,8 @@ namespace HumanMusicSchoolManager.Controllers
             }
             else
             {
+               
+                ViewBag.Atrasadas = _financeiroService.BuscarAtrasador().Where(f => f.PacoteCompra != null).ToList();
                 return View(_alunoService.BuscarPorId(alunoId.Value));
             }
         }

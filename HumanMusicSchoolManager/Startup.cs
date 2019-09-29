@@ -140,9 +140,7 @@ namespace HumanMusicSchoolManager
             });
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseCookiePolicy();
-            app.UseHttpsRedirection();
+            app.UseStaticFiles();            
 
             app.UseAuthentication();
 
@@ -152,6 +150,8 @@ namespace HumanMusicSchoolManager
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            app.UseCookiePolicy();
 
             CreateUserRoles(service).Wait();
         }

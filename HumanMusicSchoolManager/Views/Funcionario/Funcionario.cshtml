@@ -1,66 +1,86 @@
-﻿@model Funcionario
+﻿@model HumanMusicSchoolManager.Models.Models.Funcionario
+
 @{
-    ViewData["Title"] = "Professor";
+    ViewData["Title"] = "Funcionario";
 }
 
-<h2>Professor</h2>
 
-<div class="panel panel-default">
-    <div class="panel-heading">Cadastrar Professor</div>
-    <div class="panel-body">
-        <form role="form" method="post" asp-action="alterar">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="row">
-                <div class="col-md-1">
-                    <div class="form-group">
-                        <label asp-for="Id">Id</label>
-                        <input asp-for="Id" readonly="readonly" class="form-control">
-                        <span asp-validation-for="Id" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label asp-for="Nome">Nome</label>
-                        <input asp-for="Nome" class="form-control">
-                        <span asp-validation-for="Nome" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label asp-for="Email">E-mail</label>
-                        <input asp-for="Email" class="form-control" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <div class="checkbox">
-                            <label asp-for="Ativo">
-                                <input asp-for="Ativo" />
-                                @Html.DisplayNameFor(p => p.Ativo)
-                            </label>
-                        </div>
+<div class="container-fluid mt--7">
+
+    <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+        <div class="card card-profile shadow">
+            <div class="row justify-content-center">
+                <div class="col-lg-3 order-lg-2">
+                    <div class="card-profile-image">
+                        @if (Model.Foto != null)
+                        {
+                            <a href="#">
+                                <img src="@Model.Foto" class="rounded-circle">
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="#">
+                                <img src="~/img/user.png" class="rounded-circle">
+                            </a>
+                        }
+
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-success">Alterar</button>
-            <a asp-action="Excluir" asp-route-funcionarioId="@Model.Id" class="btn btn-danger" id="excluir">Excluir</a>
-            <a asp-action="Index" class="btn btn-default">Voltar</a>
-        </form>
+            <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+                <div class="d-flex justify-content-between">
+                    <a asp-action="Form" asp-route-FuncionarioId="@Model.Id" class="btn btn-sm btn-info mr-4"><i class="fas fa-user"></i> Dados</a>
+                    <a asp-controller="WebCam" asp-action="Index" class="btn btn-sm btn-default float-right"  asp-route-pessoaId="@Model.Id" asp-route-rota="Funcionario"><i class="fas fa-camera"></i> Foto</a>
+                </div>
+            </div>
+            <div class="card-body pt-0 pt-md-4">
+                <div class="row">
+                    <div class="col">
+                        <div class="card-profile-stats d-flex justify-content-center mt-md-5">
+                           
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <h3>
+                        @Model.Nome                        <span class="font-weight-light">, @Model.Idade()</span>
+                    </h3>
+                    <div class="h5 font-weight-300">
+                        <i class="fas fa-home"></i> @Model.Endereco.Logradouro, @Model.Endereco.Numero - @Model.Endereco.Bairro - @Model.Endereco.Cidade / @Html.DisplayFor(d => Model.Endereco.UF) - @Model.Endereco.CEP
+                    </div>
+                    <div class="h5 mt-4">
+                        <i class="far fa-envelope text-primary"></i> <a href="mailto:@Model.Email">@Model.Email</a>
+                    </div>
+                    <div>
+                        @if (Model.Tel != null)
+                        {<p><i class="fas fa-phone-alt"></i> @Model.Tel</p>}
+                        @{
+                            if (Model.Cel == null)
+                            {
+                                Model.Cel = "";
+                            }
+                            var cel = string.Empty;
+                            for (int i = 0; i < Model.Cel.Length; i++)
+                            {
+                                if (Char.IsDigit(Model.Cel[i]))
+                                {
+                                    cel += Model.Cel[i];
+                                }
+                            }
+                        }
+                        @if (Model.Cel != null)
+                        {<p><i class="fab fa-whatsapp text-success"></i> <a target="_blank" href="https://wa.me/@cel">@Model.Cel</a></p>}
+                    </div>
+                    <hr class="my-4">
+                    <p>CPF: @Model.CPF</p>
+                    <p>RG: @Model.RG</p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
-@section Scripts
-    {
-    <script>
-        $("a#excluir").click(function () {
-            var cf = confirm("Tem certeza que deseja excluir o funcionário?");
-            if (cf == true) {
-                return true;
-            }
-            else {
-                return false;
-            }
-        });
-    </script>
-}
+
+
+

@@ -1,7 +1,7 @@
 ﻿@model Professor
 
 @{
-    ViewData["Title"] = "Form";
+    ViewData["Title"] = "Professor";
 }
 
 @section Styles{ 
@@ -13,7 +13,7 @@
 
 
 
-<div class="card mt-5 card bg-secondary shadow">
+<div class="card mt-2 bg-secondary shadow">
     <div class="card-header">
         <div class="row">
             <div class="col-md-6">
@@ -100,13 +100,11 @@
                 </div>
                 <div class="col-xl-2 col-md-3">
                     <div class="form-group">
-                        <label asp-for="Endereco.UF" class="col-md-2 control-label"></label>
-                        <div class="col-md-12">
-                            <select asp-for="Endereco.UF" class="form-control" asp-items="Html.GetEnumSelectList<UF>()">
-                                <option selected="selected" value=""></option>
-                            </select>
-                            <span asp-validation-for="Endereco.UF" class="text-danger" />
-                        </div>
+                        <label asp-for="Endereco.UF"></label>
+                        <select asp-for="Endereco.UF" class="form-control" asp-items="Html.GetEnumSelectList<UF>()">
+                            <option selected="selected" value=""></option>
+                        </select>
+                        <span asp-validation-for="Endereco.UF" class="text-danger" />
                     </div>
                 </div>
                 <div class="col-xl-2 col-md-3">
@@ -140,29 +138,21 @@
             </div>
             <div class="row">
                 <div class="col-md-2">
-                    <div class="form-group">
-                        <div class="checkbox">
-                            @if (Model == null)
-                            {
-                                <label asp-for="Ativo">
-                                    <input asp-for="Ativo" checked />
-                                    @Html.DisplayNameFor(p => p.Ativo)
-                                </label>
-                            }
-                            else
-                            {
-                                <label asp-for="Ativo">
-                                    <input asp-for="Ativo" />
-                                    @Html.DisplayNameFor(p => p.Ativo)
-                                </label>
-                            }
-
-                        </div>
+                    <div class="custom-control custom-checkbox mb-3">
+                        @if (Model == null)
+                        {
+                            <input asp-for="Ativo" class="custom-control-input" checked id="customCheck1" type="checkbox">
+                            <label asp-for="Ativo" class="custom-control-label" for="customCheck1"></label>
+                        }
+                        else
+                        {
+                            <input asp-for="Ativo" class="custom-control-input" id="customCheck1" type="checkbox">
+                            <label asp-for="Ativo" class="custom-control-label" for="customCheck1"></label>
+                        }
                     </div>
+                    
                 </div>
             </div>
-
-
         </div>
         <div class="card-footer">
             <button type="submit" class="btn btn-success">@(Model == null ? "Cadastrar" : Model.Id == null ? "Cadastrar" : "Alterar")</button>

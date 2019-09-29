@@ -1,9 +1,13 @@
 ﻿@model List<Sala>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Salas";
 }
 
-<div class="card mb-3">
+@section Styles {
+    <link type="text/css" rel="stylesheet" href="~/css/tabelas.css" />
+}
+
+<div class="card mt--5">
     <div class="card-header">
         <div class="row">
             <div class="col-xl-11 col-md-10">
@@ -15,31 +19,19 @@
             </div>
         </div>
     </div>
-    <div class="card-body">
+    <div class="card-body" id="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered table-striped" id="dataTable" cellspacing="0">
-                <thead>
+            <table class="table table-sm align-items-center table-hover table-flush dataTable no-footer" id="dataTable" cellspacing="0">
+                <thead class="thead-light">
                     <tr>
                         <th>Nome</th>
                         <th class="text-center">Capacidade</th>
                         <th class="text-center">Cursos</th>
-                        <th class="text-center">DispSala</th>
-                        <th class="text-center">Calendário</th>
                         <th class="text-center">Ativo</th>
-                        <th class="text-center">Alterar</th>
+                        <th></th>
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr>
-                        <th>Nome</th>
-                        <th class="text-center">Capacidade  </th>
-                        <th class="text-center">Cursos</th>
-                        <th class="text-center">DispSala</th>
-                        <th class="text-center">Calendário</th>
-                        <th class="text-center">Ativo</th>
-                        <th class="text-center">Alterar</th>
-                    </tr>
-                </tfoot>
+                
                 <tbody>
                     @foreach (var sala in Model)
                     {
@@ -47,31 +39,22 @@
                             <td>@sala.Nome</td>
                             <td class="text-center">@sala.Capacidade</td>
                             <td class="text-center">
-                                <div class="dropdown">
-                                    <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Cursos
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <div class="list-group" style="width: 200px; height: 150px; overflow-y: scroll;">
-                                            <a asp-action="SalaCurso" asp-route-salaId="@(sala.Id)" class="list-group-item list-group-item-action active">
-                                                Alterar
-                                            </a>
-                                            @foreach (var curso in sala.Cursos)
-                                            {
-                                                <a href="#" class="list-group-item list-group-item-action">@curso.Curso.Nome</a>
-                                            }
-                                        </div>
-                                    </div>
+                                <div class="avatar-group">
+                                    <a data-toggle="tooltip" data-placement="top" title="Cursos" class="avatar avatar-sm bg-default" asp-action="SalaCurso" asp-route-salaId="@sala.Id"><i class="fas fa-chalkboard-teacher"></i></a>                                   
                                 </div>
                             </td>
-                            <td class="text-center"><a asp-action="DispSala" asp-route-salaId="@sala.Id"><i class="fas fa-calendar-alt"></i></a></td>
-                            <td class="text-center"><a asp-action="Calendario" asp-route-salaId="@sala.Id"z><i class="far fa-calendar-alt"></i></a></td>
                             <td class="text-center">
-                                <input asp-for="@sala.Ativo" onclick="return false" />
-                            </td>
-                           
-                            <td class="text-center">
-                                <a asp-action="Form" asp-route-salaId="@(sala.Id)"><i class="fas fa-pencil-alt text-primary"></i></a>
+                                <div class="custom-control custom-checkbox mb-3">
+                                    <input class="custom-control-input" asp-for="@sala.Ativo" onclick="return false" />
+                                    <label class="custom-control-label" for="customCheck1"></label>
+                                </div>
+                            </td>                                                                                   
+                            <td>
+                                <div class="avatar-group">
+                                    <a data-toggle="tooltip" data-placement="top" title="Disponibilidade de Sala" class="avatar avatar-sm bg-default" asp-action="DispSala" asp-route-salaId="@sala.Id"><i class="fas fa-calendar-alt"></i></a>
+                                    <a data-toggle="tooltip" data-placement="top" title="Calendário" class="avatar avatar-sm bg-primary" asp-action="Calendario" asp-route-salaId="@sala.Id"><i class="far fa-calendar-alt"></i></a>
+                                    <a data-toggle="tooltip" data-placement="top" title="Dados" class="avatar avatar-sm bg-warning" asp-action="Form" asp-route-salaId="@(sala.Id)"><i class="fas fa-pencil-alt"></i></a>
+                                </div>
                             </td>
                         </tr>
                     }

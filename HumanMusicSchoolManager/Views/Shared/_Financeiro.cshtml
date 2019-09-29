@@ -1,9 +1,12 @@
 ﻿@model Aluno
-<ul class="list-group">
-    <li class="list-group-item active">Histórico Financeiro <a asp-controller="Financeiro" asp-action="Form" asp-route-alunoId="@Model.Id" class="btn btn-success"><i class="fas fa-plus-circle"></i></a></li>
-    <li class="list-group-item">
-        <table class="table table-sm table-hover small">
-            <thead>
+
+<div class="card-header list-group-item active" style="height: 50px; padding-top:5px;">
+    <p>Histórico Financeiro <a asp-controller="Financeiro" asp-action="Form" asp-route-alunoId="@Model.Id" class="btn btn-success btn-sm"><i class="fas fa-plus-circle text-xl"></i></a></p>
+</div>
+<div class="card-bory" id="card-body" style="height: 500px; overflow:auto;">
+    <div class="table-responsive">
+        <table class="table table-sm align-items-center table-hover table-flush dataTable no-footer">
+            <thead class="thead-light">
                 <tr class="small">
                     <th scope="col">Nome</th>
                     <th scope="col">Valor</th>
@@ -41,10 +44,12 @@
                         <td>@if (financeiro.DataPagamento != null)
                         { @financeiro.DataPagamento.Value.ToString("dd/MM/yyyy"); }</td>
                         <td>@financeiro.Pessoa.Nome</td>
-                        <td class="text-center"><a asp-controller="Financeiro" asp-action="Form" asp-route-alunoId="@Model.Id" asp-route-financeiroId="@financeiro.Id" class="text-success"><i class="far fa-money-bill-alt"></i></a></td>
+                        <td class="text-center">
+                            <a asp-controller="Financeiro" asp-action="Form" asp-route-alunoId="@Model.Id" asp-route-financeiroId="@financeiro.Id" class="text-success"><i class="fas fa-money-bill-alt"></i></a>
+                        </td>
                     </tr>
                 }
             </tbody>
         </table>
-    </li>
-</ul>
+    </div>
+</div>

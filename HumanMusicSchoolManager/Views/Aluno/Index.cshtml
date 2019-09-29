@@ -1,9 +1,13 @@
 ﻿@model List<Aluno>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Alunos";
 }
 
-<div class="card mb-3">
+@section Styles {
+    <link type="text/css" rel="stylesheet" href="~/css/tabelas.css" />
+}
+
+<!-- <div class="card mt-5">
     <div class="card-header">
         <div class="row">
             <div class="col-md-2">
@@ -25,83 +29,53 @@
                 <a asp-action="Form" class="btn btn-primary">Novo</a>
             </div>
         </div>
+    </div> -->
+<div class="card mb-3">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-xl-11 col-md-10">
+                <i class="fas fa-table"></i>
+                Alunos
+            </div>
+            <div class="col-xl-1 col-md-2">
+                <a asp-action="Form" class="btn btn-primary">Novo</a>
+            </div>
+        </div>
     </div>
-    <div class="card-body">
+    <div class="card-body" id="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered table-striped" id="dataTable" cellspacing="0">
-                <thead>
+            <table class="table table-sm align-items-center table-hover table-flush dataTable no-footer" id="dataTable" cellspacing="0">
+                <thead class="thead-light">
                     <tr>
                         <th>Nome</th>
                         <th class="text-center ">CPF</th>
-                        <th class="text-center">Matriculas</th>
-                        <th class="text-center">Financeiro</th>
-                        <th class="text-center">Informações</th>
-                        <th class="text-center">Alterar</th>
+                        <th class="text-center"></th>
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr>
-                        <th>Nome</th>
-                        <th class="text-center">CPF</th>
-                        <th class="text-center">Matriculas</th>
-                        <th class="text-center">Financeiro</th>
-                        <th class="text-center">Informações</th>
-                        <th class="text-center">Alterar</th>
-                    </tr>
-                </tfoot>
                 <tbody>
                     @foreach (var aluno in Model)
                     {
                         <tr>
                             <td>@aluno.Nome</td>
                             <td class="text-center">@aluno.CPF</td>
-                            <td class="text-center"><a asp-action="Aluno" asp-route-alunoId="@aluno.Id"><i class="fas fa-calendar-alt"></i></a></td>
-                            <td class="text-center"><a asp-controller="Financeiro" asp-action="Financeiro" asp-route-alunoId="@aluno.Id"><i class="fas fa-dollar-sign text-success"></i></a></td>
-                            <td class="text-center">
+                            <td>
+                                <div class="avatar-group">
+                                    <a data-toggle="tooltip" data-placement="top" title="Informções" class="avatar avatar-sm" asp-action="Aluno" asp-route-alunoId="@aluno.Id">
+                                        @if (aluno.Foto == null)
+                                        {
+                                            <img alt="Image placeholder" src="~/img/user.png" class="rounded-circle">
+                                        }
+                                        else
+                                        {
+                                            <img alt="Image placeholder" src="@aluno.Foto" class="rounded-circle">
+                                        }
 
-                                <!-- Button trigger modal -->
-                                <a class="btn text-primary" data-toggle="modal" data-target="#exampleModalLong@(aluno.Id)">
-                                    <i class="fas fa-info-circle"></i>
-                                </a>
-
-                                <!-- Modal -->
-                                <div class="modal fade" id="exampleModalLong@(aluno.Id)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLongTitle">Informações</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body text-left">
-                                                <p><b>Nome: </b>@aluno.Nome</p>
-                                                <p><b>Data de Nascimento: </b>@aluno.DataNascimento.ToString("dd/MM/yyyy")</p>
-                                                <p><b>CPF: </b>@aluno.CPF</p>
-                                                <p><b>RG: </b>@aluno.RG</p>
-                                                <p><b>Logradouro: </b>@aluno.Endereco.Logradouro</p>
-                                                <p><b>Número: </b>@aluno.Endereco.Numero</p>
-                                                <p><b>Bairro: </b>@aluno.Endereco.Bairro</p>
-                                                <p><b>Complemento: </b>@aluno.Endereco.Complemento</p>
-                                                <p><b>Cidade: </b>@aluno.Endereco.Cidade</p>
-                                                <p><b>UF: </b>@aluno.Endereco.UF</p>
-                                                <p><b>CEP: </b>@aluno.Endereco.CEP</p>
-                                                <p><b>E-mail: </b>@aluno.Email</p>
-                                                <p><b>Telefone: </b>@aluno.Tel</p>
-                                                <p><b>Celular: </b>@aluno.Cel</p>
-                                                <p><b>Ativo: </b><input asp-for="@aluno.Ativo" onclick="return false" /></p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                                                <a asp-action="Form" asp-route-respFinanceiroId="@(aluno.Id)" class="btn btn-primary">Alterar Dados</a>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    </a>
+                                    <a data-toggle="tooltip" data-placement="top" title="Financeiro" class="avatar avatar-sm bg-success" asp-controller="Financeiro" asp-action="Financeiro" asp-route-alunoId="@aluno.Id"><i class="fas fa-dollar-sign text-xl"></i></a>
+                                    <a data-toggle="tooltip" data-placement="top" title="Dados" class="avatar avatar-sm bg-warning" asp-action="Form" asp-route-alunoId="@(aluno.Id)"><i class="fas fa-pencil-alt text-xl"></i></a>
                                 </div>
                             </td>
-                            <td class="text-center">
-                                <a asp-action="Form" asp-route-alunoId="@(aluno.Id)"><i class="fas fa-pencil-alt text-primary"></i></a>
-                            </td>
+                            
                         </tr>
                     }
                 </tbody>

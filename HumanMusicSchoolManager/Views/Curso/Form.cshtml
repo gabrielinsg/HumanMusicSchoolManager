@@ -1,30 +1,26 @@
 ﻿@model Curso
 @{
-    ViewData["Title"] = "Form";
+    ViewData["Title"] = "Curso";
 }
 
 <input id="rota" type="hidden" value="Curso" />
-<div class="list-group">
-    <div class="list-group-item">
-        <div class="row">
-            <div class="col-md-5">
-                <div class="form-group">
-                    <label><i class="fas fa-search"></i> Buscar Por Nome</label>
-                    <input id="BuscaNome" class="form-control">
+<div class="card bg-secondary mt-2 shadow">
+    <form role="form" method="post" asp-action="form">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label><i class="fas fa-search"></i> Buscar Por Nome</label>
+                        <input id="BuscaNome" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-5"></div>
+                <div class="col-md-2">
+                    <a asp-action="Form" class="btn btn-primary">Novo</a>
                 </div>
             </div>
-            <div class="col-md-5"></div>
-            <div class="col-md-2">
-                <a asp-action="Form" class="btn btn-primary">Novo</a>
-            </div>
         </div>
-    </div>
-</div>
-<br />
-<div class="list-group">
-    <div class="list-group-item">
-        <form role="form" method="post" asp-action="form">
-
+        <div class="card-body">
             <input asp-for="Id" type="hidden" />
             <div class="row">
                 <div class="col-md-5">
@@ -52,31 +48,29 @@
             <div class="row">
                 <div class="col-md-2">
                     <div class="form-group">
-                        <div class="checkbox">
+                        <div class="custom-control custom-checkbox mb-3">
                             @if (Model == null)
                             {
-                                <label asp-for="Ativo">
-                                    <input asp-for="Ativo" checked="checked" />
-                                    @Html.DisplayNameFor(p => p.Ativo)
-                                </label>
+                                <input asp-for="Ativo" class="custom-control-input" checked id="customCheck1" type="checkbox">
+                                <label asp-for="Ativo" class="custom-control-label" for="customCheck1"></label>
                             }
                             else
                             {
-                                <label asp-for="Ativo">
-                                    <input asp-for="Ativo" />
-                                    @Html.DisplayNameFor(p => p.Ativo)
-                                </label>
+                                <input asp-for="Ativo" class="custom-control-input" id="customCheck1" type="checkbox">
+                                <label asp-for="Ativo" class="custom-control-label" for="customCheck1"></label>
                             }
-
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="card-footer">
             <button type="submit" class="btn btn-success">@(Model == null ? "Cadastrar" : Model.Id == null ? "Cadastrar" : "Alterar")</button>
             <a asp-action="Index" class="btn btn-primary">Voltar</a>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>
+
 @section Scripts{
     <script src="~/js/Buscas/BuscarPorNome.js"></script>
 }

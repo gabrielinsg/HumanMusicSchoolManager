@@ -76,9 +76,17 @@ namespace HumanMusicSchoolManager.Controllers
             }
         }
 
+        public IActionResult Excluir(int taxaMatriculaId){
+            _taxaMatriculaService.Excluir(taxaMatriculaId);
+            TempData["Success"] = "Taxa de Matrícula excluida com sucesso";
+            return RedirectToAction("Index");
+        }
+
         public JsonResult BuscarPorNome(string nome)
         {
-            return Json(_taxaMatriculaService.BuscarPorNome(nome));
+            var taxa = _taxaMatriculaService.BuscarPorNome(nome);
+            
+            return Json(taxa);
         }
     }
 }

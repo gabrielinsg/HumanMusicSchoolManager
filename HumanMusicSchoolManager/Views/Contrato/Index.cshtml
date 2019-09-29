@@ -1,9 +1,13 @@
 ﻿@model List<Contrato>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Contrato";
 }
 
-<div class="card mb-3">
+@section Styles {
+    <link type="text/css" rel="stylesheet" href="~/css/tabelas.css" />
+}
+
+<div class="card mt--5">
     <div class="card-header">
         <div class="row">
             <div class="col-md-11">
@@ -16,9 +20,9 @@
         </div>
 
     </div>
-    <div class="card-body">
+    <div class="card-body" id="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered table-striped" id="dataTable" cellspacing="0">
+            <table class="table table-sm align-items-center table-hover table-flush dataTable no-footer" id="dataTable" cellspacing="0">
                 <thead>
                     <tr>
                         <th>Nome</th>
@@ -26,23 +30,21 @@
                         <th class="text-center">Alterar</th>
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr>
-                        <th>Nome</th>
-                        <th class="text-center">Ativo</th>
-                        <th class="text-center">Alterar</th>
-                    </tr>
-                </tfoot>
                 <tbody>
                     @foreach (var contrato in Model)
                     {
                         <tr>
                             <td>@contrato.Nome</td>
                             <td class="text-center">
-                                <input asp-for="@contrato.Ativo" onclick="return false" />
+                                <div class="custom-control custom-checkbox mb-3">
+                                    <input asp-for="@contrato.Ativo" class="custom-control-input" onclick="return false" id="customCheck1" type="checkbox">
+                                    <label class="custom-control-label" for="customCheck1"></label>
+                                </div>
                             </td>
                             <td class="text-center">
-                                <a asp-action="Form" asp-route-contratoId="@(contrato.Id)"><i class="fas fa-pencil-alt"></i></a>
+                                <div class="avatar-group">
+                                    <a data-toggle="tooltip" data-placement="top" title="Dados" class="avatar avatar-sm bg-warning" asp-action="Form" asp-route-contratoId="@(contrato.Id)"><i class="fas fa-pencil-alt"></i></a>
+                                </div>
                             </td>
                         </tr>
                     }

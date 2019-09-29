@@ -28,9 +28,9 @@ namespace HumanMusicSchoolManager.Services
             return _context.TaxaMatriculas.FirstOrDefault(tm => tm.Id == taxaMatriculaId);
         }
 
-        public TaxaMatricula BuscarPorNome(string nome)
+        public List<TaxaMatricula> BuscarPorNome(string nome)
         {
-            return _context.TaxaMatriculas.FirstOrDefault(tm => tm.Nome.Contains(nome));
+            return _context.TaxaMatriculas.Where(p => p.Nome.Contains(nome)).OrderBy(P => P.Nome).ToList();
         }
 
         public List<TaxaMatricula> BuscarTodos()

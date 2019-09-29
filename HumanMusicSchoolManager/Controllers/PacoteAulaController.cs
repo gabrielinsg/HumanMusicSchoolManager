@@ -74,7 +74,8 @@ namespace HumanMusicSchoolManager.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _pacoteAulaService.Cadastrar(pacoteAula);
+                    _pacoteAulaService.Cadastrar(pacoteAula);                    
+
                     TempData["Success"] = "Pacote de Aula cadastrado com sucesso!";
                     return RedirectToAction("Form");
                 }
@@ -87,7 +88,8 @@ namespace HumanMusicSchoolManager.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _pacoteAulaService.Alterar(pacoteAula);
+                    _pacoteAulaService.Alterar(pacoteAula);                    
+
                     TempData["Success"] = "Pacote de Aula alterado com sucesso!";
                     return RedirectToAction("Form");
                 }

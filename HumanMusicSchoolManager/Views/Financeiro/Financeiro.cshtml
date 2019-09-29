@@ -3,11 +3,15 @@
     ViewData["Title"] = "Financeiro";
 }
 
-<div class="row">
-    <div class="col-8"><h2>@Model.Nome</h2></div>
-    <div class="col-2"><a asp-controller="Aluno" asp-action="Aluno" asp-route-alunoId="@Model.Id" class="btn btn-primary">Voltar</a></div>
-    <div class="col-2"><a asp-controller="Aluno" asp-action="Index" class="btn btn-success">Alunos</a> </div>
+<div class="card mt-2">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-8"><h2>@Model.Nome</h2></div>
+            <div class="col-2"><a asp-controller="Aluno" asp-action="Aluno" asp-route-alunoId="@Model.Id" class="btn btn-primary">Voltar</a></div>
+            <div class="col-2"><a asp-controller="Aluno" asp-action="Index" class="btn btn-success">Alunos</a> </div>
+        </div>
+    </div>
+    @await Html.PartialAsync("_Financeiro")  
 </div>
-<br />
-@await Html.PartialAsync("_Financeiro")
+
 

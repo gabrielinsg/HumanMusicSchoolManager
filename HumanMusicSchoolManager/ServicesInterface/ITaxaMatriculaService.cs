@@ -13,6 +13,6 @@ namespace HumanMusicSchoolManager.ServicesInterface
         void Excluir(int taxaMatriculaId);
         List<TaxaMatricula> BuscarTodos();
         TaxaMatricula BuscarPorId(int taxaMatriculaId);
-        TaxaMatricula BuscarPorNome(string nome);
+        List<TaxaMatricula> BuscarPorNome(string nome);
     }
 }
