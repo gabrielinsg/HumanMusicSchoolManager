@@ -1,6 +1,6 @@
 ﻿@model PacoteCompra
 @{
-    ViewData["Title"] = "PacoteCompra";
+    ViewData["Title"] = "Pacote";
 }
 
 @section Styles{
@@ -10,72 +10,133 @@
 }
 
 
-<h2>@Model.Matricula.Aluno.Nome </h2>
-
 <input id="pacoteCompraId" value="@Model.Id" type="hidden" />
 
-<br />
-<div class="row">
-    <div class="col-md-8">
-        <ul class="list-group">
-            <li class="list-group-item">
-                @if(Model.Matricula.DispSala == null)
-                {
-                    <p>@Model.Matricula.Curso.Nome - Matrícula cancelada</p>
-                }
-                else
-                {
-                    <p>Curso de <b>@Model.Matricula.Curso.Nome</b> com <b>@Model.Matricula.DispSala.Professor.Nome</b> na sala <b>@Model.Matricula.DispSala.Sala.Nome</b> - <b>@Html.DisplayFor(d => Model.Matricula.DispSala.Dia)</b> às <b>@Model.Matricula.DispSala.Hora.ToString("00:'00'h")</b></p>
-                }
-            </li>
-        </ul>
-    </div>
-</div>
-
-<br />
 
 <div class="row">
-    <div class="col-md-4">
-        <ul class="list-group">
-            <li class="list-group-item active"><i class="fas fa-chart-pie"></i> Aulas</li>
-            <li class="list-group-item">
-                <canvas id="aulaChart" height="150"></canvas>
-            </li>
-        </ul>
-    </div>
-    <div class="col-md-4">
-        <ul class="list-group">
-            <li class="list-group-item active"><i class="fas fa-chart-pie"></i> Presenças</li>
-            <li class="list-group-item">
-                <canvas id="presencaChart" height="150"></canvas>
-            </li>
-        </ul>
-    </div>
-</div>
-<br />
-<div class="row">
-    <div class="col-md-10">
-        <ul class="list-group">
-            <li class="list-group-item active">
-                <div class="row">
-                    <div class="col-11" style="padding-top: 10px">
-                        <i class="fas fa-circle text-info" style="padding-left: 10px"></i>A fazer 
-                        <i class="fas fa-circle text-success" style="padding-left: 10px"></i>Presente 
-                        <i class="fas fa-circle text-danger" style="padding-left: 10px"></i>Faltou 
-                        <i class="fas fa-circle text-warning" style="padding-left: 10px"></i>Férias e feriado
-                    </div>
-                    <div class="col-1">
-                        <a asp-action="PrintCalendario" asp-route-pacoteCompraId="@Model.Id" target="_blank" class="btn text-white"><h5><i class="fas fa-print"></i></h5></a>
+
+
+    <div class="col-xl-4  mb-5 mb-xl-0">
+        <div class="card card-profile shadow">
+            <div class="row justify-content-center">
+                <div class="col-lg-3 order-lg-2">
+                    <div class="card-profile-image">
+                        @if (Model.Matricula.DispSala.Professor.Foto != null)
+                        {
+                            <a href="#">
+                                <img src="@Model.Matricula.DispSala.Professor.Foto" class="rounded-circle">
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="#">
+                                <img src="~/img/user.png" class="rounded-circle">
+                            </a>
+                        }
                     </div>
                 </div>
-            </li>
-            <li class="list-group-item">
-                <div id='calendar'></div>
-            </li>
-        </ul>
+            </div>
+            <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+                <div class="d-flex justify-content-between">
+
+                </div>
+            </div>
+            <div class="card-body pt-0 pt-md-4">
+                <div class="row">
+                    <div class="col">
+                        <div class="card-profile-stats d-flex justify-content-center mt-md-5">
+                            <div>
+                                <span class="heading">@Model.Matricula.Curso.Nome</span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <h3>
+                        @Model.Matricula.DispSala.Professor.Nome
+                    </h3>
+                    <div class="h5 font-weight-300">
+                        <i class="ni location_pin mr-2"></i> @Model.Chamadas.Count @(Model.Chamadas.Count == 1 ? "aula" : "aulas")
+                    </div>
+                    <div class="h5 mt-4">
+                        <i class="ni business_briefcase-24 mr-2"></i><b>@Html.DisplayFor(d => Model.Matricula.DispSala.Dia)</b> às <b>@Model.Matricula.DispSala.Hora.ToString("00:'00'h")</b>
+                    </div>
+                    <div>
+                        <i class="ni education_hat mr-2"></i>@Model.Matricula.DispSala.Sala.Nome
+                    </div>
+                    <hr class="my-4">
+                    <p>Comprado dia @Model.DataCompra.ToString("dd/MM/yyyy")</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-xl-4">
+        <div class="card shadow">
+            <div class="card-header bg-transparent">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h6 class="text-uppercase text-muted ls-1 mb-1">Aulas</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <!-- Chart -->
+                <div class="chart">
+                    <div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+                    <canvas id="aulaChart" class="chart-canvas chartjs-render-monitor" height="150" style="display: block; height: 350px; width: 314px;"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-4">
+        <div class="card shadow">
+            <div class="card-header bg-transparent">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h6 class="text-uppercase text-muted ls-1 mb-1">Presença</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <!-- Chart -->
+                <div class="chart">
+                    <div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+                    <canvas id="presencaChart" height="150"></canvas>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-<br />
+
+
+
+<div class="card bg-secondary shadow mt-5">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-11">
+                <i class="fas fa-circle text-info"></i>Agendada
+                <i class="fas fa-circle text-success"></i>Ministrada
+                <i class="fas fa-circle text-danger"></i>Atrasada
+                <i class="fas fa-circle text-warning"></i>Férias e feriado
+                <i class="fas fa-circle text-secondary"></i>Eventos
+            </div>
+            <div class="col-1">
+                <div class="avatar-group">
+
+                </div>
+                <a data-toggle="tooltip" data-placement="top" title="Imprimir" class="btn btn-primary btn-sm" asp-action="PrintCalendario" asp-route-pacoteCompraId="@Model.Id" target="_blank"><i class="fas fa-print text-xl"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div id='calendar'></div>
+    </div>
+</div>
+
+
 @section Scripts{
     <script src="~/vendor/chart.js/Chart.min.js"></script>
     <script src="~/js/Gráficos/PacoteCompra.js"></script>

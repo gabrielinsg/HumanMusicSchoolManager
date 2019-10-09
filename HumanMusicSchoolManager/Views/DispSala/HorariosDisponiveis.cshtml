@@ -1,83 +1,84 @@
 ﻿@model HorariosDisponiveisViewModel
 @{
-    ViewData["Title"] = "HorariosDisponiveis";
+    ViewData["Title"] = "Horarios Disponíveis";
 }
 
 @section Styles{
-    <link href="~/css/Estrelas.css" rel="stylesheet" />
+    <link href="~/css/tabelas.css" rel="stylesheet" />
+    <style>
+        .botao{
+            cursor: pointer;
+        }
+        .badge{
+            position: absolute;
+            right: 40px;
+            z-index: 3;
+            border: 2px solid white;                   
+        }
+    </style>
 }
 
-<h2>Horarios Disponíveis</h2>
-<br />
-
-<div class="row">
-    <div class="col-md-4">
-        <label><b>Filtrar por sala</b></label>
-        <select id="porSala" class="form-control">
-            <option value=""></option>
-            <option value="null">Todas</option>
-            @foreach (var sala in ViewBag.Salas)
-            {
-                <option value="@sala.Id">@sala.Nome</option>
-            }
-        </select>
-    </div>
-</div>
-<script src="~/vendor/jquery/jquery.min.js"></script>
-<script src="~/vendor/jquery-easing/jquery.easing.min.js"></script>
-<script src="~/js/jquery-ui.min.js"></script>
-<script src="~/js/HorariosDisponiveis.js"></script>
-<br />
-<table class="table table-bordered table-striped" id="dataTable" cellspacing="0">
-    <thead>
-        <tr>
-            <th>Curso</th>
-            <th class="text-center">Dia</th>
-            <th class="text-center">Hora</th>
-            <th>Período</th>
-            <th>Sala</th>
-            <th>Professor</th>
-            <th class="text-center">Vagas</th>
-        </tr>
-    </thead>
-    <tfoot>
-        <tr>
-            <th>Curso</th>
-            <th class="text-center">Dia</th>
-            <th class="text-center">Hora</th>
-            <th>Período</th>
-            <th>Sala</th>
-            <th>Professor</th>
-            <th class="text-center">Vagas</th>
-        </tr>
-    </tfoot>
-    <tbody>
-        @foreach (var dispSala in Model.DispSalas)
-        {
-            @foreach (var curso in dispSala.Professor.Cursos.Where(c => dispSala.Sala.Cursos.Any(sc => sc.CursoId == c.CursoId)))
-            {
-                var cs = dispSala.Matriculas.FirstOrDefault();
-                Curso cursoCompara = null;
-                if (cs != null)
-                {
-                    cursoCompara = cs.Curso;
-                }
-                else if (dispSala.Demostrativas.FirstOrDefault() != null)
-                {
-                    var Demostrativa = dispSala.Demostrativas.FirstOrDefault();
-                    cursoCompara = Demostrativa.Curso;
-                }
-                else
-                {
-                    var reposicao = dispSala.Reposicoes.FirstOrDefault();
-                    if (reposicao != null)
+<div class="card mt-2">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-4">
+                <label><b>Filtrar por sala</b></label>
+                <select id="porSala" class="form-control">
+                    <option value=""></option>
+                    <option value="null">Todas</option>
+                    @foreach (var sala in ViewBag.Salas)
                     {
-                        cursoCompara = reposicao.Chamada.PacoteCompra.Matricula.Curso;
+                        <option value="@sala.Id">@sala.Nome</option>
                     }
-                }
+                </select>
+            </div>
+            <script src="~/vendor/jquery2/jquery.min.js"></script>
+            <script src="~/vendor/jquery-easing/jquery.easing.min.js"></script>
+            <script src="~/js/jquery-ui.min.js"></script>
+            <script src="~/js/HorariosDisponiveis.js"></script>
+        </div>
+    </div>
+    <div class="card-body" id="card-body">
+        <div class="table-responsive">
+            <table class="table table-sm align-items-center table-hover table-flush dataTable no-footer" id="dataTable" cellspacing="0">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Curso</th>
+                        <th class="text-center">Dia</th>
+                        <th class="text-center">Hora</th>
+                        <th>Período</th>
+                        <th>Sala</th>
+                        <th>Professor</th>
+                        <th class="text-center">Vagas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var dispSala in Model.DispSalas)
+                    {
+                        @foreach (var curso in dispSala.Professor.Cursos.Where(c => dispSala.Sala.Cursos.Any(sc => sc.CursoId == c.CursoId)))
+                        {
+                            var cs = dispSala.Matriculas.FirstOrDefault();
+                            Curso cursoCompara = null;
+                            if (cs != null)
+                            {
+                                cursoCompara = cs.Curso;
+                            }
+                            else if (dispSala.Demostrativas.FirstOrDefault() != null)
+                            {
+                                var Demostrativa = dispSala.Demostrativas.FirstOrDefault();
+                                cursoCompara = Demostrativa.Curso;
+                            }
+                            else
+                            {
+                                var reposicao = dispSala.Reposicoes.FirstOrDefault();
+                                if (reposicao != null)
+                                {
+                                    cursoCompara = reposicao.Chamada.PacoteCompra.Matricula.Curso;
+                                }
+                            }
 
-                if (curso.Curso == cursoCompara || cursoCompara == null)
-                {
+                            if (curso.Curso == cursoCompara || cursoCompara == null)
+                            {
                     <tr>
                         <td>@curso.Curso.Nome</td>
                         <td class="text-center">@Html.DisplayFor(d => dispSala.Dia)</td>
@@ -97,7 +98,34 @@
                             }
                         </td>
                         <td>@dispSala.Sala.Nome</td>
-                        <td>@dispSala.Professor.Nome</td>
+                        <th scope="row">
+                            <div class="media align-items-center">
+                                <a href="#" class="avatar rounded-circle mr-3">
+                                    @if (dispSala.Professor.Foto == null)
+                                    {
+                                        <img alt="Image" src="~/img/user.png" />
+                                    }
+                                    else
+                                    {
+                                        <img alt="Image" src="@dispSala.Professor.Foto" />
+                                    }
+                                </a>
+                                @{ 
+                                    
+                                    var professorSobrenome = dispSala.Professor.Nome.Split(' ')[1];
+                                    if (professorSobrenome.Length > 0 && professorSobrenome.Length <= 2)
+                                    {
+                                        professorSobrenome = dispSala.Professor.Nome.Split(' ')[2];
+                                    }
+                                }
+                                
+                                <div class="media-body">
+                                    <span data-toggle="tooltip" data-placement="top" title="@dispSala.Professor.Nome" class="mb-0 text-sm">
+                                        @(dispSala.Professor.Nome.Split(' ')[0]) @professorSobrenome
+                                    </span>
+                                </div>
+                            </div>
+                        </th>
                         <td class="text-center">
                             @{
                                 var individual = false;
@@ -132,29 +160,37 @@
                                 }
                             }
                             <!-- Button trigger modal -->
-                            <a class="btn text-primary" data-toggle="modal" data-target="#exampleModalLong@(dispSala.Id)">
+                            <div class="avatar-group">
                                 @{
 
                                     vagas = (dispSala.Matriculas.Count + dispSala.Reposicoes.Count + dispSala.Demostrativas.Count) == 0 ? "success" : vagas;
                                     vagas = (dispSala.Matriculas.Count + dispSala.Reposicoes.Count + dispSala.Demostrativas.Count) >= dispSala.Sala.Capacidade ? "danger" : vagas;
                                     vagas = individual ? "danger" : vagas;
-                                    vagas = dispSala.Demostrativas.Count > 0 ? "warning" : vagas;
+                                    vagas = dispSala.Demostrativas.Count > 0 ? "yellow" : vagas;
                                     vagas = dispSala.Ativo ? vagas : "danger";
                                 }
-                                <i class="fas fa-users text-@vagas"></i>
-                            </a>
-                            @if (individual)
-                            {
-                                <span class="badge badge-pill badge-@vagas">
-                                    <span style="display:none">0</span>I
-                                </span>
-                            }
-                            else
-                            {
-                                <span class="badge badge-pill badge-@vagas">
-                                    @(dispSala.Sala.Capacidade - dispSala.Matriculas.Count - dispSala.Reposicoes.Count - dispSala.Demostrativas.Count)
-                                </span>
-                            }
+                                @if (individual)
+                                {
+                                    <span class="badge badge-pill bg-@vagas">
+                                        <span style="display:none">0</span>I
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-pill bg-@vagas">
+                                        @(dispSala.Sala.Capacidade - dispSala.Matriculas.Count - dispSala.Reposicoes.Count - dispSala.Demostrativas.Count)
+                                    </span>
+                                }
+                                <a class="avatar botao avatar-sm bg-@vagas" data-toggle="modal" data-target="#exampleModalLong@(dispSala.Id)">
+
+                                    <i class="fas fa-users"></i>
+                                </a>
+
+
+
+                            </div>
+
+
 
                             <!-- Modal -->
                             <div class="modal fade" id="exampleModalLong@(dispSala.Id)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
@@ -278,11 +314,17 @@
                             </div>
                         </td>
                     </tr>
-                }
-            }
-        }
-    </tbody>
-</table>
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
 
 @section Scripts{
 

@@ -3,9 +3,11 @@
     ViewData["Title"] = "Contrato";
 }
 
-<div class="col-md-12">
-    <div class="form-group">
-        <label>Observação</label>
+<div class="card">
+    <div class="card-header">
+        <a class="btn btn-primary btn-sm" asp-controller="Aluno" asp-action="Aluno" asp-route-alunoId="@ViewBag.AlunoId">Voltar</a>
+    </div>
+    <div class="card-body" style="padding: 0;">
         <textarea asp-for="Conteudo" disabled rows="10" cols="80">
                     </textarea>
     </div>

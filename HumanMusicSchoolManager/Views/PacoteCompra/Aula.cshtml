@@ -3,54 +3,56 @@
     ViewData["Title"] = "Aula";
 }
 
-
-<h2>Aula de @Model.Aula.Curso.Nome</h2>
-
-
-<div class="row">
-    @{
-        var dia = Dia.SEGUNDA;
-        switch (Model.Aula.Data.DayOfWeek)
-        {
-            case (DayOfWeek)Dia.SEGUNDA: dia = Dia.SEGUNDA; break;
-            case (DayOfWeek)Dia.TERCA: dia = Dia.TERCA; break;
-            case (DayOfWeek)Dia.QUARTA: dia = Dia.QUARTA; break;
-            case (DayOfWeek)Dia.QUINTA: dia = Dia.QUINTA; break;
-            case (DayOfWeek)Dia.SEXTA: dia = Dia.SEXTA; break;
-            case (DayOfWeek)Dia.SABADO: dia = Dia.SABADO; break;
-        }
+@{
+    var dia = Dia.SEGUNDA;
+    switch (Model.Aula.Data.DayOfWeek)
+    {
+        case (DayOfWeek)Dia.SEGUNDA: dia = Dia.SEGUNDA; break;
+        case (DayOfWeek)Dia.TERCA: dia = Dia.TERCA; break;
+        case (DayOfWeek)Dia.QUARTA: dia = Dia.QUARTA; break;
+        case (DayOfWeek)Dia.QUINTA: dia = Dia.QUINTA; break;
+        case (DayOfWeek)Dia.SEXTA: dia = Dia.SEXTA; break;
+        case (DayOfWeek)Dia.SABADO: dia = Dia.SABADO; break;
     }
-    <div class="col-md-3"><b>Data: </b>@Model.Aula.Data.ToString("dd/MM/yyyy") - @Html.DisplayFor(d => dia) - @Model.Aula.Data.ToString("HH:mm'h'")</div>
-    <div class="col-md-4"><b>Professor: </b>@Model.Aula.Professor.Nome</div>
-    <div class="col-md-4">
-        <b>Aula: </b>
-        @if (Model.Presenca == null)
-        {
-            <span>Essa aula ainda não foi dada</span>
-        }
-        else if (Model.Presenca == true)
-        {
-            <span>Você compareu a essa aula</span>
-        }
-        else
-        {
-            <span>Você não compareceu a essa aula</span>
-        }
+}
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-4"><b>Data: </b>@Model.Aula.Data.ToString("dd/MM/yyyy") - @Html.DisplayFor(d => dia) - @Model.Aula.Data.ToString("HH:mm'h'")</div>
+            <div class="col-md-4"><b>Professor: </b>@Model.Aula.Professor.Nome</div>
+            <div class="col-md-4">
+                <b>Aula: </b>
+                @if (Model.Presenca == null)
+                {
+                    <span>Essa aula ainda não foi dada</span>
+                }
+                else if (Model.Presenca == true)
+                {
+                    <span>Você compareu a essa aula</span>
+                }
+                else
+                {
+                    <span>Você não compareceu a essa aula</span>
+                }
+            </div>
+        </div>
+
+    </div>
+    <div class="card-body">
+
+        @Html.Raw(Model.Aula.DescAtividades)
+        
+        @Model.Observacao
+        <div class="card-footer">
+            <a class="btn btn-default btn-sm" asp-controller="PacoteCompra" asp-action="PacoteCompra" asp-route-pacoteCompraId="@Model.PacoteCompraId" role="button">Voltar</a>
+            <a class="btn btn-success btn-sm" asp-controller="Reposicao" asp-action="Form" asp-route-chamadaId="@Model.Id" role="button">Reposição</a>
+            <a class="btn btn-warning btn-sm" id="confirmar" asp-controller="PacoteCompra" asp-action="TranferirAulaParaFinalCalendario" asp-route-chamadaId="@Model.Id" onclick="confirmar()">Lançar para depois do calendário</a>
+        </div>
     </div>
 </div>
-<br /><br />
-<a class="btn btn-outline-success" asp-controller="Reposicao" asp-action="Form" asp-route-chamadaId="@Model.Id" role="button">Reposição</a>
-<a class="btn btn-outline-warning" id="confirmar" asp-controller="PacoteCompra" asp-action="TranferirAulaParaFinalCalendario" asp-route-chamadaId="@Model.Id" onclick="confirmar()">Lançar para depois do calendário</a>
-<br /><br />
-<div class="row">
-    <div class="col-md-10">
-        <ul class="list-group">
-            <li class="list-group-item active">Conteúdo da aula</li>
-            <li class="list-group-item">@Html.Raw(Model.Aula.DescAtividades)</li>
-            <li class="list-group-item">@Model.Observacao</li>
-        </ul>
-    </div>
-</div>
+
+
+
 
 @section Scripts
     {

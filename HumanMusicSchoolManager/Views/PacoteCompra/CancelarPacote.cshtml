@@ -3,72 +3,79 @@
     ViewData["Title"] = "CancelarPacote";
 }
 
-<h2>Cancelar Pacote</h2>
+<div class="row">
+    <div class="col-md-5">
+        <div class="card">
+            <div class="card-body">
 
-<h4>@Model.PacoteCompra.Matricula.Aluno.Nome - @Model.PacoteCompra.Matricula.Curso.Nome</h4>
+                @if (Model.PacoteCompra.Chamadas.Any(c => c.Presenca == null))
+                {
+                    var aulasAbertas = Model.PacoteCompra.Chamadas.Where(c => c.Aula.Data < NowHorarioBrasilia.GetNow() && c.Presenca == null).ToList();
+                    if (aulasAbertas.Count > 0)
+                    {
+                        <h3 class="text-danger">Existem aulas atrasadas não lançadas para @(Model.PacoteCompra.Matricula.Aluno.Sexo == 0 ? "este aluno" : "esta aluna")!</h3>
+                        <br />
+                    }
+                    <div class="row">
+                        <div class="col">
+                            <form role="form" asp-action="CancelarPacote" method="post">
+                                <input asp-for="PacoteCompra.Id" type="hidden" />
+                                <div class="form-group">
+                                    <label asp-for="Multa"></label>
+                                    <input asp-for="Multa" class="form-control" />
+                                    <span asp-validation-for="Multa" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Desconto"></label>
+                                    <input class="form-control" asp-for="Desconto">
+                                    <span asp-validation-for="Desconto" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="FormaPagamento"></label>
+                                    <select asp-for="FormaPagamento" class="form-control" asp-items="@Html.GetEnumSelectList<FormaPagamento>()">
+                                        <option selected="selected" value=""></option>
+                                    </select>
+                                </div>
+                                <hr />
+                                @{
+                                    var totalContratado = (decimal)Model.PacoteCompra.Financeiros.Sum(f => f.Valor);
+                                    var valorPorAula = (decimal)totalContratado / Model.PacoteCompra.Chamadas.Count(pc => pc.Reposicao == null);
+                                    var valorGasto = (decimal)valorPorAula * Model.PacoteCompra.Chamadas.Count(pc => pc.Presenca != null);
+                                    var totalPago = (decimal)Model.PacoteCompra.Financeiros.Sum(f => f.ValorPago);
+                                    var subTotal = (decimal)valorGasto - totalPago;
+                                    var total = (decimal)subTotal + Model.Multa - Model.Desconto;
+                                    string mask = "R$ #,##0.00";
+                                }
+                                <input id="subTotal" value="@subTotal" type="hidden" />
 
-<br />
 
-@if (Model.PacoteCompra.Chamadas.Any(c => c.Presenca == null))
-{
-    var aulasAbertas = Model.PacoteCompra.Chamadas.Where(c => c.Aula.Data < NowHorarioBrasilia.GetNow() && c.Presenca == null).ToList();
-    if (aulasAbertas.Count > 0)
-    {
-        <h3 class="text-danger">Existem aulas atrasadas não lançadas para @(Model.PacoteCompra.Matricula.Aluno.Sexo == 0 ? "este aluno" : "esta aluna")!</h3>
-        <br />
-    }
-    <div class="row">
-        <div class="col-md-6">
-            <form role="form" asp-action="CancelarPacote" method="post">
-                <input asp-for="PacoteCompra.Id" type="hidden" />
-                <div class="form-group">
-                    <label asp-for="Multa"></label>
-                    <input asp-for="Multa" class="form-control col-xl-3 col-md-4" />
-                    <span asp-validation-for="Multa" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Desconto"></label>
-                    <input class="form-control col-xl-3 col-md-4" asp-for="Desconto">
-                    <span asp-validation-for="Desconto" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="FormaPagamento"></label>
-                    <select asp-for="FormaPagamento" class="form-control col-xl-3 col-md-3" asp-items="@Html.GetEnumSelectList<FormaPagamento>()">
-                        <option selected="selected" value=""></option>
-                    </select>
-                </div>
-                <hr />
-                @{
-                    var totalContratado = (decimal)Model.PacoteCompra.Financeiros.Sum(f => f.Valor);
-                    var valorPorAula = (decimal)totalContratado / Model.PacoteCompra.Chamadas.Count(pc => pc.Reposicao == null);
-                    var valorGasto = (decimal)valorPorAula * Model.PacoteCompra.Chamadas.Count(pc => pc.Presenca != null);
-                    var totalPago = (decimal)Model.PacoteCompra.Financeiros.Sum(f => f.ValorPago);
-                    var subTotal = (decimal)valorGasto - totalPago;
-                    var total = (decimal)subTotal + Model.Multa - Model.Desconto;
-                    string mask = "R$ #,##0.00";
+                                <p><b>Total Contratado: </b>@totalContratado.ToString(mask)</p>
+                                <p><b>Total Gasto: </b>@valorGasto.ToString(mask)</p>
+                                <p><b>Total Pago: </b>@totalPago.ToString(mask)</p>
+                                <p><b>Total: </b><span id="total"></span></p>
+                                <hr />
+                                <div class="row">
+                                    <button type="submit" class="btn btn-success">Cancelar Pacote</button>
+                                    <a asp-controller="Aluno" asp-action="Aluno" asp-route-alunoId="@Model.PacoteCompra.Matricula.AlunoId" class="btn btn-primary">Voltar</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <br />
+
+
                 }
-                <input id="subTotal" value="@subTotal" type="hidden" />
+                else
+                {
+                    <h2>Não existem aulas para serem canceladas neste pacote!</h2>
+                    <a asp-controller="Aluno" asp-action="Aluno" asp-route-alunoId="@Model.PacoteCompra.Matricula.AlunoId" class="btn btn-primary">Voltar</a>
 
+                }
 
-                <p><b>Total Contratado: </b>@totalContratado.ToString(mask)</p>
-                <p><b>Total Gasto: </b>@valorGasto.ToString(mask)</p>
-                <p><b>Total Pago: </b>@totalPago.ToString(mask)</p>
-                <p><b>Total: </b><span id="total"></span></p>
-                <hr />
-                <button type="submit" class="btn btn-success">Cancelar Pacote</button>
-
-            </form>
+                @section Scripts{
+                    <script src="~/js/CancelarPacoteCompra.js"></script>
+                }
+            </div>
         </div>
     </div>
-    <br />
-
-
-}
-else
-{
-    <p>Não existem aulas para serem canceladas neste pacote!</p>
-}
-
-@section Scripts{
-    <script src="~/js/CancelarPacoteCompra.js"></script>
-}
+</div>

@@ -6,16 +6,17 @@
 @section Styles {
     <link type="text/css" rel="stelysheet" href="~/css/tabelas.css" />
     <style>
-        .my-modal-body{
+        .my-modal-body {
             padding-left: 0;
             padding-right: 0;
         }
-        .my-modal{
-            max-width: 95%!important;
+
+        .my-modal {
+            max-width: 95% !important;
         }
 
         .my-modal-matricula {
-            max-width: 70%!important;
+            max-width: 70% !important;
         }
     </style>
 }
@@ -53,16 +54,12 @@
                         <div class="card-profile-stats d-flex justify-content-center mt-md-5">
                             <div>
                                 <span class="heading">@Model.Matriculas.Count</span>
-                                <span class="description">Matrículas</span>
+                                <span class="description">Matrícula@(Model.Matriculas.Count == 1 ? "" : "s")</span>
                             </div>
                             <div>
                                 <span class="heading">@Model.Matriculas.Where(m => m.DispSala != null).ToList().Count</span>
-                                <span class="description">Ativas</span>
-                            </div>
-                            <div>
-                                <span class="heading">89</span>
-                                <span class="description">Comments</span>
-                            </div>
+                                <span class="description">Ativa@(Model.Matriculas.Where(m => m.DispSala != null).ToList().Count == 1 ? "" : "s")</span>
+                            </div>                            
                         </div>
                     </div>
                 </div>
@@ -138,7 +135,7 @@
                         <form asp-controller="Matricula" asp-action="Form" method="get">
                             <input name="alunoId" value="@Model.Id" type="hidden" />
                             <button type="submit" class="btn btn-block btn-success btn-sm"><i class="fas fa-chalkboard-teacher"></i> Matricular</button>
-                        </form>                        
+                        </form>
                     </div>
                 </div>
             </div>
@@ -199,24 +196,32 @@
                                         </span>
                                     </td>
                                     <td>
-                                        @{ 
+                                        @{
                                             var pacote = matricula.PacoteCompras.OrderByDescending(p => p.DataCompra).FirstOrDefault();
-                                            var totalAulas = pacote.Chamadas.Count;
-                                            var aulasFeitas = pacote.Chamadas.Where(c => c.Aula.AulaDada == true).ToList().Count;
+                                            var totalAulas = pacote == null ? 0 : pacote.Chamadas.Count;
+                                            var aulasFeitas = pacote == null ? 0 : pacote.Chamadas.Where(c => c.Aula.AulaDada == true).ToList().Count;
                                             double porcentagem = 0;
                                             if (totalAulas > 0)
                                             {
                                                 porcentagem = 100 * aulasFeitas / totalAulas;
                                             }
                                         }
-                                        <div class="d-flex align-items-center">
-                                            <span class="mr-2">@porcentagem%</span>
-                                            <div>
-                                                <div class="progress">
-                                                    <div class="progress-bar @(porcentagem <= 90 ? "bg-success" : "bg-warning")" role="progressbar" aria-valuenow="@porcentagem" aria-valuemin="0" aria-valuemax="100" style="width: @porcentagem%;"></div>
+                                        @if (pacote == null)
+                                        {
+                                            <span>Sem pacote adquirido</span>
+                                        }
+                                        else
+                                        {
+                                            <div class="d-flex align-items-center">
+                                                <span class="mr-2">@porcentagem%</span>
+                                                <div>
+                                                    <div class="progress">
+                                                        <div class="progress-bar @(porcentagem <= 90 ? "bg-success" : "bg-warning")" role="progressbar" aria-valuenow="@porcentagem" aria-valuemin="0" aria-valuemax="100" style="width: @porcentagem%;"></div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        }
+
                                     </td>
                                     <td class="text-right">
                                         <div class="dropdown">
@@ -233,7 +238,7 @@
                                                             <div class="modal-header text-left">
                                                                 <h2 class="modal-title text-white" id="modal-title-notification" style="margin-right: 1rem;">@matricula.Curso.Nome</h2>
                                                                 @if (matricula.EncerramentoMatricula == null)
-                                                                {                    
+                                                                {
                                                                     <!-- Button trigger modal -->
                                                                     <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal@(matricula.Id)">
                                                                         <i class="far fa-times-circle"></i> Cancelar Matrícula
@@ -261,6 +266,7 @@
                                                                                                 <h5>Outros</h5>
                                                                                                 <input name="Outros" class="form-control" />
                                                                                             </div>
+
 
                                                                                         </div>
                                                                                     </div>
@@ -294,13 +300,63 @@
                                                                 <p><b>Responsável financeiro: <a class="text-warning" asp-controller="RespFinanceiro" asp-action="Form" asp-route-respFinanceiroId="@matricula.RespFinanceiroId">@matricula.RespFinanceiro.Nome</a></b> <b>Telefone:</b> @matricula.RespFinanceiro.Tel <b>Celular:</b> @matricula.RespFinanceiro.Cel</p>
                                                                 <div class="row">
                                                                     <div class="col">
+                                                                        <div class="table-responsive">
+                                                                            <table class="table align-items-center table-dark">
+                                                                                <thead class="thead-dark">
+                                                                                    <tr>
+                                                                                        <th scope="col">Pacote</th>
+                                                                                        <th scope="col">Aulas</th>
+                                                                                        <th>
+                                                                                            <a asp-controller="PacoteCompra" asp-action="Form" asp-route-matriculaId="@matricula.Id" class="btn btn-success btn-sm"><i class="fas fa-plus-circle"></i> Comprar Aulas</a>
+                                                                                        </th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody class="bg-default">
+                                                                                    @foreach (var pacoteCompra in matricula.PacoteCompras)
+                                                                                    {
+                                                                                        totalAulas = pacoteCompra.Chamadas.Count;
+                                                                                        aulasFeitas = pacoteCompra.Chamadas.Where(c => c.Aula.AulaDada == true).ToList().Count;
+                                                                                        porcentagem = 100;
+                                                                                        if (totalAulas > 0)
+                                                                                        {
+                                                                                            porcentagem = 100 * aulasFeitas / totalAulas;
+                                                                                        }
 
+
+                                                                                        <tr>
+                                                                                            <th scope="row">
+                                                                                                @pacoteCompra.PacoteAula.Nome
+                                                                                            </th>
+                                                                                            <td>
+                                                                                              
+                                                                                                <div class="d-flex align-items-center">
+                                                                                                    <span class="mr-2">@porcentagem%</span>
+                                                                                                    <div>
+                                                                                                        <div class="progress">
+                                                                                                            <div class="progress-bar @(porcentagem <= 90 ? "bg-success" : "bg-warning")" role="progressbar" aria-valuenow="@porcentagem" aria-valuemin="0" aria-valuemax="100" style="width: @porcentagem%;"></div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td class="d-flex align-items-center">
+                                                                                                <div class="avatar-group ">
+                                                                                                    <a data-toggle="tooltip" data-placement="top" title="Calendário" class="avatar avatar-sm bg-blue" asp-controller="PacoteCompra" asp-action="PacoteCompra" asp-route-pacoteCompraId="@pacoteCompra.Id"><i class="far fa-calendar-alt text-xl"></i></a>
+                                                                                                    <a data-toggle="tooltip" data-placement="top" title="Contrato" class="avatar avatar-sm bg-red" asp-controller="Contrato" asp-action="Contrato" asp-route-pacoteCompraId="@pacoteCompra.Id" target="_blank"><i class="far fa-file-pdf text-xl"></i></a>
+                                                                                                    <a data-toggle="tooltip" data-placement="top" title="Trancar" class="avatar avatar-sm bg-success" asp-controller="Trancamento" , asp-action="Form" asp-route-pacoteCompraId="@pacoteCompra.Id"><i class="far fa-pause-circle text-xl"></i></a>
+                                                                                                    <a data-toggle="tooltip" data-placement="top" title="Cancelar" class="avatar avatar-sm bg-danger" asp-controller="PacoteCompra" asp-action="CancelarPacote" asp-route-pacoteCompraId="@pacoteCompra.Id"><i class="far fa-times-circle text-xl"></i></a>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    }
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
 
                                                             </div>
                                                         </div>
-                                                        
+
                                                     </div>
                                                     <!------------------------------------------------------->
                                                 </div>
@@ -308,7 +364,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                             }
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -317,127 +373,6 @@
     </div>
 </div>
 
-
-<div class="tab-content" id="myTabContent">
-                    @foreach (var matricula in Model.Matriculas)
-                    {
-                        <div class="tab-pane fade" id="curso@(matricula.Id)" role="tabpanel" aria-labelledby="profile-tab">
-                            
-                            <h2>
-                                @matricula.Curso.Nome@if (matricula.EncerramentoMatricula == null)
-                                {
-
-                                    <!-- Button trigger modal -->
-                                    <strong> - </strong><button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#exampleModal@(matricula.Id)">
-                                        <i class="far fa-times-circle"></i> Cancelar Matrícula
-                                    </button>
-
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="exampleModal@(matricula.Id)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Cancelar matrícula</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <form asp-controller="Matricula" asp-action="CancelaMatricula" method="post">
-                                                    <div class="modal-body">
-                                                        <div class="container">
-                                                            <input name="Id" value="@matricula.Id" type="hidden" />
-                                                            <div class="form-group">
-                                                                <h5>Motivo</h5>
-                                                                <select name="Motivo" class="form-control" asp-items="Html.GetEnumSelectList<Motivo>()"></select>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <h5>Outros</h5>
-                                                                <input name="Outros" class="form-control" />
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                                                        <button type="submit" class="btn btn-primary">Cancelar</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-                            </h2>
-
-                            @if (matricula.DispSala != null)
-                            {
-                                <span><b>@Html.DisplayFor(d => matricula.DispSala.Dia)</b> às <b>@matricula.DispSala.Hora.ToString("00:'00'h")</b> com <b>@matricula.DispSala.Professor.Nome</b> - <b>@matricula.DispSala.Sala.Nome</b> - <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Trocar horário"><a asp-controller="Matricula" asp-action="TrocaDispSala" asp-route-matriculaId="@matricula.Id" class="btn btn-outline-primary"><i class="fas fa-exchange-alt"></i> Trocar Horário</a></span></span>
-                            }
-                            else
-                            {
-                                <p>Matricula cancelada</p>
-                            }
-                            <p><b>Responsável financeiro: <a asp-controller="RespFinanceiro" asp-action="Form" asp-route-respFinanceiroId="@matricula.RespFinanceiroId">@matricula.RespFinanceiro.Nome</a></b> <b>Telefone:</b> @matricula.RespFinanceiro.Tel <b>Celular:</b> @matricula.RespFinanceiro.Cel</p>
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <ul class="list-group">
-                                        <li class="list-group-item active">
-                                            @if (matricula.DispSala != null)
-                                            {<a asp-controller="PacoteCompra" asp-action="Form" asp-route-matriculaId="@matricula.Id" class="btn btn-success"><i class="fas fa-plus-circle"></i> Adicionar Pacote</a>}
-                                        </li>
-                                        <li class="list-group-item">
-                                            <table class="table table-sm table-hover">
-                                                <tbody>
-                                                    @foreach (var pacoteCompra in matricula.PacoteCompras)
-                                                    {
-                                                        var totalAulas = pacoteCompra.Chamadas.Count;
-                                                        var aulasFeitas = pacoteCompra.Chamadas.Where(c => c.Aula.AulaDada == true).ToList().Count;
-                                                        double porcentagem = 100;
-                                                        if (totalAulas > 0)
-                                                        {
-                                                            porcentagem = 100 * aulasFeitas / totalAulas;
-                                                        }
-                                                        <tr class="row">
-                                                            <td class="col-md-3">@pacoteCompra.PacoteAula.Nome</td>
-                                                            <td class="col-md-4">
-                                                                <div class="progress" style="margin-top: .30rem;">
-                                                                    <div class="progress-bar bg-success" role="progressbar" style="width: @porcentagem%" aria-valuenow="1" aria-valuemin="0" aria-valuemax="100">@aulasFeitas aulas</div>
-                                                                </div>
-                                                            </td>
-                                                            @if (pacoteCompra.Chamadas.Count > 0)
-                                                            {
-                                                                <td>
-                                                                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Calendário de aulas">
-                                                                        <a asp-controller="PacoteCompra" asp-action="PacoteCompra" asp-route-pacoteCompraId="@pacoteCompra.Id"><i class="far fa-calendar-alt btn text-info"></i></a>
-                                                                    </span>
-                                                                </td>
-                                                            }
-                                                            <td>
-                                                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Contrato">
-                                                                    <a asp-controller="Contrato" asp-action="Contrato" asp-route-pacoteCompraId="@pacoteCompra.Id" target="_blank"><i class="far fa-file-pdf btn text-danger"></i></a>
-                                                                </span>
-                                                            </td>
-                                                            <td>
-                                                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Trancar">
-                                                                    <a asp-controller="Trancamento" , asp-action="Form" asp-route-pacoteCompraId="@pacoteCompra.Id"><i class="far fa-pause-circle btn text-success"></i></a>
-                                                                </span>
-                                                            </td>
-                                                            <td>
-                                                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Cancelar">
-                                                                    <a asp-controller="PacoteCompra" asp-action="CancelarPacote" asp-route-pacoteCompraId="@pacoteCompra.Id"><i class="far fa-times-circle btn text-danger"></i></a>
-                                                                </span>
-                                                            </td>
-                                                        </tr>
-                                                    }
-                                                </tbody>
-                                            </table>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                        </div>
-                    }
-                </div>
 
 
 

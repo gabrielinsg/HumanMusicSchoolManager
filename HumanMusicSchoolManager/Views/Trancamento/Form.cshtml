@@ -1,54 +1,67 @@
 ﻿@model TrancamentoViewModel
 
 @{
-    ViewData["Title"] = "Form";
+    ViewData["Title"] = "Trancamento";
 }
 
-<h2>Trancamento</h2>
 
-<hr />
 <div asp-validation-summary="All" class="text-danger"></div>
+<div class="row">
+    <div class="col-md-5">
+        <div class="card">
+            <div class="card-body">
+                @if (Model.PacoteCompra.Trancamento == null)
+                {
+                    if (Model.PacoteCompra.Chamadas.Any(c => c.Presenca == null))
+                    {
+                        <div class="row">
+                            <div class="col">
+                                <form asp-action="Form" method="post">
+                                    <input asp-for="Trancamento.PacoteCompraId" value="@Model.PacoteCompra.Id" type="hidden" />
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                    <div class="form-group">
+                                        <label asp-for="Trancamento.DataInicial" class="control-label"></label>
+                                        <input asp-for="Trancamento.DataInicial" type="date" class="form-control" />
+                                        <span asp-validation-for="Trancamento.DataInicial" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="Trancamento.DataFinal" class="control-label"></label>
+                                        <input asp-for="Trancamento.DataFinal" type="date" class="form-control" />
+                                        <span asp-validation-for="Trancamento.DataFinal" class="text-danger"></span>
+                                    </div>
+                                    <div class="row">
+                                        <input type="submit" value="Trancar" class="btn btn-success" />
+                                        <a asp-controller="Aluno" asp-action="Aluno" asp-route-alunoId="@Model.PacoteCompra.Matricula.AlunoId" class="btn btn-primary" role="button">Voltar</a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <H2>Não existem aulas para serem trancadas neste pacote!</H2>
+                        <a asp-controller="Aluno" asp-action="Aluno" asp-route-alunoId="@Model.PacoteCompra.Matricula.AlunoId" class="btn btn-primary">Voltar</a>
 
-@if (Model.PacoteCompra.Trancamento == null)
-{
-    if (Model.PacoteCompra.Chamadas.Any(c => c.Presenca == null))
-    {
-        <div class="row">
-            <div class="col-xl-2 col-md-3">
-                <form asp-action="Form" method="post">
-                    <input asp-for="Trancamento.PacoteCompraId" value="@Model.PacoteCompra.Id" type="hidden" />
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group">
-                        <label asp-for="Trancamento.DataInicial" class="control-label"></label>
-                        <input asp-for="Trancamento.DataInicial" type="date" class="form-control" />
-                        <span asp-validation-for="Trancamento.DataInicial" class="text-danger"></span>
+                    }
+
+                }
+                else
+                {
+                    <p>Trancamento realizado dia @Model.PacoteCompra.Trancamento.Data.ToString("dd/MM/yyyy") </p>
+                    <p>Aluno ausênte do dia @Model.PacoteCompra.Trancamento.DataInicial.ToString("dd/MM/yyyy") até dia @Model.PacoteCompra.Trancamento.DataFinal.ToString("dd/MM/yyyy")</p>
+                    <p>Volta às aulas dia @Model.PacoteCompra.Chamadas.OrderBy(c => c.Aula.Data).FirstOrDefault(c => c.Presenca == null && c.Aula.Data > c.PacoteCompra.Trancamento.DataFinal).Aula.Data.ToString("dd/MM/yyyy")</p>
+                    <div class="row">
+                        <a asp-action="ExcluirTrancamento" id="cancelarTrancamento" asp-route-pacoteCompraId="@Model.PacoteCompra.Id" class="btn btn-success">Cancelar o trancamento</a>
+                        <a asp-controller="Aluno" asp-action="Aluno" asp-route-alunoId="@Model.PacoteCompra.Matricula.AlunoId" class="btn btn-primary">Voltar</a>
+
                     </div>
-                    <div class="form-group">
-                        <label asp-for="Trancamento.DataFinal" class="control-label"></label>
-                        <input asp-for="Trancamento.DataFinal" type="date" class="form-control" />
-                        <span asp-validation-for="Trancamento.DataFinal" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" value="Trancar" class="btn btn-success" />
-                        <a asp-controller="Aluno" asp-action="Aluno" asp-route-alunoId="@Model.PacoteCompra.Matricula.AlunoId" class="btn btn-primary" role="button">Voltar</a>
-                    </div>
-                </form>
+                }
             </div>
         </div>
-    }
-    else
-    {
-        <p>Não existem aulas para serem trancadas neste pacote!</p>
-    }
+    </div>
+</div>
 
-}
-else
-{
-    <p>Trancamento realizado dia @Model.PacoteCompra.Trancamento.Data.ToString("dd/MM/yyyy") </p>
-    <p>Aluno ausênte do dia @Model.PacoteCompra.Trancamento.DataInicial.ToString("dd/MM/yyyy") até dia @Model.PacoteCompra.Trancamento.DataFinal.ToString("dd/MM/yyyy")</p>
-    <p>Volta às aulas dia @Model.PacoteCompra.Chamadas.OrderBy(c => c.Aula.Data).FirstOrDefault(c => c.Presenca == null && c.Aula.Data > c.PacoteCompra.Trancamento.DataFinal).Aula.Data.ToString("dd/MM/yyyy")</p>
-    <a asp-action="ExcluirTrancamento" id="cancelarTrancamento" asp-route-pacoteCompraId="@Model.PacoteCompra.Id" class="btn btn-primary">Cancelar o trancamento</a>
-}
+
 
 
 

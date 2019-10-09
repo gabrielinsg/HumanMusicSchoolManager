@@ -222,6 +222,8 @@ namespace HumanMusicSchoolManager.Controllers
 
                     contrato.Conteudo = contrato.Conteudo.Replace("{Financeiro}", parcelas);
 
+                    ViewBag.AlunoId = pacoteCompra.Matricula.AlunoId;
+
                     return View(contrato);
 
                 }

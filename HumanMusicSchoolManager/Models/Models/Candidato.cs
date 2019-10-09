@@ -32,5 +32,13 @@ namespace HumanMusicSchoolManager.Models.Models
         public Sexo Sexo { get; set; }
 
         public List<Demostrativa> Demostrativas { get; set; }
+
+        public int Idade()
+        {
+            int now = int.Parse(NowHorarioBrasilia.GetNow().ToString("yyyyMMdd"));
+            int dob = int.Parse(DataNascimento.ToString("yyyyMMdd"));
+            int age = (now - dob) / 10000;
+            return age;
+        }
     }
 }

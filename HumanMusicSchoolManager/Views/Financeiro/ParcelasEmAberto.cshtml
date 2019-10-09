@@ -1,38 +1,42 @@
 ﻿@model List<Financeiro>
 @{
-    ViewData["Title"] = "ParcelasEmAberto";
+    ViewData["Title"] = "Parcelas Em Aberto";
 }
 
-<form role="form" asp-action="ParcelasEmAberto" method="get">
+@section Styles {
+    <link type="text/css" rel="stylesheet" href="~/css/tabelas.css" />
+}
 
-    <div class="row">
-        <div class="col-xl-3 col-md-4">
-            <label>Data Inicial</label>
-            <input name="Inicial" type="date" value="@ViewBag.Inicial.ToString("yyyy-MM-dd")" class="form-control" />
-        </div>
-        <div class="col-xl-3 col-md-4">
-            <label>Data Final</label>
-            <input name="Final" type="date" value="@ViewBag.Final.ToString("yyyy-MM-dd")" class="form-control" />
-        </div>
-        <div class="col-3" style="padding-top: 32px;">
-            <button type="submit" class="btn btn-success">Filtrar</button>
-        </div>
-    </div>
-</form>
-<br />
 <div class="card mb-3">
     <div class="card-header">
         <div class="row">
-            <div class="col-xl-11 col-md-10">
-                <i class="fas fa-dollar-sign"></i>
-                Parcelas em aberto
+            <div class="col-md-8">
+                <form role="form" asp-controller="Financeiro" asp-action="DemostraParcelasEmAberto" method="get">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <label name="Inicial">Data Inicial</label>
+                            <input name="Inicial" value="@ViewBag.Inicial.ToString("yyyy-MM-dd")" type="date" class="form-control" />
+                        </div>
+                        <div class="col-md-5">
+                            <label name="Final">Data Final</label>
+                            <input name="Final" value='@ViewBag.Final.ToString("yyyy-MM-dd")' type="date" class="form-control" />
+                        </div>
+                        <div class="col-md-2" style="padding-top: 32px;">
+                            <button type="submit" class="btn btn-success">Filtrar</button>
+                        </div>
+                    </div>
+                </form>
             </div>
+            <div class="col-md-2 container">
+
+            </div>
+
         </div>
     </div>
-    <div class="card-body">
-        <div class="table-responsive table table-sm table-hover small">
-            <table class="table table-bordered table-striped" id="dataTable" cellspacing="0">
-                <thead>
+    <div class="card-body" id="card-body">
+        <div class="table-responsive">
+            <table class="table table-sm align-items-center table-hover table-flush dataTable no-footer" id="dataTable" cellspacing="0">
+                <thead class="thead-light">
                     <tr class="small">
                         <th>Aluno</th>
                         <th>Nome</th>
@@ -44,18 +48,6 @@
                         <th class="text-center">Lançar</th>
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr class="small">
-                        <th>Aluno</th>
-                        <th>Nome</th>
-                        <th>Responsável Financeiro</th>
-                        <th class="text-center">CPF Responsável</th>
-                        <th class="text-center">Valor</th>
-                        <th class="text-center">Vendimento</th>
-                        <th class="text-center">Vencido</th>
-                        <th class="text-center">Lançar</th>
-                    </tr>
-                </tfoot>
                 <tbody>
                     @foreach (var financeiro in Model)
                     {
@@ -67,15 +59,19 @@
                             <td class="text-center">@financeiro.Valor</td>
                             <td class="text-center">@financeiro.DataVencimento.ToString("dd/MM/yyyy")</td>
                             <td class="text-center">@(financeiro.DataVencimento < DateTime.Now ? "Sim" : "Não")</td>
-                            <td class="text-center"><a asp-controller="Financeiro" asp-action="Form" asp-route-alunoId="@financeiro.AlunoId" asp-route-financeiroId="@financeiro.Id" class="text-success"><i class="fas fa-dollar-sign"></i></a></td>
+                            <td class="text-center">
+                                <div class="avatar-group">
+                                    <a data-toggle="tooltip" data-placement="top" title="Lançar" class="avatar avatar-sm bg-success" asp-controller="Financeiro" asp-action="Form" asp-route-alunoId="@financeiro.AlunoId" asp-route-financeiroId="@financeiro.Id"><i class="fas fa-dollar-sign text-xl"></i></a>
+                                </div>
+                            </td>
                         </tr>
                     }
                 </tbody>
             </table>
         </div>
     </div>
+    </div>
 </div>
-
 @section Scripts{
     <script src="~/vendor/datatables/jquery.dataTables.js"></script>
     <script src="~/vendor/datatables/dataTables.bootstrap4.js"></script>

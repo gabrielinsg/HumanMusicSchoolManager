@@ -1,8 +1,11 @@
 ﻿@model List<PacoteCompra>
 @{
-    ViewData["Title"] = "FaltasSeguidas";
+    ViewData["Title"] = "Faltas Seguidas";
 }
 
+@section Styles {
+    <link type="text/css" rel="stylesheet" href="~/css/tabelas.css" />
+}
 
 <div class="card mb-3">
     <div class="card-header">
@@ -17,10 +20,10 @@
         </div>
 
     </div>
-    <div class="card-body">
+    <div class="card-body" id="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered table-striped" id="dataTable" cellspacing="0">
-                <thead>
+            <table class="table table-sm align-items-center table-hover table-flush dataTable no-footer" id="dataTable" cellspacing="0">
+                <thead class="thead-light">
                     <tr>
                         <th>Nome</th>
                         <th>Telefone</th>
@@ -31,17 +34,6 @@
                         <th class="text-center">Calendário</th>
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Telefone</th>
-                        <th>Celular</th>
-                        <th>E-mail</th>
-                        <th class="text-center">Curso</th>
-                        <th class="text-center">Faltas Seguidas</th>
-                        <th class="text-center">Calendário</th>
-                    </tr>
-                </tfoot>
                 <tbody>
                     @foreach (var pacoteCompra in Model)
                     {
@@ -66,7 +58,11 @@
                             <td>@pacoteCompra.Matricula.Aluno.Email</td>
                             <td class="text-center">@pacoteCompra.Matricula.Curso.Nome</td>
                             <td class="text-center">@cont</td>
-                            <td class="text-center"><a asp-controller="PacoteCompra" asp-action="PacoteCompra" asp-route-pacoteCompraId="@pacoteCompra.Id"><i class="far fa-calendar-alt"></i></a></td>
+                            <td class="text-center">
+                                <div class="avatar-group">
+                                    <a data-toggle="tooltip" data-placement="top" title="Calendário" class="avatar avatar-sm bg-warning" asp-controller="PacoteCompra" asp-action="PacoteCompra" asp-route-pacoteCompraId="@pacoteCompra.Id"><i class="far fa-calendar-alt"></i></a>
+                                </div>
+                            </td>
                         </tr>
                     }
                 </tbody>

@@ -47,40 +47,39 @@
 
         </div>
     </div>
-    <div class="card-body">
+    <div class="card-body" id="card-body">
         <div class="table-responsive">
-            <div class="container">
-                <table class="table align-items-center table-hover table-flush" id="dataTable" cellspacing="0">
-                    <thead>
+            <table class="table table-sm align-items-center table-hover table-flush dataTable no-footer" id="dataTable" cellspacing="0">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Candidato</th>
+                        <th>Curso</th>
+                        <th>Professor</th>
+                        <th>Data</th>
+                        <th>Confirmado</th>
+                        <th class="text-center">Presente</th>
+                        <th class="text-center">Contratou</th>
+                        <th>Motivo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var demostrativa in Model)
+                    {
                         <tr>
-                            <th>Candidato</th>
-                            <th>Curso</th>
-                            <th>Professor</th>
-                            <th>Data</th>
-                            <th>Confirmado</th>
-                            <th class="text-center">Presente</th>
-                            <th class="text-center">Contratou</th>
-                            <th>Motivo</th>
+                            <td>@demostrativa.Candidato.Nome</td>
+                            <td>@demostrativa.Curso.Nome</td>
+                            <td>@(demostrativa.Professor == null ? "Professor não registrado" : demostrativa.Professor.Nome)</td>
+                            <td>@demostrativa.Data.ToString("dd/MM/yy")</td>
+                            <td>@Html.DisplayFor(d => demostrativa.Confirmado)</td>
+                            <td>@(demostrativa.Presenca == null ? "Não registrado" : demostrativa.Presenca.Value ? "Presente" : "Faltou")</td>
+                            <td>@(demostrativa.Contratou == null ? "Não finalizado" : demostrativa.Contratou.Value ? "Sim" : "Não")</td>
+                            <td>@Html.DisplayFor(d => demostrativa.Motivo)</td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var demostrativa in Model)
-                        {
-                            <tr>
-                                <td>@demostrativa.Candidato.Nome</td>
-                                <td>@demostrativa.Curso.Nome</td>
-                                <td>@(demostrativa.Professor == null ? "Professor não registrado" : demostrativa.Professor.Nome)</td>
-                                <td>@demostrativa.Data.ToString("dd/MM/yy")</td>
-                                <td>@Html.DisplayFor(d => demostrativa.Confirmado)</td>
-                                <td>@(demostrativa.Presenca == null ? "Não registrado" : demostrativa.Presenca.Value ? "Presente" : "Faltou")</td>
-                                <td>@(demostrativa.Contratou == null ? "Não finalizado" : demostrativa.Contratou.Value ? "Sim" : "Não")</td>
-                                <td>@Html.DisplayFor(d => demostrativa.Motivo)</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
+                    }
+                </tbody>
+            </table>
         </div>
+    </div>
     </div>
 </div>
 
