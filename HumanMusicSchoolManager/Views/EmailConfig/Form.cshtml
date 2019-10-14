@@ -1,28 +1,38 @@
 ﻿@model EmailConfig
 @{
-    ViewData["Title"] = "Form";
+    ViewData["Title"] = "Configuração Envio de E-mail";
 }
 
-<h2>Configuração Envio de E-mail</h2>
 
-<div class="row" style="padding-left: 15px;">
-    <form role="form" asp-action="Form" method="post">
-        <input asp-for="Id" type="hidden" />
-        <div class="form-group">
-            <label asp-for="Dominio"></label>
-            <input asp-for="Dominio" class="form-control" />
-            <span asp-validation-for="Dominio" class="text-danger"></span>
+<div class="row">
+    <div class="col-md-4">
+        <div class="card mt-2 bg-secondary shadow">
+            <form role="form" asp-action="Form" method="post">
+                <div class="card-header">
+                    <h4>Configurações de aula</h4>
+                </div>
+                <div class="card-body">
+                    <input asp-for="Id" type="hidden" />
+                    <div class="form-group">
+                        <label asp-for="Dominio"></label>
+                        <input asp-for="Dominio" class="form-control" />
+                        <span asp-validation-for="Dominio" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Email"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Senha"></label>
+                        <input asp-for="Senha" class="form-control" type="password" />
+                        <span asp-validation-for="Senha"></span>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-success">@(Model == null ? "Cadastrar" : "Alterar")</button>
+                </div>
+            </form>
         </div>
-        <div class="form-group">
-            <label asp-for="Email"></label>
-            <input asp-for="Email" class="form-control" />
-            <span asp-validation-for="Email"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Senha"></label>
-            <input asp-for="Senha" class="form-control" type="password" />
-            <span asp-validation-for="Senha"></span>
-        </div>
-        <button type="submit" class="btn btn-success">@(Model == null ? "Cadastrar" : "Alterar")</button>
-    </form>
+    </div>
 </div>

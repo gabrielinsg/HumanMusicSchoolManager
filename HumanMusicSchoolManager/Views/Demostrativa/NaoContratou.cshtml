@@ -43,12 +43,12 @@
                     @foreach (var Demostrativa in Model)
                     {
                         var candidatoSobrenome = Demostrativa.Candidato.Nome.Split(' ')[1];
-                        if (candidatoSobrenome.Length > 0 && candidatoSobrenome.Length <= 2)
+                        if (candidatoSobrenome.Length > 0 && candidatoSobrenome.Length <= 3)
                         {
                             candidatoSobrenome = Demostrativa.Candidato.Nome.Split(' ')[2];
                         }
                         var professorSobrenome = Demostrativa.Professor == null ? "" : Demostrativa.Professor.Nome.Split(' ')[1];
-                        if (professorSobrenome.Length > 0 && professorSobrenome.Length <= 2)
+                        if (professorSobrenome.Length > 0 && professorSobrenome.Length <= 3)
                         {
                             professorSobrenome = Demostrativa.Professor.Nome.Split(' ')[2];
                         }

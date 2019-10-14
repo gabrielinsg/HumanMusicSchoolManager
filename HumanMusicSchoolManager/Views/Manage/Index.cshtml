@@ -1,10 +1,10 @@
 ﻿@model IndexViewModel
 @{
-    ViewData["Title"] = "Profile";
+    ViewData["Title"] = "Perfil";
     ViewData.AddActivePage(ManageNavPages.Index);
 }
 
-<h4>@ViewData["Title"]</h4>
+
 @if(Model.StatusMessage != null)
 {
 <div class="alert alert-success alert-dismissible fade show col-md-6" role="alert">
@@ -15,9 +15,13 @@
 </div>
 }
 
-<div class="row">
-    <div class="col-md-6">
-        <form method="post">
+<div class="card mt--7 bg-secondary shadow">
+    <form method="post">
+        <div class="card-header">
+            <h4>@ViewData["Title"]</h4>
+        </div>
+        <div class="card-body">
+
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Username"></label>
@@ -44,9 +48,12 @@
                 <input asp-for="PhoneNumber" class="form-control" />
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>*@
+            
+        </div>
+        <div class="card-footer">
             <button type="submit" class="btn btn-default">Salvar</button>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>
 
 @section Scripts {
