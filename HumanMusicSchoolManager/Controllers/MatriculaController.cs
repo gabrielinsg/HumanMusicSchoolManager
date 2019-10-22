@@ -74,7 +74,6 @@ namespace HumanMusicSchoolManager.Controllers
         [HttpGet]
         public IActionResult Form(int? matriculaId, int? alunoId, int? dispSalaId, int? cursoId, int? respFinanceiroId, string collapse)
         {
-            ViewBag.Collapse = collapse;
             if (matriculaId == null)
             {
                 if (alunoId != null)
@@ -99,6 +98,11 @@ namespace HumanMusicSchoolManager.Controllers
                     {
                         matricula.RespFinanceiro = _respFinanceiroService.BuscarPorId(respFinanceiroId.Value);
                     }
+
+                    if (dispSalaId == null) ViewBag.Aba = 1;
+                    else if (respFinanceiroId == null) ViewBag.Aba = 2;
+                    else ViewBag.Aba = 3;
+
                     return View(matricula);
                 }
                 else
@@ -118,6 +122,7 @@ namespace HumanMusicSchoolManager.Controllers
                     DispSalas = _dispSalaService.BuscarTodos(),
                     Cursos = _cursoService.BuscarTodos()
                 };
+                ViewBag.Aba = 1;
                 return View(matricula);
             }
         }
@@ -251,6 +256,7 @@ namespace HumanMusicSchoolManager.Controllers
             }
             else
             {
+                ViewBag.Aba = 1;
                 return View(matriculaViewModel);
             }
         }
@@ -265,7 +271,7 @@ namespace HumanMusicSchoolManager.Controllers
         [HttpPost]
         public IActionResult CadastraRespFinanceiro(MatriculaViewModel matriculaViewModel)
         {
-            ViewBag.Collapse = "";
+
             if (matriculaViewModel.RespFinanceiro.Id == null)
             {
                 foreach (var model in ModelState.Where(m => !m.Key.StartsWith("RespFinanceiro")).ToList())
@@ -293,6 +299,7 @@ namespace HumanMusicSchoolManager.Controllers
                         matriculaViewModel.Curso = _cursoService.BuscarPorId(matriculaViewModel.Curso.Id.Value);
                     }
                     _respFinanceiroService.Cadastrar(matriculaViewModel.RespFinanceiro);
+                    ViewBag.Aba = 3;
                     return View("Form", matriculaViewModel);
                 }
                 else
@@ -310,6 +317,7 @@ namespace HumanMusicSchoolManager.Controllers
                     {
                         matriculaViewModel.Curso = _cursoService.BuscarPorId(matriculaViewModel.Curso.Id.Value);
                     }
+                    ViewBag.Aba = 2;
                     return View("Form", matriculaViewModel);
                 }
             }
@@ -334,11 +342,12 @@ namespace HumanMusicSchoolManager.Controllers
                         matriculaViewModel.Curso = _cursoService.BuscarPorId(matriculaViewModel.Curso.Id.Value);
                     }
                     _respFinanceiroService.Alterar(matriculaViewModel.RespFinanceiro);
+                    ViewBag.Aba = 3;
                     return View("Form", matriculaViewModel);
                 }
                 else
                 {
-                    ViewBag.Collapse = "respFinanceiro";
+                    ViewBag.Aba = 1;
                     matriculaViewModel.Aluno = _alunoService.BuscarPorId(matriculaViewModel.Aluno.Id.Value);
                     matriculaViewModel.DispSalas = _dispSalaService.HorariosDisponiveis();
                     matriculaViewModel.Cursos = _cursoService.BuscarTodos();
@@ -351,6 +360,7 @@ namespace HumanMusicSchoolManager.Controllers
                     {
                         matriculaViewModel.Curso = _cursoService.BuscarPorId(matriculaViewModel.Curso.Id.Value);
                     }
+                    ViewBag.Aba = 2;
                     return View("Form", matriculaViewModel);
                 }
             }
@@ -404,6 +414,11 @@ namespace HumanMusicSchoolManager.Controllers
                     if (dispSalaId != null)
                     {
                         trocaDispSalaViewModel.DispSala = _dispSalaService.BuscarPorId(dispSalaId.Value);
+                        ViewBag.Aba = 2;
+                    }
+                    else
+                    {
+                        ViewBag.Aba = 1;
                     }
 
                     return View(trocaDispSalaViewModel);
@@ -442,8 +457,8 @@ namespace HumanMusicSchoolManager.Controllers
 
             if (trocaDispSalaViewModel.DiaAula.DayOfWeek != (DayOfWeek)trocaDispSalaViewModel.DispSala.Dia)
             {
-                var dia = trocaDispSalaViewModel.Matricula.DispSala.Dia.GetType()
-                        .GetMember(trocaDispSalaViewModel.Matricula.DispSala.Dia.ToString())
+                var dia = trocaDispSalaViewModel.DispSala.Dia.GetType()
+                        .GetMember(trocaDispSalaViewModel.DispSala.Dia.ToString())
                         .First()
                         .GetCustomAttribute<DisplayAttribute>()
                         .Name;
@@ -554,6 +569,7 @@ namespace HumanMusicSchoolManager.Controllers
             else
             {
                 trocaDispSalaViewModel.DispSalas = _dispSalaService.HorariosDisponiveis();
+                ViewBag.Aba = 2;
                 return View(trocaDispSalaViewModel);
             }
         }

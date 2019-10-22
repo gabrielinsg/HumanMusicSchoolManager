@@ -100,6 +100,10 @@
     <Content Remove="wwwroot\css\jquery-ui.min.css" />
     <Content Remove="wwwroot\css\jquery-ui.structure.min.css" />
     <Content Remove="wwwroot\css\jquery-ui.theme.min.css" />
+    <Content Remove="wwwroot\css\QuadroHorario.css" />
+    <Content Remove="wwwroot\ImagensCapturadas\0b0fd406-4f0e-407a-b914-2c14de244674.jpg" />
+    <Content Remove="wwwroot\ImagensCapturadas\408e6a90-c6a5-424d-bc67-26e498d4b57c.jpg" />
+    <Content Remove="wwwroot\ImagensCapturadas\4c3a5591-6d2a-48b3-a929-251d75389053.jpg" />
     <Content Remove="wwwroot\js\Buscas\AlunoPorNome.js" />
     <Content Remove="wwwroot\js\Buscas\CursoPorNome.js" />
     <Content Remove="wwwroot\js\Buscas\FuncionarioPorNome.js" />

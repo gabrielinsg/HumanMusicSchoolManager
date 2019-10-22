@@ -64,12 +64,14 @@ namespace HumanMusicSchoolManager.Controllers
                             if (imagemBytes != null)
                             {
                                 // salvasr a imagem no banco de dados
-                                SalvaImagemDatabase(imagemBytes, pessoaId);
+                                //SalvaImagemDatabase(imagemBytes, pessoaId);
+                                string caminho = "\\ImagensCapturadas\\" + novoNomeArquivo;
+                                SalvaCaminhoImagem(caminho, pessoaId);
                             }
-                            if (!string.IsNullOrEmpty(caminhoArquivo))
-                            {
-                                System.IO.File.Delete(caminhoArquivo);
-                            }
+                            //if (!string.IsNullOrEmpty(caminhoArquivo))
+                            //{
+                            //    System.IO.File.Delete(caminhoArquivo);
+                            //}
                         }
                     }
                     return Json(true);
@@ -103,6 +105,8 @@ namespace HumanMusicSchoolManager.Controllers
             {
                 if (imagemBytes != null)
                 {
+
+
                     string base64String = Convert.ToBase64String(imagemBytes, 0, imagemBytes.Length);
                     string imagemUrl = string.Concat("data:image/jpg;base64,", base64String);
                     var pessoa = _context.Pessoas.Find(pessoaId);
@@ -110,6 +114,35 @@ namespace HumanMusicSchoolManager.Controllers
                     _context.Pessoas.Update(pessoa);
                     _context.SaveChanges();
                 }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        private void SalvaCaminhoImagem(string caminho, int pessoaId)
+        {
+            try
+            {
+                var pessoa = _context.Pessoas.Find(pessoaId);
+
+                if (pessoa.Foto != null)
+                {
+                    var caminhoArquivo = _environment.WebRootPath + pessoa.Foto;
+                    try
+                    {
+                        System.IO.File.Delete(caminhoArquivo);
+                    } catch
+                    {
+                        Console.WriteLine("Imagem não encontrada para exclusão: " + pessoa.Foto);
+                    }
+                    
+                }
+
+                pessoa.Foto = caminho;
+                _context.Pessoas.Update(pessoa);
+                _context.SaveChanges();
             }
             catch (Exception)
             {

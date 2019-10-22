@@ -1,62 +1,72 @@
 ﻿@model MatriculaViewModel
 @{
-    ViewData["Title"] = "Form";
+    ViewData["Title"] = "Matrícula";
 }
 
-@section Styles{
-    <link href="~/css/Estrelas.css" rel="stylesheet" />
+@section Styles {
+    <link type="text/css" rel="stylesheet" href="~/css/tabelas.css" />
+    <style>
+        .botao {
+            cursor: pointer;
+        }
+
+        .badge {
+            position: relative;
+            right: -50px;
+            top: -15px;
+            z-index: 3;
+            border: 2px solid white;
+        }
+    </style>
 }
 
-<div class="row">
-    <div class="col-md-12">
-        <h2>Matricula</h2>
-        <div asp-validation-summary="All" class="text-danger"></div>
-        <div class="jumbotron">
-            <h1 class="display-4">@Model.Aluno.Nome</h1>
-            <br />
-            <div class="row">
-                <div class="col-md-12">
-                    <b>Curso: </b>
-                    <span>
-                        @if (Model.DispSala.Id != null)
-                        {
-                            @Model.Curso.Nome <span> - </span> @Html.DisplayFor(d => d.DispSala.Dia) <span> às </span> @Model.DispSala.Hora.ToString("00:'00'h") <span> com </span> @Model.DispSala.Professor.Nome
-                        }
-                    </span>
+<div class="card mt--5 bg-secondary shadow">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="display-4">@Model.Aluno.Nome</h1>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <b>Curso: </b>
+                        <span>
+                            @if (Model.DispSala.Id != null)
+                            {
+                                @Model.Curso.Nome <span> - </span> @Html.DisplayFor(d => d.DispSala.Dia) <span> às </span> @Model.DispSala.Hora.ToString("00:'00'h") <span> com </span> @Model.DispSala.Professor.Nome
+                            }
+                        </span>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <b>Responsál Financeiro: </b>@Model.RespFinanceiro.Nome @(Model.RespFinanceiro.Id == null ? "" : "-") @Model.RespFinanceiro.CPF
+                    </div>
                 </div>
             </div>
-            <br />
-            <div class="row">
-                <div class="col-md-12">
-                    <b>Responsál Financeiro: </b>@Model.RespFinanceiro.Nome @(Model.RespFinanceiro.Id == null ? "" : "-") @Model.RespFinanceiro.CPF
-                </div>
-            </div>
-            <br />
-
-            <br />
-            <div class="row">
-                <div class="col-md-3">
-                    <p>
-                        <a class="btn btn-success col-md-12" data-toggle="collapse" href="#dispAula" role="button" aria-expanded="false" aria-controls="collapseExample">
-                            <i class="fas fa-music"></i> Curso
-                        </a>
-                    </p>
-                </div>
-                <div class="col-md-3">
-                    <p>
-                        <a class="btn btn-success col-md-12" data-toggle="collapse" href="#respFinanceiro" role="button" aria-expanded="false" aria-controls="collapseExample">
-                            <i class="fas fa-money-check-alt"></i> Respónsavel financeiro
-                        </a>
-                    </p>
-                </div>
-            </div>
-
-            <div class="collapse" id="dispAula">
-                <div class="card card-body">
-                    <div class="card-body">
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="nav-wrapper">
+            <ul class="nav nav-pills nav-fill flex-column flex-md-row" id="tabs-icons-text" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link mb-sm-3 mb-md-0 @(ViewBag.Aba == 1 ? "active" : "")" id="horarios-tab" data-toggle="tab" href="#horarios" role="tab" aria-controls="horarios" aria-selected="true"><i class="fas fa-calendar-week mr-2"></i>Horários Disponíveis</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link mb-sm-3 mb-md-0 @(ViewBag.Aba == 2 ? "active" : "")" id="financeiro-tab" data-toggle="tab" href="#financeiro" role="tab" aria-controls="financeiro" aria-selected="false"><i class="fas fa-money-check-alt mr-2"></i>Responsável Financeiro</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link mb-sm-3 mb-md-0 @(ViewBag.Aba == 3 ? "active" : "")" id="matricula-tab" data-toggle="tab" href="#matricula" role="tab" aria-controls="matricula" aria-selected="false"><i class="fas fa-money-check-alt mr-2"></i>Matricular</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card shadow">
+            <div class="card-body" style="padding-left:0; padding-right: 0;" id="card-body">
+                <div class="tab-content" id="horario">
+                    <div class="tab-pane fade @(ViewBag.Aba == 1 ? "active show" : "")" id="horarios" role="tabpanel" aria-labelledby="horarios-tab">
                         <div class="table-responsive">
-                            <table class="table table-bordered table-striped" id="dataTable" cellspacing="0">
-                                <thead>
+                            <table class="table table-sm align-items-center table-hover table-flush dataTable no-footer" id="dataTable" cellspacing="0">
+                                <thead class="thead-light">
                                     <tr>
                                         <th>Curso</th>
                                         <th class="text-center">Dia</th>
@@ -68,18 +78,6 @@
                                         <th>Selecionar</th>
                                     </tr>
                                 </thead>
-                                <tfoot>
-                                    <tr>
-                                        <th>Curso</th>
-                                        <th class="text-center">Dia</th>
-                                        <th class="text-center">Hora</th>
-                                        <th>Período</th>
-                                        <th>Sala</th>
-                                        <th>Professor</th>
-                                        <th class="text-center">Vagas</th>
-                                        <th>Selecionar</th>
-                                    </tr>
-                                </tfoot>
                                 <tbody>
                                     @foreach (var dispSala in Model.DispSalas)
                                     {
@@ -126,7 +124,34 @@
                                                         }
                                                     </td>
                                                     <td>@dispSala.Sala.Nome</td>
-                                                    <td>@dispSala.Professor.Nome</td>
+                                                    <th scope="row">
+                                                        <div class="media align-items-center">
+                                                            <a href="#" class="avatar rounded-circle mr-3">
+                                                                @if (dispSala.Professor.Foto == null)
+                                                                {
+                                                                    <img alt="Image" src="~/img/user.png" />
+                                                                }
+                                                                else
+                                                                {
+                                                                    <img alt="Image" src="@dispSala.Professor.Foto" />
+                                                                }
+                                                            </a>
+                                                            @{
+
+                                                                var professorSobrenome = dispSala.Professor.Nome.Split(' ')[1];
+                                                                if (professorSobrenome.Length > 0 && professorSobrenome.Length <= 3)
+                                                                {
+                                                                    professorSobrenome = dispSala.Professor.Nome.Split(' ')[2];
+                                                                }
+                                                            }
+
+                                                            <div class="media-body">
+                                                                <span data-toggle="tooltip" data-placement="top" title="@dispSala.Professor.Nome" class="mb-0 text-sm">
+                                                                    @(dispSala.Professor.Nome.Split(' ')[0]) @professorSobrenome
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </th>
                                                     <td class="text-center">
                                                         @{
                                                             var individual = false;
@@ -161,29 +186,32 @@
                                                             }
                                                         }
                                                         <!-- Button trigger modal -->
-                                                        <a class="btn text-primary" data-toggle="modal" data-target="#exampleModalLong@(dispSala.Id)">
+                                                        <div class="avatar-group">
                                                             @{
 
                                                                 vagas = (dispSala.Matriculas.Count + dispSala.Reposicoes.Count + dispSala.Demostrativas.Count) == 0 ? "success" : vagas;
                                                                 vagas = (dispSala.Matriculas.Count + dispSala.Reposicoes.Count + dispSala.Demostrativas.Count) >= dispSala.Sala.Capacidade ? "danger" : vagas;
                                                                 vagas = individual ? "danger" : vagas;
-                                                                vagas = dispSala.Demostrativas.Count > 0 ? "warning" : vagas;
+                                                                vagas = dispSala.Demostrativas.Count > 0 ? "yellow" : vagas;
                                                                 vagas = dispSala.Ativo ? vagas : "danger";
                                                             }
-                                                            <i class="fas fa-users text-@vagas"></i>
-                                                        </a>
-                                                        @if (individual)
-                                                        {
-                                                            <span class="badge badge-pill badge-@vagas">
-                                                                <span style="display:none">0</span>I
-                                                            </span>
-                                                        }
-                                                        else
-                                                        {
-                                                            <span class="badge badge-pill badge-@vagas">
-                                                                @(dispSala.Sala.Capacidade - dispSala.Matriculas.Count - dispSala.Reposicoes.Count - dispSala.Demostrativas.Count)
-                                                            </span>
-                                                        }
+                                                            @if (individual)
+                                                            {
+                                                                <span class="badge badge-pill bg-@vagas">
+                                                                    <span style="display:none">0</span>I
+                                                                </span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="badge badge-pill bg-@vagas">
+                                                                    @(dispSala.Sala.Capacidade - dispSala.Matriculas.Count - dispSala.Reposicoes.Count - dispSala.Demostrativas.Count)
+                                                                </span>
+                                                            }
+                                                            <a class="avatar botao avatar-sm bg-@vagas" data-toggle="modal" data-target="#exampleModalLong@(dispSala.Id)">
+
+                                                                <i class="fas fa-users"></i>
+                                                            </a>
+                                                        </div>
 
                                                         <!-- Modal -->
                                                         <div class="modal fade" id="exampleModalLong@(dispSala.Id)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
@@ -279,7 +307,7 @@
                                                                             <table class="table table-sm">
                                                                                 <thead>
                                                                                     <tr>
-                                                                                        <th scope="col">Candidato</th>
+                                                                                        <th scope="col">Aluno</th>
                                                                                         <th scope="col" class="text-center">Idade</th>
                                                                                     </tr>
                                                                                 </thead>
@@ -291,7 +319,7 @@
                                                                                         int age = (now - dob) / 10000;
                                                                                         <tr>
                                                                                             <td>
-                                                                                                <a asp-controller="Candidato" asp-action="Candidato" asp-route-candidatoId="@Demostrativa.Candidato.Id">
+                                                                                                <a asp-controller="Aluno" asp-action="Aluno" asp-route-AlunoId="@Demostrativa.Candidato.Id">
                                                                                                     @Demostrativa.Candidato.Nome @(Demostrativa.Aula != null ? " - " + Demostrativa.Aula.Data.ToString("dd/MM/yy") : "")
                                                                                                 </a>
                                                                                             </td>
@@ -307,7 +335,7 @@
                                                         </div>
                                                     </td>
                                                     <td>
-                                                        <a asp-action="Form" class="btn btn-success" asp-route-cursoId="@(curso.CursoId)"
+                                                        <a asp-action="Form" class="btn btn-success btn-sm" asp-route-cursoId="@(curso.CursoId)"
                                                            asp-route-alunoId="@(Model.Aluno.Id)"
                                                            asp-route-respFinanceiroId="@(Model.RespFinanceiro.Id)"
                                                            asp-route-dispSalaId="@(dispSala.Id)">Selecionar</a>
@@ -321,303 +349,302 @@
                             </table>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <div class="collapse @(ViewBag.Collapse == "respFinanceiro" ? "show" : "")" id="respFinanceiro">
-                <div class="card card-body">
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <div class="row">
-                                <div class="col-md-7">
-                                    <h2 class="col-md-10">Responsável Financeiro</h2>
+                    <div class="tab-pane fade @(ViewBag.Aba == 2 ? "active show" : "")" id="financeiro" role="tabpanel" aria-labelledby="financeiro-tab">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <div class="row">
+                                    <div class="col-md-7">
+                                        <h2 class="col-md-10">Responsável Financeiro</h2>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button type="button" class="btn btn-outline-primary" id="carregarAluno">Carregar dados do aluno</button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <a asp-action="Form"
+                                           asp-route-alunoId="@Model.Aluno.Id"
+                                           asp-route-cursoId="@Model.Curso.Id"
+                                           asp-route-dispSalaId="@Model.DispSala.Id"
+                                           asp-route-collapse="respFinanceiro"
+                                           class="btn btn-primary">Novo</a>
+                                    </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <button type="button" class="btn btn-outline-primary" id="carregarAluno">Carregar dados do aluno</button>
-                                </div>
-                                <div class="col-md-2">
-                                    <a asp-action="Form"
-                                       asp-route-alunoId="@Model.Aluno.Id"
-                                       asp-route-cursoId="@Model.Curso.Id"
-                                       asp-route-dispSalaId="@Model.DispSala.Id"
-                                       asp-route-collapse="respFinanceiro"
-                                       class="btn btn-primary">Novo</a>
-                                </div>
-                            </div>
-                            <br />
-                            <div class="list-group">
-                                <div class="list-group-item">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label><i class="fas fa-search"></i> Buscar Por Nome</label>
-                                            <input id="BuscaNome" class="form-control">
+                                <br />
+                                <div class="list-group">
+                                    <div class="list-group-item">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label><i class="fas fa-search"></i> Buscar Por Nome</label>
+                                                <input id="BuscaNome" class="form-control">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <br />
-                            <div class="list-group">
-                                <div class="list-group-item">
-                                    <form role="form" method="post" asp-action="CadastraRespFinanceiro">
+                                <br />
+                                <div class="list-group">
+                                    <div class="list-group-item">
+                                        <form role="form" method="post" asp-action="CadastraRespFinanceiro">
 
-                                        <input asp-for="RespFinanceiro.Id" value="@(Model.RespFinanceiro.Id == null ? null : Model.RespFinanceiro.Id)" type="hidden" />
-                                        <input asp-for="Aluno.Id" type="hidden" />
-                                        <input asp-for="Curso.Id" type="hidden" />
-                                        <input asp-for="DispSala.Id" type="hidden" />
+                                            <input asp-for="RespFinanceiro.Id" value="@(Model.RespFinanceiro.Id == null ? null : Model.RespFinanceiro.Id)" type="hidden" />
+                                            <input asp-for="Aluno.Id" type="hidden" />
+                                            <input asp-for="Curso.Id" type="hidden" />
+                                            <input asp-for="DispSala.Id" type="hidden" />
 
-                                        <div class="row">
-                                            <div class="col-lx-4 col-md-4">
-                                                <div class="form-group">
-                                                    <label asp-for="RespFinanceiro.Nome"></label>
-                                                    <input asp-for="RespFinanceiro.Nome" class="form-control" />
-                                                    <span asp-validation-for="RespFinanceiro.Nome" class="text-danger"></span>
+                                            <div class="row">
+                                                <div class="col-lx-4 col-md-4">
+                                                    <div class="form-group">
+                                                        <label asp-for="RespFinanceiro.Nome"></label>
+                                                        <input asp-for="RespFinanceiro.Nome" class="form-control" />
+                                                        <span asp-validation-for="RespFinanceiro.Nome" class="text-danger"></span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-xl-2 col-md-3">
-                                                <div class="form-group">
-                                                    <label asp-for="RespFinanceiro.DataNascimento"></label>
-                                                    <input asp-for="RespFinanceiro.DataNascimento" class="form-control" type="date" />
-                                                    <span asp-validation-for="RespFinanceiro.DataNascimento" class="text-danger"></span>
+                                                <div class="col-xl-2 col-md-3">
+                                                    <div class="form-group">
+                                                        <label asp-for="RespFinanceiro.DataNascimento"></label>
+                                                        <input asp-for="RespFinanceiro.DataNascimento" class="form-control" type="date" />
+                                                        <span asp-validation-for="RespFinanceiro.DataNascimento" class="text-danger"></span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <div class="form-group">
-                                                    <label asp-for="RespFinanceiro.RG"></label>
-                                                    <input asp-for="RespFinanceiro.RG" class="form-control mask-rg" />
-                                                    <span asp-validation-for="RespFinanceiro.RG" class="text-danger"></span>
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label asp-for="RespFinanceiro.RG"></label>
+                                                        <input asp-for="RespFinanceiro.RG" class="form-control mask-rg" />
+                                                        <span asp-validation-for="RespFinanceiro.RG" class="text-danger"></span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-xl-2 col-md-3">
-                                                <label asp-for="RespFinanceiro.OrgaoExpedidor"></label>
-                                                <input asp-for="RespFinanceiro.OrgaoExpedidor" class="form-control" />
-                                                <span asp-validation-for="RespFinanceiro.OrgaoExpedidor" class="text-danger"></span>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <div class="form-group">
-                                                    <label asp-for="RespFinanceiro.CPF"></label>
-                                                    <input asp-for="RespFinanceiro.CPF" class="form-control mask-cpf" />
-                                                    <span asp-validation-for="RespFinanceiro.CPF" class="text-danger"></span>
+                                                <div class="col-xl-2 col-md-3">
+                                                    <label asp-for="RespFinanceiro.OrgaoExpedidor"></label>
+                                                    <input asp-for="RespFinanceiro.OrgaoExpedidor" class="form-control" />
+                                                    <span asp-validation-for="RespFinanceiro.OrgaoExpedidor" class="text-danger"></span>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <div class="form-group">
-                                                    <label asp-for="RespFinanceiro.Endereco.CEP"></label>
-                                                    <input asp-for="RespFinanceiro.Endereco.CEP" class="form-control mask-cep" />
-                                                    <span asp-validation-for="RespFinanceiro.Endereco.CEP" class="text-danger"></span>
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label asp-for="RespFinanceiro.CPF"></label>
+                                                        <input asp-for="RespFinanceiro.CPF" class="form-control mask-cpf" />
+                                                        <span asp-validation-for="RespFinanceiro.CPF" class="text-danger"></span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <div class="form-group">
-                                                    <label asp-for="RespFinanceiro.Endereco.Logradouro"></label>
-                                                    <input asp-for="RespFinanceiro.Endereco.Logradouro" class="form-control" />
-                                                    <span asp-validation-for="RespFinanceiro.Endereco.Logradouro" class="text-danger"></span>
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label asp-for="RespFinanceiro.Endereco.CEP"></label>
+                                                        <input asp-for="RespFinanceiro.Endereco.CEP" class="form-control mask-cep" />
+                                                        <span asp-validation-for="RespFinanceiro.Endereco.CEP" class="text-danger"></span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <div class="form-group">
-                                                    <label asp-for="RespFinanceiro.Endereco.Numero"></label>
-                                                    <input asp-for="RespFinanceiro.Endereco.Numero" class="form-control" />
-                                                    <span asp-validation-for="RespFinanceiro.Endereco.Numero" class="text-danger"></span>
+                                                <div class="col-md-8">
+                                                    <div class="form-group">
+                                                        <label asp-for="RespFinanceiro.Endereco.Logradouro"></label>
+                                                        <input asp-for="RespFinanceiro.Endereco.Logradouro" class="form-control" />
+                                                        <span asp-validation-for="RespFinanceiro.Endereco.Logradouro" class="text-danger"></span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-5">
-                                                <div class="form-group">
-                                                    <label asp-for="RespFinanceiro.Endereco.Bairro"></label>
-                                                    <input asp-for="RespFinanceiro.Endereco.Bairro" class="form-control" />
-                                                    <span asp-validation-for="RespFinanceiro.Endereco.Bairro" class="text-danger"></span>
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label asp-for="RespFinanceiro.Endereco.Numero"></label>
+                                                        <input asp-for="RespFinanceiro.Endereco.Numero" class="form-control" />
+                                                        <span asp-validation-for="RespFinanceiro.Endereco.Numero" class="text-danger"></span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label asp-for="RespFinanceiro.Endereco.Complemento"></label>
-                                                    <input asp-for="RespFinanceiro.Endereco.Complemento" class="form-control" />
-                                                    <span asp-validation-for="RespFinanceiro.Endereco.Complemento" class="text-danger"></span>
+                                                <div class="col-md-5">
+                                                    <div class="form-group">
+                                                        <label asp-for="RespFinanceiro.Endereco.Bairro"></label>
+                                                        <input asp-for="RespFinanceiro.Endereco.Bairro" class="form-control" />
+                                                        <span asp-validation-for="RespFinanceiro.Endereco.Bairro" class="text-danger"></span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label asp-for="RespFinanceiro.Endereco.Cidade"></label>
-                                                    <input asp-for="RespFinanceiro.Endereco.Cidade" class="form-control" />
-                                                    <span asp-validation-for="RespFinanceiro.Endereco.Cidade" class="text-danger"></span>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label asp-for="RespFinanceiro.Endereco.Complemento"></label>
+                                                        <input asp-for="RespFinanceiro.Endereco.Complemento" class="form-control" />
+                                                        <span asp-validation-for="RespFinanceiro.Endereco.Complemento" class="text-danger"></span>
+                                                    </div>
                                                 </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label asp-for="RespFinanceiro.Endereco.Cidade"></label>
+                                                        <input asp-for="RespFinanceiro.Endereco.Cidade" class="form-control" />
+                                                        <span asp-validation-for="RespFinanceiro.Endereco.Cidade" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label asp-for="RespFinanceiro.Endereco.UF" class="col-md-4 control-label"></label>
+                                                        <div class="col-md-10">
+                                                            <select asp-for="RespFinanceiro.Endereco.UF" class="form-control" asp-items="Html.GetEnumSelectList<UF>()">
+                                                                <option selected="selected" value=""></option>
+                                                            </select>
+                                                            <span asp-validation-for="RespFinanceiro.Endereco.UF" class="text-danger" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label asp-for="RespFinanceiro.Tel"></label>
+                                                        <input asp-for="RespFinanceiro.Tel" class="form-control mask-tel" />
+                                                        <span asp-validation-for="RespFinanceiro.Tel" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label asp-for="RespFinanceiro.Cel"></label>
+                                                        <input asp-for="RespFinanceiro.Cel" class="form-control mask-tel" />
+                                                        <span asp-validation-for="RespFinanceiro.Cel" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label asp-for="RespFinanceiro.Email">E-mail</label>
+                                                        <input asp-for="RespFinanceiro.Email" class="form-control" />
+                                                        <span asp-validation-for="RespFinanceiro.Email" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label asp-for="RespFinanceiro.Nacionalidade"></label>
+                                                        <input asp-for="RespFinanceiro.Nacionalidade" class="form-control" />
+                                                        <span asp-validation-for="RespFinanceiro.Nacionalidade" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label asp-for="RespFinanceiro.Naturalidade"></label>
+                                                        <input asp-for="RespFinanceiro.Naturalidade" class="form-control" />
+                                                        <span asp-validation-for="RespFinanceiro.Naturalidade" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-2 col-md-3">
+                                                    <div class="form-group">
+                                                        <label asp-for="RespFinanceiro.EstadoCivil" class="col-md-10 control-label"></label>
+                                                        <div class="col-md-10">
+                                                            <select asp-for="RespFinanceiro.EstadoCivil" class="form-control" asp-items="Html.GetEnumSelectList<EstadoCivil>()">
+                                                                <option selected="selected" value=""></option>
+                                                            </select>
+                                                        </div>
+                                                        <span asp-validation-for="RespFinanceiro.EstadoCivil" class="text-danger" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label asp-for="RespFinanceiro.Profissao"></label>
+                                                        <input asp-for="RespFinanceiro.Profissao" class="form-control" />
+                                                        <span asp-validation-for="RespFinanceiro.Profissao" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+
+
                                             </div>
-                                            <div class="col-md-2">
+                                            <div class="row">
                                                 <div class="form-group">
-                                                    <label asp-for="RespFinanceiro.Endereco.UF" class="col-md-4 control-label"></label>
-                                                    <div class="col-md-10">
-                                                        <select asp-for="RespFinanceiro.Endereco.UF" class="form-control" asp-items="Html.GetEnumSelectList<UF>()">
-                                                            <option selected="selected" value=""></option>
-                                                        </select>
-                                                        <span asp-validation-for="RespFinanceiro.Endereco.UF" class="text-danger" />
+                                                    <div class="col-md-12">
+                                                        <div class="checkbox">
+                                                            @if (Model.RespFinanceiro.Id == null)
+                                                            {
+                                                                <label asp-for="RespFinanceiro.Ativo">
+                                                                    <input asp-for="RespFinanceiro.Ativo" checked />
+                                                                    @Html.DisplayNameFor(p => p.RespFinanceiro.Ativo)
+                                                                </label>
+                                                            }
+                                                            else
+                                                            {
+                                                                <label asp-for="RespFinanceiro.Ativo">
+                                                                    <input asp-for="RespFinanceiro.Ativo" />
+                                                                    @Html.DisplayNameFor(p => p.RespFinanceiro.Ativo)
+                                                                </label>
+                                                            }
+
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label asp-for="RespFinanceiro.Tel"></label>
-                                                    <input asp-for="RespFinanceiro.Tel" class="form-control mask-tel" />
-                                                    <span asp-validation-for="RespFinanceiro.Tel" class="text-danger"></span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label asp-for="RespFinanceiro.Cel"></label>
-                                                    <input asp-for="RespFinanceiro.Cel" class="form-control mask-tel" />
-                                                    <span asp-validation-for="RespFinanceiro.Cel" class="text-danger"></span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label asp-for="RespFinanceiro.Email">E-mail</label>
-                                                    <input asp-for="RespFinanceiro.Email" class="form-control" />
-                                                    <span asp-validation-for="RespFinanceiro.Email" class="text-danger"></span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label asp-for="RespFinanceiro.Nacionalidade"></label>
-                                                    <input asp-for="RespFinanceiro.Nacionalidade" class="form-control" />
-                                                    <span asp-validation-for="RespFinanceiro.Nacionalidade" class="text-danger"></span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <label asp-for="RespFinanceiro.Naturalidade"></label>
-                                                    <input asp-for="RespFinanceiro.Naturalidade" class="form-control" />
-                                                    <span asp-validation-for="RespFinanceiro.Naturalidade" class="text-danger"></span>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-2 col-md-3">
-                                                <div class="form-group">
-                                                    <label asp-for="RespFinanceiro.EstadoCivil" class="col-md-10 control-label"></label>
-                                                    <div class="col-md-10">
-                                                        <select asp-for="RespFinanceiro.EstadoCivil" class="form-control" asp-items="Html.GetEnumSelectList<EstadoCivil>()">
-                                                            <option selected="selected" value=""></option>
-                                                        </select>
-                                                    </div>
-                                                    <span asp-validation-for="RespFinanceiro.EstadoCivil" class="text-danger" />
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label asp-for="RespFinanceiro.Profissao"></label>
-                                                    <input asp-for="RespFinanceiro.Profissao" class="form-control" />
-                                                    <span asp-validation-for="RespFinanceiro.Profissao" class="text-danger"></span>
-                                                </div>
-                                            </div>
-
-
-                                        </div>
-                                        <div class="row">
-                                            <div class="form-group">
-                                                <div class="col-md-12">
-                                                    <div class="checkbox">
-                                                        @if (Model.RespFinanceiro.Id == null)
-                                                        {
-                                                            <label asp-for="RespFinanceiro.Ativo">
-                                                                <input asp-for="RespFinanceiro.Ativo" checked />
-                                                                @Html.DisplayNameFor(p => p.RespFinanceiro.Ativo)
-                                                            </label>
-                                                        }
-                                                        else
-                                                        {
-                                                            <label asp-for="RespFinanceiro.Ativo">
-                                                                <input asp-for="RespFinanceiro.Ativo" />
-                                                                @Html.DisplayNameFor(p => p.RespFinanceiro.Ativo)
-                                                            </label>
-                                                        }
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <button type="submit" class="btn btn-success">@(Model.RespFinanceiro.Id == null ? "Incluir" : "Alterar")</button>
-                                    </form>
+                                            <button type="submit" class="btn btn-success">@(Model.RespFinanceiro.Id == null ? "Incluir" : "Alterar")</button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <hr class="my-4">
-            <p>Após escolher o <b>Curso</b> e <b>Responsável financeiro</b> finalize a matricual clicando em <b>Matricular</b>.</p>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                Matricular
-            </button>
-
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" style="max-width: 70%!important;" role="document">
-                    <div class="modal-content">
-                        <form role="form" method="post" asp-action="Form">
-                            <input asp-for="Aluno.Id" type="hidden" />
-                            <input asp-for="Curso.Id" type="hidden" />
-                            <input asp-for="DispSala.Id" type="hidden" />
-                            <input asp-for="RespFinanceiro.Id" value="@Model.RespFinanceiro.Id" type="hidden" />
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Taxas de Matrícula</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+                    <div class="tab-pane fade @(ViewBag.Aba == 3 ? "active show" : "")" id="matricula" role="tabpanel" aria-labelledby="matricula-tab">
+                        @if (Model.RespFinanceiro.Id == null || Model.DispSala.Id == null)
+                        {
+                            <div class="container">
+                                <div class="alert alert-danger" role="alert">
+                                    As etapas anteriores precisão ser preenchidas!
+                                </div>
                             </div>
-                            <div class="modal-body">
-                                @for (int i = 0; i < Model.TaxasMatricula.Count; i++)
-                                {
-                                    <div class="row">
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label asp-for="Financeiros[i].Nome"></label>
-                                                <input class="form-control" readonly asp-for="Financeiros[i].Nome" value="@Model.TaxasMatricula[i].Nome" />
-                                                <span asp-validation-for="Financeiros[i].Nome" class="text-danger"></span>
+
+                        }
+                        else
+                        {
+                            <form role="form" method="post" asp-action="Form">
+                                <input asp-for="Aluno.Id" type="hidden" />
+                                <input asp-for="Curso.Id" type="hidden" />
+                                <input asp-for="DispSala.Id" type="hidden" />
+                                <input asp-for="RespFinanceiro.Id" value="@Model.RespFinanceiro.Id" type="hidden" />
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Taxas de Matrícula</h5>
+                                </div>
+                                <div class="modal-body">
+                                    @for (int i = 0; i < Model.TaxasMatricula.Count; i++)
+                                    {
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label asp-for="Financeiros[i].Nome"></label>
+                                                    <input class="form-control" readonly asp-for="Financeiros[i].Nome" value="@Model.TaxasMatricula[i].Nome" />
+                                                    <span asp-validation-for="Financeiros[i].Nome" class="text-danger"></span>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label asp-for="Financeiros[i].Valor"></label>
-                                                <input class="form-control" readonly asp-for="Financeiros[i].Valor" value="@Model.TaxasMatricula[i].Valor" />
-                                                <span asp-validation-for="Financeiros[i].Valor" class="text-danger"></span>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label asp-for="Financeiros[i].Valor"></label>
+                                                    <input class="form-control" readonly asp-for="Financeiros[i].Valor" value="@Model.TaxasMatricula[i].Valor" />
+                                                    <span asp-validation-for="Financeiros[i].Valor" class="text-danger"></span>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label asp-for="Financeiros[i].DataVencimento"></label>
-                                                <input class="form-control" type="date" asp-for="Financeiros[i].DataVencimento" value="@NowHorarioBrasilia.GetNow().ToString("yyyy-MM-dd")" />
-                                                <span asp-validation-for="Financeiros[i].DataVencimento" class="text-danger"></span>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label asp-for="Financeiros[i].DataVencimento"></label>
+                                                    <input class="form-control" type="date" asp-for="Financeiros[i].DataVencimento" value="@NowHorarioBrasilia.GetNow().ToString("yyyy-MM-dd")" />
+                                                    <span asp-validation-for="Financeiros[i].DataVencimento" class="text-danger"></span>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <label asp-for="Financeiros[i].Desconto"></label>
-                                            <input class="form-control" asp-for="Financeiros[i].Desconto" />
-                                            <span asp-validation-for="Financeiros[i].Desconto" class="text-danger"></span>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label asp-for="Financeiros[i].FormaPagamento" class="control-label"></label>
-                                                <div class="">
-                                                    <select asp-for="Financeiros[i]. FormaPagamento" class="form-control col-12" asp-items="@Html.GetEnumSelectList<FormaPagamento>()"></select>
-                                                    <span asp-validation-for="Financeiros[i].FormaPagamento" class="text-danger"></span>
+                                            <div class="col-md-2">
+                                                <label asp-for="Financeiros[i].Desconto"></label>
+                                                <input class="form-control" asp-for="Financeiros[i].Desconto" />
+                                                <span asp-validation-for="Financeiros[i].Desconto" class="text-danger"></span>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label asp-for="Financeiros[i].FormaPagamento" class="control-label"></label>
+                                                    <div class="">
+                                                        <select asp-for="Financeiros[i]. FormaPagamento" class="form-control col-12" asp-items="@Html.GetEnumSelectList<FormaPagamento>()"></select>
+                                                        <span asp-validation-for="Financeiros[i].FormaPagamento" class="text-danger"></span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    if (i < Model.TaxasMatricula.Count - 1)
-                                    {
-                                        <hr />
+                                        if (i < Model.TaxasMatricula.Count - 1)
+                                        {
+                                            <hr />
+                                        }
                                     }
-                                }
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                                <button type="submit" class="btn btn-primary">Realizar Matricula</button>
-                            </div>
-                        </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-success">Realizar Matricula</button>
+                                </div>
+                            </form>
+                        }
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 </div>
+
+<!-- ------------------------------------------------------------------>
+
+
 
 @section Scripts{
     <script src="~/vendor/datatables/jquery.dataTables.js"></script>

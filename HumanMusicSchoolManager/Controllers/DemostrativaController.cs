@@ -56,6 +56,7 @@ namespace HumanMusicSchoolManager.Controllers
         {
             if (candidatoId != null)
             {
+                
                 var DemostrativaViewModel = new DemostrativaViewModel
                 {
                     Candidato = _candidatoService.BuscarPorId(candidatoId.Value),
@@ -73,6 +74,14 @@ namespace HumanMusicSchoolManager.Controllers
                 }
 
                 DemostrativaViewModel.DiaAula = NowHorarioBrasilia.GetNow();
+
+                if (dispSalaId == null)
+                {
+                    ViewBag.Aba = 1;
+                } else
+                {
+                    ViewBag.Aba = 2;
+                }
 
                 return View(DemostrativaViewModel);
             }
@@ -181,6 +190,7 @@ namespace HumanMusicSchoolManager.Controllers
                 {
                     DemostrativaViewModel.DispSala = _dispSalaService.BuscarPorId(DemostrativaViewModel.DispSala.Id.Value);
                 }
+                ViewBag.Aba = 2;
                 return View(DemostrativaViewModel);
             }
         }

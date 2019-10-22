@@ -79,6 +79,15 @@ namespace HumanMusicSchoolManager.Controllers
                     pacoteCompraViewModel.QtdAula = pacoteCompraViewModel.PacoteAula.QtdAula;
                 }
 
+                if (pacoteAulaId == null)
+                {
+                    ViewBag.Aba = 1;
+                }
+                else
+                {
+                    ViewBag.Aba = 2;
+                }
+
                 return View(pacoteCompraViewModel);
             }
             else
@@ -221,7 +230,7 @@ namespace HumanMusicSchoolManager.Controllers
             }
             else
             {
-
+                ViewBag.Aba = 2;
                 return View(pacoteCompraViewModel);
             }
         }
