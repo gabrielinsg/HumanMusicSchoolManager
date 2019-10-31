@@ -1,6 +1,6 @@
 ﻿@model Aula
 @{
-    ViewData["Title"] = "Aula";
+    ViewData["Title"] = @Model.Data.ToString("dd/MM/yy HH:mm'h'") + " - " + Model.Curso.Nome + " - " + Model.Sala.Nome + " - " + Model.Professor.Nome;
 }
 
 @section Styles{
@@ -10,383 +10,381 @@
 }
 
 
-<div class="container-fluid">
-    <h2>Aula</h2>
-    <br />
-    <form role="form" asp-action="Form" method="post">
 
-        <input asp-for="Id" type="hidden" />
-        <input asp-for="ProfessorId" type="hidden" />
-        <input asp-for="SalaId" type="hidden" />
-        <input asp-for="CursoId" type="hidden" />
-        <input asp-for="DataLimite" type="hidden" />
-        <input asp-for="AulaDada" checked="checked" value="true" type="hidden" />
+<form role="form" asp-action="Form" method="post">
 
-        <div class="row">
+    <input asp-for="Id" type="hidden" />
+    <input asp-for="ProfessorId" type="hidden" />
+    <input asp-for="SalaId" type="hidden" />
+    <input asp-for="CursoId" type="hidden" />
+    <input asp-for="DataLimite" type="hidden" />
+    <input asp-for="AulaDada" checked="checked" value="true" type="hidden" />
+    <input asp-for="Data" type="hidden" />
 
-            <div class="col-md-2">
-                <div class="form-group">
-                    <label asp-for="Data"></label>
-                    <input asp-for="Data" hidden />
-                    <input value="@Model.Data.ToString("dd/MM/yyyy HH:mm'h'")" disabled class="form-control" />
-                    <span asp-validation-for="Data"></span>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label asp-for="Professor"></label>
-                    <input asp-for="Professor.Nome" class="form-control" disabled />
-                    <span asp-validation-for="Data" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label asp-for="Curso"></label>
-                    <input asp-for="Curso.Nome" class="form-control" disabled />
-                    <span asp-validation-for="Curso" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label asp-for="Sala"></label>
-                    <input asp-for="Sala.Nome" class="form-control" disabled />
-                    <span asp-validation-for="Sala" class="text-danger"></span>
-                </div>
-            </div>
+    
+    <div class="row">
+        <div class="col-md-6">
+            @for (int i = 0; i < Model.Chamadas.Count; i++)
+            {
+                <div class="card mt-2">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-2 col-4">
+                                <div class="col-2">
 
-            <div class="col-md-6">
-                @for (int i = 0; i < Model.Chamadas.Count; i++)
-                {
+                                    <span class="avatar avatar-sm rounded-circle align-items-center" style="margin-top: 15px;">
+                                        @if (Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Foto == null)
+                                        {
+                                            <img alt="Image placeholder" src="~/img/user.png">
+                                        }
+                                        else
+                                        {
 
-                    <div class="row aluno">
-                        <div class="col-md-2 col-4">
-                            <div class="col-2">
-                                @if (Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Foto == null)
-                                {
-                                    <div style="width: 50px; height: 50px; margin-top: 15px;" class="shadow-sm p-3 mb-5 bg-white text-center rounded-circle"><i style="font-size: 20px;" class="fas fa-user-alt"></i></div>
-                                }
-                                else
-                                {
-                                    <button type="button" class="btn" style="background:none;" data-toggle="modal" data-target="#modal-chamada-foto@(i)">
-                                        <img src="@Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Foto" style="width: 55px;" alt="Foto do professor" class="shadow-sm bg-white rounded-circle">
-                                    </button>
 
-                                    <div class="modal fade" id="modal-chamada-foto@(i)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">@(Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Nome)</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
+                                            <!-- Button trigger modal -->
+                                            <a data-toggle="modal" data-target="#exampleModal" style="cursor: pointer;">
+                                                <img alt="Image placeholder" src="@Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Foto">
+                                            </a>
+
+
+                                        }
+                                    </span>
+                                    @if (!(Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Foto == null))
+                                    {
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body text-center">
+                                                        <img alt="Image placeholder" src="@Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Foto">
+                                                    </div>
                                                 </div>
-                                                <div class="modal-body text-center">
-                                                    <img src="@(Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Foto)" alt="Foto Aluno" />
-                                                </div>                                                
                                             </div>
                                         </div>
-                                    </div>
-                                }
+                                    }
+
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-2 col-3">
-                            <span id="labelSwitch@(i)">Presente</span><br />
-                            <div class="form-group">
-                                <label class="switch">
+                            <div class="col-md-2 col-3">
+                                <span id="labelSwitch@(i)" style="font-size: 70%;">Presente</span><br />
+                                <label class="custom-toggle">
                                     <input id="switch@(i)" onclick="presenca(@i)" type="checkbox">
-                                    <span class="slider round"></span>
+                                    <span class="custom-toggle-slider rounded-circle"></span>
                                 </label>
                                 <span asp-validation-for="Chamadas[i].Presenca" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="col-md-5" style="padding-top: 20px;">
-                            <div class="form-group">
-                                <input value="@Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Nome" class="form-control" disabled />
-                            </div>
-                        </div>
-                        <div class="col-3" style="padding-top: 20px;">
-                            <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-chamada@(i)">
-                                <i class="@(Model.Chamadas[i].Reposicao != null ? "fas fa-exclamation-circle text-warning" : "")"></i> Histórico
-                            </button>
 
-                            <!-- Modal -->
-                            <div class="modal fade bd-example-modal-xl" id="modal-chamada@(i)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">@Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Nome</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="row contatos">
-                                                <div class="col-md-12">
-                                                    @*@{
-                                                        if (Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Cel == null)
-                                                        {
-                                                            Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Cel = "";
-                                                        }
-                                                        var cel = string.Empty;
-                                                        for (int contCelular = 0; contCelular < Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Cel.Length; contCelular++)
-                                                        {
-                                                            if (Char.IsDigit(Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Cel[contCelular]))
-                                                            {
-                                                                cel += Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Cel[contCelular];
-                                                            }
-                                                        }
-                                                    }
-                                                    <i class="fab fa-whatsapp text-success"></i> <a target="_blank" href="http://api.whatsapp.com/send?1=pt_BR&phone=55@(cel)">@Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Cel</a>*@
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <i class="far fa-envelope text-info"></i> <a href="mailto:@Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Email">@Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Email</a> 
-                                                </div>
+                            </div>
+                            <div class="col-md-5" style="padding-top: 20px;">
+                                <div class="form-group">
+                                    <input value="@Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Nome" class="form-control" disabled />
+                                </div>
+                            </div>
+                            <div class="col-3" style="padding-top: 20px;">
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-chamada@(i)">
+                                    <i class="@(Model.Chamadas[i].Reposicao != null ? "fas fa-exclamation-circle text-warning" : "")"></i> Histórico
+                                </button>
+
+                                <!-- Modal -->
+                                <div class="modal fade bd-example-modal-xl" id="modal-chamada@(i)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">@Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Nome</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
                                             </div>
-                                            <div class="row progresso">
-                                                <div class="col-12">
-                                                    <div class="progress">
+                                            <div class="modal-body">
+                                                <div class="row contatos">
+                                                    <div class="col-md-12">
+                                                        @*@{
+                                        if (Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Cel == null)
+                                        {
+                                            Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Cel = "";
+                                        }
+                                        var cel = string.Empty;
+                                        for (int contCelular = 0; contCelular < Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Cel.Length; contCelular++)
+                                        {
+                                            if (Char.IsDigit(Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Cel[contCelular]))
+                                            {
+                                                cel += Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Cel[contCelular];
+                                            }
+                                        }
+                                    }
+                                    <i class="fab fa-whatsapp text-success"></i> <a target="_blank" href="http://api.whatsapp.com/send?1=pt_BR&phone=55@(cel)">@Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Cel</a>*@
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <i class="far fa-envelope text-info"></i> <a href="mailto:@Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Email">@Model.Chamadas[i].PacoteCompra.Matricula.Aluno.Email</a>
+                                                    </div>
+                                                </div>
+                                                <div class="row progresso">
+                                                    <div class="col-12">
                                                         @{
                                                             var totalAulas = Model.Chamadas[i].PacoteCompra.Chamadas.Count;
                                                             var aulasRealizadas = Model.Chamadas[i].PacoteCompra.Chamadas.Where(c => c.Presenca != null).ToList().Count;
                                                             var porcentagem = aulasRealizadas * 100 / totalAulas;
                                                         }
-                                                        <div class="progress-bar" role="progressbar" style="width: @(porcentagem)%;" aria-valuenow="@(porcentagem)" aria-valuemin="0" aria-valuemax="100">@aulasRealizadas de @totalAulas aulas</div>
+                                                        <div class="progress-wrapper">
+                                                            <div class="progress-info">
+                                                                <div class="progress-label">
+                                                                    <span>Aulas</span>
+                                                                </div>
+                                                                <div class="progress-percentage">
+                                                                    <span>@aulasRealizadas de @totalAulas</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="progress">
+                                                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="@(porcentagem)" aria-valuemin="0" aria-valuemax="100" style="width: @(porcentagem)%;"></div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-3">
-                                                    <div class="form-group">
-                                                        <label asp-for="Chamadas[i].PacoteCompra.Matricula.Modulo"></label>
-                                                        <select asp-for="Chamadas[i].PacoteCompra.Matricula.Modulo" class="form-control">
-                                                            @for (var j = 1; j <= Model.Curso.QtdModulo; j++)
-                                                            {
-                                                                <option value="@j">@j</option>
-                                                            }
-                                                        </select>
                                                     </div>
-                                                </div>
-                                                <div class="col-md-5">
-                                                    <label style="padding-left:25px;">Nível do aluno</label>
-                                                    <div class="starrating risingstar d-flex justify-content-center flex-row-reverse">
-                                                        <input asp-for="Chamadas[i].PacoteCompra.Matricula.Estrelas" type="radio" id="star5@(Model.Chamadas[i].Id)" value="5" /><label for="star5@(Model.Chamadas[i].Id)" title="5 star"></label>
-                                                        <input asp-for="Chamadas[i].PacoteCompra.Matricula.Estrelas" type="radio" id="star4@(Model.Chamadas[i].Id)" value="4" /><label for="star4@(Model.Chamadas[i].Id)" title="4 star"></label>
-                                                        <input asp-for="Chamadas[i].PacoteCompra.Matricula.Estrelas" type="radio" id="star3@(Model.Chamadas[i].Id)" value="3" /><label for="star3@(Model.Chamadas[i].Id)" title="3 star"></label>
-                                                        <input asp-for="Chamadas[i].PacoteCompra.Matricula.Estrelas" type="radio" id="star2@(Model.Chamadas[i].Id)" value="2" /><label for="star2@(Model.Chamadas[i].Id)" title="2 star"></label>
-                                                        <input asp-for="Chamadas[i].PacoteCompra.Matricula.Estrelas" type="radio" id="star1@(Model.Chamadas[i].Id)" value="1" /><label for="star1@(Model.Chamadas[i].Id)" title="1 star"></label>
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label asp-for="Chamadas[i].PacoteCompra.Matricula.Modulo"></label>
+                                                            <select asp-for="Chamadas[i].PacoteCompra.Matricula.Modulo" class="form-control">
+                                                                @for (var j = 1; j <= Model.Curso.QtdModulo; j++)
+                                                                {
+                                                                    <option value="@j">@j</option>
+                                                                }
+                                                            </select>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <label asp-for="Chamadas[i].Observacao">Observação</label>
-                                                        <input asp-for="Chamadas[i].Observacao" onkeyup="Observacoes(@(i),@(Model.Chamadas[i].Id))" placeholder="Digite a observação aqui!!!" class="form-control" />
-                                                        <span asp-validation-for="Chamadas[i].Observacao" class="text-danger"></span>
+                                                    <div class="col-md-5">
+                                                        <label style="padding-left:25px;">Nível do aluno</label>
+                                                        <div class="starrating risingstar d-flex justify-content-center flex-row-reverse">
+                                                            <input asp-for="Chamadas[i].PacoteCompra.Matricula.Estrelas" type="radio" id="star5@(Model.Chamadas[i].Id)" value="5" /><label for="star5@(Model.Chamadas[i].Id)" title="5 star"></label>
+                                                            <input asp-for="Chamadas[i].PacoteCompra.Matricula.Estrelas" type="radio" id="star4@(Model.Chamadas[i].Id)" value="4" /><label for="star4@(Model.Chamadas[i].Id)" title="4 star"></label>
+                                                            <input asp-for="Chamadas[i].PacoteCompra.Matricula.Estrelas" type="radio" id="star3@(Model.Chamadas[i].Id)" value="3" /><label for="star3@(Model.Chamadas[i].Id)" title="3 star"></label>
+                                                            <input asp-for="Chamadas[i].PacoteCompra.Matricula.Estrelas" type="radio" id="star2@(Model.Chamadas[i].Id)" value="2" /><label for="star2@(Model.Chamadas[i].Id)" title="2 star"></label>
+                                                            <input asp-for="Chamadas[i].PacoteCompra.Matricula.Estrelas" type="radio" id="star1@(Model.Chamadas[i].Id)" value="1" /><label for="star1@(Model.Chamadas[i].Id)" title="1 star"></label>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                @if (Model.Chamadas[i].Reposicao != null)
-                                                {
 
-                                                    <div class="class-mensage">
-                                                        <label>Reposição - @(Model.Chamadas[i].Reposicao.Remunerada == true ? "Remunerada" : "Não remunerada")</label>
-                                                        <div>@Html.Raw(Model.Chamadas[i].Reposicao.Motivo)</div>
-                                                    </div>
-                                                    <br />
-                                                }
-                                                @{
-                                                    List<Chamada> historico = ViewBag.Historico;
-                                                    foreach (var chamada in historico
-                                                        .Where(c => c.PacoteCompra.Matricula.AlunoId == Model.Chamadas[i].PacoteCompra.Matricula.AlunoId
-                                                        && c.PacoteCompra.Matricula.CursoId == Model.Chamadas[i].PacoteCompra.Matricula.CursoId)
-                                                        .OrderByDescending(c => c.Aula.Data).ToList())
+                                                    @if (Model.Chamadas[i].Reposicao != null)
                                                     {
 
                                                         <div class="class-mensage">
-                                                            <label>Histórico - @chamada.Aula.Data.ToString("dd/MM/yy") - @(chamada.Presenca == true ? "Presente" : "Faltou")</label>
-                                                            @Html.Raw(chamada.Aula.DescAtividades)
-                                                            @if (chamada.Observacao != null)
-                                                            {
-                                                                <hr />
-                                                                <div>@Html.Raw(chamada.Observacao)</div>
-                                                            }
+                                                            <label>Reposição - @(Model.Chamadas[i].Reposicao.Remunerada == true ? "Remunerada" : "Não remunerada")</label>
+                                                            <div>@Html.Raw(Model.Chamadas[i].Reposicao.Motivo)</div>
                                                         </div>
-
+                                                        <br />
                                                     }
-                                                }
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-12 text-center">
-                                                    <a asp-action="HistoricoCompleto" asp-route-alunoId="@Model.Chamadas[i].PacoteCompra.Matricula.AlunoId" asp-route-cursoId="@Model.Chamadas[i].PacoteCompra.Matricula.CursoId" target="_blank">Histórico Completo</a>
-                                                </div>
-                                            </div>
+                                                    @{
+                                                        List<Chamada> historico = ViewBag.Historico;
+                                                        foreach (var chamada in historico
+                                                            .Where(c => c.PacoteCompra.Matricula.AlunoId == Model.Chamadas[i].PacoteCompra.Matricula.AlunoId
+                                                            && c.PacoteCompra.Matricula.CursoId == Model.Chamadas[i].PacoteCompra.Matricula.CursoId)
+                                                            .OrderByDescending(c => c.Aula.Data).ToList())
+                                                        {
 
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                                            <div class="class-mensage">
+                                                                <label>Histórico - @chamada.Aula.Data.ToString("dd/MM/yy") - @(chamada.Presenca == true ? "Presente" : "Faltou")</label>
+                                                                @Html.Raw(chamada.Aula.DescAtividades)
+                                                                @if (chamada.Observacao != null)
+                                                                {
+                                                                    <hr />
+                                                                    <div>@Html.Raw(chamada.Observacao)</div>
+                                                                }
+                                                            </div>
+
+                                                        }
+                                                    }
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12 text-center">
+                                                        <a asp-action="HistoricoCompleto" asp-route-alunoId="@Model.Chamadas[i].PacoteCompra.Matricula.AlunoId" asp-route-cursoId="@Model.Chamadas[i].PacoteCompra.Matricula.CursoId" target="_blank">Histórico Completo</a>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-
-
-                        <input id="qtdAluno" value="@Model.Chamadas.Count" type="hidden" />
-                        <input asp-for="Chamadas[i].Id" type="hidden" />
-                        <input asp-for="Chamadas[i].AulaId" type="hidden" />
-                        <input asp-for="Chamadas[i].PacoteCompraId" type="hidden" />
-                        <input asp-for="Chamadas[i].Presenca" type="hidden">
-                        <input asp-for="Chamadas[i].PacoteCompra.MatriculaId" type="hidden" />
-
-
-
-                        <span class="text-danger validation" asp-validation-for="Chamadas[i].PacoteCompra.Matricula.Estrelas"></span>
-
-                    </div>
-                }
-
-                @for (var i = 0; i < Model.Demostrativas.Count; i++)
-                {
-                    <div class="row aluno">
-                        <div class="col-md-2 col-4">
-                            <div class="col-md-2">
+                            <div class="col-md-12">
                                 <div class="form-group">
-                                    <label class="switch">
-                                        <input id="Dswitch@(i)" onclick="Dpresenca(@i)" type="checkbox">
-                                        <span class="slider round"></span>
-                                    </label>
-                                    <span asp-validation-for="Demostrativas[i].Presenca" class="text-danger"></span>
+                                    <input asp-for="Chamadas[i].Observacao" onkeyup="Observacoes(@(i),@(Model.Chamadas[i].Id))" placeholder="Digite a observação aqui!!!" class="form-control" />
+                                    <span asp-validation-for="Chamadas[i].Observacao" class="text-danger"></span>
                                 </div>
                             </div>
+
+
+                            <input id="qtdAluno" value="@Model.Chamadas.Count" type="hidden" />
+                            <input asp-for="Chamadas[i].Id" type="hidden" />
+                            <input asp-for="Chamadas[i].AulaId" type="hidden" />
+                            <input asp-for="Chamadas[i].PacoteCompraId" type="hidden" />
+                            <input asp-for="Chamadas[i].Presenca" type="hidden">
+                            <input asp-for="Chamadas[i].PacoteCompra.MatriculaId" type="hidden" />
+
+
+
+                            <span class="text-danger validation" asp-validation-for="Chamadas[i].PacoteCompra.Matricula.Estrelas"></span>
+
                         </div>
-                        <div class="col-md-2 col-2">
-                            <label id="DlabelSwitch@(i)">Presente</label>
-                        </div>
-                        @{
-                            var confirmado = "";
-                            switch (@Model.Demostrativas[i].Confirmado)
-                            {
-                                case Confirmado.AGUARDANDO: confirmado = "A"; break;
-                                case Confirmado.NAO: confirmado = "N"; break;
-                                case Confirmado.SIM: confirmado = "S"; break;
-                            }
-                        }
-                        <div class="col-md-5">
-                            <div class="form-group">
-                                <input value="(D@(confirmado)) @Model.Demostrativas[i].Candidato.Nome" class="form-control" disabled />
+                    </div>
+                </div>
+
+            }
+
+            @for (var i = 0; i < Model.Demostrativas.Count; i++)
+            {
+                <div class="card mt-2">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-2 col-4">
+                                <div class="col-md-2">
+                                    <label class="custom-toggle">
+                                        <input id="Dswitch@(i)" onclick="Dpresenca(@i)" type="checkbox">
+                                        <span class="custom-toggle-slider rounded-circle"></span>
+                                    </label>
+                                    <span asp-validation-for="Demostrativas[i].Presenca" class="text-danger"></span>                                 
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="col-md-3">
-                            <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#demo-@(i)">
-                                Extras
-                            </button>
+                            <div class="col-md-2 col-2">
+                                <span id="DlabelSwitch@(i)" style="font-size: 70%;">Presente</span><br />
+                            </div>
+                            @{
+                                var confirmado = "";
+                                switch (@Model.Demostrativas[i].Confirmado)
+                                {
+                                    case Confirmado.AGUARDANDO: confirmado = "A"; break;
+                                    case Confirmado.NAO: confirmado = "N"; break;
+                                    case Confirmado.SIM: confirmado = "S"; break;
+                                }
+                            }
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <input value="(D@(confirmado)) @Model.Demostrativas[i].Candidato.Nome" class="form-control" disabled />
+                                </div>
+                            </div>
 
-                            <!-- Modal -->
-                            <div class="modal fade" id="demo-@(i)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">@Model.Demostrativas[i].Candidato.Nome</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="row contatos">
-                                                <div class="col-md-12">
-                                                    @*@{
-                                                        if (Model.Demostrativas[i].Candidato.Cel == null)
-                                                        {
-                                                            Model.Demostrativas[i].Candidato.Cel = "";
-                                                        }
-                                                        var cel = string.Empty;
-                                                        for (int contCelular = 0; contCelular < Model.Demostrativas[i].Candidato.Cel.Length; contCelular++)
-                                                        {
-                                                            if (Char.IsDigit(Model.Demostrativas[i].Candidato.Cel[contCelular]))
+                            <div class="col-md-3">
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#demo-@(i)">
+                                    Extras
+                                </button>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="demo-@(i)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">@Model.Demostrativas[i].Candidato.Nome</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row contatos">
+                                                    <div class="col-md-12">
+                                                        @*@{
+                                            if (Model.Demostrativas[i].Candidato.Cel == null)
+                                            {
+                                                Model.Demostrativas[i].Candidato.Cel = "";
+                                            }
+                                            var cel = string.Empty;
+                                            for (int contCelular = 0; contCelular < Model.Demostrativas[i].Candidato.Cel.Length; contCelular++)
+                                            {
+                                                if (Char.IsDigit(Model.Demostrativas[i].Candidato.Cel[contCelular]))
+                                                {
+                                                    cel += Model.Demostrativas[i].Candidato.Cel[contCelular];
+                                                }
+                                            }
+                                        }
+                                        <i class="fab fa-whatsapp text-success"></i> <a target="_blank" href="http://api.whatsapp.com/send?1=pt_BR&phone=55@(cel)">@Model.Demostrativas[i].Candidato.Cel</a>*@
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <i class="far fa-envelope text-info"></i> <a href="mailto:@Model.Demostrativas[i].Candidato.Email">@Model.Demostrativas[i].Candidato.Email</a>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        @{
+                                                            var confir = "";
+                                                            switch (Model.Demostrativas[i].Confirmado)
                                                             {
-                                                                cel += Model.Demostrativas[i].Candidato.Cel[contCelular];
+                                                                case Confirmado.AGUARDANDO: confir = "A"; break;
+                                                                case Confirmado.NAO: confir = "N"; break;
+                                                                case Confirmado.SIM: confir = "S"; break;
                                                             }
                                                         }
-                                                    }
-                                                    <i class="fab fa-whatsapp text-success"></i> <a target="_blank" href="http://api.whatsapp.com/send?1=pt_BR&phone=55@(cel)">@Model.Demostrativas[i].Candidato.Cel</a>*@
+                                                        D@(confir) - Demostrativa. Confimada: @Html.DisplayFor(d => Model.Demostrativas[i].Confirmado)
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <label style="padding-left:25px;" class="text-sm">Nível do Candidato</label>
+                                                    <div class="starrating risingstar d-flex justify-content-center flex-row-reverse">
+                                                        <input name="Estrelas[@i]" @(Model.Demostrativas[i].Estrelas == 5 ? "checked" : "") type="radio" id="Dstar5@(Model.Demostrativas[i].Id)" value="5" /><label for="Dstar5@(Model.Demostrativas[i].Id)" title="5 star"></label>
+                                                        <input name="Estrelas[@i]" @(Model.Demostrativas[i].Estrelas == 4 ? "checked" : "") type="radio" id="Dstar4@(Model.Demostrativas[i].Id)" value="4" /><label for="Dstar4@(Model.Demostrativas[i].Id)" title="4 star"></label>
+                                                        <input name="Estrelas[@i]" @(Model.Demostrativas[i].Estrelas == 3 ? "checked" : "") type="radio" id="Dstar3@(Model.Demostrativas[i].Id)" value="3" /><label for="Dstar3@(Model.Demostrativas[i].Id)" title="3 star"></label>
+                                                        <input name="Estrelas[@i]" @(Model.Demostrativas[i].Estrelas == 2 ? "checked" : "") type="radio" id="Dstar2@(Model.Demostrativas[i].Id)" value="2" /><label for="Dstar2@(Model.Demostrativas[i].Id)" title="2 star"></label>
+                                                        <input name="Estrelas[@i]" @(Model.Demostrativas[i].Estrelas == 1 ? "checked" : "") type="radio" id="Dstar1@(Model.Demostrativas[i].Id)" value="1" /><label for="Dstar1@(Model.Demostrativas[i].Id)" title="1 star"></label>
+                                                    </div>
                                                 </div>
                                                 <div class="col-md-12">
-                                                    <i class="far fa-envelope text-info"></i> <a href="mailto:@Model.Demostrativas[i].Candidato.Email">@Model.Demostrativas[i].Candidato.Email</a>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    @{
-                                                        var confir = "";
-                                                        switch (Model.Demostrativas[i].Confirmado)
-                                                        {
-                                                            case Confirmado.AGUARDANDO: confir = "A"; break;
-                                                            case Confirmado.NAO: confir = "N"; break;
-                                                            case Confirmado.SIM: confir = "S"; break;
-                                                        }
-                                                    }
-                                                    D@(confir) - Demostrativa. Confimada: @Html.DisplayFor(d => Model.Demostrativas[i].Confirmado)
-                                                </div>
-                                            </div>
-                                            <div class="col-md-5">
-                                                <label style="padding-left:25px;">Nível do Candidato</label>
-                                                <div class="starrating risingstar d-flex justify-content-center flex-row-reverse">
-                                                    <input name="Estrelas[@i]" @(Model.Demostrativas[i].Estrelas == 5 ? "checked" : "") type="radio" id="Dstar5@(Model.Demostrativas[i].Id)" value="5" /><label for="Dstar5@(Model.Demostrativas[i].Id)" title="5 star"></label>
-                                                    <input name="Estrelas[@i]" @(Model.Demostrativas[i].Estrelas == 4 ? "checked" : "") type="radio" id="Dstar4@(Model.Demostrativas[i].Id)" value="4" /><label for="Dstar4@(Model.Demostrativas[i].Id)" title="4 star"></label>
-                                                    <input name="Estrelas[@i]" @(Model.Demostrativas[i].Estrelas == 3 ? "checked" : "") type="radio" id="Dstar3@(Model.Demostrativas[i].Id)" value="3" /><label for="Dstar3@(Model.Demostrativas[i].Id)" title="3 star"></label>
-                                                    <input name="Estrelas[@i]" @(Model.Demostrativas[i].Estrelas == 2 ? "checked" : "") type="radio" id="Dstar2@(Model.Demostrativas[i].Id)" value="2" /><label for="Dstar2@(Model.Demostrativas[i].Id)" title="2 star"></label>
-                                                    <input name="Estrelas[@i]" @(Model.Demostrativas[i].Estrelas == 1 ? "checked" : "") type="radio" id="Dstar1@(Model.Demostrativas[i].Id)" value="1" /><label for="Dstar1@(Model.Demostrativas[i].Id)" title="1 star"></label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <label asp-for="Demostrativas[i].Observacao"></label>
-                                                    <textarea asp-for="Demostrativas[i].Observacao" rows="5" cols="10">
+                                                    <div class="form-group">
+                                                        <label asp-for="Demostrativas[i].Observacao"></label>
+                                                        <textarea asp-for="Demostrativas[i].Observacao" rows="5" cols="10">
                                                     </textarea>
-                                                    <span asp-validation-for="Demostrativas[i].Observacao" class="text-danger"></span>
+                                                        <span asp-validation-for="Demostrativas[i].Observacao" class="text-danger"></span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <input id="DqtdAluno" value="@Model.Demostrativas.Count" type="hidden" />
-                        <input asp-for="Demostrativas[i].Id" type="hidden" />
-                        <input asp-for="Demostrativas[i].PessoaId" type="hidden" />
-                        <input asp-for="Demostrativas[i].Presenca" type="hidden" />
-                        <input asp-for="Demostrativas[i].Estrelas" type="hidden" />
-                        <input asp-for="Demostrativas[i].CandidatoId" type="hidden" />
-                        <input asp-for="Demostrativas[i].DispSalaId" type="hidden" />
-                        <input asp-for="Demostrativas[i].CursoId" type="hidden" />
-                        <input asp-for="Demostrativas[i].AulaId" type="hidden" />
-                        <input asp-for="Demostrativas[i].Motivo" type="hidden" />
-                        <input asp-for="Demostrativas[i].Contratou" type="hidden" />
-                        <input asp-for="Demostrativas[i].Outros" type="hidden" />
-                    </div>
-                }
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <textarea asp-for="DescAtividades" rows="10" cols="80">zzz
-                    </textarea>
-                    <span asp-validation-for="DescAtividades" class="text-danger"></span>
                 </div>
+                
+                <div class="row">
+                    <input id="DqtdAluno" value="@Model.Demostrativas.Count" type="hidden" />
+                    <input asp-for="Demostrativas[i].Id" type="hidden" />
+                    <input asp-for="Demostrativas[i].PessoaId" type="hidden" />
+                    <input asp-for="Demostrativas[i].Presenca" type="hidden" />
+                    <input asp-for="Demostrativas[i].Estrelas" type="hidden" />
+                    <input asp-for="Demostrativas[i].CandidatoId" type="hidden" />
+                    <input asp-for="Demostrativas[i].DispSalaId" type="hidden" />
+                    <input asp-for="Demostrativas[i].CursoId" type="hidden" />
+                    <input asp-for="Demostrativas[i].AulaId" type="hidden" />
+                    <input asp-for="Demostrativas[i].Motivo" type="hidden" />
+                    <input asp-for="Demostrativas[i].Contratou" type="hidden" />
+                    <input asp-for="Demostrativas[i].Outros" type="hidden" />
+                </div>
+            }
+        </div>
+        <div class="col-md-6">
+            <div class="card mt-2">
+                <div class="card-body" style="padding: 0.5rem; padding-bottom: 1.5rem">
+                    <div class="form-group">
+                        <textarea asp-for="DescAtividades" rows="10" cols="80">zzz
+                    </textarea>
+                        <span asp-validation-for="DescAtividades" class="text-danger"></span>
+                    </div>
+                    <div class="text-center">
+                        <div class="col-md-6"></div><button type="submit" class="btn btn-success col-md-2 btn-lanca">Lançar</button>
+                    </div>
+                </div>
+                
             </div>
+            
         </div>
-
-        <br />
-        <div class="row">
-            <div class="col-md-6"></div><button type="submit" class="btn btn-success col-md-2 btn-lanca">Lançar</button>
-        </div>
-    </form>
-</div>
-<br />
+    </div>
+</form>
 
 
 

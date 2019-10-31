@@ -56,6 +56,11 @@ namespace HumanMusicSchoolManager.Controllers
                 if (dispSalaId != null)
                 {
                     reposicaoViewModel.DispSala = _dispSalaService.BuscarPorId(dispSalaId.Value);
+                    ViewBag.Aba = 2;
+                }
+                else
+                {
+                    ViewBag.Aba = 1;
                 }
 
                 if (reposicaoViewModel.Chamada.Reposicao != null)
@@ -186,6 +191,7 @@ namespace HumanMusicSchoolManager.Controllers
                 {
                     reposicaoViewModel.DispSala = _dispSalaService.BuscarPorId(reposicaoViewModel.DispSala.Id.Value);
                 }
+                ViewBag.Aba = 2;
                 return View(reposicaoViewModel);
             }
         }

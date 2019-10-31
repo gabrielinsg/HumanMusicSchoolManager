@@ -132,7 +132,7 @@ namespace HumanMusicSchoolManager.Components
             }
 
             var aulas = !User.IsInRole("Professor") ? _context.Aulas.Where(a => a.Data.Date == NowHorarioBrasilia.GetNow().Date).ToList().Count : _context.Aulas.Where(a => a.Data.Date == NowHorarioBrasilia.GetNow().Date && a.ProfessorId == professor.Id.Value).ToList().Count;
-            var aulasRestantes = !User.IsInRole("Professor") ? _context.Aulas.Where(a => a.Data.Date == NowHorarioBrasilia.GetNow().Date && a.AulaDada).ToList().Count : _context.Aulas.Where(a => a.Data.Date == NowHorarioBrasilia.GetNow().Date && a.AulaDada && a.ProfessorId == professor.Id.Value).ToList().Count;
+            var aulasRestantes = !User.IsInRole("Professor") ? _context.Aulas.Where(a => a.Data.Date == NowHorarioBrasilia.GetNow().Date && a.AulaDada).ToList().Count : _context.Aulas.Where(a => a.Data.Date == NowHorarioBrasilia.GetNow().Date && a.ProfessorId == professor.Id.Value && a.AulaDada).ToList().Count;
             var ob = new Dictionary<string, object>
             {
                 { "Titulo", "Aulas do dia" },

@@ -171,23 +171,19 @@
                                     <th scope="row">
                                         <div class="media align-items-center">
                                             <a href="#" class="avatar rounded-circle mr-3">
-                                                @if (matricula.DispSala == null)
-                                                {
-                                                    <img alt="Image" src="~/img/user.png" />
-                                                }
-                                                else if (matricula.DispSala.Professor.Foto == null)
+                                                @if (matricula.Professor.Foto == null)
                                                 {
                                                     <img alt="Image" src="~/img/user.png" />
                                                 }
                                                 else
                                                 {
-                                                    <img alt="Image" src="@matricula.DispSala.Professor.Foto" />
+                                                    <img alt="Image" src="@matricula.Professor.Foto" />
                                                 }
                                             </a>
 
                                             <div class="media-body">
                                                 <span class="mb-0 text-sm">
-                                                    @(matricula.DispSala == null ? "Cancelada" : matricula.DispSala.Professor.Nome.Split(' ')[0])
+                                                    @matricula.Professor.Nome.Split(' ')[0]
                                                 </span>
                                             </div>
                                         </div>
