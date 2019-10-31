@@ -50,6 +50,12 @@ namespace HumanMusicSchoolManager.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<Matricula>()
+                .HasOne(m => m.Professor)
+                .WithMany()
+                .HasForeignKey("ProfessorId")
+                .OnDelete(DeleteBehavior.Restrict);
+
             builder.Entity<Vale>()
                 .HasOne(v => v.Pessoa)
                 .WithMany()

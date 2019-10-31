@@ -468,6 +468,7 @@ namespace HumanMusicSchoolManager.Controllers
             if (ModelState.IsValid)
             {
                 trocaDispSalaViewModel.Matricula.DispSala = trocaDispSalaViewModel.DispSala;
+                trocaDispSalaViewModel.Matricula.ProfessorId = trocaDispSalaViewModel.DispSala.Professor.Id;
                 _matriculaService.Alterar(trocaDispSalaViewModel.Matricula);
                 trocaDispSalaViewModel.DiaAula = trocaDispSalaViewModel.DiaAula.AddHours(trocaDispSalaViewModel.DispSala.Hora);
                 var aulaConfig = _aulaConfigService.Buscar();

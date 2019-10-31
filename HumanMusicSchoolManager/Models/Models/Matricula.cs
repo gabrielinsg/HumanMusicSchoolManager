@@ -45,5 +45,8 @@ namespace HumanMusicSchoolManager.Models.Models
         public Motivo? Motivo { get; set; }
 
         public string Outros { get; set; }
+
+        public int? ProfessorId { get; set; }
+        public Professor Professor { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿@model List<Chamada>
 @{
-    ViewData["Title"] = "HistoricoCompleto";
+    ViewData["Title"] = @Model.First().PacoteCompra.Matricula.Aluno.Nome;
 }
 
 @section Styles{

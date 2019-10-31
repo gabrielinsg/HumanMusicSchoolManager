@@ -109,8 +109,18 @@
         <div class="card bg-secondary shadow">
             <div class="card-header bg-white border-0">
                 <div class="row align-items-center">
-                    <div class="col-md-2">
-                        <button type="button" class="btn btn-block btn-primary btn-sm" data-toggle="modal" data-target="#modal-financeiro"><i class="fas fa-dollar-sign"></i> Financeiro</button>
+                    <div class="col-md-3">
+                        @{
+                            List<Financeiro> financeiros = ViewBag.Atrasadas;                            
+                        }
+                        @if (!financeiros.Any(f => f.Aluno.Id == Model.Id))
+                        {
+                            <button type="button" class="btn btn-block btn-primary btn-sm" data-toggle="modal" data-target="#modal-financeiro"><i class="fas fa-dollar-sign"></i> Financeiro</button>
+                        }
+                        else
+                        {
+                            <button type="button" class="btn btn-block btn-primary btn-sm" data-toggle="modal" data-target="#modal-financeiro"><i class="fas fa-dollar-sign"></i> Financeiro <i class="fas fa-exclamation-triangle text-yellow"></i></button>
+                        }
                         <div class="modal fade" id="modal-financeiro" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
                             <div class="modal-dialog modal- modal-dialog-centered modal- my-modal" role="document">
                                 <div class="modal-content">
@@ -131,7 +141,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <form asp-controller="Matricula" asp-action="Form" method="get">
                             <input name="alunoId" value="@Model.Id" type="hidden" />
                             <button type="submit" class="btn btn-block btn-success btn-sm"><i class="fas fa-chalkboard-teacher"></i> Matricular</button>
@@ -185,10 +195,10 @@
                                     <td>
                                         @{
                                             var pendente = false;
-                                            List<Financeiro> financeiros = ViewBag.Atrasadas;
+                                            
                                             foreach (var pacoteCompra in matricula.PacoteCompras)
                                             {
-                                                pendente = financeiros.Any(f => f.PacoteCompra.Id == pacoteCompra.Id);
+                                                pendente = financeiros.Where(f => f.PacoteCompra != null).Any(f => f.PacoteCompra.Id == pacoteCompra.Id);
                                             }
                                         }
                                         <span class="badge badge-dot mr-4">

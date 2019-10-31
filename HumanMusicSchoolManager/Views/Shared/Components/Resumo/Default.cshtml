@@ -1,0 +1,104 @@
+﻿@model Dictionary<object, object>
+
+@{ 
+    Dictionary<string, object> obj1 = (Dictionary<string, object>) Model[1];
+    Dictionary<string, object> obj2 = (Dictionary<string, object>) Model[2];
+    Dictionary<string, object> obj3 = (Dictionary<string, object>) Model[3];
+    Dictionary<string, object> obj4 = (Dictionary<string, object>) Model[4];
+}
+
+    <div class="row">
+        <div class="col-xl-3 col-lg-6">
+            <div class="card card-stats mb-4 mb-xl-0">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-uppercase text-muted mb-0">@obj1["Titulo"]</h5>
+                            <span class="h2 font-weight-bold mb-0">@obj1["Total"]</span>
+                        </div>
+                        <div class="col-auto">
+                            <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                                <i class="fas fa-chart-bar"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-3 mb-0 text-muted text-sm">
+                        @{
+                            var positivo = (bool)obj1["Positivo"];
+                        }
+                        <span class="@(positivo ? "text-success" : "text-danger") mr-2"><i class="fa @(positivo ? "fa-arrow-up" : "fa-arrow-down")"></i> @obj1["Porcentagem"]%</span>
+                        <span class="text-nowrap">Desde o último mês</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+            <div class="card card-stats mb-4 mb-xl-0">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-uppercase text-muted mb-0">@obj2["Titulo"]</h5>
+                            <span class="h2 font-weight-bold mb-0">@obj4["Total"]</span>
+                        </div>
+                        <div class="col-auto">
+                            <div class="icon icon-shape bg-info text-white rounded-circle shadow">
+                                <i class="fas fa-chart-area"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-3 mb-0 text-muted text-sm">
+                        @{
+                            positivo = (bool)obj2["Positivo"];
+                        }
+                        <span class="@(positivo ? "text-success" : "text-danger") mr-2"><i class="fas @(positivo ? "fa-arrow-up" : "fa-arrow-down")"></i> @obj2["Porcentagem"]%</span>
+                        <span class="text-nowrap">Since last month</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+            <div class="card card-stats mb-4 mb-xl-0">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-uppercase text-muted mb-0">@obj3["Titulo"]</h5>
+                            <span class="h2 font-weight-bold mb-0">@obj3["Total"]</span>
+                        </div>
+                        <div class="col-auto">
+                            <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
+                                <i class="fas fa-chart-pie"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-3 mb-0 text-muted text-sm">
+                        @{
+                            positivo = (bool)obj3["Positivo"];
+                        }
+                        <span class="@(positivo ? "text-success" : "text-danger") mr-2"><i class="fa @(positivo ? "fa-arrow-up" : "fa-arrow-down")"></i> @obj3["Porcentagem"]%</span>
+                        <span class="text-nowrap">Desde o último mês</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+            <div class="card card-stats mb-4 mb-xl-0">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-uppercase text-muted mb-0">@obj4["Titulo"]</h5>
+                            <span class="h2 font-weight-bold mb-0">@obj4["Total"]</span>
+                        </div>
+                        <div class="col-auto">
+                            <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-3 mb-0 text-muted text-sm">
+                        <span class="text-success mr-2"><i class="fas fa-circle"></i> @obj4["Restante"]</span>
+                        <span class="text-nowrap">@((int)obj4["Restante"] == 1 ? "Aula lançada" : "Aulas lançadas")</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>

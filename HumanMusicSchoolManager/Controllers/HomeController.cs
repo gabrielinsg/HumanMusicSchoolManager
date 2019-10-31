@@ -6,12 +6,22 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using HumanMusicSchoolManager.Models;
 using Microsoft.AspNetCore.Authorization;
+using HumanMusicSchoolManager.Data;
+using HumanMusicSchoolManager.Models.Models;
+using HumanMusicSchoolManager.ServicesInterface;
 
 namespace HumanMusicSchoolManager.Controllers
 {
     [Authorize]
     public class HomeController : Controller
     {
+        private readonly IRelatorioService _relatorioSerevice;
+
+        public HomeController(IRelatorioService relatorioService)
+        {
+            this._relatorioSerevice = relatorioService;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -41,5 +51,7 @@ namespace HumanMusicSchoolManager.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        
     }
 }

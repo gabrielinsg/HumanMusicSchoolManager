@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using HumanMusicSchoolManager.Data;
 using HumanMusicSchoolManager.ServicesInterface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,10 +9,13 @@ namespace HumanMusicSchoolManager.Controllers
     public class AdminController : Controller
     {
         private readonly IPacoteCompraService _pacoteCompraService;
+        private readonly ApplicationDbContext _context;
 
-        public AdminController(IPacoteCompraService pacoteCompraService)
+        public AdminController(IPacoteCompraService pacoteCompraService,
+            ApplicationDbContext context)
         {
             this._pacoteCompraService = pacoteCompraService;
+            this._context = context;
         }
         public IActionResult PacoteCompra()
         {
@@ -41,6 +45,25 @@ namespace HumanMusicSchoolManager.Controllers
             //    pacoteCompra.DataCompra = data;
             //    _pacoteCompraService.Alterar(pacoteCompra);
             //}
+            return null;
+        }
+
+        public IActionResult Professores()
+        {
+            var professores = _context.Professores.ToList();
+            foreach (var professor in professores)
+            {
+                var rMatricula = _context.RelatorioMatriculas
+                    .Where(m => m.Descricao.Contains("Matricula") && m.Descricao.Contains(professor.Nome)).ToList();
+                foreach (var relatorio in rMatricula)
+                {
+                    var matricula = _context.Matriculas.FirstOrDefault(m => m.Id == relatorio.MatriculaId);
+                    matricula.ProfessorId = professor.Id.Value;
+                    _context.Update(matricula);
+                    _context.SaveChanges();
+                }
+            }
+
             return null;
         }
     }

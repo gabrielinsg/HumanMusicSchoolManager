@@ -108,8 +108,8 @@ namespace HumanMusicSchoolManager.Controllers
                 
             }
 
-            var inicialAnterior = inicial.Value.AddMonths(-1).AddDays(-inicial.Value.Day + 1);
-            var finalAnterior = final.Value.AddMonths(-1).AddDays(-final.Value.Day + 1).AddMonths(1).AddDays(-1);
+            var inicialAnterior = inicial.Value.AddMonths(-1).AddDays(-inicial.Value.AddMonths(-1).Day + 1);
+            var finalAnterior = final.Value.AddMonths(-1).AddDays(-final.Value.AddMonths(-1).Day + 1).AddMonths(1).AddDays(-1);
             var matriculas = _relatorioSerevice.MatriculasCanceladas(inicial.Value, final.Value);
             var totalAnterior = _relatorioSerevice.MatriculasCanceladas(inicialAnterior, finalAnterior).Count;
             var positivo = matriculas.Count >= totalAnterior ? true : false;
@@ -144,8 +144,9 @@ namespace HumanMusicSchoolManager.Controllers
                 final = NowHorarioBrasilia.GetNow().AddDays(-NowHorarioBrasilia.GetNow().Day + 1).AddMonths(1).AddDays(-1);
             }
 
-            var inicialAnterior = inicial.Value.AddMonths(-1).AddDays(-inicial.Value.Day + 1);
-            var finalAnterior = final.Value.AddMonths(-1).AddDays(-final.Value.Day + 1).AddMonths(1).AddDays(-1);
+
+            var inicialAnterior = inicial.Value.AddMonths(-1).AddDays(-inicial.Value.AddMonths(-1).Day + 1);
+            var finalAnterior = final.Value.AddMonths(-1).AddDays(-final.Value.AddMonths(-1).Day + 1).AddMonths(1).AddDays(-1);
             var matriculas = _relatorioSerevice.MatriculasNovas(inicial.Value, final.Value);
             var totalAnterior = _relatorioSerevice.MatriculasNovas(inicialAnterior, finalAnterior).Count;
             var positivo = matriculas.Count >= totalAnterior ? true : false;
@@ -190,8 +191,8 @@ namespace HumanMusicSchoolManager.Controllers
             {
                 final = NowHorarioBrasilia.GetNow().AddDays(-NowHorarioBrasilia.GetNow().Day + 1).AddMonths(1).AddDays(-1);
             }
-            var inicialAnterior = inicial.Value.AddMonths(-1).AddDays(-inicial.Value.Day + 1);
-            var finalAnterior = final.Value.AddMonths(-1).AddDays(-final.Value.Day + 1).AddMonths(1).AddDays(-1);
+            var inicialAnterior = inicial.Value.AddMonths(-1).AddDays(-inicial.Value.AddMonths(-1).Day + 1);
+            var finalAnterior = final.Value.AddMonths(-1).AddDays(-final.Value.AddMonths(-1).Day + 1).AddMonths(1).AddDays(-1);
             var demonstrativas = _relatorioSerevice.Demostrativas(inicial.Value, final.Value);
             var totalAnterior = _relatorioSerevice.Demostrativas(inicialAnterior, finalAnterior).Count;
             var positivo = demonstrativas.Count >= totalAnterior ? true : false;

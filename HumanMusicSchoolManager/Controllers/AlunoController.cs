@@ -123,7 +123,7 @@ namespace HumanMusicSchoolManager.Controllers
             else
             {
                
-                ViewBag.Atrasadas = _financeiroService.BuscarAtrasador().Where(f => f.PacoteCompra != null).ToList();
+                ViewBag.Atrasadas = _financeiroService.BuscarAtrasador().Where(f => f.AlunoId == alunoId).ToList();
                 return View(_alunoService.BuscarPorId(alunoId.Value));
             }
         }
