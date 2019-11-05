@@ -8,23 +8,48 @@ using HumanMusicSchoolManager.Models;
 using Microsoft.AspNetCore.Authorization;
 using HumanMusicSchoolManager.Data;
 using HumanMusicSchoolManager.Models.Models;
-using HumanMusicSchoolManager.ServicesInterface;
+using Microsoft.EntityFrameworkCore;
 
 namespace HumanMusicSchoolManager.Controllers
 {
     [Authorize]
     public class HomeController : Controller
     {
-        private readonly IRelatorioService _relatorioSerevice;
+        private readonly ApplicationDbContext _context;
 
-        public HomeController(IRelatorioService relatorioService)
+        public HomeController(ApplicationDbContext context)
         {
-            this._relatorioSerevice = relatorioService;
+            this._context = context;
         }
 
         public IActionResult Index()
         {
-            return View();
+            Professor professor = null;
+            if (User.IsInRole("Professor"))
+            {
+                var user = _context.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+                professor = _context.Professores.FirstOrDefault(p => p.Id == user.PessoaId);
+            }
+
+            var aulas = !User.IsInRole("Professor") ?
+                _context.Aulas
+                .Include(a => a.Professor)
+                .Include(a => a.Sala)
+                .Include(a => a.Chamadas)
+                .ThenInclude(c => c.PacoteCompra)
+                .ThenInclude(pc => pc.Matricula)
+                .ThenInclude(m => m.Aluno)
+                .Where(a => a.Data.Date == NowHorarioBrasilia.GetNow().Date).ToList() :
+                _context.Aulas
+                .Include(a => a.Professor)
+                .Include(a => a.Sala)
+                .Include(a => a.Chamadas)
+                .ThenInclude(c => c.PacoteCompra)
+                .ThenInclude(pc => pc.Matricula)
+                .ThenInclude(m => m.Aluno)
+                .Where(a => a.Data.Date == NowHorarioBrasilia.GetNow().Date && a.ProfessorId == professor.Id.Value).ToList();
+
+            return View(aulas);
         }
 
         public IActionResult About()
