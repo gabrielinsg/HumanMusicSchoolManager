@@ -5,20 +5,8 @@
 
 @section Styles{
     <link type="text/css" rel="stylesheet" href="~/css/tabelas.css" />
-    <style>
-        .botao {
-            cursor: pointer;
-        }
-
-        .badge {
-            position: absolute;
-            right: 40px;
-            z-index: 3;
-            border: 2px solid white;
-        }
-    </style>
+    <link type="text/css" rel="stylesheet" href="~/css/quadro-horario.css" />
 }
-
 
 
 <div class="card mt-2">
@@ -198,7 +186,7 @@
 
                                         <!-- Modal -->
                                         <div class="modal fade" id="exampleModalLong@(dispSala.Id)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                                            <div class="modal-dialog" style="max-width: 50%" role="document">
+                                            <div class="modal-dialog" style="min-width: 50%;" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h5 class="modal-title" id="exampleModalLongTitle">Alunos matriculados neste horário</h5>

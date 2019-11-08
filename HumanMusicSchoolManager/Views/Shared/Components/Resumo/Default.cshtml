@@ -38,7 +38,7 @@
                     <div class="row">
                         <div class="col">
                             <h5 class="card-title text-uppercase text-muted mb-0">@obj2["Titulo"]</h5>
-                            <span class="h2 font-weight-bold mb-0">@obj4["Total"]</span>
+                            <span class="h2 font-weight-bold mb-0">@obj2["Total"]</span>
                         </div>
                         <div class="col-auto">
                             <div class="icon icon-shape bg-info text-white rounded-circle shadow">
@@ -51,7 +51,7 @@
                             positivo = (bool)obj2["Positivo"];
                         }
                         <span class="@(positivo ? "text-success" : "text-danger") mr-2"><i class="fas @(positivo ? "fa-arrow-up" : "fa-arrow-down")"></i> @obj2["Porcentagem"]%</span>
-                        <span class="text-nowrap">Since last month</span>
+                        <span class="text-nowrap">Desde o último mês</span>
                     </p>
                 </div>
             </div>

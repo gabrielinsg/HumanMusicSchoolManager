@@ -216,6 +216,7 @@ namespace HumanMusicSchoolManager.Controllers
             {
                 matriculaViewModel.Matricula.Ativo = true;
                 matriculaViewModel.Matricula.DataMatricula = NowHorarioBrasilia.GetNow();
+                matriculaViewModel.Matricula.ProfessorId = matriculaViewModel.DispSala.Professor.Id.Value;
                 _matriculaService.Cadastrar(matriculaViewModel.Matricula);
                 var relatorioMatricula = new RelatorioMatricula
                 {

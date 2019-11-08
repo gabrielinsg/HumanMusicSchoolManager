@@ -1,0 +1,11 @@
+﻿.botao {
+    cursor: pointer;
+}
+
+.badge {
+    position: relative;
+    top: -15px;
+    right: -50%;
+    z-index: 3;
+    border: 2px solid white;
+}
