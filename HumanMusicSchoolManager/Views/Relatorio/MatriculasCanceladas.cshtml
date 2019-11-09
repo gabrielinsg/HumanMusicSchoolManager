@@ -60,25 +60,17 @@
                         <th>Professor</th>
                         <th>Motivo</th>
                         <th>Observação</th>
-                        <th class="text-center">Presente</th>
+                        <th class="text-center">Data Matrícula</th>
+                        <th class="text-center">Finalizada</th>
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr>
-                        <th>Candidato</th>
-                        <th>Curso</th>
-                        <th>Professor</th>
-                        <th>Motivo</th>
-                        <th>Observação</th>
-                        <th class="text-center">Presente</th>
-                    </tr>
-                </tfoot>
                 <tbody>
                     @foreach (var matricula in Model)
                     {
                         <tr>
                             <td>@matricula.Aluno.Nome</td>
                             <td>@matricula.Curso.Nome</td>
+                            <td>@matricula.Professor.Nome</td>
                             <td>@Html.DisplayFor(d => matricula.Motivo)</td>
                             <td>@matricula.Outros</td>
                             <td class="text-center">@matricula.DataMatricula.ToString("dd/MM/yyyy")</td>

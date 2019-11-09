@@ -77,6 +77,7 @@ namespace HumanMusicSchoolManager.Services
                 .Where(m => m.EncerramentoMatricula >= inicial && m.EncerramentoMatricula <= final)
                 .Include(m => m.Aluno)
                 .Include(m => m.Curso)
+                .Include(m => m.Professor)
                 .ToList();
         }
 
@@ -88,8 +89,7 @@ namespace HumanMusicSchoolManager.Services
                 .Where(m => m.DataMatricula >= inicial && m.DataMatricula <= final)
                 .Include(m => m.Aluno)
                 .Include(m => m.Curso)
-                .Include(m => m.DispSala)
-                .ThenInclude(m => m.Professor)
+                .Include(m => m.Professor)
                 .ToList();
         }
 

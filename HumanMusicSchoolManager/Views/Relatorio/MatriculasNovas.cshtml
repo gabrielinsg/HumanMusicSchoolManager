@@ -58,22 +58,17 @@
                     <tr>
                         <th>Aluno</th>
                         <th>Curso</th>
+                        <th>Professor</th>
                         <th class="text-center">Matrícula</th>
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr>
-                        <th>Aluno</th>
-                        <th>Curso</th>
-                        <th class="text-center">Matrícula</th>
-                    </tr>
-                </tfoot>
                 <tbody>
                     @foreach (var matricula in Model)
                     {
                         <tr>
                             <td>@matricula.Aluno.Nome</td>
                             <td>@matricula.Curso.Nome</td>
+                            <td>@matricula.Professor.Nome</td>
                             <td class="text-center">@matricula.DataMatricula.ToString("dd/MM/yyyy")</td>
                         </tr>
                     }
