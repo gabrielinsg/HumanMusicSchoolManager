@@ -113,6 +113,7 @@ namespace HumanMusicSchoolManager.Services
                 .Include(d => d.Candidato)
                 .Include(d => d.Curso)
                 .Include(d => d.Professor)
+                .Include(d => d.Pessoa)
                 .ToList();
         }
     }

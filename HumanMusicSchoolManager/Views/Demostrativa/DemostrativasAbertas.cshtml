@@ -24,8 +24,10 @@
                     <tr class="small">
                         <th class="text-center">Data</th>
                         <th>Nome</th>
+                        <th>Celular</th>
                         <th>Curso</th>
                         <th>Professor</th>
+                        <th>Marcada por</th>
                         <th>Confirmada</th>
                         <th class="text-center">Demostrativa</th>
                     </tr>
@@ -45,12 +47,19 @@
                         {
                             professorSobrenome = Demostrativa.Professor.Nome.Split(' ')[2];
                         }
+                        var funcionarioSobrenome = Demostrativa.Pessoa.Nome.Split(' ')[1];
+                        if (funcionarioSobrenome.Length > 0 && funcionarioSobrenome.Length <= 3)
+                        {
+                            funcionarioSobrenome = Demostrativa.Pessoa.Nome.Split(' ')[2];
+                        }
                         var aula = Demostrativa.Aula.AulaDada ? Demostrativa.Presenca != null && Demostrativa.Presenca.Value ? "Presente" : "Faltou" : "Aula não lançada";
                         <tr>
                             <td class="text-center"><span data-toggle="tooltip" data-placement="top" title="@Html.DisplayFor(d => Demostrativa.Dia)">@Demostrativa.Aula.Data.ToString("dd/MM/yyy - HH:mm'h'")</span></td>
                             <td><span  data-toggle="tooltip" data-placement="top" title="@Demostrativa.Candidato.Nome">@Demostrativa.Candidato.Nome.Split(' ')[0] @candidatoSobrenome</span></td>
+                            <td>@Demostrativa.Candidato.Cel</td>
                             <td><span data-toggle="tooltip" data-placement="top" title="@aula">@Demostrativa.Curso.Nome</span></td>
                             <td><span data-toggle="tooltip" data-placement="top" title="@Demostrativa.Professor.Nome">@Demostrativa.DispSala.Professor.Nome.Split(' ')[0] @professorSobrenome</span></td>
+                            <td><span data-toggle="tooltip" data-placement="top" title="@Demostrativa.Pessoa.Nome">@Demostrativa.Pessoa.Nome.Split(' ')[0] @funcionarioSobrenome</span></td>
                             <td>
                                 <select asp-for="@Demostrativa" id="confirm@(Demostrativa.Id)" onchange="Confimacao('confirm@(Demostrativa.Id)',@Demostrativa.Id)" class="form-control" asp-items="Html.GetEnumSelectList<Confirmado>()">
                                     <option value="@Demostrativa.Confirmado">@Html.DisplayFor(d => Demostrativa.Confirmado)</option>

@@ -72,11 +72,12 @@ namespace HumanMusicSchoolManager.Components
 
             var ob = new Dictionary<string, object>
                 {
-                    { "Titulo", "Novas Matrículas" },
+                    { "Titulo", "Mat. Novas" },
                     { "Anterior", totalAnterior },
                     { "Total", total },
                     { "Positivo", positivo },
-                    { "Porcentagem", porcentagem.ToString("##0.##") }
+                    { "Porcentagem", porcentagem.ToString("##0.##") },
+                    { "Link", User.IsInRole("Professor") ? "#" : "/Relatorio/MatriculasNovas" }
                 };
 
             return ob;
@@ -116,7 +117,8 @@ namespace HumanMusicSchoolManager.Components
                     { "Anterior", totalAnterior },
                     { "Total", total },
                     { "Positivo", positivo },
-                    { "Porcentagem", porcentagem.ToString("##0.##") }
+                    { "Porcentagem", porcentagem.ToString("##0.##") },
+                    { "Link", User.IsInRole("Professor") ? "#" : "/Relatorio/Demonstrativas" }
                 };
 
             return ob;
@@ -137,7 +139,8 @@ namespace HumanMusicSchoolManager.Components
             {
                 { "Titulo", "Aulas do dia" },
                 { "Total", aulas },
-                { "Restante", aulasRestantes }
+                { "Restante", aulasRestantes },
+                { "Link", "/Home/Index" }
             };
 
             return ob;
@@ -181,11 +184,12 @@ namespace HumanMusicSchoolManager.Components
 
             var ob = new Dictionary<string, object>
                 {
-                    { "Titulo", "Finalizadas" },
+                    { "Titulo", "Mat. Canceladas" },
                     { "Anterior", totalAnterior },
                     { "Total", total },
                     { "Positivo", positivo },
-                    { "Porcentagem", porcentagem.ToString("##0.##") }
+                    { "Porcentagem", porcentagem.ToString("##0.##") },
+                    { "Link", User.IsInRole("Professor") ? "#" : "/Relatorio/MatriculasCanceladas" }
                 };
 
             return ob;
