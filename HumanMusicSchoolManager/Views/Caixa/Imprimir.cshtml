@@ -1,0 +1,76 @@
+﻿@model Caixa
+@{
+    ViewData["Title"] = "Imprimir caixa";
+    Layout = "_Print";
+}
+
+@section Styles {
+
+    <style>
+        .table .quebrar{
+            white-space: pre-wrap;
+        }
+    </style>
+}
+
+<div class="container" style="padding: 20px 0 20px 0; page-break-before: always; page-break-inside: avoid;">
+    <table class="table table-sm border">
+        <thead>
+            <tr>
+                <th colspan="7">@(Model.DataFechado == null ? "Aberto" : "Fechado por " + Model.FuncionarioFechado.Nome)</th>
+            </tr>
+        </thead>
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Hora</th>
+                <th>Valor</th>
+                <th>Dinheiro</th>
+                <th>Débito</th>
+                <th>Crédito</th>
+                <th>Cheque</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@(Model.DataFechado == null ? "" : Model.DataFechado.Value.ToString("dd/MM/yy"))</td>
+                <td>@(Model.DataFechado == null ? "" : Model.DataFechado.Value.ToString("HH:mm"))</td>
+                <td>@Model.Total().ToString("R$ #,##0.00")</td>
+                <td>@Model.TotalDinheiro().ToString("R$ #,##0.00")</td>
+                <td>@Model.TotalDebito().ToString("R$ #,##0.00")</td>
+                <td>@Model.TotalCredito().ToString("R$ #,##0.00")</td>
+                <td>@Model.TotalCheque().ToString("R$ #,##0.00")</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table table-sm table-bordered">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Funcionário</th>
+                <th>Descrição</th>
+                <th>Data</th>
+                <th>Hora</th>
+                <th>Forma</th>
+                <th>Entrada</th>
+                <th>Saída</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var transacaoCaixa in Model.TransacoesCaixa)
+            {
+                <tr>
+                    <td>@transacaoCaixa.Id</td>
+                    <td class="quebrar">@transacaoCaixa.Funcionario.Nome</td>
+                    <td class="quebrar">@transacaoCaixa.Descricao</td>
+                    <td>@transacaoCaixa.Data.ToString("dd/MM/yy")</td>
+                    <td>@transacaoCaixa.Data.ToString("HH:mm")</td>
+                    <td>@Html.DisplayFor(d => transacaoCaixa.FormaPagamento)</td>
+                    <td>@(transacaoCaixa.Entrada ? transacaoCaixa.Valor.ToString("R$ #,##0.00") : "")</td>
+                    <td>@(!transacaoCaixa.Entrada ? transacaoCaixa.Valor.ToString("R$ #,##0.00") : "")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

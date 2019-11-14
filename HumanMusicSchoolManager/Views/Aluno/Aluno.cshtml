@@ -313,7 +313,10 @@
                                                                                         <th scope="col">Pacote</th>
                                                                                         <th scope="col">Aulas</th>
                                                                                         <th>
-                                                                                            <a asp-controller="PacoteCompra" asp-action="Form" asp-route-matriculaId="@matricula.Id" class="btn btn-success btn-sm"><i class="fas fa-plus-circle"></i> Comprar Aulas</a>
+                                                                                            @if (matricula.DispSalaId != null)
+                                                                                            {
+                                                                                                <a asp-controller="PacoteCompra" asp-action="Form" asp-route-matriculaId="@matricula.Id" class="btn btn-success btn-sm"><i class="fas fa-plus-circle"></i> Comprar Aulas</a>
+                                                                                            }
                                                                                         </th>
                                                                                     </tr>
                                                                                 </thead>
@@ -347,9 +350,12 @@
                                                                                             <td class="d-flex align-items-center">
                                                                                                 <div class="avatar-group ">
                                                                                                     <a data-toggle="tooltip" data-placement="top" title="Calendário" class="avatar avatar-sm bg-blue" asp-controller="PacoteCompra" asp-action="PacoteCompra" asp-route-pacoteCompraId="@pacoteCompra.Id"><i class="far fa-calendar-alt text-xl"></i></a>
-                                                                                                    <a data-toggle="tooltip" data-placement="top" title="Contrato" class="avatar avatar-sm bg-red" asp-controller="Contrato" asp-action="Contrato" asp-route-pacoteCompraId="@pacoteCompra.Id" target="_blank"><i class="far fa-file-pdf text-xl"></i></a>
-                                                                                                    <a data-toggle="tooltip" data-placement="top" title="Trancar" class="avatar avatar-sm bg-success" asp-controller="Trancamento" , asp-action="Form" asp-route-pacoteCompraId="@pacoteCompra.Id"><i class="far fa-pause-circle text-xl"></i></a>
-                                                                                                    <a data-toggle="tooltip" data-placement="top" title="Cancelar" class="avatar avatar-sm bg-danger" asp-controller="PacoteCompra" asp-action="CancelarPacote" asp-route-pacoteCompraId="@pacoteCompra.Id"><i class="far fa-times-circle text-xl"></i></a>
+                                                                                                    @if (matricula.DispSalaId != null)
+                                                                                                    {
+                                                                                                        <a data-toggle="tooltip" data-placement="top" title="Contrato" class="avatar avatar-sm bg-red" asp-controller="Contrato" asp-action="Contrato" asp-route-pacoteCompraId="@pacoteCompra.Id" target="_blank"><i class="far fa-file-pdf text-xl"></i></a>
+                                                                                                        <a data-toggle="tooltip" data-placement="top" title="Trancar" class="avatar avatar-sm bg-success" asp-controller="Trancamento" , asp-action="Form" asp-route-pacoteCompraId="@pacoteCompra.Id"><i class="far fa-pause-circle text-xl"></i></a>
+                                                                                                        <a data-toggle="tooltip" data-placement="top" title="Cancelar" class="avatar avatar-sm bg-danger" asp-controller="PacoteCompra" asp-action="CancelarPacote" asp-route-pacoteCompraId="@pacoteCompra.Id"><i class="far fa-times-circle text-xl"></i></a>
+                                                                                                    }
                                                                                                 </div>
                                                                                             </td>
                                                                                         </tr>

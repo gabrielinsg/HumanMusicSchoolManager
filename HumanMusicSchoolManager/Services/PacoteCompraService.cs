@@ -48,6 +48,8 @@ namespace HumanMusicSchoolManager.Services
                 .ThenInclude(rf => rf.Endereco)
                 .Include(pc => pc.Trancamento)
                 .Include(pc => pc.Financeiros)
+                .Include(pc => pc.Matricula)
+                .ThenInclude(m => m.Professor)
                 .FirstOrDefault(pc => pc.Id == pacoteCompraId);
         }
 

@@ -121,5 +121,10 @@ namespace HumanMusicSchoolManager.Controllers
             return View("Caixa", caixaViewModel);
 
         }
+
+        public IActionResult Imprimir(int caixaId)
+        {
+            return View(_caixaService.BuscarCaixa(caixaId));
+        }
     }
 }

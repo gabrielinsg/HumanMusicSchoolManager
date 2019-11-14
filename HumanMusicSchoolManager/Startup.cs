@@ -153,7 +153,7 @@ namespace HumanMusicSchoolManager
 
             app.UseCookiePolicy();
 
-            CreateUserRoles(service).Wait();
+            //CreateUserRoles(service).Wait();
         }
 
         private async Task CreateUserRoles(IServiceProvider serviceProvider)

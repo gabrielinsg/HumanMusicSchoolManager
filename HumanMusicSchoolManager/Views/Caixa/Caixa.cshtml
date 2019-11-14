@@ -13,6 +13,7 @@
         .lancar{
             margin-top: 25px;
         }
+
     </style>
 }
 
@@ -23,19 +24,18 @@
                 <i class="fas fa-file-invoice-dollar"></i>
                 Movimento do caixa
             </div>
-            <div class="col-md-5"></div>
-            <div class="col-md-2">
-                <a asp-action="Index" class="btn btn-primary">Voltar</a>
+            <div class="col-md-3 "></div>
+            <div class="col-md-4">
+                <a asp-action="Index" class="btn btn-primary float-left">Voltar</a>
+                @if (@Model.Caixa.DataFechado == null)
+                {
+                    <form asp-action="Fechar" method="post">
+                        <button class="btn btn-danger float-right" id="fecharCaixa">Fechar caixa</button>
+                    </form>
+                }
+                <a data-toggle="tooltip" data-placement="top" title="Imprimir" class="btn btn-default float-left" asp-action="Imprimir" asp-route-caixaId="@Model.Caixa.Id" target="_blank"><i class="fas fa-print"></i></a>
             </div>
-            @if (@Model.Caixa.DataFechado == null)
-            {
-                <form asp-action="Fechar" method="post">
-                    <div class="col-md-2">
-                        <button class="btn btn-danger" id="fecharCaixa">Fechar caixa</button>
-                    </div>
-                </form>
-            }
-
+            
         </div>
     </div>
     <div class="card-body">
