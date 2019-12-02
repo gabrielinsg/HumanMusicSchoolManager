@@ -3,7 +3,15 @@
     ViewData["Title"] = "PrintCalendario";
     Layout = "_Print";
 }
-<br />
+
+@section Styles{ 
+    <style>
+        .table-sm td, .table-sm th {
+            padding: .3rem;
+        }
+    </style>
+}
+
 <div class="container">
     <h2>Calendário de Aulas - @Model.Matricula.Aluno.Nome</h2>
     <br />

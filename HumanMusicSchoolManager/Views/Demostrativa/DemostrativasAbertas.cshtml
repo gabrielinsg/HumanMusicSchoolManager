@@ -6,7 +6,9 @@
 @section Styles {
     <link type="text/css" rel="stylesheet" href="~/css/tabelas.css" />
 }
-
+@{
+    var a = Model.FirstOrDefault(d => d.AulaId == null);
+}
 <div class="card mb-3">
     <div class="card-header">
         <div class="row">
@@ -36,8 +38,8 @@
                 <tbody>
                     @foreach (var Demostrativa in Model)
                     {
-
-                        var candidatoSobrenome = Demostrativa.Candidato.Nome.Split(' ')[1];
+                        
+                        var candidatoSobrenome = Demostrativa.Candidato.Nome.Split(' ').Count() > 1 ? Demostrativa.Candidato.Nome.Split(' ')[1] : "";
                         if (candidatoSobrenome.Length > 0 && candidatoSobrenome.Length <= 3)
                         {
                             candidatoSobrenome = Demostrativa.Candidato.Nome.Split(' ')[2];

@@ -5,10 +5,10 @@
 }
 
 
-<div asp-validation-summary="All" class="text-danger"></div>
+
 <div class="row">
     <div class="col-md-5">
-        <div class="card">
+        <div class="card mt-2">
             <div class="card-body">
                 @if (Model.PacoteCompra.Trancamento == null)
                 {
@@ -16,6 +16,7 @@
                     {
                         <div class="row">
                             <div class="col">
+                                <div asp-validation-summary="All" class="text-danger"></div>
                                 <form asp-action="Form" method="post">
                                     <input asp-for="Trancamento.PacoteCompraId" value="@Model.PacoteCompra.Id" type="hidden" />
                                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
