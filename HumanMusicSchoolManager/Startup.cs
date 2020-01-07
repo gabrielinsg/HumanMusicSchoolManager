@@ -151,8 +151,6 @@ namespace HumanMusicSchoolManager
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            app.UseCookiePolicy();
-
             CreateUserRoles(service).Wait();
         }
 
