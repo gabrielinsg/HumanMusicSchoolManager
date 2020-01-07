@@ -1,0 +1,37 @@
+﻿@media print {
+    #sidenav-main {
+        display: none;
+    }
+
+    .navbar-vertical.navbar-expand-md.fixed-left + .main-content {
+        margin-left: 0;
+    }
+
+    #card-resumo{
+        display: none;
+    }
+
+    .card-header{
+        display: none;
+    }
+
+    #dataTable_length{
+        display: none;
+    }
+
+    #dataTable_filter{
+        display: none;
+    }
+
+    .table-responsive {
+        overflow: visible;
+    }
+
+    #dataTable_info{
+        display: none;
+    }
+
+    #dataTable_paginate {
+        display: none;
+    }
+}

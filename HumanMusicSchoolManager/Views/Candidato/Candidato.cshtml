@@ -269,7 +269,7 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-md-2">
+                                                                    <div id="presencatxt@(demostrativa.Id)" class="col-md-2">
                                                                         <label><b>Presença:</b></label>
                                                                         @if (demostrativa.Presenca == null)
                                                                         {
@@ -319,12 +319,24 @@
                                                                 </div>
                                                                 <div class="row">
 
-                                                                    <div class="col-md-5">
+                                                                    <div class="col-md-2">
                                                                         <div class="form-group">
                                                                             <label asp-for="Demostrativa.Confirmado" class="col-md-2 control-label"></label>
-                                                                            <div class="col-md-4">
+                                                                            <div class="col-md-12">
                                                                                 <select asp-for="Demostrativa.Confirmado" id="confirm@(demostrativa.Id)" onchange="Confimacao('confirm@(demostrativa.Id)',@demostrativa.Id)" class="form-control" asp-items="Html.GetEnumSelectList<Confirmado>()">
                                                                                     <option selected="selected" value="@demostrativa.Confirmado">@Html.DisplayFor(d => demostrativa.Confirmado)</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-2">
+                                                                        <div class="form-group">
+                                                                            <label asp-for="Demostrativa.Presenca" class="col-md-2 control-label"></label>
+                                                                            <div class="col-md-12">
+                                                                                <select asp-for="Demostrativa.Presenca" id="presenca@(demostrativa.Id)" onchange="Presenca('@(demostrativa.Id)',@demostrativa.Id)" class="form-control">
+                                                                                    <option value=""></option>
+                                                                                    <option value=true>Presente</option>
+                                                                                    <option value=false>Faltou</option>
                                                                                 </select>
                                                                             </div>
                                                                         </div>

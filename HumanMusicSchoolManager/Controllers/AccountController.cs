@@ -473,7 +473,7 @@ namespace HumanMusicSchoolManager.Controllers
                 EnvioEmail.EnviarEmail("Resetar a senha",
                     $"Redefinir a senha clicando sobre esse link: <a href='{callbackUrl}'>link</a>", model.Email);
 
-                return RedirectToAction(nameof(ForgotPasswordConfirmation));
+                return RedirectToAction("Login");
             }
 
             // If we got this far, something failed, redisplay form
@@ -517,7 +517,7 @@ namespace HumanMusicSchoolManager.Controllers
             var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
             if (result.Succeeded)
             {
-                return RedirectToAction(nameof(ResetPasswordConfirmation));
+                return RedirectToAction("Login");
             }
             AddErrors(result);
             return View();

@@ -272,5 +272,13 @@ namespace HumanMusicSchoolManager.Controllers
         {
             _DemostrativaService.AtualizarConfirmado(id, confirmado);
         }
+
+        [HttpPost]
+        public void AutoSavePresenca(int id, bool presenca)
+        {
+            var demonstrativa = _DemostrativaService.BuscarPorId(id);
+            demonstrativa.Presenca = presenca;
+            _DemostrativaService.Alterar(demonstrativa);
+        }
     }
 }
