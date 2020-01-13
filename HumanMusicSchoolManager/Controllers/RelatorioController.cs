@@ -169,7 +169,7 @@ namespace HumanMusicSchoolManager.Controllers
             return View(_relatorioSerevice.MatriculasNovas(inicial.Value, final.Value));
         }
 
-        public IActionResult AlunosAniversariantes(int? mes)
+        public IActionResult Aniversariantes(int? mes)
         {
             if (mes == null)
             {
@@ -177,7 +177,32 @@ namespace HumanMusicSchoolManager.Controllers
             }
 
             ViewBag.Mes = mes.Value;
-            return View(_relatorioSerevice.AlunosAniversariantes(mes.Value));
+
+            var alunos = _context.Alunos
+                .Where(a =>
+                    a.Matriculas.Any(m => m.EncerramentoMatricula == null)
+                    && (a.DataNascimento.Month == mes)
+                )
+                .ToList();
+
+            var funcionarios = _context.Funcionarios.Where(f => f.Ativo && f.DataNascimento.Month == mes).ToList();
+            var responsaveis = _context.RespsFinanceiro
+                .Where(r =>
+                    r.Matriculas.Any(m => m.EncerramentoMatricula == null)
+                    && (r.DataNascimento.Month == mes)
+                ).ToList();
+
+            var professores = _context.Professores.Where(p => p.Ativo && p.DataNascimento.Month == mes).ToList();
+
+            var aniversariantes = new Dictionary<string, object>
+            {
+                { "Alunos", alunos },
+                { "Responsaveis", responsaveis },
+                { "Funcionarios", funcionarios },
+                { "Professores", professores }
+            };
+
+            return View(aniversariantes);
         }
 
         public IActionResult Demonstrativas(DateTime? inicial, DateTime? final)

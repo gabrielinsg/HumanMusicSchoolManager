@@ -1,7 +1,13 @@
-﻿@model List<Aluno>
+﻿@model Dictionary<string, object>
 @{
     ViewData["Title"] = "Alunos Aniversariantes";
+
+    List<Aluno> alunos = (List<Aluno>) Model["Alunos"];
+    List<Professor> professores = (List<Professor>)Model["Professores"];
+    List<Funcionario> funcionarios = (List<Funcionario>)Model["Funcionarios"];
+    List<RespFinanceiro> responsaveis = (List<RespFinanceiro>)Model["Responsaveis"];
 }
+
 
 @section Styles{
     <link type="text/css" href="~/css/tabelas.css" rel="stylesheet" >
@@ -58,16 +64,42 @@
             <table class="table table-sm align-items-center table-hover table-flush dataTable no-footer" id="dataTable" cellspacing="0">
                 <thead class="thead-light">
                     <tr>
-                        <th>Aluno</th>
+                        <th>Nome</th>
                         <th class="text-center">Data</th>
+                        <th>Tipo</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var aluno in Model)
+                    @foreach (var pessoa in alunos)
                     {
                         <tr>
-                            <td>@aluno.Nome</td>
-                            <td class="text-center">@aluno.DataNascimento.ToString("dd/MM")</td>
+                            <td>@pessoa.Nome</td>
+                            <td class="text-center">@pessoa.DataNascimento.ToString("dd/MM")</td>
+                            <td>Aluno</td>
+                        </tr>
+                    }
+                    @foreach (var pessoa in professores)
+                    {
+                        <tr>
+                            <td>@pessoa.Nome</td>
+                            <td class="text-center">@pessoa.DataNascimento.ToString("dd/MM")</td>
+                            <td>Professo</td>
+                        </tr>
+                    }
+                    @foreach (var pessoa in responsaveis)
+                    {
+                        <tr>
+                            <td>@pessoa.Nome</td>
+                            <td class="text-center">@pessoa.DataNascimento.ToString("dd/MM")</td>
+                            <td>Resp Financeiro</td>
+                        </tr>
+                    }
+                    @foreach (var pessoa in funcionarios)
+                    {
+                        <tr>
+                            <td>@pessoa.Nome</td>
+                            <td class="text-center">@pessoa.DataNascimento.ToString("dd/MM")</td>
+                            <td>Funcionário</td>
                         </tr>
                     }
                 </tbody>
