@@ -42,7 +42,16 @@
                 <tbody>
                     @foreach (var Demostrativa in Model)
                     {
-                        var candidatoSobrenome = Demostrativa.Candidato.Nome.Split(' ')[1];
+                        var candidatoSobrenome = "";
+                        try
+                        {
+                            candidatoSobrenome = Demostrativa.Candidato.Nome.Split(' ')[1];
+                        }
+                        catch
+                        {
+                            candidatoSobrenome = "";
+                        }
+
                         if (candidatoSobrenome.Length > 0 && candidatoSobrenome.Length <= 3)
                         {
                             candidatoSobrenome = Demostrativa.Candidato.Nome.Split(' ')[2];
