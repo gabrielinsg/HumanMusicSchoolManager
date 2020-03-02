@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HumanMusicSchoolManager.Data;
 using HumanMusicSchoolManager.Models.Models;
 using HumanMusicSchoolManager.ServicesInterface;
 using Microsoft.AspNetCore.Authorization;
@@ -16,16 +17,19 @@ namespace HumanMusicSchoolManager.Controllers
         private readonly IAlunoService _alunoService;
         private readonly IEnderecoService _enderecoService;
         private readonly IPessoaService _pessoaService;
+        private readonly ApplicationDbContext _context;
 
         public RespFinanceiroController(IRespFinanceiroService respFinanceiroService,
             IAlunoService alunoService,
             IEnderecoService enderecoService,
-            IPessoaService pessoaService)
+            IPessoaService pessoaService,
+            ApplicationDbContext context)
         {
             this._respFinanceiroService = respFinanceiroService;
             this._alunoService = alunoService;
             this._enderecoService = enderecoService;
             this._pessoaService = pessoaService;
+            this._context = context;
         }
 
         public IActionResult Index()
@@ -75,7 +79,9 @@ namespace HumanMusicSchoolManager.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _respFinanceiroService.Alterar(respFinanceiro);
+                    //_respFinanceiroService.Alterar(respFinanceiro);
+                    _context.RespsFinanceiro.Update(respFinanceiro);
+                    _context.SaveChanges();
 
                     TempData["Success"] = "Responsável financeiro Alterado com sucesso!";
 
