@@ -88,9 +88,9 @@ namespace HumanMusicSchoolManager.Services
                 .Where(d => d.Contratou == false && d.Aula.Data >= inicial && d.Aula.Data <= final)
                 .Include(d => d.Curso)
                 .Include(d => d.Candidato)
-                .Include(d => d.DispSala)
-                .ThenInclude(ds => ds.Professor)
                 .Include(d => d.Aula)
+                .Include(d => d.Professor)
+                .Include(d => d.Pessoa)
                 .OrderBy(d => d.Aula.Data)
                 .ToList();
         }

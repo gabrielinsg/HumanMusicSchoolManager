@@ -405,7 +405,8 @@ namespace HumanMusicSchoolManager.Controllers
                 var trocaDispSalaViewModel = new TrocaDispSalaViewModel
                 {
                     DispSalas = _dispSalaService.HorariosDisponiveis(),
-                    DiaAula = NowHorarioBrasilia.GetNow()
+                    DiaAula = NowHorarioBrasilia.GetNow(),
+                    Cursos = _cursoService.BuscarTodos()
                 };
 
                 trocaDispSalaViewModel.Matricula = _matriculaService.BuscarPorId(matriculaId.Value);
@@ -415,6 +416,7 @@ namespace HumanMusicSchoolManager.Controllers
                     if (dispSalaId != null)
                     {
                         trocaDispSalaViewModel.DispSala = _dispSalaService.BuscarPorId(dispSalaId.Value);
+                        trocaDispSalaViewModel.Cursos = _cursoService.BuscarTodos();
                         ViewBag.Aba = 2;
                     }
                     else
@@ -571,6 +573,7 @@ namespace HumanMusicSchoolManager.Controllers
             else
             {
                 trocaDispSalaViewModel.DispSalas = _dispSalaService.HorariosDisponiveis();
+                trocaDispSalaViewModel.Cursos = _cursoService.BuscarTodos();
                 ViewBag.Aba = 2;
                 return View(trocaDispSalaViewModel);
             }

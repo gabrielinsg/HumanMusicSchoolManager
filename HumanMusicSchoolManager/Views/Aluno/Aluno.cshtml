@@ -100,7 +100,7 @@
                         {<p><i class="fab fa-whatsapp text-success"></i> <a target="_blank" href="https://wa.me/@cel">@Model.Cel</a></p>}
                     </div>
                     <hr class="my-4">
-                    <p>@Model.Observacao</p>
+                    <p>@Html.Raw(Model.Observacao)</p>
                 </div>
             </div>
         </div>
@@ -219,7 +219,7 @@
                                         else
                                         {
                                             <div class="d-flex align-items-center">
-                                                <span class="mr-2">@porcentagem%</span>
+                                                <span class="mr-2 @(matricula.EncerramentoMatricula != null ? "text-danger" : "")">@porcentagem%</span>
                                                 <div>
                                                     <div class="progress">
                                                         <div class="progress-bar @(porcentagem <= 90 ? "bg-success" : "bg-warning")" role="progressbar" aria-valuenow="@porcentagem" aria-valuemin="0" aria-valuemax="100" style="width: @porcentagem%;"></div>

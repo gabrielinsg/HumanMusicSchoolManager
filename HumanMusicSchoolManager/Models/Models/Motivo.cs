@@ -20,6 +20,8 @@ namespace HumanMusicSchoolManager.Models.Models
         ESCOLA,
         [Display(Name = "Não retornou o contato")]
         RETORNO,
+        [Display(Name = "Reagendou")]
+        REAGENDOU,
         [Display(Name = "Outros")]
         OUTROS
     }

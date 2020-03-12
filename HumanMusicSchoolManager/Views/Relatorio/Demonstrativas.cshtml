@@ -57,11 +57,13 @@
                         <th>Curso</th>
                         <th>Professor</th>
                         <th>Data</th>
+                        <th>Hora</th>
                         <th>Marcado por</th>
                         <th>Confirmado</th>
                         <th class="text-center">Presente</th>
                         <th class="text-center">Contratou</th>
                         <th>Motivo</th>
+                        <th class="text-center">Demostrativa</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -83,11 +85,17 @@
                         <td>@demostrativa.Curso.Nome</td>
                         <td><span data-toggle="tooltip" data-placement="top" title="@(demostrativa.Professor == null ? "" : demostrativa.Professor.Nome)">@(demostrativa.Professor == null ? "Professor não registrado" : demostrativa.Professor.Nome.Split()[0] + ' ' + professorSobrenome)</span></td>
                         <td>@demostrativa.Data.ToString("dd/MM/yy")</td>
+                        <td>@demostrativa.Data.ToString("HH:mm")</td>
                         <td><span data-toggle="tooltip" data-placement="top" title="@demostrativa.Pessoa.Nome">@demostrativa.Pessoa.Nome.Split(' ')[0] @funcionarioSobrenome</span></td>
                         <td>@Html.DisplayFor(d => demostrativa.Confirmado)</td>
                         <td>@(demostrativa.Presenca == null ? "Não registrado" : demostrativa.Presenca.Value ? "Presente" : "Faltou")</td>
                         <td>@(demostrativa.Contratou == null ? "Não finalizado" : demostrativa.Contratou.Value ? "Sim" : "Não")</td>
                         <td>@Html.DisplayFor(d => demostrativa.Motivo)</td>
+                        <td class="text-center">
+                            <div class="avatar-group">
+                                <a data-toggle="tooltip" data-placement="top" title="Demonstrativa" class="avatar avatar-sm bg-warning" asp-controller="Candidato" asp-action="Candidato" asp-route-candidatoId="@demostrativa.CandidatoId"><i class="fas fa-chalkboard-teacher"></i></a>
+                            </div>
+                        </td>
                     </tr>
                     }
                 </tbody>

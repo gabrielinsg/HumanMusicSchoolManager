@@ -234,6 +234,9 @@ namespace HumanMusicSchoolManager.Services
                 .ThenInclude(c => c.PacoteCompra)
                 .ThenInclude(pc => pc.Matricula)
                 .ThenInclude(m => m.Aluno)
+                .Include(a => a.Chamadas)
+                .ThenInclude(c => c.PacoteCompra)
+                .ThenInclude(pc => pc.PacoteAula)
                 .ToList();
 
             professor.Aulas = aulas;

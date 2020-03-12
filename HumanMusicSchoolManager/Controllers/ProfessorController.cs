@@ -257,6 +257,10 @@ namespace HumanMusicSchoolManager.Controllers
                 else if (aula.Chamadas.Count > 0)
                 {
                     cal.Title += " " + aula.Chamadas.FirstOrDefault().PacoteCompra.Matricula.Aluno.Nome.Split(' ')[0];
+                    if (aula.Chamadas.FirstOrDefault().PacoteCompra.PacoteAula.TipoAula == TipoAula.INDIVIDUAL)
+                    {
+                        cal.Title += " <i class=\"fas fa-users\"></i>";
+                    }
                 }
                     
                 

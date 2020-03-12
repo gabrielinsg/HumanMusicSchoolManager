@@ -140,7 +140,7 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label asp-for="Observacao"></label>
-                        <input asp-for="Observacao" class="form-control" />
+                        <textarea rows="5" asp-for="Observacao" class="form-control"></textarea>
                         <span asp-validation-for="Observacao"></span>
                     </div>
                 </div>
@@ -155,6 +155,10 @@
 
 @section Scripts{
     <script src="~/js/Buscas/BuscarPorNome.js"></script>
+    <script src="~/ckeditor/ckeditor.js"></script>
+    <script>
+        let editor = CKEDITOR.replace('Observacao');
+    </script>
 }
 
 

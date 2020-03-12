@@ -1,6 +1,6 @@
-﻿@model List<Aluno>
+﻿@model List<Matricula>
 @{
-    ViewData["Title"] = "Alunos";
+    ViewData["Title"] = "Matriculas sem aulas";
 }
 
 @section Styles {
@@ -25,35 +25,34 @@
             <table class="table table-sm align-items-center table-hover table-flush dataTable no-footer" id="dataTable" cellspacing="0">
                 <thead class="thead-light">
                     <tr>
-                        <th>Nome</th>
-                        <th class="text-center ">CPF</th>
+                        <th>Aluno</th>
+                        <th class="text-center ">Curso</th>
                         <th class="text-center"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var aluno in Model)
+                    @foreach (var matricula in Model)
                     {
                         <tr>
-                            <td>@aluno.Nome</td>
-                            <td class="text-center">@aluno.CPF</td>
+                            <td>@matricula.Aluno.Nome</td>
+                            <td class="text-center">@matricula.Curso.Nome</td>
                             <td>
                                 <div class="avatar-group">
-                                    <a data-toggle="tooltip" data-placement="top" title="Informações" class="avatar avatar-sm" asp-action="Aluno" asp-route-alunoId="@aluno.Id">
-                                        @if (aluno.Foto == null)
+                                    <a data-toggle="tooltip" data-placement="top" title="Informações" class="avatar avatar-sm" asp-controller="Aluno" asp-action="Aluno" asp-route-alunoId="@matricula.Aluno.Id">
+                                        @if (matricula.Aluno.Foto == null)
                                         {
                                             <img alt="Image placeholder" src="~/img/user.png" class="rounded-circle">
                                         }
                                         else
                                         {
-                                            <img alt="Image placeholder" src="@aluno.Foto" class="rounded-circle">
+                                            <img alt="Image placeholder" src="@matricula.Aluno.Foto" class="rounded-circle">
                                         }
 
                                     </a>
-                                    <a data-toggle="tooltip" data-placement="top" title="Financeiro" class="avatar avatar-sm bg-success" asp-controller="Financeiro" asp-action="Financeiro" asp-route-alunoId="@aluno.Id"><i class="fas fa-dollar-sign text-xl"></i></a>
-                                    <a data-toggle="tooltip" data-placement="top" title="Dados" class="avatar avatar-sm bg-warning" asp-action="Form" asp-route-alunoId="@(aluno.Id)"><i class="fas fa-pencil-alt text-xl"></i></a>
+                                    
                                 </div>
                             </td>
-                            
+
                         </tr>
                     }
                 </tbody>
@@ -74,3 +73,4 @@
         })
     </script>
 }
+

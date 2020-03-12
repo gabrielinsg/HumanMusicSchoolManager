@@ -31,48 +31,48 @@
             <table class="table table-sm align-items-center table-hover table-flush dataTable no-footer" id="dataTable" cellspacing="0">
                 <thead class="thead-light">
                     <tr class="small">
-                        <th class="text-center">Data</th>
-                        <th>Nome</th>
+                        <th>Candidato</th>
+                        <th>Celular</th>
                         <th>Curso</th>
                         <th>Professor</th>
-                        <th>Confirmada</th>
+                        <th>Data</th>
+                        <th>Hora</th>
+                        <th>Marcado por</th>
+                        <th>Confirmado</th>
+                        <th class="text-center">Presente</th>
+                        <th class="text-center">Contratou</th>
+                        <th>Motivo</th>
                         <th class="text-center">Demostrativa</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var Demostrativa in Model)
+                    @foreach (var demostrativa in Model)
                     {
-                        var candidatoSobrenome = "";
-                        try
-                        {
-                            candidatoSobrenome = Demostrativa.Candidato.Nome.Split(' ')[1];
-                        }
-                        catch
-                        {
-                            candidatoSobrenome = "";
-                        }
-
-                        if (candidatoSobrenome.Length > 0 && candidatoSobrenome.Length <= 3)
-                        {
-                            candidatoSobrenome = Demostrativa.Candidato.Nome.Split(' ')[2];
-                        }
-                        var professorSobrenome = Demostrativa.Professor == null ? "" : Demostrativa.Professor.Nome.Split(' ')[1];
+                        var professorSobrenome = demostrativa.Professor.Nome.Split(' ')[1];
                         if (professorSobrenome.Length > 0 && professorSobrenome.Length <= 3)
                         {
-                            professorSobrenome = Demostrativa.Professor.Nome.Split(' ')[2];
+                            professorSobrenome = demostrativa.Professor.Nome.Split(' ')[2];
                         }
-                        var aula = Demostrativa.Aula.AulaDada ? Demostrativa.Presenca != null && Demostrativa.Presenca.Value ? "Presente" : "Faltou" : "Aula não lançada";
+                        var funcionarioSobrenome = demostrativa.Pessoa.Nome.Trim().Split(' ')[1];
+                        if (funcionarioSobrenome.Length > 0 && funcionarioSobrenome.Length <= 3)
+                        {
+                            funcionarioSobrenome = demostrativa.Pessoa.Nome.Split(' ')[2];
+                        }
                         <tr>
-                            <td class="text-center"><span data-toggle="tooltip" data-placement="top" title="@Html.DisplayFor(d => Demostrativa.Dia)">@Demostrativa.Aula.Data.ToString("dd/MM/yyy - HH:mm'h'")</span></td>
-                            <td><span data-toggle="tooltip" data-placement="top" title="@Demostrativa.Candidato.Nome">@Demostrativa.Candidato.Nome.Split(' ')[0] @candidatoSobrenome</span></td>
-                            <td><span data-toggle="tooltip" data-placement="top" title="@aula">@Demostrativa.Curso.Nome</span></td>
-                            <td><span data-toggle="tooltip" data-placement="top" title="@(Demostrativa.Professor == null ? "" : Demostrativa.Professor.Nome)">@(Demostrativa.Professor == null ? "" : Demostrativa.DispSala.Professor.Nome.Split(' ')[0]) @professorSobrenome</span></td>
-                            <td>
-                                @Html.DisplayFor(d => Demostrativa.Confirmado)
-                            </td>
+                            <td>@demostrativa.Candidato.Nome</td>
+                            <td>@demostrativa.Candidato.Cel</td>
+                            <td>@demostrativa.Curso.Nome</td>
+                            <td><span data-toggle="tooltip" data-placement="top" title="@(demostrativa.Professor == null ? "" : demostrativa.Professor.Nome)">@(demostrativa.Professor == null ? "Professor não registrado" : demostrativa.Professor.Nome.Split()[0] + ' ' + professorSobrenome)</span></td>
+                            <td>@demostrativa.Data.ToString("dd/MM/yy")</td>
+                            <td>@demostrativa.Data.ToString("HH:mm")</td>
+                            <td><span data-toggle="tooltip" data-placement="top" title="@demostrativa.Pessoa.Nome">@demostrativa.Pessoa.Nome.Split(' ')[0] @funcionarioSobrenome</span></td>
+                            <td>@Html.DisplayFor(d => demostrativa.Confirmado)</td>
+                            <td>@(demostrativa.Presenca == null ? "Não registrado" : demostrativa.Presenca.Value ? "Presente" : "Faltou")</td>
+                            <td>@(demostrativa.Contratou == null ? "Não finalizado" : demostrativa.Contratou.Value ? "Sim" : "Não")</td>
+                            <td>@Html.DisplayFor(d => demostrativa.Motivo)</td>
                             <td class="text-center">
                                 <div class="avatar-group">
-                                    <a data-toggle="tooltip" data-placement="top" title="Demonstrativa" class="avatar avatar-sm bg-warning" asp-controller="Candidato" asp-action="Candidato" asp-route-candidatoId="@Demostrativa.CandidatoId"><i class="fas fa-chalkboard-teacher"></i></a>
+                                    <a data-toggle="tooltip" data-placement="top" title="Demonstrativa" class="avatar avatar-sm bg-warning" asp-controller="Candidato" asp-action="Candidato" asp-route-candidatoId="@demostrativa.CandidatoId"><i class="fas fa-chalkboard-teacher"></i></a>
                                 </div>
                             </td>
                         </tr>
