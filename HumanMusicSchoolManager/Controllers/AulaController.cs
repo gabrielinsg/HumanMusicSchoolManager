@@ -197,7 +197,7 @@ namespace HumanMusicSchoolManager.Controllers
 
                 aula.Data = aula.Data.AddHours(Hora);
                 _aulaService.Alterar(aula);
-                return RedirectToAction("Calendario", "Professor", new { professorId = aula.ProfessorId });
+                return RedirectToAction("Index", "Home");
             }
             else
             {

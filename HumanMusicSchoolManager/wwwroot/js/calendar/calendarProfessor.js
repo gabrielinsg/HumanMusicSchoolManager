@@ -29,6 +29,44 @@ $('#calendar').fullCalendar({
     navLinks: true, // can click day/week names to navigate views
     editable: false,
     eventLimit: true, // allow "more" link when too many events
-    events: '/Professor/CalendarioJson?professorId=' + professorId + '&user=' + user
+    events: '/Professor/CalendarioJson?professorId=' + professorId + '&user=' + user,
+    eventAfterAllRender: alerta
 
 });
+
+function alerta() {
+
+    try {
+
+        carregarIcones();
+    }
+    catch (e){
+        console.log("error " + e);
+    }
+
+    let more = document.querySelectorAll('.fc-more');
+    for (let i = 0; i < more.length; i++) {
+        more[i].addEventListener('click', carregarIcones);
+    }
+
+}
+
+function carregarIcones() {
+    const itens = document.querySelectorAll('div.fc-content');
+    for (i = 0; i <= itens.length; i++) {
+        let lastChild = itens[i].lastChild;
+        if (lastChild.innerText.substring(0, 3) === '<G>') {
+            let icone = document.createElement('i');
+            icone.className += 'fas fa-users';
+            itens[i].insertBefore(icone, lastChild);
+            lastChild.innerText = ' ' + lastChild.innerText.substring(4, lastChild.innerText.length);
+        } else if (lastChild.innerText.substring(0, 3) === '<I>') {
+            let icone = document.createElement('i');
+            icone.className += 'fas fa-user';
+            itens[i].insertBefore(icone, lastChild);
+            lastChild.innerText = ' ' + lastChild.innerText.substring(4, lastChild.innerText.length);
+        }
+    }
+}
+
+

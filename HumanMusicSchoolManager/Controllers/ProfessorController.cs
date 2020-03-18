@@ -231,7 +231,7 @@ namespace HumanMusicSchoolManager.Controllers
                     Start = aulaStart.ToString("yyyy-MM-ddTHH:mm:ss"),
                     End = aulaEnd.ToString("yyyy-MM-ddTHH:mm:ss"),
                     Color = color,
-                    Title = "Aula - "                    
+                    Title = ""                    
                 };
                 if (user == 1)
                 {
@@ -252,14 +252,18 @@ namespace HumanMusicSchoolManager.Controllers
                         nomes.Add(chamada.PacoteCompra.Matricula.Aluno.Nome.Split(' ')[0]);
                     }
 
-                    cal.Title += CarregarNomes(nomes);
+                    cal.Title += "<G>" + CarregarNomes(nomes);
                 }
                 else if (aula.Chamadas.Count > 0)
                 {
                     cal.Title += " " + aula.Chamadas.FirstOrDefault().PacoteCompra.Matricula.Aluno.Nome.Split(' ')[0];
-                    if (aula.Chamadas.FirstOrDefault().PacoteCompra.PacoteAula.TipoAula == TipoAula.INDIVIDUAL)
+                    if (aula.Chamadas.Any(c => c.PacoteCompra.PacoteAula.TipoAula == TipoAula.INDIVIDUAL))
                     {
-                        cal.Title += " <i class=\"fas fa-users\"></i>";
+                        cal.Title = "<I>" + cal.Title;
+                    }
+                    else
+                    {
+                        cal.Title = "<G>" + cal.Title;
                     }
                 }
                     
@@ -285,7 +289,7 @@ namespace HumanMusicSchoolManager.Controllers
                         nomes.Add("(D"+confirmado+")"+demo.Candidato.Nome.Split(' ')[0]);
                     }
 
-                    cal.Title += CarregarNomes(nomes);
+                    cal.Title += "<G>" + CarregarNomes(nomes);
                 }
                 else if (aula.Demostrativas.Count > 0)
                 {
