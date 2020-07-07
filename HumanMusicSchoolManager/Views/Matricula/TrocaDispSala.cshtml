@@ -314,7 +314,7 @@
                                                             </div>
                                                         </div>
                                                     </td>
-                                                    <td><a asp-action="TrocaDispSala" class="btn btn-success btn-sm" asp-route-matriculaId="@Model.Matricula.Id" asp-route-dispSalaId="@dispSala.Id">Selecionar</a></td>
+                                                    <td><a asp-action="TrocaDispSala" class="btn btn-success btn-sm" asp-route-cursoId="@curso.CursoId" asp-route-matriculaId="@Model.Matricula.Id" asp-route-dispSalaId="@dispSala.Id">Selecionar</a></td>
                                                 </tr>
                                             }
 
@@ -328,6 +328,7 @@
                         <form asp-action="TrocaDispSala" role="form" method="post">
                             <input asp-for="DispSala.Id" type="hidden" />
                             <input asp-for="Matricula.Id" type="hidden" />
+                            <input asp-for="Curso.Id" type="hidden" />
                             <div class="card bg-secondary">
                                 <div class="card-header">
                                     <h5 class="modal-title">

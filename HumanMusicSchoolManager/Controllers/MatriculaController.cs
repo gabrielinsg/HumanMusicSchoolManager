@@ -397,7 +397,7 @@ namespace HumanMusicSchoolManager.Controllers
         }
 
         [HttpGet]
-        public IActionResult TrocaDispSala(int? matriculaId, int? dispSalaId)
+        public IActionResult TrocaDispSala(int? matriculaId, int? dispSalaId, int? cursoId)
         {
             if (matriculaId != null)
             {
@@ -417,6 +417,7 @@ namespace HumanMusicSchoolManager.Controllers
                     {
                         trocaDispSalaViewModel.DispSala = _dispSalaService.BuscarPorId(dispSalaId.Value);
                         trocaDispSalaViewModel.Cursos = _cursoService.BuscarTodos();
+                        trocaDispSalaViewModel.Curso = _cursoService.BuscarPorId(cursoId.Value);
                         ViewBag.Aba = 2;
                     }
                     else
@@ -472,9 +473,10 @@ namespace HumanMusicSchoolManager.Controllers
             {
                 trocaDispSalaViewModel.Matricula.DispSala = trocaDispSalaViewModel.DispSala;
                 trocaDispSalaViewModel.Matricula.ProfessorId = trocaDispSalaViewModel.DispSala.Professor.Id;
-                _matriculaService.Alterar(trocaDispSalaViewModel.Matricula);
+                trocaDispSalaViewModel.Matricula.CursoId = trocaDispSalaViewModel.Curso.Id.Value;
                 trocaDispSalaViewModel.DiaAula = trocaDispSalaViewModel.DiaAula.AddHours(trocaDispSalaViewModel.DispSala.Hora);
                 var aulaConfig = _aulaConfigService.Buscar();
+
                 if (aulaConfig == null)
                 {
                     aulaConfig.TempoLimiteLancamento = 72;

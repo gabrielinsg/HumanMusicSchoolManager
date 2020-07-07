@@ -19,6 +19,7 @@ namespace HumanMusicSchoolManager.Components
         public IViewComponentResult Invoke()
         {
             var user = _contex.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+           
             var pessoa = _contex.Pessoas.Find(user.PessoaId);
             var usuario = new Dictionary<string, string>
             {

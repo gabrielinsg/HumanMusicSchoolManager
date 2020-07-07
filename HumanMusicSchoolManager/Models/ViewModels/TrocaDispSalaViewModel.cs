@@ -15,5 +15,6 @@ namespace HumanMusicSchoolManager.Models.ViewModels
         [Display(Name = "Primeira aula")]
         public DateTime DiaAula { get; set; }
         public List<Curso> Cursos { get; set; }
+        public Curso Curso { get; set; }
     }
 }

@@ -12,6 +12,8 @@
 
 }
 
+
+
 <div class="card shadow">
     <div class="card-header border-0">
         <h3 class="mb-0">@NowHorarioBrasilia.GetNow().ToString("dddd").ToUpper()</h3>
@@ -30,8 +32,15 @@
             <tbody>
                 @foreach (var aula in Model.OrderBy(a => a.Data))
                 {
-                    <tr onclick="aula(@aula.Id,'@(User.IsInRole("Professor") ? true : false)')" class="link @((aula.AulaDada == false && NowHorarioBrasilia.GetNow() > aula.Data)
-                                ? "bg-danger text-white" : aula.AulaDada == false ? "" : "bg-success text-white")">
+                    var statusAula = "";
+
+                    if (aula.AulaDada == true) { statusAula = "dada"; }
+                    else if (aula.Data > NowHorarioBrasilia.GetNow()) { statusAula = "pendente"; }
+                    else if (NowHorarioBrasilia.GetNow() > aula.Data.AddHours(1)) { statusAula = "atrasada"; }
+                   ;
+                    <tr onclick="aula(@aula.Id,'@(User.IsInRole("Professor") ? true : false)')" class="link @(statusAula == "dada" ? "bg-success text-white" 
+                                        : statusAula == "pendente" ? "" : statusAula == "atrasada" ? "bg-danger text-white"
+                                        : "bg-primary text-white")">
                         <th scope="row">@aula.Data.ToString("HH:00")</th>
                         <th scope="row">
                             <div class="media align-items-center">
@@ -51,8 +60,9 @@
                             </div>
                         </th>
                         <td class="text-center">
-                            @((aula.AulaDada == false && NowHorarioBrasilia.GetNow() > aula.Data)
-                                ? "Atrasada" : aula.AulaDada == false ? "Pendente" : "Aula dada")
+                            @(statusAula == "dada" ? "Dada"
+                                        : statusAula == "pendente" ? "Pendente" : statusAula == "atrasada" ? "Atrasada"
+                                        : "Em andamento")
                         </td>
                         <td class="text-center">
                             <i class="fas fa-@(aula.Chamadas.Any(c => c.PacoteCompra.PacoteAula.TipoAula == TipoAula.INDIVIDUAL) ? "user" : "users")"></i>
