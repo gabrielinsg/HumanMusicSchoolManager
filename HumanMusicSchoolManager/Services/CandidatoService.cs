@@ -27,20 +27,6 @@ namespace HumanMusicSchoolManager.Services
         public Candidato BuscarPorId(int candidatoId)
         {
             return _context.Candidatos
-                .Include(c => c.Demostrativas)
-                .ThenInclude(d => d.Curso)
-                .Include(c => c.Demostrativas)
-                .ThenInclude(d => d.DispSala)
-                .ThenInclude(ds => ds.Sala)
-                .Include(c => c.Demostrativas)
-                .ThenInclude(d => d.DispSala)
-                .ThenInclude(ds => ds.Professor)
-                .Include(c => c.Demostrativas)
-                .ThenInclude(d => d.Aula)
-                .Include(c => c.Demostrativas)
-                .ThenInclude(d => d.Pessoa)
-                .Include(c => c.Demostrativas)
-                .ThenInclude(d => d.Professor)
                 .FirstOrDefault(c => c.Id == candidatoId);
         }
 

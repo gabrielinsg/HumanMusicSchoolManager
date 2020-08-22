@@ -27,22 +27,13 @@ namespace HumanMusicSchoolManager.Services
         public Matricula BuscarPorId(int matriculaId)
         {
             return _context.Matriculas
-                .Include(m => m.Aluno)
-                .Include(m => m.Curso)
-                .Include(m => m.DispSala)
-                .ThenInclude(ds => ds.Professor)
-                .Include(m => m.DispSala)
-                .ThenInclude(ds => ds.Sala)
-                .Include(m => m.PacoteCompras)
                 .Where(m => m.Id == matriculaId)
                 .FirstOrDefault();
         }
 
         public List<Matricula> BuscarPorProfessor(int professorId)
         {
-            return _context.Matriculas
-                .Include(m => m.Aluno)
-                .Include(m => m.Curso).ToList();
+            return _context.Matriculas.ToList();
         }
 
         public List<Matricula> BuscarTodos()

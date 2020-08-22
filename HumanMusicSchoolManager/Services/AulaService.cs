@@ -36,15 +36,6 @@ namespace HumanMusicSchoolManager.Services
         {
             return _context.Aulas
                 .Where(a => a.AulaDada == false && a.DataLimite < NowHorarioBrasilia.GetNow() && a.Sala.ConsideraAtrasadas == true)
-                .Include(a => a.Professor)
-                .Include(a => a.Chamadas)
-                .ThenInclude(c => c.PacoteCompra)
-                .ThenInclude(pc => pc.Matricula)
-                .ThenInclude(m => m.Aluno)
-                .Include(a => a.Curso)
-                .Include(a => a.Demostrativas)
-                .ThenInclude(d => d.Candidato)
-                .Include(a => a.Sala)
                 .ToList();
         }
 
@@ -52,15 +43,6 @@ namespace HumanMusicSchoolManager.Services
         {
             return _context.Aulas
                 .Where(a => a.AulaDada == false && a.Data < NowHorarioBrasilia.GetNow() && a.ProfessorId == professorId && a.Sala.ConsideraAtrasadas == true)
-                .Include(a => a.Professor)
-                .Include(a => a.Chamadas)
-                .ThenInclude(c => c.PacoteCompra)
-                .ThenInclude(pc => pc.Matricula)
-                .ThenInclude(m => m.Aluno)
-                .Include(a => a.Curso)
-                .Include(a => a.Demostrativas)
-                .ThenInclude(d => d.Candidato)
-                .Include(a => a.Sala)
                 .ToList();
         }
 
@@ -91,8 +73,6 @@ namespace HumanMusicSchoolManager.Services
         public Aula BuscarPorDiaHora(DateTime data, DispSala dispSala)
         {
             dispSala = _context.DispSalas
-                .Include(ds => ds.Professor)
-                .Include(ds => ds.Sala)
                 .FirstOrDefault(ds => ds.Id == dispSala.Id);
             return _context.Aulas.FirstOrDefault(a => a.Data == data && a.ProfessorId == dispSala.Professor.Id && a.SalaId == dispSala.Sala.Id);
         }
@@ -100,35 +80,12 @@ namespace HumanMusicSchoolManager.Services
         public Aula BuscarPorId(int aulaId)
         {
             return _context.Aulas
-                .Include(a => a.Professor)
-                .Include(a => a.Chamadas)
-                .ThenInclude(c => c.PacoteCompra)
-                .ThenInclude(pc => pc.Matricula)
-                .ThenInclude(m => m.Aluno)
-                .Include(a => a.Curso)
-                .Include(a => a.Sala)
-                .Include(a => a.Chamadas)
-                .ThenInclude(c => c.PacoteCompra)
-                .ThenInclude(pc => pc.Chamadas)
-                .ThenInclude(c => c.Aula)
-                .Include(a => a.Chamadas)
-                .ThenInclude(c => c.PacoteCompra)
-                .ThenInclude(pc => pc.Chamadas)
-                .ThenInclude(c => c.Reposicao)
-                .Include(a => a.Demostrativas)
-                .ThenInclude(d => d.Candidato)
-                .Include(a => a.Demostrativas)
-                .ThenInclude(d => d.Curso)
                 .FirstOrDefault(a => a.Id == aulaId);
         }
 
         public List<Aula> BuscarPorSala(int salaId)
         {
             return _context.Aulas.Where(a => a.Sala.Id == salaId)
-                .Include(a => a.Chamadas)
-                .ThenInclude(c => c.PacoteCompra)
-                .ThenInclude(pc => pc.Matricula)
-                .ThenInclude(m => m.Aluno)
                 .ToList();
         }
 
@@ -164,10 +121,6 @@ namespace HumanMusicSchoolManager.Services
             final = final.AddHours(23);
 
             return _context.Aulas.Where(a => a.Sala.Id == salaId && (a.Data >= inicial && a.Data <= final))
-                .Include(a => a.Chamadas)
-                .ThenInclude(c => c.PacoteCompra)
-                .ThenInclude(pc => pc.Matricula)
-                .ThenInclude(m => m.Aluno)
                 .ToList();
         }
     }

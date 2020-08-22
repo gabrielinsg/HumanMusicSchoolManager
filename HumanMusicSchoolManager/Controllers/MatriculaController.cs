@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using HumanMusicSchoolManager.Data;
 using HumanMusicSchoolManager.Models;
 using HumanMusicSchoolManager.Models.Models;
 using HumanMusicSchoolManager.Models.ViewModels;
@@ -13,6 +14,7 @@ using HumanMusicSchoolManager.ServicesInterface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace HumanMusicSchoolManager.Controllers
 {
@@ -35,6 +37,7 @@ namespace HumanMusicSchoolManager.Controllers
         private readonly IChamadaService _chamadaService;
         private readonly IFeriadoService _feriadoService;
         private readonly IAulaConfigService _aulaConfigService;
+        private readonly ApplicationDbContext _context;
 
         public MatriculaController(IMatriculaService matriculaService,
             IAlunoService alunoService,
@@ -51,7 +54,8 @@ namespace HumanMusicSchoolManager.Controllers
             IAulaService aulaService,
             IChamadaService chamadaService,
             IFeriadoService feriadoService,
-            IAulaConfigService aulaConfigService)
+            IAulaConfigService aulaConfigService,
+            ApplicationDbContext context)
         {
             this._matriculaService = matriculaService;
             this._alunoService = alunoService;
@@ -69,6 +73,7 @@ namespace HumanMusicSchoolManager.Controllers
             this._chamadaService = chamadaService;
             this._feriadoService = feriadoService;
             this._aulaConfigService = aulaConfigService;
+            this._context = context;
         }
 
         [HttpGet]
@@ -370,15 +375,18 @@ namespace HumanMusicSchoolManager.Controllers
         [HttpPost]
         public JsonResult BuscarAlunoPorId(int alunoId)
         {
-            var aluno = _alunoService.BuscarPorId(alunoId);
+            var aluno = _context.Alunos.Include(a => a.Endereco)
+                            .FirstOrDefault(a => a.Id == alunoId);
             return Json(alunoId);
         }
 
         [HttpPost]
         public JsonResult BuscarAlunoRespFinanceiro(int alunoId)
         {
-            var aluno = _alunoService.BuscarPorId(alunoId);
-            var respFinanceiro = _respFinanceiroService.BuscarPorCPF(aluno.CPF);
+            var aluno = _context.Alunos.Include(a => a.Endereco)
+                            .FirstOrDefault(a => a.Id == alunoId);
+            var respFinanceiro = _context.RespsFinanceiro
+                            .FirstOrDefault(rf => rf.CPF == aluno.CPF);
             if (respFinanceiro != null)
             {
                 return Json(respFinanceiro);
@@ -393,7 +401,7 @@ namespace HumanMusicSchoolManager.Controllers
         [HttpPost]
         public JsonResult BuscarRespFinanceiro(int respFinanceiroId)
         {
-            return Json(_respFinanceiroService.BuscarPorId(respFinanceiroId));
+            return Json(_context.RespsFinanceiro.Include(rp => rp.Endereco).FirstOrDefault(rf => rf.Id == respFinanceiroId));
         }
 
         [HttpGet]

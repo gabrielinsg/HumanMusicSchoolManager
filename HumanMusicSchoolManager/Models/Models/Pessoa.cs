@@ -40,7 +40,7 @@ namespace HumanMusicSchoolManager.Models.Models
         public string Cel { get; set; }
 
         public int EnderecoId { get; set; }
-        public Endereco Endereco { get; set; }
+        public virtual Endereco Endereco { get; set; }
         public string Foto { get; set; }
 
         public int Idade()

@@ -261,10 +261,6 @@ namespace HumanMusicSchoolManager.Controllers
         public IActionResult MatriculasSemAula()
         {
             var matriculas = _context.Matriculas
-                             .Include(m => m.Aluno)
-                             .Include(m => m.Curso)
-                             .Include(m => m.PacoteCompras)
-                             .ThenInclude(pc => pc.Chamadas)
                              .Where(m => m.EncerramentoMatricula == null && !m.PacoteCompras.Any(pc => pc.Chamadas.Any(c => c.Presenca == null)))
                              .ToList();
 

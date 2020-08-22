@@ -28,28 +28,12 @@ namespace HumanMusicSchoolManager.Services
         public Professor BuscarPorId(int id)
         {
             return _context.Professores
-                .Include(c => c.Cursos)
-                .ThenInclude(c => c.Curso)
-                .Include(c => c.Endereco)
-                .Include(p => p.Aulas)
-                .ThenInclude(a => a.Chamadas)
-                .ThenInclude(c => c.PacoteCompra)
-                .ThenInclude(pc => pc.Matricula)
-                .ThenInclude(m => m.Aluno)
-                .Include(p => p.Aulas)
-                .ThenInclude(a => a.Demostrativas)
-                .ThenInclude(d => d.Candidato)
-                .Include(p => p.DispSalas)
-                .ThenInclude(ds => ds.Matriculas)
                 .FirstOrDefault(p => p.Id == id);
         }
 
         public List<Professor> BuscarTodos()
         {
             return _context.Professores
-                .Include(p => p.Endereco)
-                .Include(c => c.Cursos)
-                .ThenInclude(c => c.Curso)
                 .OrderBy(p => p.Nome).ToList();
         }
 
@@ -121,9 +105,6 @@ namespace HumanMusicSchoolManager.Services
             final = final.AddMilliseconds(-final.Millisecond);
             final = final.AddHours(23);
             var professor = _context.Professores
-                .Include(p => p.Aulas)
-                .ThenInclude(a => a.Chamadas)
-                .ThenInclude(c => c.Reposicao)
                 .FirstOrDefault(p => p.Id == professorId);
             var listAulas = new List<Aula>();
             if (professor.Aulas != null)
@@ -150,9 +131,6 @@ namespace HumanMusicSchoolManager.Services
             final = final.AddMilliseconds(-final.Millisecond);
             final = final.AddHours(23);
             var professores = _context.Professores
-                .Include(p => p.Aulas)
-                .ThenInclude(a => a.Chamadas)
-                .ThenInclude(c => c.Reposicao)
                 .ToList();
             if (professores != null)
             {
@@ -191,20 +169,12 @@ namespace HumanMusicSchoolManager.Services
                 Professor = _context.Professores.FirstOrDefault(p => p.Id == professorId),
                 Aulas = _context.Aulas
                     .Where(a => a.ProfessorId == professorId && (a.Data >= inicial && a.Data <= final))
-                    .Include(a => a.Chamadas)
-                    .ThenInclude(c => c.Reposicao)
-                    .Include(a => a.Demostrativas)
-                    .Include(a => a.Sala)
                     .ToList(),
                 DispSalas = _context.DispSalas
                     .Where(ds => ds.Professor.Id == professorId)
-                    .Include(ds => ds.Matriculas)
-                    .Include(ds => ds.Sala)
                     .ToList(),
                 Matriculas = _context.Matriculas
                 .Where(m => m.DispSala.Professor.Id == professorId && m.DispSalaId != null)
-                .Include(m => m.DispSala)
-                .ThenInclude(ds => ds.Professor)
                 .ToList()
             };
             return relatorio;
@@ -221,22 +191,9 @@ namespace HumanMusicSchoolManager.Services
             final = final.AddHours(23);
 
             var professor = _context.Professores
-                .Include(c => c.Cursos)
-                .ThenInclude(c => c.Curso)
-                .Include(c => c.Endereco)
-                .Include(p => p.Aulas)
-                .ThenInclude(a => a.Demostrativas)
-                .ThenInclude(d => d.Candidato)
                 .FirstOrDefault(p => p.Id == professorId);
             var aulas = _context.Aulas
                 .Where(a => a.ProfessorId == professorId && (a.Data >= inicial && a.Data <= final))
-                .Include(a => a.Chamadas)
-                .ThenInclude(c => c.PacoteCompra)
-                .ThenInclude(pc => pc.Matricula)
-                .ThenInclude(m => m.Aluno)
-                .Include(a => a.Chamadas)
-                .ThenInclude(c => c.PacoteCompra)
-                .ThenInclude(pc => pc.PacoteAula)
                 .ToList();
 
             professor.Aulas = aulas;

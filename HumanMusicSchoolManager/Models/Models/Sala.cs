@@ -18,9 +18,9 @@ namespace HumanMusicSchoolManager.Models.Models
 
         public bool Ativo { get; set; }
 
-        public List<CursoSala> Cursos { get; set; }
+        public virtual List<CursoSala> Cursos { get; set; }
 
-        public List<DispSala> DispSalas { get; set; }
+        public virtual List<DispSala> DispSalas { get; set; }
 
         [Display(Name = "Considerar Aulas atrasadas nos relatórios")]
         public bool ConsideraAtrasadas { get; set; }

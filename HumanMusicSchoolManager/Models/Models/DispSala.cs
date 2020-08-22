@@ -11,13 +11,13 @@ namespace HumanMusicSchoolManager.Models.Models
         public int? Id { get; set; }
         public Dia Dia { get; set; }
         public int Hora { get; set; }
-        public Sala Sala { get; set; }
-        public List<Matricula> Matriculas { get; set; }
-        public List<Reposicao> Reposicoes { get; set; }
-        public List<Demostrativa> Demostrativas { get; set; }
+        public virtual Sala Sala { get; set; }
+        public virtual List<Matricula> Matriculas { get; set; }
+        public virtual List<Reposicao> Reposicoes { get; set; }
+        public virtual List<Demostrativa> Demostrativas { get; set; }
         public bool Ativo { get; set; }
 
-        public Professor Professor { get; set; }
+        public virtual Professor Professor { get; set; }
         public int? ProfessorId { get; set; }
 
         public DispSala()

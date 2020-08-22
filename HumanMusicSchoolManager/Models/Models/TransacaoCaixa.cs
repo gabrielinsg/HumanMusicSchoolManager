@@ -10,7 +10,7 @@ namespace HumanMusicSchoolManager.Models.Models
     {
         public int Id { get; set; }
         public int CaixaId { get; set; }
-        public Caixa Caixa { get; set; }
+        public virtual Caixa Caixa { get; set; }
         [Required]
         public DateTime Data { get; set; }
         [Required(ErrorMessage = "A descrição deve ser preenchida")]
@@ -20,7 +20,7 @@ namespace HumanMusicSchoolManager.Models.Models
         public decimal Valor { get; set; }
         public bool Entrada { get; set; }
         public int FuncionarioId { get; set; }
-        public Funcionario Funcionario { get; set; }
+        public virtual Funcionario Funcionario { get; set; }
         [Required(ErrorMessage = "A forma de pagamento deve ser informada")]
         public FormaPagamento FormaPagamento { get; set; }
     }

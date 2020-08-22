@@ -34,8 +34,6 @@ namespace HumanMusicSchoolManager.Services
         public Demostrativa BuscarPorId(int DemostrativaId)
         {
            return _context.Demostrativas
-                .Include(d => d.Aula)
-                .Include(d => d.Pessoa)
                 .FirstOrDefault(d => d.Id == DemostrativaId);
         }
 
@@ -54,12 +52,6 @@ namespace HumanMusicSchoolManager.Services
         {
             return _context.Demostrativas
                 .Where(d => d.DispSalaId != null)
-                .Include(d => d.Curso)
-                .Include(d => d.Candidato)
-                .Include(d => d.DispSala)
-                .ThenInclude(ds => ds.Professor)
-                .Include(d => d.Aula)
-                .Include(d => d.Pessoa)
                 .OrderBy(d => d.Aula.Data)
                 .ToList();
         }
@@ -86,11 +78,6 @@ namespace HumanMusicSchoolManager.Services
 
             return _context.Demostrativas
                 .Where(d => d.Contratou == false && d.Aula.Data >= inicial && d.Aula.Data <= final)
-                .Include(d => d.Curso)
-                .Include(d => d.Candidato)
-                .Include(d => d.Aula)
-                .Include(d => d.Professor)
-                .Include(d => d.Pessoa)
                 .OrderBy(d => d.Aula.Data)
                 .ToList();
         }

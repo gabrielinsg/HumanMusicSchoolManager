@@ -63,7 +63,6 @@ namespace HumanMusicSchoolManager.Services
         public RespFinanceiro BuscarPorId(int respFinanceiroId)
         {
             return _context.RespsFinanceiro
-                .Include(rf => rf.Endereco)
                 .FirstOrDefault(rf => rf.Id == respFinanceiroId);
         }
 
@@ -75,11 +74,6 @@ namespace HumanMusicSchoolManager.Services
         public List<RespFinanceiro> BuscarTodos()
         {
             return _context.RespsFinanceiro
-                .Include(rf => rf.Endereco)
-                .Include(rf => rf.Matriculas)
-                .ThenInclude(m => m.Aluno)
-                .Include(rf => rf.Matriculas)
-                .ThenInclude(m => m.Curso)
                 .OrderBy(rf => rf.Nome).ToList();
         }
 
@@ -104,7 +98,6 @@ namespace HumanMusicSchoolManager.Services
         public RespFinanceiro BuscarPorCPF(string cpf)
         {
             return _context.RespsFinanceiro
-                .Include(rf => rf.Endereco)
                 .SingleOrDefault(rf => rf.CPF == cpf);
         }
     }

@@ -25,11 +25,9 @@ namespace HumanMusicSchoolManager.Services
 
             var matriculas = _context.Matriculas
                 .Where(m => m.DataMatricula >= inicial && m.DataMatricula <= final)
-                .Include(m => m.Curso)
                 .ToList();
             var encerradas = _context.Matriculas
                 .Where(m => m.EncerramentoMatricula >= inicial && m.EncerramentoMatricula <= final)
-                .Include(m => m.Curso)
                 .ToList();
 
             List<Object> graficoCurso = new List<object>();

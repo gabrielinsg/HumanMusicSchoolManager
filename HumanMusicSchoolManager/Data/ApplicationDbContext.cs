@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using HumanMusicSchoolManager.Models;
 using HumanMusicSchoolManager.Models.Models;
+using Microsoft.Extensions.Logging;
 
 namespace HumanMusicSchoolManager.Data
 {
@@ -46,6 +47,14 @@ namespace HumanMusicSchoolManager.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder
+                 .UseLazyLoadingProxies();
+                 
+            
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

@@ -13,11 +13,11 @@ namespace HumanMusicSchoolManager.Models.Models
 
         public int PacoteAulaId { get; set; }
         [Display(Name = "Pacote de Aula")]
-        public PacoteAula PacoteAula { get; set; }
+        public virtual PacoteAula PacoteAula { get; set; }
 
         public int MatriculaId { get; set; }
         [Display(Name = "Matrícula")]
-        public Matricula Matricula { get; set; }
+        public virtual Matricula Matricula { get; set; }
 
         [Required(ErrorMessage = "O campo Data da compra é obrigatório")]
         [Display(Name = "Data da compra")]
@@ -31,10 +31,10 @@ namespace HumanMusicSchoolManager.Models.Models
         [Column(TypeName = "decimal(18,2)")]
         public decimal? Desconto { get; set; }
 
-        public List<Chamada> Chamadas { get; set; }
+        public virtual List<Chamada> Chamadas { get; set; }
 
-        public Trancamento Trancamento { get; set; }
+        public virtual Trancamento Trancamento { get; set; }
 
-        public List<Financeiro> Financeiros { get; set; }
+        public virtual List<Financeiro> Financeiros { get; set; }
     }
 }

@@ -29,7 +29,7 @@ namespace HumanMusicSchoolManager.Models.Models
         public decimal? ValorPago { get; set; }
         
         [Display(Name = "Forma de pagamento")]
-        public FormaPagamento FormaPagamento { get; set; }
+        public virtual FormaPagamento FormaPagamento { get; set; }
 
         [Required(ErrorMessage = "O campo Data gerada é obrigatório")]
         [Display(Name = "Data gerada")]
@@ -43,11 +43,11 @@ namespace HumanMusicSchoolManager.Models.Models
         public DateTime? DataPagamento { get; set; }
 
         public int? PessoaId { get; set; }
-        public Pessoa Pessoa { get; set; }
+        public virtual Pessoa Pessoa { get; set; }
 
         public int? AlunoId { get; set; }
-        public Aluno Aluno { get; set; }
+        public virtual Aluno Aluno { get; set; }
 
-        public PacoteCompra PacoteCompra { get; set; }
+        public virtual PacoteCompra PacoteCompra { get; set; }
     }
 }

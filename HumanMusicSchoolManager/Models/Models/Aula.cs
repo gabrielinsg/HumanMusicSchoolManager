@@ -14,13 +14,13 @@ namespace HumanMusicSchoolManager.Models.Models
         public DateTime Data { get; set; }
 
         public int ProfessorId { get; set; }
-        public Professor Professor { get; set; }
+        public virtual Professor Professor { get; set; }
 
         public int CursoId { get; set; }
-        public Curso Curso { get; set; }
+        public virtual Curso Curso { get; set; }
 
         public int SalaId { get; set; }
-        public Sala Sala { get; set; }
+        public virtual Sala Sala { get; set; }
 
         public bool AulaDada { get; set; }
 
@@ -30,8 +30,8 @@ namespace HumanMusicSchoolManager.Models.Models
 
         public DateTime DataLimite { get; set; }
 
-        public List<Chamada> Chamadas { get; set; }
+        public virtual List<Chamada> Chamadas { get; set; }
 
-        public List<Demostrativa> Demostrativas { get; set; }
+        public virtual List<Demostrativa> Demostrativas { get; set; }
     }
 }

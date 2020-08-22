@@ -38,18 +38,6 @@ namespace HumanMusicSchoolManager.Services
         public Chamada BuscarPorId(int chamadaId)
         {
             return _context.Chamadas
-                .Include(c => c.Reposicao)
-                .Include(c => c.Aula)
-                .ThenInclude(a => a.Curso)
-                .Include(c => c.Aula)
-                .ThenInclude(a => a.Professor)
-                .Include(c => c.Aula)
-                .ThenInclude(a => a.Sala)
-                .Include(c => c.PacoteCompra)
-                .ThenInclude(pc => pc.Matricula)
-                .ThenInclude(m => m.Aluno)
-                .Include(c => c.Reposicao)
-                .ThenInclude(r => r.DispSala)
                 .FirstOrDefault(c => c.Id == chamadaId);
         }
 
@@ -75,9 +63,6 @@ namespace HumanMusicSchoolManager.Services
                 .Where(c => c.PacoteCompra.Matricula.AlunoId == matricula.AlunoId 
                     && c.PacoteCompra.Matricula.CursoId == matricula.CursoId
                     && c.Presenca != null)
-                .Include(c => c.Aula)
-                .Include(c => c.PacoteCompra)
-                .ThenInclude(pc => pc.Matricula)
                 .OrderByDescending(c => c.Aula.Data)
                 .Take(3)
                 .ToList();
@@ -88,13 +73,6 @@ namespace HumanMusicSchoolManager.Services
         {
             return _context.Chamadas
                 .Where(c => c.PacoteCompra.Matricula.AlunoId == alunoId && c.PacoteCompra.Matricula.CursoId == cursoId && c.Presenca != null)
-                .Include(c => c.Aula)
-                .Include(c => c.PacoteCompra)
-                .ThenInclude(pc => pc.Matricula)
-                .ThenInclude(m => m.Aluno)
-                .Include(c => c.PacoteCompra)
-                .ThenInclude(pc => pc.Matricula)
-                .ThenInclude(m => m.Curso)
                 .ToList();
         }
     }

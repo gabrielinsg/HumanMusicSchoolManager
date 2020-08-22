@@ -32,28 +32,6 @@ namespace HumanMusicSchoolManager.Services
         public Aluno BuscarPorId(int alunoId)
         {
             return _context.Alunos.Include(a => a.Matriculas)
-                .Include(a => a.Endereco)
-                .Include(a => a.Financeiros)
-                .ThenInclude(f => f.Pessoa)
-                .Include(a => a.Matriculas)
-                .ThenInclude(m => m.Curso)
-                .Include(m => m.Matriculas)
-                .ThenInclude(m => m.DispSala)
-                .ThenInclude(ds => ds.Professor)
-                .Include(m => m.Matriculas)
-                .ThenInclude(m => m.DispSala)
-                .ThenInclude(ds => ds.Sala)
-                .Include(m => m.Matriculas)
-                .ThenInclude(m => m.RespFinanceiro)
-                .Include(m => m.Matriculas)
-                .ThenInclude(m => m.PacoteCompras)
-                .ThenInclude(pc => pc.PacoteAula)
-                .Include(m => m.Matriculas)
-                .ThenInclude(m => m.PacoteCompras)
-                .ThenInclude(pc => pc.Chamadas)
-                .ThenInclude(c => c.Aula)
-                .Include(a => a.Matriculas)
-                .ThenInclude(m => m.Professor)
                 .FirstOrDefault(a => a.Id == alunoId);
         }
 
@@ -70,8 +48,6 @@ namespace HumanMusicSchoolManager.Services
         public List<Aluno> BuscarTodos()
         {
             return _context.Alunos
-                .Include(a => a.Endereco)
-                .Include(a => a.Matriculas)
                 .OrderBy(a => a.Nome).ToList();
         }
 

@@ -21,7 +21,6 @@ namespace HumanMusicSchoolManager.Services
         public Vale BuscarPorId(int valeId)
         {
             return _context.Vales
-                .Include(v => v.Pessoa)
                 .FirstOrDefault(v => v.Id == valeId);
         }
 
@@ -32,7 +31,6 @@ namespace HumanMusicSchoolManager.Services
 
             return _context.Vales
                 .Where(v => v.PessoaId == pessoaId && v.Data >= inicial && v.Data <= final)
-                .Include(v => v.Pessoa)
                 .ToList();
         }
 
@@ -43,7 +41,6 @@ namespace HumanMusicSchoolManager.Services
 
             return _context.Vales
                 .Where(v => v.Data >= inicial && v.Data <= final)
-                .Include(v => v.Pessoa)
                 .ToList();
         }
 

@@ -14,10 +14,10 @@ namespace HumanMusicSchoolManager.Models.Models
         public DateTime DataAberto { get; set; }
         public DateTime? DataFechado { get; set; }
         public int FuncionarioAbertoId { get; set; }
-        public Funcionario FuncionarioAberto { get; set; }
-        public Funcionario FuncionarioFechado { get; set; }
+        public virtual Funcionario FuncionarioAberto { get; set; }
+        public virtual Funcionario FuncionarioFechado { get; set; }
 
-        public List<TransacaoCaixa> TransacoesCaixa { get; set; }
+        public virtual List<TransacaoCaixa> TransacoesCaixa { get; set; }
 
         public decimal? TotalAnterior { get; set; }
 

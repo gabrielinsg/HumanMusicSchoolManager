@@ -10,7 +10,7 @@ namespace HumanMusicSchoolManager.Models.Models
     {
         public int Id { get; set; }
         public int PessoaId { get; set; }
-        public Pessoa Pessoa { get; set; }
+        public virtual Pessoa Pessoa { get; set; }
         [Display(Name = "Observação")]
         public string Observacao { get; set; }
         [Required(ErrorMessage = "Valor obrigatório.")]

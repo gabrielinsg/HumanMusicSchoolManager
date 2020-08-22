@@ -12,13 +12,13 @@ namespace HumanMusicSchoolManager.Models.Models
         public string Observacao { get; set; }
 
         public int PacoteCompraId { get; set; }
-        public PacoteCompra PacoteCompra { get; set; }
+        public virtual PacoteCompra PacoteCompra { get; set; }
 
         public int? AulaId { get; set; }
-        public Aula Aula { get; set; }
+        public virtual Aula Aula { get; set; }
 
         public bool? Presenca { get; set; }
 
-        public Reposicao Reposicao { get; set; }
+        public virtual Reposicao Reposicao { get; set; }
     }
 }

@@ -36,7 +36,7 @@ namespace HumanMusicSchoolManager.Models.Models
         public bool Ativo { get; set; }
 
         public int ContratoId { get; set; }
-        public Contrato Contrato { get; set; }
+        public virtual Contrato Contrato { get; set; }
     }
 }
 

@@ -22,16 +22,6 @@ namespace HumanMusicSchoolManager.Services
         {
             return _context.Professores
                 .Where(p => p.DispSalas.Count > 0 && p.Ativo)
-                .Include(p => p.DispSalas)
-                .ThenInclude(ds => ds.Matriculas)
-                .ThenInclude(m => m.PacoteCompras)
-                .ThenInclude(pc => pc.Chamadas)
-                .Include(p => p.DispSalas)
-                .ThenInclude(ds => ds.Sala)
-                .Include(p => p.DispSalas)
-                .ThenInclude(ds => ds.Matriculas)
-                .ThenInclude(m => m.PacoteCompras)
-                .ThenInclude(pc => pc.PacoteAula)
                 .ToList();
         }
 
@@ -75,9 +65,6 @@ namespace HumanMusicSchoolManager.Services
             final = DateTimeEntradaSaida.Final(final);
             return _context.Matriculas
                 .Where(m => m.EncerramentoMatricula >= inicial && m.EncerramentoMatricula <= final)
-                .Include(m => m.Aluno)
-                .Include(m => m.Curso)
-                .Include(m => m.Professor)
                 .ToList();
         }
 
@@ -87,9 +74,6 @@ namespace HumanMusicSchoolManager.Services
             final = DateTimeEntradaSaida.Final(final);
             return _context.Matriculas
                 .Where(m => m.DataMatricula >= inicial && m.DataMatricula <= final)
-                .Include(m => m.Aluno)
-                .Include(m => m.Curso)
-                .Include(m => m.Professor)
                 .ToList();
         }
 
@@ -109,11 +93,6 @@ namespace HumanMusicSchoolManager.Services
             final = DateTimeEntradaSaida.Final(final);
 
             return _context.Demostrativas.Where(d => d.Data >= inicial && d.Data <= final)
-                .Include(d => d.Professor)
-                .Include(d => d.Candidato)
-                .Include(d => d.Curso)
-                .Include(d => d.Professor)
-                .Include(d => d.Pessoa)
                 .ToList();
         }
     }

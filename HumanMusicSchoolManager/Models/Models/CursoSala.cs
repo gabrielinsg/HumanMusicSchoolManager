@@ -4,7 +4,7 @@
     {
         public int CursoId { get; set; }
         public int SalaId { get; set; }
-        public Curso Curso { get; set; }
-        public Sala Sala { get; set; }
+        public virtual Curso Curso { get; set; }
+        public virtual Sala Sala { get; set; }
     }
 }

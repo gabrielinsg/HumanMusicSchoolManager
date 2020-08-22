@@ -28,37 +28,12 @@ namespace HumanMusicSchoolManager.Services
         public PacoteCompra BuscarPorId(int pacoteCompraId)
         {
             return _context.PacoteCompras
-                .Include(pc => pc.PacoteAula)
-                .ThenInclude(pa => pa.Contrato)
-                .Include(pc => pc.Matricula)
-                .ThenInclude(m => m.Aluno)
-                .ThenInclude(a => a.Endereco)
-                .Include(pc => pc.Chamadas)
-                .ThenInclude(c => c.Aula)
-                .Include(pc => pc.Matricula)
-                .ThenInclude(m => m.Curso)
-                .Include(pc => pc.Matricula)
-                .ThenInclude(m => m.DispSala)
-                .ThenInclude(ds => ds.Professor)
-                .Include(pc => pc.Matricula)
-                .ThenInclude(m => m.DispSala)
-                .ThenInclude(ds => ds.Sala)
-                .Include(ds => ds.Matricula)
-                .ThenInclude(m => m.RespFinanceiro)
-                .ThenInclude(rf => rf.Endereco)
-                .Include(pc => pc.Trancamento)
-                .Include(pc => pc.Financeiros)
-                .Include(pc => pc.Matricula)
-                .ThenInclude(m => m.Professor)
                 .FirstOrDefault(pc => pc.Id == pacoteCompraId);
         }
 
         public List<PacoteCompra> BuscarTodos()
         {
             return _context.PacoteCompras
-            .Include(pc => pc.Financeiros)
-            .Include(pc => pc.Matricula)
-            .ThenInclude(m => m.PacoteCompras)
             .ToList();
         }
 
@@ -80,24 +55,6 @@ namespace HumanMusicSchoolManager.Services
             final = final.AddHours(23);
 
             var pacoteCompra = _context.PacoteCompras
-                    .Include(pc => pc.PacoteAula)
-                    .ThenInclude(pa => pa.Contrato)
-                    .Include(pc => pc.Matricula)
-                    .ThenInclude(m => m.Aluno)
-                    .ThenInclude(a => a.Endereco)
-                    .Include(pc => pc.Matricula)
-                    .ThenInclude(m => m.Curso)
-                    .Include(pc => pc.Matricula)
-                    .ThenInclude(m => m.DispSala)
-                    .ThenInclude(ds => ds.Professor)
-                    .Include(pc => pc.Matricula)
-                    .ThenInclude(m => m.DispSala)
-                    .ThenInclude(ds => ds.Sala)
-                    .Include(ds => ds.Matricula)
-                    .ThenInclude(m => m.RespFinanceiro)
-                    .ThenInclude(rf => rf.Endereco)
-                    .Include(pc => pc.Trancamento)
-                    .Include(pc => pc.Financeiros)
                     .FirstOrDefault(pc => pc.Id == pacoteCompraId);
             var chamadas = _context.Chamadas
                 .Where(ch => ch.PacoteCompraId == pacoteCompraId && (ch.Aula.Data >= inicial && ch.Aula.Data <= final))
@@ -123,12 +80,6 @@ namespace HumanMusicSchoolManager.Services
         {
             var pacoteCompraFull = _context.PacoteCompras
                 .Where(pc => pc.Matricula.DispSalaId != null && pc.Chamadas.Any(c => c.Presenca == null))
-                .Include(pc => pc.Chamadas)
-                .ThenInclude(c => c.Aula)
-                .Include(pc => pc.Matricula)
-                .ThenInclude(m => m.Aluno)
-                .Include(pc => pc.Matricula)
-                .ThenInclude(m => m.Curso)
                 .ToList();
 
             var pacotesCompra = new List<PacoteCompra>();
@@ -162,12 +113,6 @@ namespace HumanMusicSchoolManager.Services
             final = final.AddHours(23);
 
             return _context.PacoteCompras.Where(pc => pc.Chamadas.OrderByDescending(c => c.Aula.Data).FirstOrDefault().Aula.Data >= inicial && pc.Chamadas.OrderByDescending(c => c.Aula.Data).FirstOrDefault().Aula.Data <= final)
-                .Include(pc => pc.Chamadas)
-                .ThenInclude(c => c.Aula)
-                .Include(pc => pc.Matricula)
-                .ThenInclude(m => m.Aluno)
-                .Include(pc => pc.Matricula)
-                .ThenInclude(m => m.Curso)
                 .ToList();
         }
     }

@@ -8,10 +8,10 @@ namespace HumanMusicSchoolManager.Models.Models
 {
     public class Aluno : Pessoa
     {
-        public List<Matricula> Matriculas { get; set; }
-        public List<Financeiro> Financeiros { get; set; }
+        public virtual List<Matricula> Matriculas { get; set; }
+        public virtual List<Financeiro> Financeiros { get; set; }
         [Display(Name = "Observação")]
         public string Observacao { get; set; }
-        public Sexo Sexo { get; set; }
+        public virtual Sexo Sexo { get; set; }
     }
 }

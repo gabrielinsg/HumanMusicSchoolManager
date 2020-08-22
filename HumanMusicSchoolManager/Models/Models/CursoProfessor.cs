@@ -9,7 +9,7 @@ namespace HumanMusicSchoolManager.Models.Models
     {
         public int CursoId { get; set; }
         public int ProfessorId { get; set; }
-        public Professor Professor { get; set; }
-        public Curso Curso { get; set; }
+        public virtual Professor Professor { get; set; }
+        public virtual Curso Curso { get; set; }
     }
 }

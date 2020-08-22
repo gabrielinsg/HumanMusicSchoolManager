@@ -11,22 +11,22 @@ namespace HumanMusicSchoolManager.Models.Models
         public int? Id { get; set; }
 
         public int CandidatoId { get; set; }
-        public Candidato Candidato { get; set; }
+        public virtual Candidato Candidato { get; set; }
 
         public int? DispSalaId { get; set; }
-        public DispSala DispSala { get; set; }
+        public virtual DispSala DispSala { get; set; }
 
-        public DateTime Data { get; set; }
+        public virtual DateTime Data { get; set; }
 
         public Dia Dia { get; set; }
 
         public int Hora { get; set; }
 
         public int CursoId { get; set; }
-        public Curso Curso { get; set; }
+        public virtual Curso Curso { get; set; }
 
         public int? AulaId { get; set; }
-        public Aula Aula { get; set; }
+        public virtual Aula Aula { get; set; }
 
         [Display(Name = "Presença")]
         public bool? Presenca { get; set; }
@@ -43,10 +43,10 @@ namespace HumanMusicSchoolManager.Models.Models
         public int? Estrelas { get; set; }
 
         public int PessoaId { get; set; }
-        public Pessoa Pessoa { get; set; }
+        public virtual Pessoa Pessoa { get; set; }
 
         public int? ProfessorId { get; set; }
-        public Professor Professor { get; set; }
+        public virtual Professor Professor { get; set; }
 
         public Confirmado Confirmado { get; set; }
     }

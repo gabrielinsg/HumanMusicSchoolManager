@@ -26,7 +26,7 @@ namespace HumanMusicSchoolManager.Models.Models
         [Display(Name = "Órgão Expedidor")]
         public string OrgaoExpedidor { get; set; }
 
-        public List<Matricula> Matriculas { get; set; }
+        public virtual List<Matricula> Matriculas { get; set; }
     }
 
     public enum EstadoCivil

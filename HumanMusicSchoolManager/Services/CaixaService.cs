@@ -34,10 +34,6 @@ namespace HumanMusicSchoolManager.Services
         public Caixa BuscarCaixa(int caixaId)
         {
             return _context.Caixas
-                .Include(c => c.TransacoesCaixa)
-                .ThenInclude(t => t.Funcionario)
-                .Include(c => c.FuncionarioAberto)
-                .Include(c => c.FuncionarioFechado)
                 .FirstOrDefault(c => c.Id == caixaId);
         }
 
@@ -71,19 +67,12 @@ namespace HumanMusicSchoolManager.Services
             final = DateTimeEntradaSaida.Final(final);
 
             return _context.Caixas.Where(c => c.DataAberto >= inicial && c.DataAberto <= final)
-                .Include(c => c.TransacoesCaixa)
-                .Include(c => c.FuncionarioAberto)
-                .Include(c => c.FuncionarioFechado)
                 .ToList();
         }
 
         public Caixa BuscarCaixaAberto()
         {
             return _context.Caixas
-                .Include(c => c.TransacoesCaixa)
-                .ThenInclude(t => t.Funcionario)
-                .Include(c => c.FuncionarioAberto)
-                .Include(c => c.FuncionarioFechado)
                 .FirstOrDefault(c => c.DataFechado == null);
         }
     }

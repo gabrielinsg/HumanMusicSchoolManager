@@ -33,30 +33,8 @@ namespace HumanMusicSchoolManager.Controllers
 
             var aulas = !User.IsInRole("Professor") ?
                 _context.Aulas
-                .Include(a => a.Professor)
-                .Include(a => a.Sala)
-                .Include(a => a.Chamadas)
-                .ThenInclude(c => c.PacoteCompra)
-                .ThenInclude(pc => pc.Matricula)
-                .ThenInclude(m => m.Aluno)
-                .Include(a => a.Demostrativas)
-                .ThenInclude(d => d.Candidato)
-                .Include(a => a.Chamadas)
-                .ThenInclude(c => c.PacoteCompra)
-                .ThenInclude(pc => pc.PacoteAula)
                 .Where(a => a.Data.Date == NowHorarioBrasilia.GetNow().Date).ToList() :
                 _context.Aulas
-                .Include(a => a.Professor)
-                .Include(a => a.Sala)
-                .Include(a => a.Chamadas)
-                .ThenInclude(c => c.PacoteCompra)
-                .ThenInclude(pc => pc.Matricula)
-                .ThenInclude(m => m.Aluno)
-                .Include(a => a.Demostrativas)
-                .ThenInclude(d => d.Candidato)
-                .Include(a => a.Chamadas)
-                .ThenInclude(c => c.PacoteCompra)
-                .ThenInclude(pc => pc.PacoteAula)
                 .Where(a => a.Data.Date == NowHorarioBrasilia.GetNow().Date && a.ProfessorId == professor.Id.Value).ToList();
 
             return View(aulas);

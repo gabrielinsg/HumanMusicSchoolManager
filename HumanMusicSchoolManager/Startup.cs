@@ -35,18 +35,12 @@ namespace HumanMusicSchoolManager
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
             
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
 
 
             services.AddIdentity<ApplicationUser, IdentityRole>(
@@ -61,8 +55,7 @@ namespace HumanMusicSchoolManager
                     options.Password.RequireUppercase = false;
                     options.User.RequireUniqueEmail = false;
                 })
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+                .AddEntityFrameworkStores<ApplicationDbContext>();
 
 
             // Add application services.
@@ -98,19 +91,18 @@ namespace HumanMusicSchoolManager
             services.AddTransient<ICaixaService, CaixaService>();
             services.AddTransient<IValeService, ValeService>();
 
-
             services.ConfigureApplicationCookie(options =>
             {
                 // Cookie settings
-                options.Cookie.HttpOnly = false;
-                options.ExpireTimeSpan = TimeSpan.FromHours(2);
-
+                
                 options.LoginPath = "/Account/Login";
                 options.AccessDeniedPath = "/Account/AccessDenied";
                 options.SlidingExpiration = false;
             });
 
-            services.AddMvc();
+            //services.AddDistributedMemoryCache(option => option.SizeLimit = 2000 * 1024 * 1024);
+            services.AddControllersWithViews();
+            services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

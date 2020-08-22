@@ -36,13 +36,6 @@ namespace HumanMusicSchoolManager.Services
         {
             return _context.Financeiros
                 .Where(f => f.DataVencimento < NowHorarioBrasilia.GetNow() && ((f.Valor - (f.Desconto == null ? 0 : f.Desconto) + (f.Multa == null ? 0 : f.Multa)) > (f.ValorPago == null ? 0 : f.ValorPago)))
-                .Include(f => f.Aluno)
-                .Include(f => f.PacoteCompra)
-                .Include(f => f.PacoteCompra)
-                .ThenInclude(f => f.Matricula)
-                .Include(f => f.PacoteCompra)
-                .ThenInclude(pc => pc.Matricula)
-                .ThenInclude(m => m.RespFinanceiro)
                 .ToList();
         }
 
@@ -50,9 +43,6 @@ namespace HumanMusicSchoolManager.Services
         {
             return _context.Financeiros
                 .Where(f => f.Aluno.Id == alunoId)
-                .Include(f => f.Aluno)
-                .Include(f => f.PacoteCompra)
-                .Include(f => f.Pessoa)
                 .ToList();
         }
 
@@ -89,13 +79,6 @@ namespace HumanMusicSchoolManager.Services
 
             return _context.Financeiros
                 .Where(f => (f.Valor - (f.Desconto == null ? 0 : f.Desconto) + (f.Multa == null ? 0 : f.Multa)) > (f.ValorPago == null ? 0 : f.ValorPago) && f.DataVencimento >= inicial && f.DataVencimento <= final)
-                .Include(f => f.Aluno)
-                .Include(f => f.PacoteCompra)
-                .Include(f => f.PacoteCompra)
-                .ThenInclude(f => f.Matricula)
-                .Include(f => f.PacoteCompra)
-                .ThenInclude(pc => pc.Matricula)
-                .ThenInclude(m => m.RespFinanceiro)
                 .ToList();
         }
     }

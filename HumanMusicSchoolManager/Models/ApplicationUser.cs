@@ -11,6 +11,6 @@ namespace HumanMusicSchoolManager.Models
     public class ApplicationUser : IdentityUser
     {
         public int PessoaId { get; set; }
-        public Pessoa Pessoa { get; set; }
+        public virtual Pessoa Pessoa { get; set; }
     }
 }
