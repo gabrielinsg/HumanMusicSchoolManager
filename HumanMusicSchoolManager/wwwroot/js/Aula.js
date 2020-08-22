@@ -64,27 +64,27 @@ function Dpresenca(i) {
 
 function DescAtividades(campo) {
 
-    let editor = CKEDITOR.replace(campo);
+ClassicEditor
+        .create(campo, {
+            removePlugins: ['Heading', 'Link'],
+            toolbar: ['bold', 'italic', 'bulletedList', 'numberedList', 'blockQuote']
+        })
+        .catch(error => {
+            console.log(error);
+        });
 
-    // The "change" event is fired whenever a change is made in the editor.
-    editor.on('change', function (evt) {
-        // getData() returns CKEditor's HTML content.
-        let id = $("#Id").val();
-        let conteudo = evt.editor.getData();
-        $.post("/Aula/AutoSaveDescAtividades", { id: id, conteudo: conteudo });
-    });
 }
 
-function Demostrativas(campo, id) {
+function Demostrativas(campo) {
 
-    let editor = CKEDITOR.replace(campo);
-
-    // The "change" event is fired whenever a change is made in the editor.
-    editor.on('change', function (evt) {
-        // getData() returns CKEditor's HTML content.
-        let conteudo = evt.editor.getData();
-        $.post("/Demostrativa/AutoSaveObservacao", { id: id, conteudo: conteudo });
-    });
+    ClassicEditor
+        .create(campo, {
+            removePlugins: ['Heading', 'Link'],
+            toolbar: ['bold', 'italic', 'bulletedList', 'numberedList', 'blockQuote']
+        })
+        .catch(error => {
+            console.log(error);
+        });
 }
 
 function Observacoes(i, id) {

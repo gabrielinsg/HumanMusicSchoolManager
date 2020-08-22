@@ -27,11 +27,14 @@
             border: none !important;
             font-size: 0;
         }
-
     </style>
+    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.3.1/darkly/bootstrap.min.css">*@
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link rel="stylesheet" href="ImgUploader/croppie.css">
 
 }
-
+<input id="pessoaId" value="@ViewBag.PessoaId" type="hidden" />
+<input id="rota" value="@(ViewBag.Rota)" type="hidden" />
 <div class="container">
     <br />
 
@@ -41,7 +44,7 @@
                 <li class="list-group-item active"></li>
                 <li class="list-group-item">
                     <center>
-                        <div id="mac_camera"></div>                        
+                        <div id="mac_camera"></div>
                     </center>
                 </li>
                 <li class="list-group-item">
@@ -67,8 +70,85 @@
             <a href="/@ViewBag.Rota/@ViewBag.Rota?@(ViewBag.Rota)Id=@ViewBag.PessoaId" class="btn btn-primary">Voltar</a>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div >
+                
+                <div class="jquery-script-ads" >
+                    <script type="text/javascript">
+<!--
+                        google_ad_client = "ca-pub-2783044520727903";
+                        /* jQuery_demo */
+                        google_ad_slot = "2780937993";
+                        google_ad_width = 480;
+                        google_ad_height = 90;
+                        //-->
+                    </script>
+                    <script type="text/javascript"
+                            src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+                    </script>
+                </div>
+                <div id="status"></div>
+                <input type=file class="img-upload-input-bs" editor="#img-upload-panel" target="#image" status="#status" passurl="" pshape="circle" w=300 h=300 size="{150,150}" />
+                <img src="" alt="" id="image" />
+            </div>
+            <!-- Using Bootstrap Modal -->
+            <div class="modal fade" id="img-upload-panel">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Upload Profile Photo</h4>
+                            <button type="button" class="img-remove-btn-bs close">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row container">
+                                <div class="col">
+                                    <div class="img-edit-container"></div>
+                                </div>
+                            </div>
+                            <div class="row container">
+                                <div class="col">
+                                    <label>Brightness</label>
+                                    <input type="range" class="form-control-range filter" min=0 max=200 value=100 step=1 filter="brightness" />
+                                </div>
+                                <div class="col">
+                                    <label>Threshold</label>
+                                    <input type="range" class="form-control-range filter" min=0 max=200 value=100 step=1 filter="threshold" />
+                                </div>
+                            </div>
+                            <div class="row container">
+                                <div class="col">
+                                    <button type="button" class="btn btn-dark filter" filter="grayscale">Grayscale</button>
+                                </div>
+                                <div class="col">
+                                    <button type="button" class="btn btn-dark filter" filter="sharpen">Sharpen</button>
+                                </div>
+                                <div class="col">
+                                    <button type="button" class="btn btn-dark filter" filter="blur">Blur</button>
+                                </div>
+                                <div class="col">
+                                    <button type="button" class="btn btn-dark img-clear-filter">Clear</button>
+                                </div>
+                                <div class="col">
+                                    <button type="button" class="btn btn-dark img-rotate-left">Rotate Left</button>
+                                </div>
+                                <div class="col">
+                                    <button type="button" class="btn btn-dark img-rotate-right">Rotate Right</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary img-remove-btn-bs">Close</button>
+                            <button type="button" class="btn btn-primary img-upload-btn-bs">Upload</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <br />
 </div>
+
 
 @section Scripts{
     <script src="~/lib/webcamjs/webcam.js"></script>
@@ -97,6 +177,26 @@
                     });
             });
         }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="ImgUploader/croppie.min.js"></script>
+    <script src="ImgUploader/imguploader.bs.js"></script>
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-36251023-1']);
+        _gaq.push(['_setDomainName', 'jqueryscript.net']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+
     </script>
 
 }

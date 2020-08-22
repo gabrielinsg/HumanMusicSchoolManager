@@ -2,25 +2,62 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using HumanMusicSchoolManager.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace HumanMusicSchoolManager.Controllers
 {
     public class WebCamController : Controller
     {
-        private readonly IHostingEnvironment _environment;
+        private readonly IWebHostEnvironment _environment;
         private readonly ApplicationDbContext _context;
 
         public WebCamController(
-            IHostingEnvironment hostingEnvironment,
+            IWebHostEnvironment hostingEnvironment,
             ApplicationDbContext context)
         {
             this._environment = hostingEnvironment;
             this._context = context;
+        }
+        
+
+        [HttpPost]
+        public IActionResult Upload(string arquivo, int pessoaId, string rota)
+        {
+            ViewBag.PessoaId = pessoaId;
+            ViewBag.Rota = rota;
+
+            try
+            {
+                //verifica se existem arquivos
+                if (arquivo != null)
+                {
+
+
+
+                    var pessoa = _context.Pessoas.First(p => p.Id == pessoaId);
+                    pessoa.Foto = arquivo;
+                    _context.SaveChanges();
+
+
+                    return RedirectToAction(rota, rota, new { pessoaId });
+                }
+                else
+                {
+                    ViewBag.PessoaId = pessoaId;
+                    ViewBag.Rota = rota;
+                    return View();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public IActionResult Index(int pessoaId, string rota)
@@ -42,37 +79,7 @@ namespace HumanMusicSchoolManager.Controllers
                 {
                     foreach (var arquivo in arquivos)
                     {
-                        if (arquivo.Length > 0)
-                        {
-                            // obtem o nome do arquivo
-                            var nomeArquivo = arquivo.FileName;
-                            // Gera um Guid para definir um arquivo com nome unico
-                            var nomeArquivoUnico = Convert.ToString(Guid.NewGuid());
-                            // Obtém a extensão do arquivo
-                            var arquivoExtensao = Path.GetExtension(nomeArquivo);
-                            // Concatena o nome do arquivo unico + a extensão
-                            var novoNomeArquivo = string.Concat(nomeArquivoUnico, arquivoExtensao);
-                            //  Gera o caminho para armazenar a imagem na pasta criada
-                            var caminhoArquivo = Path.Combine(_environment.WebRootPath, "ImagensCapturadas")
-                            + $@"\{novoNomeArquivo}";
-                            if (!string.IsNullOrEmpty(caminhoArquivo))
-                            {
-                                // armazena a imagem na pasta definida
-                                SalvaImagemLocal(arquivo, caminhoArquivo);
-                            }
-                            var imagemBytes = System.IO.File.ReadAllBytes(caminhoArquivo);
-                            if (imagemBytes != null)
-                            {
-                                // salvasr a imagem no banco de dados
-                                //SalvaImagemDatabase(imagemBytes, pessoaId);
-                                string caminho = "\\ImagensCapturadas\\" + novoNomeArquivo;
-                                SalvaCaminhoImagem(caminho, pessoaId);
-                            }
-                            //if (!string.IsNullOrEmpty(caminhoArquivo))
-                            //{
-                            //    System.IO.File.Delete(caminhoArquivo);
-                            //}
-                        }
+                        SalvarArquivo(pessoaId, arquivo);
                     }
                     return Json(true);
                 }
@@ -84,6 +91,41 @@ namespace HumanMusicSchoolManager.Controllers
             catch (Exception)
             {
                 throw;
+            }
+        }
+
+        private void SalvarArquivo(int pessoaId, IFormFile arquivo)
+        {
+            if (arquivo.Length > 0)
+            {
+                // obtem o nome do arquivo
+                var nomeArquivo = arquivo.FileName;
+                // Gera um Guid para definir um arquivo com nome unico
+                var nomeArquivoUnico = Convert.ToString(Guid.NewGuid());
+                // Obtém a extensão do arquivo
+                var arquivoExtensao = Path.GetExtension(nomeArquivo);
+                // Concatena o nome do arquivo unico + a extensão
+                var novoNomeArquivo = string.Concat(nomeArquivoUnico, arquivoExtensao);
+                //  Gera o caminho para armazenar a imagem na pasta criada
+                var caminhoArquivo = Path.Combine(_environment.WebRootPath, "ImagensCapturadas")
+                + $@"\{novoNomeArquivo}";
+                if (!string.IsNullOrEmpty(caminhoArquivo))
+                {
+                    // armazena a imagem na pasta definida
+                    SalvaImagemLocal(arquivo, caminhoArquivo);
+                }
+                var imagemBytes = System.IO.File.ReadAllBytes(caminhoArquivo);
+                if (imagemBytes != null)
+                {
+                    // salvasr a imagem no banco de dados
+                    SalvaImagemDatabase(imagemBytes, pessoaId);
+                    //string caminho = "\\ImagensCapturadas\\" + novoNomeArquivo;
+                    //SalvaCaminhoImagem(caminho, pessoaId);
+                }
+                if (!string.IsNullOrEmpty(caminhoArquivo))
+                {
+                    System.IO.File.Delete(caminhoArquivo);
+                }
             }
         }
 
@@ -133,11 +175,12 @@ namespace HumanMusicSchoolManager.Controllers
                     try
                     {
                         System.IO.File.Delete(caminhoArquivo);
-                    } catch
+                    }
+                    catch
                     {
                         Console.WriteLine("Imagem não encontrada para exclusão: " + pessoa.Foto);
                     }
-                    
+
                 }
 
                 pessoa.Foto = caminho;
@@ -149,5 +192,7 @@ namespace HumanMusicSchoolManager.Controllers
                 throw;
             }
         }
+
+
     }
 }

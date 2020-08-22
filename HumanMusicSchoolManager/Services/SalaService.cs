@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿
 using HumanMusicSchoolManager.Data;
 using HumanMusicSchoolManager.Models.Models;
 using HumanMusicSchoolManager.ServicesInterface;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace HumanMusicSchoolManager.Services
 {
@@ -26,14 +25,17 @@ namespace HumanMusicSchoolManager.Services
 
         public Sala BuscarPorId(int salaId)
         {
-            return _context.Salas
-                .Include(s => s.Cursos)
-                .ThenInclude(c => c.Curso)
-                .ThenInclude(c => c.Professores)
-                .ThenInclude(c => c.Professor)
+            var sala =  _context.Salas
                 .Include(s => s.DispSalas)
-                .ThenInclude(ds => ds.Professor)
+                    .ThenInclude(ds => ds.Professor)
+                        .ThenInclude(p => p.Cursos)
+                .Include(s => s.Cursos)
+                    .ThenInclude(c => c.Curso)
+                        .ThenInclude(c => c.Professores)
+                            .ThenInclude(c => c.Professor)              
                 .FirstOrDefault(s => s.Id == salaId);
+
+            return sala;
         }
 
         public List<Sala> BuscarTodos()

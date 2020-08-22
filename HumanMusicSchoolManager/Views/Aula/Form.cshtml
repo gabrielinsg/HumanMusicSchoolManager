@@ -388,15 +388,15 @@
 
 @section Scripts{
     <script src="~/js/mask.js"></script>
-    <script src="~/ckeditor/ckeditor.js"></script>
+    <script src="~/ckeditor5-build-classic/ckeditor.js"></script>
     <script src="~/js/Aula.js"></script>
     <script>
         // Replace the <textarea id="editor1"> with a CKEditor
         // instance, using default configuration.
-        DescAtividades('DescAtividades');
+        DescAtividades(document.querySelector('#DescAtividades'))
         @for(var i = 0; i < Model.Demostrativas.Count; i++)
         {
-            <text>Demostrativas('Demostrativas_@(i)__Observacao', @(Model.Demostrativas[i].Id));</Text>
+            <text>Demostrativas(document.querySelector('#Demostrativas_@(i)__Observacao'));</Text>
         }
     </script>
 }

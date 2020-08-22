@@ -383,11 +383,19 @@
     <script src="~/js/Demostrativa.js"></script>
     @foreach (var Demostrativa in Model.Candidato.Demostrativas)
     {
-        <script>
+<script>
             // Replace the <textarea id="editor1"> with a CKEditor
             // instance, using default configuration.
-            Demostrativas('Demostrativa.Observacao@(Demostrativa.Id)', @Demostrativa.Id);
-        </script>
+            let editor = CKEDITOR.replace('Demostrativa.Observacao@(Demostrativa.Id)');
+            let id = @Demostrativa.Id;
+            // The "change" event is fired whenever a change is made in the editor.
+            editor.on('change', function (evt) {
+                // getData() returns CKEditor's HTML content.
+                let conteudo = evt.editor.getData();
+                $.post("/Demostrativa/AutoSaveObservacao", { id: id, conteudo: conteudo });
+            });
+            
+</script>
     }
 
 }

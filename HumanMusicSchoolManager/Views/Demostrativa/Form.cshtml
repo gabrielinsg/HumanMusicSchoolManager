@@ -380,11 +380,17 @@
     <script src="~/vendor/datatables/jquery.dataTables.js"></script>
     <script src="~/vendor/datatables/dataTables.bootstrap4.js"></script>
     <script src="~/js/demo/datatables-demo.js"></script>
-    <script src="~/ckeditor/ckeditor.js"></script>
+    <script src="~/ckeditor5-build-classic/ckeditor.js"></script>
     <script>
-        // Replace the <textarea id="editor1"> with a CKEditor
-        // instance, using default configuration.
-        CKEDITOR.replace('Demostrativa_Observacao');
+        
+        ClassicEditor
+            .create(document.querySelector('#Demostrativa_Observacao'), {
+                removePlugins: ['Heading', 'Link'],
+                toolbar: ['bold', 'italic', 'bulletedList', 'numberedList', 'blockQuote']
+            })
+            .catch(error => {
+                console.log(error);
+            });
     </script>
 }
 

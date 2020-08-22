@@ -18,11 +18,14 @@ namespace HumanMusicSchoolManager.Models.Models
         public bool Ativo { get; set; }
 
         public Professor Professor { get; set; }
+        public int? ProfessorId { get; set; }
 
         public DispSala()
         {
-            this.Professor = new Professor();
+            if (ProfessorId != null)
+                this.Professor = new Professor();
         }
+
     }
 }
 

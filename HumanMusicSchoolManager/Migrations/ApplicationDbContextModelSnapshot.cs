@@ -22,41 +22,57 @@ namespace HumanMusicSchoolManager.Migrations
             modelBuilder.Entity("HumanMusicSchoolManager.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("AccessFailedCount");
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken();
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
+                        .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
-                    b.Property<bool>("EmailConfirmed");
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
 
-                    b.Property<bool>("LockoutEnabled");
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
 
-                    b.Property<DateTimeOffset?>("LockoutEnd");
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("NormalizedEmail")
+                        .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
                     b.Property<string>("NormalizedUserName")
+                        .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
-                    b.Property<string>("PasswordHash");
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PessoaId");
+                    b.Property<int>("PessoaId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("PhoneNumber");
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("PhoneNumberConfirmed");
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("SecurityStamp");
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("TwoFactorEnabled");
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
 
                     b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
@@ -78,21 +94,29 @@ namespace HumanMusicSchoolManager.Migrations
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("AulaDada");
+                    b.Property<bool>("AulaDada")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("CursoId");
+                    b.Property<int>("CursoId")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("Data");
+                    b.Property<DateTime>("Data")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DataLimite");
+                    b.Property<DateTime>("DataLimite")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("DescAtividades");
+                    b.Property<string>("DescAtividades")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ProfessorId");
+                    b.Property<int>("ProfessorId")
+                        .HasColumnType("int");
 
-                    b.Property<int>("SalaId");
+                    b.Property<int>("SalaId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -109,15 +133,20 @@ namespace HumanMusicSchoolManager.Migrations
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("DescAtividadesObrigatorio");
+                    b.Property<bool>("DescAtividadesObrigatorio")
+                        .HasColumnType("bit");
 
-                    b.Property<bool>("LancamentoAtrasado");
+                    b.Property<bool>("LancamentoAtrasado")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("MinCaracteresDescAtividades");
+                    b.Property<int>("MinCaracteresDescAtividades")
+                        .HasColumnType("int");
 
-                    b.Property<int>("TempoLimiteLancamento");
+                    b.Property<int>("TempoLimiteLancamento")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -128,17 +157,23 @@ namespace HumanMusicSchoolManager.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("DataAberto");
+                    b.Property<DateTime>("DataAberto")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DataFechado");
+                    b.Property<DateTime?>("DataFechado")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int>("FuncionarioAbertoId");
+                    b.Property<int>("FuncionarioAbertoId")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("FuncionarioFechadoId");
+                    b.Property<int?>("FuncionarioFechadoId")
+                        .HasColumnType("int");
 
-                    b.Property<decimal?>("TotalAnterior");
+                    b.Property<decimal?>("TotalAnterior")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -153,23 +188,31 @@ namespace HumanMusicSchoolManager.Migrations
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CPF");
+                    b.Property<string>("CPF")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Cel")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DataNascimento");
+                    b.Property<DateTime>("DataNascimento")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("Email");
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nome")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Sexo");
+                    b.Property<int>("Sexo")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Tel");
+                    b.Property<string>("Tel")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -180,15 +223,20 @@ namespace HumanMusicSchoolManager.Migrations
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AulaId");
+                    b.Property<int?>("AulaId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Observacao");
+                    b.Property<string>("Observacao")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PacoteCompraId");
+                    b.Property<int>("PacoteCompraId")
+                        .HasColumnType("int");
 
-                    b.Property<bool?>("Presenca");
+                    b.Property<bool?>("Presenca")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -203,15 +251,19 @@ namespace HumanMusicSchoolManager.Migrations
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("Ativo");
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Conteudo")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nome")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -222,16 +274,21 @@ namespace HumanMusicSchoolManager.Migrations
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("Ativo");
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("DuracaoAula");
+                    b.Property<int>("DuracaoAula")
+                        .HasColumnType("int");
 
                     b.Property<string>("Nome")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("QtdModulo");
+                    b.Property<int>("QtdModulo")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -240,9 +297,11 @@ namespace HumanMusicSchoolManager.Migrations
 
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.CursoProfessor", b =>
                 {
-                    b.Property<int>("ProfessorId");
+                    b.Property<int>("ProfessorId")
+                        .HasColumnType("int");
 
-                    b.Property<int>("CursoId");
+                    b.Property<int>("CursoId")
+                        .HasColumnType("int");
 
                     b.HasKey("ProfessorId", "CursoId");
 
@@ -253,9 +312,11 @@ namespace HumanMusicSchoolManager.Migrations
 
             modelBuilder.Entity("HumanMusicSchoolManager.Models.Models.CursoSala", b =>
                 {
-                    b.Property<int>("SalaId");
+                    b.Property<int>("SalaId")
+                        .HasColumnType("int");
 
-                    b.Property<int>("CursoId");
+                    b.Property<int>("CursoId")
+                        .HasColumnType("int");
 
                     b.HasKey("SalaId", "CursoId");
 
@@ -268,39 +329,56 @@ namespace HumanMusicSchoolManager.Migrations
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AulaId");
+                    b.Property<int?>("AulaId")
+                        .HasColumnType("int");
 
-                    b.Property<int>("CandidatoId");
+                    b.Property<int>("CandidatoId")
+                        .HasColumnType("int");
 
-                    b.Property<int>("Confirmado");
+                    b.Property<int>("Confirmado")
+                        .HasColumnType("int");
 
-                    b.Property<bool?>("Contratou");
+                    b.Property<bool?>("Contratou")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("CursoId");
+                    b.Property<int>("CursoId")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("Data");
+                    b.Property<DateTime>("Data")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int>("Dia");
+                    b.Property<int>("Dia")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("DispSalaId");
+                    b.Property<int?>("DispSalaId")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("Estrelas");
+                    b.Property<int?>("Estrelas")
+                        .HasColumnType("int");
 
-                    b.Property<int>("Hora");
+                    b.Property<int>("Hora")
+                        .HasColumnType("int");
 
-                    b.Property<int>("Motivo");
+                    b.Property<int>("Motivo")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Observacao");
+                    b.Property<string>("Observacao")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Outros");
+                    b.Property<string>("Outros")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PessoaId");
+                    b.Property<int>("PessoaId")
+                        .HasColumnType("int");
 
-                    b.Property<bool?>("Presenca");
+                    b.Property<bool?>("Presenca")
+                        .HasColumnType("bit");
 
-                    b.Property<int?>("ProfessorId");
+                    b.Property<int?>("ProfessorId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -323,17 +401,23 @@ namespace HumanMusicSchoolManager.Migrations
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("Ativo");
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("Dia");
+                    b.Property<int>("Dia")
+                        .HasColumnType("int");
 
-                    b.Property<int>("Hora");
+                    b.Property<int>("Hora")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("ProfessorId");
+                    b.Property<int?>("ProfessorId")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("SalaId");
+                    b.Property<int?>("SalaId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -348,16 +432,20 @@ namespace HumanMusicSchoolManager.Migrations
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Dominio")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Senha")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -368,25 +456,33 @@ namespace HumanMusicSchoolManager.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Bairro")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CEP")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Cidade")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Complemento");
+                    b.Property<string>("Complemento")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Logradouro")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Numero");
+                    b.Property<int>("Numero")
+                        .HasColumnType("int");
 
-                    b.Property<int>("UF");
+                    b.Property<int>("UF")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -397,14 +493,18 @@ namespace HumanMusicSchoolManager.Migrations
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime?>("DataFinal");
+                    b.Property<DateTime?>("DataFinal")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DataInicial");
+                    b.Property<DateTime>("DataInicial")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Nome")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -415,14 +515,18 @@ namespace HumanMusicSchoolManager.Migrations
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime?>("DataFinal");
+                    b.Property<DateTime?>("DataFinal")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DataInicial");
+                    b.Property<DateTime>("DataInicial")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Nome")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -433,30 +537,39 @@ namespace HumanMusicSchoolManager.Migrations
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AlunoId");
+                    b.Property<int?>("AlunoId")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime?>("DataPagamento");
+                    b.Property<DateTime?>("DataPagamento")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DataVencimento");
+                    b.Property<DateTime>("DataVencimento")
+                        .HasColumnType("datetime2");
 
                     b.Property<decimal?>("Desconto")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("FormaPagamento");
+                    b.Property<int>("FormaPagamento")
+                        .HasColumnType("int");
 
                     b.Property<decimal?>("Multa")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Nome")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("PacoteCompraId");
+                    b.Property<int?>("PacoteCompraId")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("PessoaId");
+                    b.Property<int?>("PessoaId")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("UltimaAlteracao");
+                    b.Property<DateTime>("UltimaAlteracao")
+                        .HasColumnType("datetime2");
 
                     b.Property<decimal?>("Valor")
                         .IsRequired()
@@ -480,32 +593,45 @@ namespace HumanMusicSchoolManager.Migrations
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AlunoId");
+                    b.Property<int>("AlunoId")
+                        .HasColumnType("int");
 
-                    b.Property<bool>("Ativo");
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("CursoId");
+                    b.Property<int>("CursoId")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("DataMatricula");
+                    b.Property<DateTime>("DataMatricula")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int?>("DispSalaId");
+                    b.Property<int?>("DispSalaId")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime?>("EncerramentoMatricula");
+                    b.Property<DateTime?>("EncerramentoMatricula")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int?>("Estrelas");
+                    b.Property<int?>("Estrelas")
+                        .HasColumnType("int");
 
-                    b.Property<int>("Modulo");
+                    b.Property<int>("Modulo")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("Motivo");
+                    b.Property<int?>("Motivo")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Outros");
+                    b.Property<string>("Outros")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ProfessorId");
+                    b.Property<int?>("ProfessorId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("RespFinanceiroId")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -526,20 +652,27 @@ namespace HumanMusicSchoolManager.Migrations
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("Ativo");
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("ContratoId");
+                    b.Property<int>("ContratoId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Nome")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Parcela");
+                    b.Property<int>("Parcela")
+                        .HasColumnType("int");
 
-                    b.Property<int>("QtdAula");
+                    b.Property<int>("QtdAula")
+                        .HasColumnType("int");
 
-                    b.Property<int>("TipoAula");
+                    b.Property<int>("TipoAula")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("Valor")
                         .HasColumnType("decimal(18,2)");
@@ -555,18 +688,23 @@ namespace HumanMusicSchoolManager.Migrations
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("DataCompra");
+                    b.Property<DateTime>("DataCompra")
+                        .HasColumnType("datetime2");
 
                     b.Property<decimal?>("Desconto")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("MatriculaId");
+                    b.Property<int>("MatriculaId")
+                        .HasColumnType("int");
 
-                    b.Property<int>("PacoteAulaId");
+                    b.Property<int>("PacoteAulaId")
+                        .HasColumnType("int");
 
-                    b.Property<int>("QtdParcela");
+                    b.Property<int>("QtdParcela")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -581,33 +719,45 @@ namespace HumanMusicSchoolManager.Migrations
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("Ativo");
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("bit");
 
                     b.Property<string>("CPF")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Cel");
+                    b.Property<string>("Cel")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DataNascimento");
+                    b.Property<DateTime>("DataNascimento")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Discriminator")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Email");
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("EnderecoId");
+                    b.Property<int>("EnderecoId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Foto");
+                    b.Property<string>("Foto")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nome")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RG")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Tel");
+                    b.Property<string>("Tel")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -622,15 +772,20 @@ namespace HumanMusicSchoolManager.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("Data");
+                    b.Property<DateTime>("Data")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("Descricao");
+                    b.Property<string>("Descricao")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("MatriculaId");
+                    b.Property<int>("MatriculaId")
+                        .HasColumnType("int");
 
-                    b.Property<int>("PessoaId");
+                    b.Property<int>("PessoaId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -645,15 +800,20 @@ namespace HumanMusicSchoolManager.Migrations
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ChamadaId");
+                    b.Property<int>("ChamadaId")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("DispSalaId");
+                    b.Property<int?>("DispSalaId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Motivo");
+                    b.Property<string>("Motivo")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Remunerada");
+                    b.Property<bool>("Remunerada")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -669,16 +829,21 @@ namespace HumanMusicSchoolManager.Migrations
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("Ativo");
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("Capacidade");
+                    b.Property<int>("Capacidade")
+                        .HasColumnType("int");
 
-                    b.Property<bool>("ConsideraAtrasadas");
+                    b.Property<bool>("ConsideraAtrasadas")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Nome")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -689,10 +854,12 @@ namespace HumanMusicSchoolManager.Migrations
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Nome")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Valor")
                         .HasColumnType("decimal(18,2)");
@@ -706,15 +873,20 @@ namespace HumanMusicSchoolManager.Migrations
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("Data");
+                    b.Property<DateTime>("Data")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DataFinal");
+                    b.Property<DateTime>("DataFinal")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DataInicial");
+                    b.Property<DateTime>("DataInicial")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int>("PacoteCompraId");
+                    b.Property<int>("PacoteCompraId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -728,22 +900,30 @@ namespace HumanMusicSchoolManager.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CaixaId");
+                    b.Property<int>("CaixaId")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("Data");
+                    b.Property<DateTime>("Data")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Descricao")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Entrada");
+                    b.Property<bool>("Entrada")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("FormaPagamento");
+                    b.Property<int>("FormaPagamento")
+                        .HasColumnType("int");
 
-                    b.Property<int>("FuncionarioId");
+                    b.Property<int>("FuncionarioId")
+                        .HasColumnType("int");
 
-                    b.Property<decimal>("Valor");
+                    b.Property<decimal>("Valor")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -758,15 +938,20 @@ namespace HumanMusicSchoolManager.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("Data");
+                    b.Property<DateTime>("Data")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("Observacao");
+                    b.Property<string>("Observacao")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PessoaId");
+                    b.Property<int>("PessoaId")
+                        .HasColumnType("int");
 
-                    b.Property<decimal>("Valor");
+                    b.Property<decimal>("Valor")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -778,15 +963,19 @@ namespace HumanMusicSchoolManager.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken();
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
                     b.Property<string>("NormalizedName")
+                        .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
@@ -803,14 +992,18 @@ namespace HumanMusicSchoolManager.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ClaimType");
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ClaimValue");
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RoleId")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -823,14 +1016,18 @@ namespace HumanMusicSchoolManager.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ClaimType");
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ClaimValue");
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -841,14 +1038,18 @@ namespace HumanMusicSchoolManager.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.Property<string>("LoginProvider");
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("ProviderKey");
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("ProviderDisplayName");
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -859,9 +1060,11 @@ namespace HumanMusicSchoolManager.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.Property<string>("UserId");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("RoleId");
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -872,13 +1075,17 @@ namespace HumanMusicSchoolManager.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.Property<string>("UserId");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("LoginProvider");
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Value");
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
@@ -889,9 +1096,11 @@ namespace HumanMusicSchoolManager.Migrations
                 {
                     b.HasBaseType("HumanMusicSchoolManager.Models.Models.Pessoa");
 
-                    b.Property<string>("Observacao");
+                    b.Property<string>("Observacao")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Sexo");
+                    b.Property<int>("Sexo")
+                        .HasColumnType("int");
 
                     b.HasDiscriminator().HasValue("Aluno");
                 });
@@ -914,19 +1123,24 @@ namespace HumanMusicSchoolManager.Migrations
                 {
                     b.HasBaseType("HumanMusicSchoolManager.Models.Models.Pessoa");
 
-                    b.Property<int>("EstadoCivil");
+                    b.Property<int>("EstadoCivil")
+                        .HasColumnType("int");
 
                     b.Property<string>("Nacionalidade")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Naturalidade")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OrgaoExpedidor")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Profissao")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasDiscriminator().HasValue("RespFinanceiro");
                 });
@@ -1181,7 +1395,7 @@ namespace HumanMusicSchoolManager.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -1189,7 +1403,7 @@ namespace HumanMusicSchoolManager.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("HumanMusicSchoolManager.Models.ApplicationUser")
+                    b.HasOne("HumanMusicSchoolManager.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -1197,7 +1411,7 @@ namespace HumanMusicSchoolManager.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("HumanMusicSchoolManager.Models.ApplicationUser")
+                    b.HasOne("HumanMusicSchoolManager.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -1205,12 +1419,12 @@ namespace HumanMusicSchoolManager.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("HumanMusicSchoolManager.Models.ApplicationUser")
+                    b.HasOne("HumanMusicSchoolManager.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -1218,7 +1432,7 @@ namespace HumanMusicSchoolManager.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("HumanMusicSchoolManager.Models.ApplicationUser")
+                    b.HasOne("HumanMusicSchoolManager.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
