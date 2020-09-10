@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HumanMusicSchoolManager.Data;
 using HumanMusicSchoolManager.Models.Models;
 using HumanMusicSchoolManager.Models.ViewModels;
 using HumanMusicSchoolManager.Services;
@@ -19,18 +20,21 @@ namespace HumanMusicSchoolManager.Controllers
         private readonly IPessoaService _pessoaService;
         private readonly IFeriadoService _feriadoService;
         private readonly IEventoService _eventoService;
+        private readonly ApplicationDbContext context;
 
         public ProfessorController(IProfessorService professorService, 
             ICursoService cursoService, 
             IPessoaService pessoaService,
             IFeriadoService feriadoService,
-            IEventoService eventoService)
+            IEventoService eventoService,
+            ApplicationDbContext context)
         {
             this._professorService = professorService;
             this._cursoService = cursoService;
             this._pessoaService = pessoaService;
             this._feriadoService = feriadoService;
             this._eventoService = eventoService;
+            this.context = context;
         }
 
         public IActionResult Index()
@@ -202,14 +206,23 @@ namespace HumanMusicSchoolManager.Controllers
 
         public JsonResult CalendarioJson(int professorId, int user, DateTime start, DateTime end)
         {
+            var inicial = start.AddHours(-start.Hour);
+            inicial = inicial.AddMinutes(-inicial.Minute);
+            inicial = inicial.AddMilliseconds(-inicial.Millisecond);
+            var final = end.AddHours(-end.Hour);
+            final = final.AddMinutes(-final.Minute);
+            final = final.AddMilliseconds(-final.Millisecond);
+            final = final.AddHours(23);
 
-            var professor = _professorService.CalendarioProfessor(professorId, start, end);
+            var professor = context.Professores
+                                .Where(p =>p.Id == professorId)
+                                .FirstOrDefault();
             var feriados = _feriadoService.BuscarTodos();
             var eventos = _eventoService.BuscarTodos();
             var calendar = new List<CalendarJson>();
 
             //Aulas
-            foreach (var aula in professor.Aulas)
+            foreach (var aula in professor.Aulas.Where(a => a.Data >= inicial && a.Data <= final))
             {
                 var aulaStart = aula.Data;
                 var aulaEnd = aulaStart.AddMinutes(_cursoService.DucacaoAula(aula.CursoId));

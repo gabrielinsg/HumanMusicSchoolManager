@@ -68,7 +68,8 @@ namespace HumanMusicSchoolManager.Services
 
         public List<RespFinanceiro> BuscarPorNome(string nome)
         {
-            return _context.RespsFinanceiro.Where(rf => rf.Nome.Contains(nome)).OrderBy(rf => rf.Nome).ToList();
+            return _context.RespsFinanceiro.Where(rf => rf.Nome.Contains(nome))
+                .OrderBy(rf => rf.Nome).ToList();
         }
 
         public List<RespFinanceiro> BuscarTodos()

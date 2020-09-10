@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace HumanMusicSchoolManager.Models.Models
@@ -26,6 +27,7 @@ namespace HumanMusicSchoolManager.Models.Models
         [Display(Name = "Órgão Expedidor")]
         public string OrgaoExpedidor { get; set; }
 
+        [JsonIgnore]
         public virtual List<Matricula> Matriculas { get; set; }
     }
 

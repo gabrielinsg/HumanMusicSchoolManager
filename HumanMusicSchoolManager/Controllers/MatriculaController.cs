@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Text.Json;
 using System.Threading.Tasks;
 using HumanMusicSchoolManager.Data;
 using HumanMusicSchoolManager.Models;
@@ -377,7 +378,8 @@ namespace HumanMusicSchoolManager.Controllers
         {
             var aluno = _context.Alunos.Include(a => a.Endereco)
                             .FirstOrDefault(a => a.Id == alunoId);
-            return Json(alunoId);
+            var json = JsonSerializer.Serialize(aluno);
+            return Json(json);
         }
 
         [HttpPost]
@@ -389,19 +391,23 @@ namespace HumanMusicSchoolManager.Controllers
                             .FirstOrDefault(rf => rf.CPF == aluno.CPF);
             if (respFinanceiro != null)
             {
-                return Json(respFinanceiro);
+                var json = JsonSerializer.Serialize(respFinanceiro);
+                return Json(json);
             }
             else
             {
                 aluno.Id = null;
-                return Json(aluno);
+                var json = JsonSerializer.Serialize(aluno);
+                return Json(json);
             }
         }
 
         [HttpPost]
         public JsonResult BuscarRespFinanceiro(int respFinanceiroId)
         {
-            return Json(_context.RespsFinanceiro.Include(rp => rp.Endereco).FirstOrDefault(rf => rf.Id == respFinanceiroId));
+            var respFinanceiro = _context.RespsFinanceiro.Include(rp => rp.Endereco).FirstOrDefault(rf => rf.Id == respFinanceiroId);
+            var json = JsonSerializer.Serialize(respFinanceiro);
+            return Json(json);
         }
 
         [HttpGet]

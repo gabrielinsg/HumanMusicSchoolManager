@@ -1,4 +1,5 @@
-﻿$(document).ready(function () {
+﻿
+$(document).ready(function () {
     $("#BuscaNome").autocomplete({
         source: function (request, response)
         {
@@ -46,29 +47,29 @@
     });
 
     function dadosRespFinanceiro(data) {
+        var respFinanceiro = JSON.parse(data);
         $("#BuscaNome").val("");
-        $("#RespFinanceiro_Id").val(data.id);
-        $("#RespFinanceiro_Nome").val(data.nome);
-        $("#RespFinanceiro_DataNascimento").val(data.dataNascimento.substring(0, 10));
-        $("#RespFinanceiro_RG").val(data.rg);
-        $("#RespFinanceiro_CPF").val(data.cpf);
-        $("#RespFinanceiro_Endereco_Id").val(data.endereco.id);
-        $("#RespFinanceiro_EnderecoId").val(data.endereco.id);
-        $("#RespFinanceiro_Endereco_Logradouro").val(data.endereco.logradouro);
-        $("#RespFinanceiro_Endereco_Numero").val(data.endereco.numero);
-        $("#RespFinanceiro_Endereco_Bairro").val(data.endereco.bairro);
-        $("#RespFinanceiro_Endereco_Complemento").val(data.endereco.complemento);
-        $("#RespFinanceiro_Endereco_Cidade").val(data.endereco.cidade);
-        $("#RespFinanceiro_Endereco_UF").val(data.endereco.uf);
-        $("#RespFinanceiro_Endereco_CEP").val(data.endereco.cep);
-        $("#RespFinanceiro_Tel").val(data.tel);
-        $("#RespFinanceiro_Cel").val(data.cel);
-        $("#RespFinanceiro_Email").val(data.email);
-        $("#RespFinanceiro_Nacionalidade").val(data.nacionalidade);
-        $("#RespFinanceiro_Naturalidade").val(data.naturalidade);
-        $("#RespFinanceiro_EstadoCivil").val(data.estadoCivil);
-        $("#RespFinanceiro_Profissao").val(data.profissao);
-        $("#RespFinanceiro_OrgaoExpedidor").val(data.orgaoExpedidor);
+        $("#RespFinanceiro_Id").val(respFinanceiro.Id);
+        $("#RespFinanceiro_Nome").val(respFinanceiro.Nome);
+        $("#RespFinanceiro_DataNascimento").val(respFinanceiro.DataNascimento.substring(0,10));
+        $("#RespFinanceiro_RG").val(respFinanceiro.RG);
+        $("#RespFinanceiro_CPF").val(respFinanceiro.CPF);
+        $("#RespFinanceiro_Endereco_Id").val(respFinanceiro.Endereco.Id);
+        $("#RespFinanceiro_Endereco_Logradouro").val(respFinanceiro.Endereco.Logradouro);
+        $("#RespFinanceiro_Endereco_Numero").val(respFinanceiro.Endereco.Numero);
+        $("#RespFinanceiro_Endereco_Bairro").val(respFinanceiro.Endereco.Bairro);
+        $("#RespFinanceiro_Endereco_Complemento").val(respFinanceiro.Endereco.Complemento);
+        $("#RespFinanceiro_Endereco_Cidade").val(respFinanceiro.Endereco.Cidade);
+        $("#RespFinanceiro_Endereco_UF").val(respFinanceiro.Endereco.UF);
+        $("#RespFinanceiro_Endereco_CEP").val(respFinanceiro.Endereco.CEP);
+        $("#RespFinanceiro_Tel").val(respFinanceiro.Tel);
+        $("#RespFinanceiro_Cel").val(respFinanceiro.Cel);
+        $("#RespFinanceiro_Email").val(respFinanceiro.Email);
+        $("#RespFinanceiro_Nacionalidade").val(respFinanceiro.Nacionalidade);
+        $("#RespFinanceiro_Naturalidade").val(respFinanceiro.Naturalidade);
+        $("#RespFinanceiro_EstadoCivil").val(respFinanceiro.EstadoCivil);
+        $("#RespFinanceiro_Profissao").val(respFinanceiro.Profissao);
+        $("#RespFinanceiro_OrgaoExpedidor").val(respFinanceiro.OrgaoExpedidor);
         if (data.ativo === true) {
             $("#RespFinanceiro_Ativo").prop("checked", true);
         }

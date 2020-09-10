@@ -35,7 +35,7 @@ namespace HumanMusicSchoolManager
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
+
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -94,13 +94,14 @@ namespace HumanMusicSchoolManager
             services.ConfigureApplicationCookie(options =>
             {
                 // Cookie settings
-                
+
                 options.LoginPath = "/Account/Login";
                 options.AccessDeniedPath = "/Account/AccessDenied";
                 options.SlidingExpiration = false;
             });
 
-            //services.AddDistributedMemoryCache(option => option.SizeLimit = 2000 * 1024 * 1024);
+
+            services.AddDistributedMemoryCache(option => option.SizeLimit = 2000 * 1024 * 1024);
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
